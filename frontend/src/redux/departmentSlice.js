@@ -36,11 +36,12 @@ export const fetchAllDepartments = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch all departments");
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch all departments"
+      );
     }
   }
 );
-
 
 // ✅ ADD DEPARTMENT
 export const addDepartment = createAsyncThunk(
@@ -109,7 +110,7 @@ const departmentSlice = createSlice({
   name: "department",
   initialState: {
     departments: [],
-    allDepartments:[],
+    allDepartments: [],
     departmentloading: false,
     departmenterror: null,
     totalPages: 1,
@@ -117,18 +118,18 @@ const departmentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    .addCase(fetchAllDepartments.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(fetchAllDepartments.fulfilled, (state, action) => {
-      state.loading = false;
-      state.allDepartments = action.payload;
-    })
-    .addCase(fetchAllDepartments.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
+      .addCase(fetchAllDepartments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllDepartments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allDepartments = action.payload;
+      })
+      .addCase(fetchAllDepartments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
       .addCase(listDepartments.pending, (state) => {
         state.loading = true;
@@ -148,13 +149,20 @@ const departmentSlice = createSlice({
         state.error = null;
       })
       .addCase(addDepartment.fulfilled, (state, action) => {
-        state.loading = false;
-        if (Array.isArray(state.departments)) {
-          state.departments.push(action.payload.data);
-        } else {
-          state.departments = [action.payload.data]; // Reset to an array if it's undefined
-        }
+        // ✅ Add new customer to existing state without re-fetching
+        state.departments.data = [
+          action.payload.data,
+          ...state.departments.data,
+        ];
       })
+      // .addCase(addDepartment.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   if (Array.isArray(state.departments)) {
+      //     state.departments.push(action.payload.data);
+      //   } else {
+      //     state.departments = [action.payload.data]; // Reset to an array if it's undefined
+      //   }
+      // })
       .addCase(addDepartment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
@@ -188,12 +196,24 @@ const departmentSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
+      // .addCase(removeDepartment.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.departments = state.departments.filter(
+      //     (dept) => dept.id !== action.payload.id
+      //   );
+      // })
       .addCase(removeDepartment.fulfilled, (state, action) => {
-        state.loading = false;
-        state.departments = state.departments.filter(
-          (dept) => dept.id !== action.payload.id
-        );
-      })
+              state.loading = false;
+      
+              // Ensure state.customers is an array before filtering
+              if (!Array.isArray(state.departments)) {
+                state.departments = [];
+              }
+      
+              state.departments = state.departments.filter(
+                (dept) => dept.id !== action.payload.id
+              );
+            })
       .addCase(removeDepartment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;

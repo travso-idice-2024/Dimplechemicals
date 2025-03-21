@@ -351,7 +351,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Address :
+                Enter the Address 1 :
               </label>
               <textarea
                 type="text"
@@ -363,6 +363,54 @@ const EditUserModal = ({
               />
               {editFormErrors.address && (
                 <p className="text-red-500 text-sm">{editFormErrors.address}</p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-[18px] text-bgData">
+                Enter the Address 2 :
+              </label>
+              <textarea
+                type="text"
+                name="address_2"
+                placeholder="Address"
+                value={editFormData.address_2}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.address_2 && (
+                <p className="text-red-500 text-sm">{editFormErrors.address_2}</p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-[18px] text-bgData">
+                Enter the Address 3 :
+              </label>
+              <textarea
+                type="text"
+                name="address_3"
+                placeholder="Address"
+                value={editFormData.address_3}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.address_3 && (
+                <p className="text-red-500 text-sm">{editFormErrors.address_3}</p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-[18px] text-bgData">
+                Enter the Address 4 :
+              </label>
+              <textarea
+                type="text"
+                name="address_4"
+                placeholder="Address"
+                value={editFormData.address_4}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.address_4 && (
+                <p className="text-red-500 text-sm">{editFormErrors.address_4}</p>
               )}
             </div>
           </div>

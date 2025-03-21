@@ -611,8 +611,32 @@ exports.addEmployee = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: "Employee added successfully", user });
+      .json({ success: true, message: "Employee added successfully", user });
   } catch (error) {
+     // ✅ Check if the error is a Sequelize Validation Error
+     if (error.name === "SequelizeValidationError") {
+      const validationErrors = error.errors.map((err) => ({
+        field: err.path,
+        message: err.message,
+      }));
+      return res.status(400).json({
+        status: "error",
+        message: "Validation Error",
+        errors: validationErrors,
+      });
+    }
+
+    // ✅ Handle Unique Constraint Error
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({
+        status: "error",
+        message: "Duplicate entry detected",
+        errors: error.errors.map((err) => ({
+          field: err.path,
+          message: err.message,
+        })),
+      });
+    }
     return res.status(500).json({
       status: "error",
       message: "Something went wrong",
@@ -730,7 +754,7 @@ exports.updateEmployee = async (req, res) => {
       await Document.bulkCreate(documentRecords);
     }
 
-    return res.status(200).json({ message: "Employee updated successfully", user });
+    return res.status(200).json({ success: true, message: "Employee updated successfully", user });
   } catch (error) {
     return res.status(500).json({
       status: "error",

@@ -42,7 +42,7 @@ export const fetchAllUsers = createAsyncThunk(
 
 export const fetchUserWithRole = createAsyncThunk(
   "auth/fetchUserWithRole",
-  async ({roleId =""}, { rejectWithValue }) => {
+  async ({ roleId = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/employeeList`, {
@@ -177,7 +177,7 @@ const userSlice = createSlice({
   initialState: {
     users: [],
     allusers: [],
-    userDataWithRole:[],
+    userDataWithRole: [],
     userLoading: false,
     userError: null,
     totalPages: 1,
@@ -197,7 +197,7 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
-      
+
       .addCase(fetchUserWithRole.pending, (state) => {
         state.userLoading = true;
         state.userError = null;
@@ -229,13 +229,17 @@ const userSlice = createSlice({
         state.userError = null;
       })
       .addCase(addUser.fulfilled, (state, action) => {
-        state.userLoading = false;
-        if (Array.isArray(state.users)) {
-          state.users.push(action.payload.data);
-        } else {
-          state.users = [action.payload.data];
-        }
+        // ✅ Add new customer to existing state without re-fetching
+        state.users.data = [action.payload.data, ...state.users.data];
       })
+      // .addCase(addUser.fulfilled, (state, action) => {
+      //   state.userLoading = false;
+      //   if (Array.isArray(state.users)) {
+      //     state.users.push(action.payload.data);
+      //   } else {
+      //     state.users = [action.payload.data];
+      //   }
+      // })
       .addCase(addUser.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = action.payload;
@@ -267,8 +271,20 @@ const userSlice = createSlice({
         state.userLoading = true;
         state.userError = null;
       })
+      // .addCase(removeUser.fulfilled, (state, action) => {
+      //   state.userLoading = false;
+      //   state.users = state.users.filter(
+      //     (user) => user.id !== action.payload.id
+      //   );
+      // })
       .addCase(removeUser.fulfilled, (state, action) => {
         state.userLoading = false;
+
+        // Ensure state.customers is an array before filtering
+        if (!Array.isArray(state.users)) {
+          state.users = [];
+        }
+
         state.users = state.users.filter(
           (user) => user.id !== action.payload.id
         );

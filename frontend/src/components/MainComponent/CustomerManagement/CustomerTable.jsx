@@ -88,7 +88,7 @@ const CustomerTable = ({
             <td className="px-4 py-2">{user.location}</td>
             <td className="px-4 py-2">{user.primary_contact}</td>
             <td className="px-4 py-2 space-x-2 text-center">
-            <button
+            {/* <button
                 className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
                 onClick={() => {
                 setSelectedCustomer(user);
@@ -96,7 +96,7 @@ const CustomerTable = ({
               }}
               >
                 Assign Lead
-       </button>
+       </button> */}
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                 onClick={() => {

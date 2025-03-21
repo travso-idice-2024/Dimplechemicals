@@ -61,13 +61,13 @@ export const addLead = createAsyncThunk(
 
 // ✅ UPDATE LEAD
 export const updateLead = createAsyncThunk(
-  "lead/updateLead",
-  async ({ id, leadData }, { rejectWithValue }) => {
+  "auth/leadUpdate",
+  async ({  id, updateLeadData }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.put(
-        `${API_URL}/lead/update/${id}`,
-        leadData,
+        `${API_URL}/auth/leadUpdate/${id}`,
+        updateLeadData,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -83,13 +83,17 @@ export const updateLead = createAsyncThunk(
 
 // ✅ DELETE LEAD
 export const removeLead = createAsyncThunk(
-  "lead/removeLead",
+  "auth/leadRemove",
   async (id, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      await axios.delete(`${API_URL}/lead/remove/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.put(
+        `${API_URL}/auth/leadRemove/${id}`, // Correct route
+        {}, // No body, but still need to pass an empty object
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Headers go here
+        }
+      );
       return { id };
     } catch (leadError) {
       return rejectWithValue(
@@ -146,14 +150,17 @@ const leadSlice = createSlice({
       //     state.leads.data = [action.payload.data, ...state.leads.data];
       //   })
       .addCase(addLead.fulfilled, (state, action) => {
-        if (Array.isArray(action.payload?.data)) {
-            state.leads = action.payload.data;  // ✅ Assigning directly to the array
-        } else if (action.payload?.data) {
-            state.leads = [...state.leads, action.payload.data];  // ✅ Append if it's a single object
-        } else {
-            state.leads = [...state.leads]; // ✅ Just retain the existing leads
-        }
-    })
+        state.leads.data = [action.payload.data, ...state.leads.data];
+      })
+    //   .addCase(addLead.fulfilled, (state, action) => {
+    //     if (Array.isArray(action.payload?.data)) {
+    //         state.leads = action.payload.data;  // ✅ Assigning directly to the array
+    //     } else if (action.payload?.data) {
+    //         state.leads = [...state.leads, action.payload.data];  // ✅ Append if it's a single object
+    //     } else {
+    //         state.leads = [...state.leads]; // ✅ Just retain the existing leads
+    //     }
+    // })
       .addCase(addLead.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;

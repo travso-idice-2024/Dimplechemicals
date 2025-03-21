@@ -16,19 +16,14 @@ import {
   removeCustomer,
 } from "../../../redux/customerSlice";
 
-import {addLead} from "../../../redux/leadSlice";
+
 import {fetchCurrentUser} from "../../../redux/authSlice";
-import {fetchUserWithRole} from "../../../redux/userSlice";
 
 const CustomerManageData = () => {
   const dispatch = useDispatch();
   const { customers, totalPages, customerLoading, customerError } = useSelector(
     (state) => state.customer
   );
-
-   const { userDataWithRole} = useSelector(
-        (state) => state.user
-      );
  
   const {user:userDeatail}  = useSelector((state) => state.auth);
 
@@ -50,11 +45,7 @@ const CustomerManageData = () => {
   // Fetch customers whenever searchTerm or currentPage changes
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-    dispatch(
-      fetchUserWithRole({
-        roleId: 4
-      })
-    );
+   
     dispatch(
       listCustomers({
         page: currentPage,
@@ -87,6 +78,9 @@ const CustomerManageData = () => {
     location: "",
     pincode: "",
     pan_no: "",
+    address_2:"",
+    address_3:"",
+    address_4:""
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -178,6 +172,9 @@ const CustomerManageData = () => {
     location: "",
     pincode: "",
     pan_no: "",
+    address_2:"",
+    address_3:"",
+    address_4:""
   });
 
   const [editFormErrors, setEditFormErrors] = useState({});
@@ -198,6 +195,9 @@ const CustomerManageData = () => {
         location: selectedCustomer.location || "",
         pincode: selectedCustomer.pincode || "",
         pan_no: selectedCustomer.pan_no || "",
+        address_2:selectedCustomer.address_2 || "",
+        address_3:selectedCustomer.address_3 || "",
+        address_4:selectedCustomer.address_4 || ""
       });
     }
   }, [selectedCustomer]);
@@ -242,6 +242,7 @@ const CustomerManageData = () => {
     e.preventDefault();
     if (validateEditInputs()) {
       try {
+        console.log("editFormData",editFormData);
         const response = await dispatch(
           updateCustomer({
             id: selectedCustomer.id,
@@ -311,107 +312,7 @@ const CustomerManageData = () => {
   //end delete customer ========================================================================
 
 
-  //add lead====================================================================================
-  const [leadData, setLeadData] = useState({
-    customer_id:"",
-    //lead_owner_id: "",
-    assigned_person_id: "",
-    lead_source: "",
-    lead_status: "",
-    assign_date: "",
-    lead_summary: "",
-  });
-
-  // Watch for changes in `selectedCustomer` and update `leadData.customer_id`
-useEffect(() => {
-  if (selectedCustomer?.id) {
-    setLeadData((prevData) => ({
-      ...prevData,
-      customer_id: selectedCustomer.id,
-    }));
-  }
-}, [selectedCustomer]);
-
-
-  const [addLeadFormErrors, setaddLeadFormErrors] = useState({});
-  const [addLeadFlashMessage, setAddLeadFlashMessage] = useState("");
-  const [addLeadFlashMsgType, setAddLeadFlashMsgType] = useState("");
-
-  const handleLeadChange = (e) => {
-    const { name, value } = e.target;
-    setLeadData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-   // Function to show flash messages for delete actions
-   const handleAddLeadFlashMessage = (message, type) => {
-    setAddLeadFlashMessage(message);
-    setAddLeadFlashMsgType(type);
-    setTimeout(() => {
-      setAddLeadFlashMessage("");
-      setAddLeadFlashMsgType("");
-    }, 3000); // Hide the message after 3 seconds
-  };
-
-
-  const leadvalidateForm = () => {
-    let newErrors = {};
-    if (!leadData.assigned_person_id) newErrors.assigned_person_id = "Assigned Person is required.";
-    if (!leadData.lead_source) newErrors.lead_source = "Lead Source is required.";
-    if (!leadData.lead_status) newErrors.lead_status = "Lead Status is required.";
-    if (!leadData.assign_date) newErrors.assign_date = "Assign Date is required.";
-    if (!leadData.lead_summary) newErrors.lead_summary = "Lead Summary is required.";
-
-    setaddLeadFormErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-
-  const handleSubmitAddLead = async (e) => {
-    e.preventDefault();
-    if (leadvalidateForm()) {
-      try {
-        const response = await dispatch(addLead(leadData)).unwrap();
-        //console.log(response);
-        if (response?.success) {
-          handleAddLeadFlashMessage(response?.message, "success");
-          //dispatch(listCustomers());
-          dispatch(
-            listCustomers({
-              page: currentPage,
-              limit: customersPerPage,
-              search: searchTerm,
-            })
-          );
-
-          setLeadData((prevData) => ({
-            customer_id:"", 
-            assigned_person_id: "",
-            lead_source: "",
-            lead_status: "",
-            assign_date: "",
-            lead_summary: "",
-          }));
-
-          setTimeout(() => {
-            setIsAssignModalOpen(false);
-          }, 3000);
-        } else {
-          handleAddLeadFlashMessage(
-            response?.message || "Something went wrong",
-            "error"
-          );
-        }
-      } catch (error) {
-        console.error("Error adding lead:", error);
-        handleAddLeadFlashMessage(error?.message || "An error occurred", "error");
-      }
-    }
-  };
-
-  //end add lead================================================================================
+ 
 
   //if (customerLoading) return <p>Loading...</p>;
   //if (customerError) return <p>{customerError}</p>;
@@ -522,20 +423,7 @@ useEffect(() => {
         )}
 
         {/* Assign Customer Modal */}
-        {isAssignModalOpen && (
-          <AssignLeadModal 
-          setIsAssignModalOpen={setIsAssignModalOpen}
-          userDataWithRole={userDataWithRole}
-          leadData={leadData}
-          setLeadData={setLeadData}
-          addLeadFormErrors={addLeadFormErrors}
-          setAddLeadFormErrors={setaddLeadFormErrors}
-          addLeadFlashMessage={addLeadFlashMessage}
-          addLeadFlashMsgType={addLeadFlashMsgType}
-          handleLeadChange={handleLeadChange}
-          handleSubmitAddLead={handleSubmitAddLead}
-          selectedCustomer={selectedCustomer}/>
-        )}
+       
       </div>
     </div>
   );

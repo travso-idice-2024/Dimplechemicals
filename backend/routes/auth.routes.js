@@ -2,8 +2,8 @@ const express = require('express');
 const { register, login,listEmployees,addEmployee,updateEmployee,deleteEmployee,getCurrentUser} = require('../controllers/auth.controller');
 const {listRoles, addRole, removeRole, updateRole} = require('../controllers/role.controller');
 const {listDepartments, addDepartment,updateDepartment, removeDepartment}  = require('../controllers/department.controller');
-const {addCustomer,listCustomers, updateCustomer,removeCustomer} = require('../controllers/customer.controller');
-const {addLead, getLeadList} = require('../controllers/lead.controller');
+const {addCustomer,listCustomers, updateCustomer,removeCustomer,getCustomerAddresses} = require('../controllers/customer.controller');
+const {addLead, getLeadList,updateLead,removeLead} = require('../controllers/lead.controller');
 
 const authMiddleware = require('../middlewares/auth.middleware');
 const {upload}  = require('../middlewares/upload.middleware');
@@ -43,10 +43,14 @@ router.get("/customerList", authMiddleware, listCustomers);
 router.post("/addCustomer", authMiddleware, addCustomer);
 router.put("/updateCustomer/:id", authMiddleware, updateCustomer);
 router.delete("/removeCustomer/:id", authMiddleware, removeCustomer);
+router.get("/leads/addresses/:id",authMiddleware, getCustomerAddresses);
 
 
 //lead routes
 router.post("/leadAdd", authMiddleware, addLead);
 router.get("/leadList", authMiddleware, getLeadList);
+router.put("/leadUpdate/:id", authMiddleware, updateLead); 
+router.put("/leadRemove/:id",authMiddleware, removeLead);
+
 
 module.exports = router;
