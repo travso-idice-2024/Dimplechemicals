@@ -4,86 +4,99 @@ import { updateDepartment, listDepartments } from "../../../redux/departmentSlic
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const EditDepartmentModal = ({ setEditModalOpen, selectedDepartment }) => {
+const EditDepartmentModal = ({ 
+  setEditModalOpen,
+  selectedDepartment,
+  setSelectedDepartment,
+  updateFormData,
+  setUpdateFormData,
+  updateFormErrors,
+  setUpdateFormErrors,
+  updateFlashMessage,
+  updateFlashMsgType,
+  handleUpdateChange,
+  validateUpdateInputs,
+  handleUpdateSubmit,
+  handleUpdateFlashMessage, }) => {
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState({
-    department_name: "",
-    status: "",
-    department_description: "",
-  });
-  const [formErrors, setFormErrors] = useState({});
-  const [flashMessage, setFlashMessage] = useState("");
-  const [flashMsgType, setFlashMsgType] = useState("");
+  // const [updateFormData, setupdateFormData] = useState({
+  //   department_name: "",
+  //   status: "",
+  //   department_description: "",
+  // });
+  // const [updateFormErrors, setupdateFormErrors] = useState({});
+  // const [flashMessage, setFlashMessage] = useState("");
+  // const [flashMsgType, setFlashMsgType] = useState("");
 
-  useEffect(() => {
-    if (selectedDepartment) {
-      setFormData({
-        department_name: selectedDepartment.department_name || "",
-        status: selectedDepartment.status || "Active",
-        department_description: selectedDepartment.department_description || "",
-      });
-    }
-  }, [selectedDepartment]);
+  // useEffect(() => {
+  //   if (selectedDepartment) {
+  //     setupdateFormData({
+  //       department_name: selectedDepartment.department_name || "",
+  //       status: selectedDepartment.status || "Active",
+  //       department_description: selectedDepartment.department_description || "",
+  //     });
+  //   }
+  // }, [selectedDepartment]);
 
-  const handleFlashMessage = (message, type) => {
-    setFlashMessage(message);
-    setFlashMsgType(type);
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMsgType("");
-    }, 3000);
-  };
+  // const handleFlashMessage = (message, type) => {
+  //   setFlashMessage(message);
+  //   setFlashMsgType(type);
+  //   setTimeout(() => {
+  //     setFlashMessage("");
+  //     setFlashMsgType("");
+  //   }, 3000);
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  };
+  // const handleUpdateChange= (e) => {
+  //   const { name, value } = e.target;
+  //   setupdateFormData((prevData) => ({ ...prevData, [name]: value }));
+  //   setupdateFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  // };
 
-  const validateInputs = () => {
-    let errors = {};
-    if (!formData.department_name.trim()) {
-      errors.department_name = "*Department name is required";
-    }
-    if (!formData.status.trim()) {
-      errors.status = "*Department status is required";
-    }
-    if (!formData.department_description.trim()) {
-      errors.department_description = "*Department description is required";
-    }
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  // const validateInputs = () => {
+  //   let errors = {};
+  //   if (!updateFormData.department_name.trim()) {
+  //     errors.department_name = "*Department name is required";
+  //   }
+  //   if (!updateFormData.status.trim()) {
+  //     errors.status = "*Department status is required";
+  //   }
+  //   if (!updateFormData.department_description.trim()) {
+  //     errors.department_description = "*Department description is required";
+  //   }
+  //   setupdateFormErrors(errors);
+  //   return Object.keys(errors).length === 0;
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateInputs()) {
-      try {
-        const response = await dispatch(
-          updateDepartment({ id: selectedDepartment.id, departmentData: formData })
-        ).unwrap();
+  // const handleUpdateSubmit= async (e) => {
+  //   e.preventDefault();
+  //   if (validateInputs()) {
+  //     try {
+  //       const response = await dispatch(
+  //         updateDepartment({ id: selectedDepartment.id, departmentData: updateFormData })
+  //       ).unwrap();
 
-        if (response.success) {
-          handleFlashMessage(response.message, "success");
-          await dispatch(listDepartments());
-          setTimeout(() => {
-            setEditModalOpen(false);
-          }, 3000);
-        } else {
-          handleFlashMessage(response.message || "Something went wrong", "error");
-        }
-      } catch (error) {
-        handleFlashMessage(error.message || "An error occurred", "error");
-      }
-    }
-  };
+  //       if (response.success) {
+  //         handleFlashMessage(response.message, "success");
+  //         await dispatch(listDepartments());
+  //         setTimeout(() => {
+  //           setEditModalOpen(false);
+  //         }, 3000);
+  //       } else {
+  //         handleFlashMessage(response.message || "Something went wrong", "error");
+  //       }
+  //     } catch (error) {
+  //       handleFlashMessage(error.message || "An error occurred", "error");
+  //     }
+  //   }
+  // };
 
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
-        {flashMessage && flashMsgType === "success" && <SuccessMessage message={flashMessage} />}
-        {flashMessage && flashMsgType === "error" && <ErrorMessage message={flashMessage} />}
+        {updateFlashMessage && updateFlashMsgType === "success" && <SuccessMessage message={updateFlashMessage} />}
+        {updateFlashMessage && updateFlashMsgType === "error" && <ErrorMessage message={updateFlashMessage} />}
       </div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
         <div className="bg-white w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
@@ -97,18 +110,18 @@ const EditDepartmentModal = ({ setEditModalOpen, selectedDepartment }) => {
               <input
                 type="text"
                 name="department_name"
-                value={formData.department_name}
-                onChange={handleChange}
+                value={updateFormData.department_name}
+                onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
-              {formErrors.department_name && <p className="text-red-500 text-sm">{formErrors.department_name}</p>}
+              {updateFormErrors.department_name && <p className="text-red-500 text-sm">{updateFormErrors.department_name}</p>}
             </div>
             <div>
               <label className="font-poppins font-medium text-[18px] text-bgData">Status:</label>
               <select
                 name="status"
-                value={formData.status}
-                onChange={handleChange}
+                value={updateFormData.status}
+                onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               >
                 <option value="Active">Active</option>
@@ -120,15 +133,15 @@ const EditDepartmentModal = ({ setEditModalOpen, selectedDepartment }) => {
               <label className="font-poppins font-medium text-[18px] text-bgData">Department Description:</label>
               <textarea
                 name="department_description"
-                value={formData.department_description}
-                onChange={handleChange}
+                value={updateFormData.department_description}
+                onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
-              {formErrors.department_description && <p className="text-red-500 text-sm">{formErrors.department_description}</p>}
+              {updateFormErrors.department_description && <p className="text-red-500 text-sm">{updateFormErrors.department_description}</p>}
             </div>
 
             <div className="flex items-end justify-end gap-2">
-              <button onClick={handleSubmit} className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]">
+              <button onClick={handleUpdateSubmit} className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]">
                 Save Changes
               </button>
               <button

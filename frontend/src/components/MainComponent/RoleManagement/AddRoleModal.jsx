@@ -4,71 +4,81 @@ import { addRole,listRoles } from "../../../redux/authSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const AddRoleModal = ({ setAddUserModalOpen }) => {
+const AddRoleModal = ({ 
+  setAddUserModalOpen,
+    formData,
+    setFormData,
+    formErrors,
+    setFormErrors,
+    flashMessage,
+    flashMsgType,
+    handleFlashMessage,
+    handleChange,
+    handleSubmit }) => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    role_name: "",
-    role_description: "",
-  });
-  const [formErrors, setFormErrors] = useState({});
+  // const [formData, setFormData] = useState({
+  //   role_name: "",
+  //   role_description: "",
+  // });
+  // const [formErrors, setFormErrors] = useState({});
 
-  const [flashMessage, setFlashMessage] = useState("");
-  const [flashMsgType, setFlashMsgType] = useState("");
+  // const [flashMessage, setFlashMessage] = useState("");
+  // const [flashMsgType, setFlashMsgType] = useState("");
 
-  // handle flash messages show
-  const handleFlashMessage = (errorMessage, msgType) => {
-    console.log("this fun calling");
-    setFlashMessage(errorMessage);
-    setFlashMsgType(msgType);
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMsgType("");
-    }, 3000); // Hide the message after 3 seconds
-  };
+  // // handle flash messages show
+  // const handleFlashMessage = (errorMessage, msgType) => {
+  //   console.log("this fun calling");
+  //   setFlashMessage(errorMessage);
+  //   setFlashMsgType(msgType);
+  //   setTimeout(() => {
+  //     setFlashMessage("");
+  //     setFlashMsgType("");
+  //   }, 3000); // Hide the message after 3 seconds
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
 
-    // Clear error when user types
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  };
+  //   // Clear error when user types
+  //   setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  // };
 
-  const validateInputs = () => {
-    let errors = {};
-    if (!formData.role_name.trim()) {
-      errors.role_name = "*Role name is required";
-    }
-    if (!formData.role_description.trim()) {
-      errors.role_description = "*Role description is required";
-    }
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  // const validateInputs = () => {
+  //   let errors = {};
+  //   if (!formData.role_name.trim()) {
+  //     errors.role_name = "*Role name is required";
+  //   }
+  //   if (!formData.role_description.trim()) {
+  //     errors.role_description = "*Role description is required";
+  //   }
+  //   setFormErrors(errors);
+  //   return Object.keys(errors).length === 0;
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateInputs()) {
-      try {
-        const response = await dispatch(addRole(formData)).unwrap();
-        console.log("response", response.success); // Debugging response
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validateInputs()) {
+  //     try {
+  //       const response = await dispatch(addRole(formData)).unwrap();
+  //       console.log("response", response.success); // Debugging response
 
-        if (response.success) {
-          handleFlashMessage(response?.message, "success");
-              dispatch(listRoles());
-        } else {
-          handleFlashMessage(response?.message || "Something went wrong", "error");
-        }
-        setTimeout(() => {
-          setAddUserModalOpen(false);
-        }, 3000);
-        //setAddUserModalOpen(false);
-      } catch (error) {
-        console.error("Error adding role:", error);
-        handleFlashMessage(error?.message || "An error occurred", "error"); // Use error.message
-      }
-    }
-  };
+  //       if (response.success) {
+  //         handleFlashMessage(response?.message, "success");
+  //             dispatch(listRoles());
+  //       } else {
+  //         handleFlashMessage(response?.message || "Something went wrong", "error");
+  //       }
+  //       setTimeout(() => {
+  //         setAddUserModalOpen(false);
+  //       }, 3000);
+  //       //setAddUserModalOpen(false);
+  //     } catch (error) {
+  //       console.error("Error adding role:", error);
+  //       handleFlashMessage(error?.message || "An error occurred", "error"); // Use error.message
+  //     }
+  //   }
+  // };
 
   return (
     <>

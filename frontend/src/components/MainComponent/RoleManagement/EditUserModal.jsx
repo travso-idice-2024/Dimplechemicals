@@ -7,81 +7,93 @@ import ErrorMessage from "../../AlertMessage/ErrorMessage";
 const EditUserModal = ({
   setEditroleModalOpen,
   selectedRole,
-  setSelectedRole
+  setSelectedRole,
+  updateFormData,
+  setUpdateFormData,
+  updateFormErrors,
+  setUpdateFormErrors,
+  updateFlashMessage,
+  setUpdateFlashMessage,
+  updateFlashMsgType,
+  setUpdateFlashMsgType,
+  handleUpdateChange,
+  handleUpdateSubmit,
+  validateUpdateInputs,
+  handleUpdateFlashMessage,
 }) => {
   const dispatch = useDispatch();
   
-  const [formData, setFormData] = useState({
-    role_name: "",
-    role_description: "",
-  });
-  const [formErrors, setFormErrors] = useState({});
-  const [flashMessage, setFlashMessage] = useState("");
-  const [flashMsgType, setFlashMsgType] = useState("");
+  // const [updateFormData, setupdateFormData] = useState({
+  //   role_name: "",
+  //   role_description: "",
+  // });
+  // const [updateFormErrors, setupdateFormErrors] = useState({});
+  // const [flashMessage, setFlashMessage] = useState("");
+  // const [flashMsgType, setFlashMsgType] = useState("");
 
-  useEffect(() => {
-    if (selectedRole) {
-      setFormData({
-        role_name: selectedRole.role_name || "",
-        role_description: selectedRole.role_description || "",
-      });
-    }
-  }, [selectedRole]);
+  // useEffect(() => {
+  //   if (selectedRole) {
+  //     setupdateFormData({
+  //       role_name: selectedRole.role_name || "",
+  //       role_description: selectedRole.role_description || "",
+  //     });
+  //   }
+  // }, [selectedRole]);
 
-  const handleFlashMessage = (message, type) => {
-    setFlashMessage(message);
-    setFlashMsgType(type);
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMsgType("");
-    }, 3000);
-  };
+  // const handleFlashMessage = (message, type) => {
+  //   setFlashMessage(message);
+  //   setFlashMsgType(type);
+  //   setTimeout(() => {
+  //     setFlashMessage("");
+  //     setFlashMsgType("");
+  //   }, 3000);
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  };
+  // const handleUpdateChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setupdateFormData((prevData) => ({ ...prevData, [name]: value }));
+  //   setupdateFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  // };
 
-  const validateInputs = () => {
-    let errors = {};
-    if (!formData.role_name.trim()) {
-      errors.role_name = "*Role name is required";
-    }
-    if (!formData.role_description.trim()) {
-      errors.role_description = "*Role description is required";
-    }
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  // const validateInputs = () => {
+  //   let errors = {};
+  //   if (!updateFormData.role_name.trim()) {
+  //     errors.role_name = "*Role name is required";
+  //   }
+  //   if (!updateFormData.role_description.trim()) {
+  //     errors.role_description = "*Role description is required";
+  //   }
+  //   setupdateFormErrors(errors);
+  //   return Object.keys(errors).length === 0;
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateInputs()) {
-      try {
-        const response = await dispatch(
-          updateRole({ id: selectedRole.id, roleData: formData })
-        ).unwrap();
+  // const handleUpdateSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validateInputs()) {
+  //     try {
+  //       const response = await dispatch(
+  //         updateRole({ id: selectedRole.id, roleData: updateFormData })
+  //       ).unwrap();
 
-        if (response.success) {
-          handleFlashMessage(response.message, "success");
-          await dispatch(listRoles());
-          setTimeout(() => {
-            setEditroleModalOpen(false);
-          }, 3000);
-        } else {
-          handleFlashMessage(response.message || "Something went wrong", "error");
-        }
-      } catch (error) {
-        handleFlashMessage(error.message || "An error occurred", "error");
-      }
-    }
-  };
+  //       if (response.success) {
+  //         handleFlashMessage(response.message, "success");
+  //         await dispatch(listRoles());
+  //         setTimeout(() => {
+  //           setEditroleModalOpen(false);
+  //         }, 3000);
+  //       } else {
+  //         handleFlashMessage(response.message || "Something went wrong", "error");
+  //       }
+  //     } catch (error) {
+  //       handleFlashMessage(error.message || "An error occurred", "error");
+  //     }
+  //   }
+  // };
   return (
     <>
      <div className="fixed top-5 right-5 z-50">
-        {flashMessage && flashMsgType === "success" && <SuccessMessage message={flashMessage} />}
-        {flashMessage && flashMsgType === "error" && <ErrorMessage message={flashMessage} />}
+        {updateFlashMessage && updateFlashMsgType === "success" && <SuccessMessage message={updateFlashMessage}/>}
+        {updateFlashMessage && updateFlashMsgType === "error" && <ErrorMessage message={updateFlashMessage}/>}
       </div>
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
@@ -97,11 +109,11 @@ const EditUserModal = ({
             <input
                 type="text"
                 name="role_name"
-                value={formData.role_name}
-                onChange={handleChange}
+                value={updateFormData.role_name}
+                onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
-              {formErrors.role_name && <p className="text-red-500 text-sm">{formErrors.role_name}</p>}
+              {updateFormErrors.role_name && <p className="text-red-500 text-sm">{updateFormErrors.role_name}</p>}
           </div>
 
           <div>
@@ -110,15 +122,15 @@ const EditUserModal = ({
             </label>
             <textarea
                 name="role_description"
-                value={formData.role_description}
-                onChange={handleChange}
+                value={updateFormData.role_description}
+                onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
-              {formErrors.role_description && <p className="text-red-500 text-sm">{formErrors.role_description}</p>}
+              {updateFormErrors.role_description && <p className="text-red-500 text-sm">{updateFormErrors.role_description}</p>}
           </div>
 
           <div className="flex items-end justify-end gap-2">
-          <button onClick={handleSubmit} className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]">
+          <button onClick={handleUpdateSubmit} className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]">
                 Save Changes
               </button>
             <button

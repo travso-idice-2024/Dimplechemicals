@@ -2,7 +2,8 @@ import React from "react";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const AssignLeadModal = ({ setIsAssignModalOpen,
+const AssignLeadModal = ({ 
+  setIsAssignModalOpen,
   userDataWithRole,
   leadData,
   setLeadData,

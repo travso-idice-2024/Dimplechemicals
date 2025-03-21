@@ -3,44 +3,57 @@ import { useDispatch, useSelector } from "react-redux";
 import { listDepartments, removeDepartment } from "../../../redux/departmentSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const DepartmentTable = ({
   Departments,
   setEditModalOpen,
   setViewModalOpen,
   selectedDepartment,
-  setSelectedDepartment
+  setSelectedDepartment,
+  deleteFlashMessage,
+  deleteFlashMsgType,
+  handleDeleteFlashMessage,
+  handleDelete,
 }) => {
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
-  const [flashMessage, setFlashMessage] = useState("");
-  const [flashMsgType, setFlashMsgType] = useState("");
+  // const [flashMessage, setFlashMessage] = useState("");
+  // const [flashMsgType, setFlashMsgType] = useState("");
 
 
-  // Function to show flash messages
-  const handleFlashMessage = (message, type) => {
-    setFlashMessage(message);
-    setFlashMsgType(type);
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMsgType("");
-    }, 3000); // Hide the message after 3 seconds
-  };
+  // // Function to show flash messages
+  // const handleFlashMessage = (message, type) => {
+  //   setFlashMessage(message);
+  //   setFlashMsgType(type);
+  //   setTimeout(() => {
+  //     setFlashMessage("");
+  //     setFlashMsgType("");
+  //   }, 3000); // Hide the message after 3 seconds
+  // };
 
-  const handleDelete = async (id) => {
+  // const handleDelete = async (id) => {
     
-      try {
-        await dispatch(removeDepartment(id)).unwrap();
-        handleFlashMessage("Department deleted successfully!", "success");
-        dispatch(listDepartments()); // Refresh role list
-      } catch (error) {
-        handleFlashMessage(error?.message || "Failed to delete department", "error");
-      }
+  //     try {
+  //       await dispatch(removeDepartment(id)).unwrap();
+  //       handleFlashMessage("Department deleted successfully!", "success");
+  //       dispatch(listDepartments()); // Refresh role list
+  //     } catch (error) {
+  //       handleFlashMessage(error?.message || "Failed to delete department", "error");
+  //     }
     
-  };
+  // };
 
   return (
+    <>
+     <div className="fixed top-5 right-5 z-50">
+    {deleteFlashMessage && deleteFlashMsgType  === "success" && <SuccessMessage message={deleteFlashMessage} />}
+    {deleteFlashMessage && deleteFlashMsgType  === "error" && <ErrorMessage message={deleteFlashMessage} />}
+  </div>
     <div className="overflow-x-auto">
     <table className="min-w-full table-auto">
       <thead>
@@ -69,7 +82,7 @@ const DepartmentTable = ({
                   setViewModalOpen(true);
                 }}
               >
-                View
+                <FontAwesomeIcon icon={faEye} />
               </button>
               <button
                 className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
@@ -78,7 +91,7 @@ const DepartmentTable = ({
                   setEditModalOpen(true);
                 }}
               >
-                Edit
+                 <FontAwesomeIcon icon={faPenToSquare} />
               </button>
               <button
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
@@ -88,7 +101,7 @@ const DepartmentTable = ({
                   }
                 }}
               >
-                Delete
+                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </td>
           </tr>
@@ -96,6 +109,7 @@ const DepartmentTable = ({
       </tbody>
     </table>
   </div>
+  </>
   );
 };
 

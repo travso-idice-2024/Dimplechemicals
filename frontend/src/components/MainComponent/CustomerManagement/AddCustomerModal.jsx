@@ -322,7 +322,7 @@ const AddCustomerModal = ({ setAddCustomerModalOpen ,handleSubmitAddCustomer,
           </div>
           <div>
             <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Address :
+              Enter the Address 1 :
             </label>
             <textarea
               type="text"
@@ -334,6 +334,58 @@ const AddCustomerModal = ({ setAddCustomerModalOpen ,handleSubmitAddCustomer,
             />
              {formErrors.address && (
           <p className="text-red-500 text-sm">{formErrors.address}</p>
+        )}
+          </div>
+
+
+          <div>
+            <label className="font-poppins font-medium text-[18px] text-bgData">
+              Enter the Address 2 :
+            </label>
+            <textarea
+              type="text"
+              name="address_2"
+              placeholder="Address 2"
+              value={formData.address_2}
+              onChange={handleChange}
+              className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+            />
+             {formErrors.address_2 && (
+          <p className="text-red-500 text-sm">{formErrors.address_2}</p>
+        )}
+          </div>
+
+          <div>
+            <label className="font-poppins font-medium text-[18px] text-bgData">
+              Enter the Address 3 :
+            </label>
+            <textarea
+              type="text"
+              name="address_3"
+              placeholder="Address"
+              value={formData.address_3}
+              onChange={handleChange}
+              className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+            />
+             {formErrors.address_3 && (
+          <p className="text-red-500 text-sm">{formErrors.address_3}</p>
+        )}
+          </div>
+
+          <div>
+            <label className="font-poppins font-medium text-[18px] text-bgData">
+              Enter the Address 4 :
+            </label>
+            <textarea
+              type="text"
+              name="address_4"
+              placeholder="Address"
+              value={formData.address_4}
+              onChange={handleChange}
+              className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+            />
+             {formErrors.address_4 && (
+          <p className="text-red-500 text-sm">{formErrors.address_4}</p>
         )}
           </div>
 

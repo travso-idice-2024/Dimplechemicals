@@ -4,70 +4,83 @@ import { addDepartment, listDepartments } from "../../../redux/departmentSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const AddDepartmentModal = ({ setAddModalOpen }) => {
+const AddDepartmentModal = ({  
+  setAddModalOpen,
+  formData,
+  setFormData,
+  formErrors,
+  setFormErrors,
+  flashMessage,
+  setFlashMessage,
+  flashMsgType,
+  setFlashMsgType,
+  handleChange,
+  validateInputs,
+  handleSubmit,
+  handleFlashMessage, }) => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    department_name: "",
-    status: "",
-    department_description: "",
-  });
-  const [formErrors, setFormErrors] = useState({});
-  const [flashMessage, setFlashMessage] = useState("");
-  const [flashMsgType, setFlashMsgType] = useState("");
+  // const [formData, setFormData] = useState({
+  //   department_name: "",
+  //   status: "",
+  //   department_description: "",
+  // });
+  // const [formErrors, setFormErrors] = useState({});
+  // const [flashMessage, setFlashMessage] = useState("");
+  // const [flashMsgType, setFlashMsgType] = useState("");
 
-  // Handle Flash Messages
-  const handleFlashMessage = (message, type) => {
-    setFlashMessage(message);
-    setFlashMsgType(type);
-    setTimeout(() => {
-      setFlashMessage("");
-      setFlashMsgType("");
-    }, 3000);
-  };
+  // // Handle Flash Messages
+  // const handleFlashMessage = (message, type) => {
+  //   setFlashMessage(message);
+  //   setFlashMsgType(type);
+  //   setTimeout(() => {
+  //     setFlashMessage("");
+  //     setFlashMsgType("");
+  //   }, 3000);
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
 
-    // Clear error when user types
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  };
+  //   // Clear error when user types
+  //   setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  // };
 
-  const validateInputs = () => {
-    let errors = {};
-    if (!formData.department_name.trim()) {
-      errors.department_name = "*Department name is required";
-    }
-    if (!formData.status) {
-      errors.status = "*Status is required";
-    }
-    if (!formData.department_description.trim()) {
-      errors.department_description = "*Description is required";
-    }
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  // const validateInputs = () => {
+  //   let errors = {};
+  //   if (!formData.department_name.trim()) {
+  //     errors.department_name = "*Department name is required";
+  //   }
+  //   if (!formData.status) {
+  //     errors.status = "*Status is required";
+  //   }
+  //   if (!formData.department_description.trim()) {
+  //     errors.department_description = "*Description is required";
+  //   }
+  //   setFormErrors(errors);
+  //   return Object.keys(errors).length === 0;
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateInputs()) {
-      try {
-        const response = await dispatch(addDepartment(formData)).unwrap();
-        if (response.success) {
-          handleFlashMessage(response?.message, "success");
-          dispatch(listDepartments());
-        } else {
-          handleFlashMessage(response?.message || "Something went wrong", "error");
-        }
-        setTimeout(() => {
-          setAddModalOpen(false);
-        }, 3000);
-      } catch (error) {
-        console.error("Error adding department:", error);
-        handleFlashMessage(error?.message || "An error occurred", "error");
-      }
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validateInputs()) {
+  //     try {
+  //       const response = await dispatch(addDepartment(formData)).unwrap();
+  //       if (response.success) {
+  //         handleFlashMessage(response?.message, "success");
+  //         dispatch(listDepartments());
+  //       } else {
+  //         handleFlashMessage(response?.message || "Something went wrong", "error");
+  //       }
+  //       setTimeout(() => {
+  //         setAddModalOpen(false);
+  //       }, 3000);
+  //     } catch (error) {
+  //       console.error("Error adding department:", error);
+  //       handleFlashMessage(error?.message || "An error occurred", "error");
+  //     }
+  //   }
+  // };
 
   return (
     <>

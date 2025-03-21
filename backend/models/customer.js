@@ -54,6 +54,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM("active", "deactive"),  // 👈 ENUM field
       defaultValue: "active",  // 👈 Default to "active"
     },
+    address_2: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    address_3: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    address_4: {
+      type: DataTypes.STRING,
+      allowNull:true,
+    },
   }, {
     sequelize,
     modelName: 'Customer',

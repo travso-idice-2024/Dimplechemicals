@@ -43,6 +43,25 @@ export const fetchAllCustomers = createAsyncThunk(
   }
 );
 
+//FETCH ALL CUSTOMERS ADDRESS
+
+export const getAllAddressByCustomerId = createAsyncThunk(
+  "auth/getAllAddressByCustomerId",
+  async ({id}, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/leads/addresses/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data;
+    } catch (customerError) {
+      return rejectWithValue(
+        customerError.response?.data || "Failed to fetch all address"
+      );
+    }
+  }
+);
+
 // ✅ ADD CUSTOMER
 export const addCustomer = createAsyncThunk(
   "auth/addCustomer",
@@ -111,6 +130,7 @@ const customerSlice = createSlice({
   initialState: {
     customers: [],
     allCustomers: [],
+    customerAddress:[],
     customerLoading: false,
     customerError: null,
     totalPages: 1,
@@ -127,6 +147,18 @@ const customerSlice = createSlice({
         state.allCustomers = action.payload;
       })
       .addCase(fetchAllCustomers.rejected, (state, action) => {
+        state.customerLoading = false;
+        state.customerError = action.payload;
+      })
+      .addCase(getAllAddressByCustomerId.pending, (state) => {
+        state.customerLoading = true;
+        state.customerError = null;
+      })
+      .addCase(getAllAddressByCustomerId.fulfilled, (state, action) => {
+        state.customerLoading = false;
+        state.customerAddress = action.payload;
+      })
+      .addCase(getAllAddressByCustomerId.rejected, (state, action) => {
         state.customerLoading = false;
         state.customerError = action.payload;
       })

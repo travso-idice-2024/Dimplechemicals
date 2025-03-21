@@ -200,18 +200,25 @@ const authSlice = createSlice({
         state.roleLoading = true;
         state.roleError = null;
       })
-      .addCase(addRole.fulfilled, (state, action) => {
-        state.roleLoading = false;
-        const roleData = action.payload.data; // ✅ Extract data
+       .addCase(addRole.fulfilled, (state, action) => {
+              // ✅ Add new customer to existing state without re-fetching
+              state.roles.data = [
+                action.payload.data,
+                ...state.roles.data,
+              ];
+            })
+      // .addCase(addRole.fulfilled, (state, action) => {
+      //   state.roleLoading = false;
+      //   const roleData = action.payload.data; // ✅ Extract data
 
-        if (!Array.isArray(state.roles)) {
-          state.roles = []; // Ensure it's an array
-        }
+      //   if (!Array.isArray(state.roles)) {
+      //     state.roles = []; // Ensure it's an array
+      //   }
 
-        if (roleData) {
-          state.roles.push(roleData); // ✅ Add new role to the array
-        }
-      })
+      //   if (roleData) {
+      //     state.roles.push(roleData); // ✅ Add new role to the array
+      //   }
+      // })
       .addCase(addRole.rejected, (state, action) => {
         state.roleLoading = false;
         state.roleError = action.payload;
@@ -246,12 +253,24 @@ const authSlice = createSlice({
         state.roleLoading = true;
         state.roleError = null;
       })
-      .addCase(removeRole.fulfilled, (state, action) => {
-        state.roleLoading = false;
-        state.roles = state.roles.filter(
-          (role) => role.id !== action.payload.id
-        );
-      })
+      // .addCase(removeRole.fulfilled, (state, action) => {
+      //   state.roleLoading = false;
+      //   state.roles = state.roles.filter(
+      //     (role) => role.id !== action.payload.id
+      //   );
+      // })
+       .addCase(removeRole.fulfilled, (state, action) => {
+                    state.roleLoading = false;
+            
+                    // Ensure state.customers is an array before filtering
+                    if (!Array.isArray(state.roles)) {
+                      state.roles = [];
+                    }
+            
+                    state.roles = state.roles.filter(
+                      (role) => role.id !== action.payload.id
+                    );
+                  })
       .addCase(removeRole.rejected, (state, action) => {
         state.roleLoading = false;
         state.roleError = action.payload;

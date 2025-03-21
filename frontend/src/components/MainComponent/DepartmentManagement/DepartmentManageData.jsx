@@ -7,7 +7,7 @@ import Pagination from "./Pagination";
 import AddDepartmentModal from "./AddDepartmentModal";
 import ViewDepartmentModal from "./ViewDepartmentModal";
 import EditDepartmentModal from "./EditDepartmentModal";
-import { listDepartments } from "../../../redux/departmentSlice";
+import { listDepartments,addDepartment,updateDepartment,removeDepartment} from "../../../redux/departmentSlice";
 
 const DepartmentManageData = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const DepartmentManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm, departments]);
+  }, [dispatch, currentPage, searchTerm]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -47,8 +47,205 @@ const DepartmentManageData = () => {
     setCurrentPage(newPage);
   };
 
-  if (departmentloading) return <p>Loading...</p>;
-  if (departmenterror) return <p>{departmenterror}</p>;
+
+  //add department code =================================================================================
+  const [formData, setFormData] = useState({
+      department_name: "",
+      status: "",
+      department_description: "",
+    });
+    const [formErrors, setFormErrors] = useState({});
+    const [flashMessage, setFlashMessage] = useState("");
+    const [flashMsgType, setFlashMsgType] = useState("");
+  
+    // Handle Flash Messages
+    const handleFlashMessage = (message, type) => {
+      setFlashMessage(message);
+      setFlashMsgType(type);
+      setTimeout(() => {
+        setFlashMessage("");
+        setFlashMsgType("");
+      }, 3000);
+    };
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+  
+      // Clear error when user types
+      setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+    };
+  
+    const validateInputs = () => {
+      let errors = {};
+      if (!formData.department_name.trim()) {
+        errors.department_name = "*Department name is required";
+      }
+      if (!formData.status) {
+        errors.status = "*Status is required";
+      }
+      if (!formData.department_description.trim()) {
+        errors.department_description = "*Description is required";
+      }
+      setFormErrors(errors);
+      return Object.keys(errors).length === 0;
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (validateInputs()) {
+        try {
+          const response = await dispatch(addDepartment(formData)).unwrap();
+          if (response.success) {
+            handleFlashMessage(response?.message, "success");
+            dispatch(
+              listDepartments({
+                page: currentPage,
+                limit: departmentsPerPage,
+                search: searchTerm,
+              })
+            );
+          } else {
+            handleFlashMessage(response?.message || "Something went wrong", "error");
+          }
+          setTimeout(() => {
+            setAddModalOpen(false);
+          }, 3000);
+        } catch (error) {
+          console.error("Error adding department:", error);
+          handleFlashMessage(error?.message || "An error occurred", "error");
+        }
+      }
+    };
+  //end add department code ================================================================================
+
+  //edit department code ====================================================================================
+
+  const [updateFormData, setUpdateFormData] = useState({
+    department_name: "",
+    status: "",
+    department_description: "",
+  });
+  const [updateFormErrors, setUpdateFormErrors] = useState({});
+  const [updateFlashMessage, setUpdateFlashMessage] = useState("");
+  const [updateFlashMsgType, setUpdateFlashMsgType] = useState("");
+  
+  useEffect(() => {
+    if (selectedDepartment) {
+      setUpdateFormData({
+        department_name: selectedDepartment.department_name || "",
+        status: selectedDepartment.status || "Active",
+        department_description: selectedDepartment.department_description || "",
+      });
+    }
+  }, [selectedDepartment]);
+  
+  // ✅ Handle Flash Messages for Update
+  const handleUpdateFlashMessage = (message, type) => {
+    setUpdateFlashMessage(message);
+    setUpdateFlashMsgType(type);
+    setTimeout(() => {
+      setUpdateFlashMessage("");
+      setUpdateFlashMsgType("");
+    }, 3000);
+  };
+  
+  // ✅ Handle Input Changes for Update Form
+  const handleUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateFormData((prevData) => ({ ...prevData, [name]: value }));
+    setUpdateFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+  
+  // ✅ Validate Inputs for Update Form
+  const validateUpdateInputs = () => {
+    let errors = {};
+    if (!updateFormData.department_name.trim()) {
+      errors.department_name = "*Department name is required";
+    }
+    if (!updateFormData.status.trim()) {
+      errors.status = "*Department status is required";
+    }
+    if (!updateFormData.department_description.trim()) {
+      errors.department_description = "*Department description is required";
+    }
+    setUpdateFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
+  // ✅ Handle Submit for Update Form
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    if (validateUpdateInputs()) {
+      try {
+        const response = await dispatch(
+          updateDepartment({
+            id: selectedDepartment.id,
+            departmentData: updateFormData,
+          })
+        ).unwrap();
+  
+        if (response.success) {
+          handleUpdateFlashMessage(response.message, "success");
+          dispatch(
+            listDepartments({
+              page: currentPage,
+              limit: departmentsPerPage,
+              search: searchTerm,
+            })
+          );
+          setTimeout(() => {
+            setEditModalOpen(false);
+          }, 3000);
+        } else {
+          handleUpdateFlashMessage(response.message || "Something went wrong", "error");
+        }
+      } catch (error) {
+        handleUpdateFlashMessage(error.message || "An error occurred", "error");
+      }
+    }
+  };
+  
+
+  //end edit department code ================================================================================
+
+  //delete department code =================================================================
+const [deleteFlashMessage, setDeleteFlashMessage] = useState("");
+const [deleteFlashMsgType, setDeleteFlashMsgType] = useState("");
+
+// ✅ Function to show delete flash messages
+const handleDeleteFlashMessage = (message, type) => {
+  setDeleteFlashMessage(message);
+  setDeleteFlashMsgType(type);
+  setTimeout(() => {
+    setDeleteFlashMessage("");
+    setDeleteFlashMsgType("");
+  }, 3000); // Hide the message after 3 seconds
+};
+
+const handleDelete = async (id) => {
+  try {
+    await dispatch(removeDepartment(id)).unwrap();
+    handleDeleteFlashMessage("Department deleted successfully!", "success");
+    dispatch(
+      listDepartments({
+        page: currentPage,
+        limit: departmentsPerPage,
+        search: searchTerm,
+      })
+    );
+  } catch (error) {
+    handleDeleteFlashMessage(
+      error?.message || "Failed to delete department",
+      "error"
+    );
+  }
+};
+
+  //end delete department code =============================================================
+
+  //if (departmentloading) return <p>Loading...</p>;
+  //if (departmenterror) return <p>{departmenterror}</p>;
 
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
@@ -79,13 +276,17 @@ const DepartmentManageData = () => {
           </div>
         </div>
         <div className="bg-bgData rounded-[8px] text-white shadow-md px-4 py-6">
-          <DepartmentTable
-            Departments={departments?.data}
-            setEditModalOpen={setEditModalOpen}
-            setViewModalOpen={setViewModalOpen}
-            selectedDepartment={selectedDepartment}
-            setSelectedDepartment={setSelectedDepartment}
-          />
+        <DepartmentTable
+  Departments={departments?.data}
+  setEditModalOpen={setEditModalOpen}
+  setViewModalOpen={setViewModalOpen}
+  selectedDepartment={selectedDepartment}
+  setSelectedDepartment={setSelectedDepartment}
+  deleteFlashMessage={deleteFlashMessage}
+  deleteFlashMsgType={deleteFlashMsgType}
+  handleDeleteFlashMessage={handleDeleteFlashMessage}
+  handleDelete={handleDelete}
+/>
         </div>
         <Pagination
           currentPage={currentPage}
@@ -96,17 +297,44 @@ const DepartmentManageData = () => {
 
       {/* Add Department Modal */}
       {isAddModalOpen && (
-        <AddDepartmentModal setAddModalOpen={setAddModalOpen} />
-      )}
-
+  <AddDepartmentModal
+    setAddModalOpen={setAddModalOpen}
+    formData={formData}
+    setFormData={setFormData}
+    formErrors={formErrors}
+    setFormErrors={setFormErrors}
+    flashMessage={flashMessage}
+    setFlashMessage={setFlashMessage}
+    flashMsgType={flashMsgType}
+    setFlashMsgType={setFlashMsgType}
+    handleChange={handleChange}
+    validateInputs={validateInputs}
+    handleSubmit={handleSubmit}
+    handleFlashMessage={handleFlashMessage}
+  />
+)}
       {/* Edit Department Modal */}
       {isEditModalOpen && (
-        <EditDepartmentModal
-          setEditModalOpen={setEditModalOpen}
-          selectedDepartment={selectedDepartment}
-          setSelectedDepartment={setSelectedDepartment}
-        />
-      )}
+  <EditDepartmentModal
+    setEditModalOpen={setEditModalOpen}
+    selectedDepartment={selectedDepartment}
+    setSelectedDepartment={setSelectedDepartment}
+    
+    // ✅ Pass Updated States
+    updateFormData={updateFormData}
+    setUpdateFormData={setUpdateFormData}
+    updateFormErrors={updateFormErrors}
+    setUpdateFormErrors={setUpdateFormErrors}
+    updateFlashMessage={updateFlashMessage}
+    updateFlashMsgType={updateFlashMsgType}
+
+    // ✅ Pass Handlers
+    handleUpdateChange={handleUpdateChange}
+    validateUpdateInputs={validateUpdateInputs}
+    handleUpdateSubmit={handleUpdateSubmit}
+    handleUpdateFlashMessage={handleUpdateFlashMessage}
+  />
+)}
 
       {/* View Department Modal */}
       {isViewModalOpen && (
