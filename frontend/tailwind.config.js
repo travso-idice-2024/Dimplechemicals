@@ -12,6 +12,12 @@ export default {
         bgData: "#2e2e3c",
         bgDataNew: "#fe6c00",
       },
+      fontSize: {
+        textdata: "14px",
+      },
+      fontFamily: {
+        bai: ['Verdana', 'sans-serif'],
+    },
     },
   },
   plugins: [],

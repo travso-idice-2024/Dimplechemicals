@@ -4,10 +4,12 @@ import { navigationLinks } from "../../data/data";
 import "./Sidebar.css";
 import { useContext } from "react";
 import { SidebarContext } from "../../context/sidebarContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import dimplechemical from "../../assets/images/Dimple-Logo.png";
 
+
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [activeLinkIdx] = useState(1);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
@@ -38,11 +40,11 @@ const Sidebar = () => {
         <span className="info-name">Priya Sharma</span>
       </div> */}
 
-      <div className="user-info" style={{ width: "100%" }}>
+      <div className="user-info p-1" style={{ width: "100%" }}>
         {/* <div className="info-img img-fit-cover">
           <img src={personsImgs.person_four} alt="profile image" />
         </div> */}
-        <img src={dimplechemical} alt="" style={{ width: "100%" }} />
+        <img src={dimplechemical} alt="" style={{ width: "100%" }} className="cursor-pointer" onClick={()=>navigate("/dashboard")} />
         {/* <span className="info-name">Priya Sharma</span> */}
       </div>
 
@@ -67,11 +69,11 @@ const Sidebar = () => {
                   className="nav-link-icon"
                   alt={navigationLink.title}
                 />
-                <span className="nav-link-text">{navigationLink.title}</span>
+                <span className="nav-link-text text-textdata">{navigationLink.title}</span>
                   {/* Show dropdown arrow if submenu exists */}
                   {navigationLink.submenu && (
                   <span
-                    className="submenu-toggle"
+                    className="submenu-toggle text-textdata"
                     onClick={() =>  (navigationLink.id)}
                   >
                     {openSubmenus[navigationLink.id] ? "▲" : "▼"}
@@ -95,7 +97,7 @@ const Sidebar = () => {
                             className="nav-link-icon"
                             alt={subItem.title}
                           />
-                          <span className="nav-link-text">{subItem.title}</span>
+                          <span className="nav-link-text text-[13px]">{subItem.title}</span>
                         </NavLink>
                       </li>
                     ))}

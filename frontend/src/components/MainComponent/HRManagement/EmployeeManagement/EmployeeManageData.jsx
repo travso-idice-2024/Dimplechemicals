@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./EmployeeManageData.css";
 import { iconsImgs } from "../../../../utils/images";
@@ -7,37 +7,42 @@ import Pagination from "./Pagination";
 import AddEmployeeModal from "./AddEmployeeModal";
 import ViewUserModal from "./ViewUserModal";
 import EditUserModal from "./EditUserModal";
-import { listUsers,addUser,removeUser,updateUser} from "../../../../redux/userSlice";
+import {
+  listUsers,
+  addUser,
+  removeUser,
+  updateUser,
+} from "../../../../redux/userSlice";
 import SignatureCanvas from "react-signature-canvas";
 
 const EmployeeManageData = () => {
-   const dispatch = useDispatch();
-    const { users, totalPages, userLoading, userError } = useSelector(
-      (state) => state.user
-    );
+  const dispatch = useDispatch();
+  const { users, totalPages, userLoading, userError } = useSelector(
+    (state) => state.user
+  );
 
   //console.log("users", users);
-   
+
   const [selectedEmployee, setSelectedEmployee] = useState({});
   const [isAddEmployeeModalOpen, setAddEmployeeModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
 
   // Pagination & Search States
-    const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const employeePerPage = 10;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const employeePerPage = 10;
 
-   // Fetch departments whenever searchTerm or currentPage changes
-     useEffect(() => {
-       dispatch(
-        listUsers({
-           page: currentPage,
-           limit: employeePerPage,
-           search: searchTerm,
-         })
-       );
-     }, [dispatch, currentPage, searchTerm]);
+  // Fetch departments whenever searchTerm or currentPage changes
+  useEffect(() => {
+    dispatch(
+      listUsers({
+        page: currentPage,
+        limit: employeePerPage,
+        search: searchTerm,
+      })
+    );
+  }, [dispatch, currentPage, searchTerm]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -51,6 +56,10 @@ const EmployeeManageData = () => {
   };
 
   //Add employee functions
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formErrors, setFormErrors] = useState({});
+
+
   const [formData, setFormData] = useState({
     // User Table Fields
     username: "",
@@ -96,7 +105,6 @@ const EmployeeManageData = () => {
     documents: [],
   });
 
-  const [formErrors, setFormErrors] = useState({});
 
   const [flashMessage, setFlashMessage] = useState("");
   const [flashMsgType, setFlashMsgType] = useState("");
@@ -185,85 +193,131 @@ const EmployeeManageData = () => {
   const validateInputs = () => {
     let errors = {};
 
-    // ✅ Required fields validation (only necessary fields)
-    if (!formData.fullname.trim()) {
-      errors.fullname = "*Full name is required";
+   
+    if (currentStep === 1) {
+      // ✅ Required fields validation (only necessary fields)
+      if (!formData.fullname.trim()) {
+        errors.fullname = "*Full name is required";
+      }
+      if (!formData.username.trim()) {
+        errors.username = "*Username is required";
+      } else if (formData.username.length < 6) {
+        errors.username = "*Username must be at least 6 characters";
+      }
+      if (!formData.email.trim()) {
+        errors.email = "*Email is required";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        errors.email = "*Invalid email format";
+      }
+      if (!formData.phone.trim()) {
+        errors.phone = "*Phone number is required";
+      } else if (!/^\d{10}$/.test(formData.phone)) {
+        errors.phone = "*Phone number must be 10 digits";
+      }
+      if (!formData.password.trim()) {
+        errors.password = "*Password is required";
+      } else if (formData.password.length < 6) {
+        errors.password = "*Password must be at least 6 characters";
+      }
+      if (!formData.confirm_password.trim()) {
+        errors.confirm_password = "*Confirm Password is required";
+      } else if (formData.password !== formData.confirm_password) {
+        errors.confirm_password = "*Passwords do not match";
+      }
+      if (!formData.gender.trim()) {
+        errors.gender = "*Gender is required";
+      }
+      if (!formData.status.trim()) {
+        errors.status = "*Status is required";
+      }
+      if (!formData.role_id.trim()) {
+        errors.role_id = "*Role is required";
+      }
+      if (!formData.profile_image) {
+        errors.profile_image = "Profile picture is required.";
+      } else if (!formData.profile_image.type.startsWith("image/")) {
+        errors.profile_image = "Only image files are allowed.";
+      }
+      if (!formData.pan_no.trim()) {
+        errors.pan_no = "*Pan Card is required";
+      }
+      if (!formData.aadhar_no.trim()) {
+        errors.aadhar_no = "*Aadhar Card is required";
+      }
+      if (!formData.date_of_birth.trim()) {
+        errors.date_of_birth = "*DOB is required";
+      }
+      if (!formData.address.trim()) {
+        errors.address = "*Address is required";
+      }
     }
-    if (!formData.username.trim()) {
-      errors.username = "*Username is required";
-    } else if (formData.username.length < 6) {
-      errors.username = "*Username must be at least 6 characters";
+    if (currentStep === 2) {
+      // ✅ Required fields validation (only necessary fields)
+      
+      if (!formData.department_id.trim()) {
+        errors.department_id = "*Department is required";
+      }
+      
+      if (!formData.job_title.trim()) {
+        errors.job_title = "*Job title is required";
+      }
+      if (!formData.employment_type.trim()) {
+        errors.employment_type = "*Employment type is required";
+      }
+      if (!formData.date_of_joining.trim()) {
+        errors.date_of_joining = "*Date of joining is required";
+      }
+      if (!formData.salary.trim()) {
+        errors.salary = "*Salary is required";
+      }
+      if (!formData.work_location.trim()) {
+        errors.work_location = "*Work location is required";
+      }
+     
+      if (!formData.offer_letter_date.trim()) {
+        errors.offer_letter_date = "*offer letter is required";
+      }
+      if (!formData.date_of_exit.trim()) {
+        errors.date_of_exit = "*Exit Date is required";
+      }
+      if (!formData.reporting_manager_id) {
+        errors.reporting_manager_id = "*Reporting Manager is required";
+      }
+      if (!formData.remarks.trim()) {
+        errors.remarks = "*Summary is required";
+      }
     }
-    if (!formData.email.trim()) {
-      errors.email = "*Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = "*Invalid email format";
+    if (currentStep === 3) {
+      // ✅ Required fields validation (only necessary fields)
+      
+      if (!formData.bank_name.trim()) {
+        errors.bank_name = "*Bank name is required";
+      }
+      if (!formData.account_number.trim()) {
+        errors.account_number = "*Account number is required";
+      }
+      if (!formData.ifsc_code.trim()) {
+        errors.ifsc_code = "*IFSC code is required";
+      }
+      if (!formData.account_type.trim()) {
+        errors.account_type = "*Account type is required";
+      }
+      if (!formData.branch_name.trim()) {
+        errors.branch_name = "*Branch Name is required";
+      }
     }
-    if (!formData.phone.trim()) {
-      errors.phone = "*Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      errors.phone = "*Phone number must be 10 digits";
-    }
-    if (!formData.password.trim()) {
-      errors.password = "*Password is required";
-    } else if (formData.password.length < 6) {
-      errors.password = "*Password must be at least 6 characters";
-    }
-    if (!formData.confirm_password.trim()) {
-      errors.confirm_password = "*Confirm Password is required";
-    } else if (formData.password !== formData.confirm_password) {
-      errors.confirm_password = "*Passwords do not match";
-    }
-    if (!formData.gender.trim()) {
-      errors.gender = "*Gender is required";
-    }
-    if (!formData.status.trim()) {
-      errors.status = "*Status is required";
-    }
-    if (!formData.role_id.trim()) {
-      errors.role_id = "*Role is required";
-    }
-    if (!formData.department_id.trim()) {
-      errors.department_id = "*Department is required";
-    }
-    // Validate Profile Image (Required)
-    if (!formData.profile_image) {
-      errors.profile_image = "Profile picture is required.";
-    } else if (!formData.profile_image.type.startsWith("image/")) {
-      errors.profile_image = "Only image files are allowed.";
-    }
-    if (!formData.job_title.trim()) {
-      errors.job_title = "*Job title is required";
-    }
-    if (!formData.employment_type.trim()) {
-      errors.employment_type = "*Employment type is required";
-    }
-    if (!formData.date_of_joining.trim()) {
-      errors.date_of_joining = "*Date of joining is required";
-    }
-    if (!formData.salary.trim()) {
-      errors.salary = "*Salary is required";
-    }
-    if (!formData.work_location.trim()) {
-      errors.work_location = "*Work location is required";
-    }
-    if (!formData.bank_name.trim()) {
-      errors.bank_name = "*Bank name is required";
-    }
-    if (!formData.account_number.trim()) {
-      errors.account_number = "*Account number is required";
-    }
-    if (!formData.ifsc_code.trim()) {
-      errors.ifsc_code = "*IFSC code is required";
-    }
-    if (!formData.account_type.trim()) {
-      errors.account_type = "*Account type is required";
-    }
-
     // ✅ Update state and return validation result
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
+
+  const nextStep = () => {
+    if (validateInputs(currentStep)) {
+      setCurrentStep((prev) => prev +1);
+    }
+  };
+  const prevStep = () => setCurrentStep((prev) =>prev-1);
 
   const handleSubmit = async (e) => {
     console.log("this function is calling");
@@ -274,68 +328,77 @@ const EmployeeManageData = () => {
         const response = await dispatch(addUser(formData)).unwrap();
         console.log("response", response.success); // Debugging response
 
-        if (response?.success) {
+        if (response?.success == true) {
           handleFlashMessage(response?.message, "success");
-          dispatch(listUsers({page: currentPage,
-            limit: employeePerPage,
-            search: searchTerm,}));
+          dispatch(
+            listUsers({
+              page: currentPage,
+              limit: employeePerPage,
+              search: searchTerm,
+            })
+          );
 
-            setTimeout(() => {
-              setAddEmployeeModalOpen(false);
-            }, 3000);
+          setTimeout(() => {
+            setAddEmployeeModalOpen(false);
+          }, 3000);
         } else {
           handleFlashMessage(
             response?.message || "Something went wrong",
             "error"
           );
         }
-       
+
         //setAddUserModalOpen(false);
       } catch (error) {
         console.log(error.errors[0]?.message);
         console.error("Error adding employee:", error);
-        handleFlashMessage(error.errors[0]?.message || "An error occurred", "error"); // Use error.message
+        handleFlashMessage(
+          error.errors[0]?.message || "An error occurred",
+          "error"
+        ); // Use error.message
       }
     }
   };
   //end employee functions
 
-
   //delete employee
   const [deleteFlashMessage, setDeleteFlashMessage] = useState("");
-const [deleteFlashMsgType, setDeleteFlashMsgType] = useState("");
+  const [deleteFlashMsgType, setDeleteFlashMsgType] = useState("");
 
-// Function to show delete-specific flash messages
-const handleDeleteFlashMessage = (message, type) => {
-  setDeleteFlashMessage(message);
-  setDeleteFlashMsgType(type);
-  setTimeout(() => {
-    setDeleteFlashMessage("");
-    setDeleteFlashMsgType("");
-  }, 3000); // Hide the message after 3 seconds
-};
+  // Function to show delete-specific flash messages
+  const handleDeleteFlashMessage = (message, type) => {
+    setDeleteFlashMessage(message);
+    setDeleteFlashMsgType(type);
+    setTimeout(() => {
+      setDeleteFlashMessage("");
+      setDeleteFlashMsgType("");
+    }, 3000); // Hide the message after 3 seconds
+  };
 
-const handleDelete = async (id) => {
-  try {
-    await dispatch(removeUser(id)).unwrap();
-    handleDeleteFlashMessage("Employee deleted successfully!", "success");
-    dispatch(listUsers({page: currentPage,
-      limit: employeePerPage,
-      search: searchTerm,}));
-
-  } catch (error) {
-    handleDeleteFlashMessage(
-      error?.message || "Failed to delete employee",
-      "error"
-    );
-  }
-};
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(removeUser(id)).unwrap();
+      handleDeleteFlashMessage("Employee deleted successfully!", "success");
+      dispatch(
+        listUsers({
+          page: currentPage,
+          limit: employeePerPage,
+          search: searchTerm,
+        })
+      );
+    } catch (error) {
+      handleDeleteFlashMessage(
+        error?.message || "Failed to delete employee",
+        "error"
+      );
+    }
+  };
 
   //end delete employee
 
+  const [currentUpdateStep, setCurrentUpdateStep] = useState(1);
 
-
-  //update employee code 
+  //update employee code
   const [updateFormData, setUpdateFormData] = useState({
     // User Table Fields
     username: "",
@@ -354,10 +417,10 @@ const handleDelete = async (id) => {
     pan_no: "",
     remarks: "",
     digital_signature: "",
-  
+
     // Employee Roles Table Fields
     role_id: "",
-  
+
     // Job Details Table Fields
     department_id: "",
     job_title: "",
@@ -369,22 +432,22 @@ const handleDelete = async (id) => {
     reporting_manager_id: "",
     offer_letter_date: "",
     date_of_exit: "",
-  
+
     // Bank Details Table Fields
     bank_name: "",
     account_number: "",
     ifsc_code: "",
     branch_name: "",
     account_type: "",
-  
+
     // Documents Table Fields
     documents: [],
   });
-  
+
   const [updateFormErrors, setUpdateFormErrors] = useState({});
   const [updateFlashMessage, setUpdateFlashMessage] = useState("");
   const [updateFlashMsgType, setUpdateFlashMsgType] = useState("");
-  
+
   useEffect(() => {
     if (selectedEmployee) {
       setUpdateFormData({
@@ -413,7 +476,8 @@ const handleDelete = async (id) => {
         date_of_joining: selectedEmployee?.jobDetail?.date_of_joining
           ? selectedEmployee?.jobDetail?.date_of_joining.split("T")[0]
           : "",
-        currently_working: selectedEmployee?.jobDetail?.currently_working || false,
+        currently_working:
+          selectedEmployee?.jobDetail?.currently_working || false,
         salary: selectedEmployee?.jobDetail?.salary || "",
         work_location: selectedEmployee?.jobDetail?.work_location || "",
         reporting_manager_id:
@@ -433,7 +497,7 @@ const handleDelete = async (id) => {
       });
     }
   }, [selectedEmployee]);
-  
+
   const handleUpdateFlashMessage = (message, type) => {
     setUpdateFlashMessage(message);
     setUpdateFlashMsgType(type);
@@ -442,15 +506,15 @@ const handleDelete = async (id) => {
       setUpdateFlashMsgType("");
     }, 3000);
   };
-  
+
   const handleUpdateChange = (e) => {
     const { name, value } = e.target;
     setUpdateFormData((prevData) => ({ ...prevData, [name]: value }));
-  
+
     // Clear error when user types
     setUpdateFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
-  
+
   const handleUpdateFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -459,7 +523,7 @@ const handleDelete = async (id) => {
         profile_image: file,
         profile_image_preview: URL.createObjectURL(file), // For preview
       }));
-  
+
       // Clear validation error for profile_image
       setUpdateFormErrors((prevErrors) => ({
         ...prevErrors,
@@ -467,7 +531,7 @@ const handleDelete = async (id) => {
       }));
     }
   };
-  
+
   // Multiple document upload
   const handleUpdateMultipleFileChange = (event) => {
     const files = Array.from(event.target.files); // Convert FileList to Array
@@ -476,11 +540,10 @@ const handleDelete = async (id) => {
       documents: files, // Store multiple selected files
     }));
   };
-  
-  
+
   const validateUpdateInputs = () => {
     let errors = {};
-  
+
     // ✅ Required fields validation
     if (!updateFormData.fullname.trim()) {
       errors.fullname = "*Full name is required";
@@ -533,12 +596,45 @@ const handleDelete = async (id) => {
     if (!updateFormData.account_type.trim()) {
       errors.account_type = "*Account type is required";
     }
-  
+    if (!updateFormData.pan_no.trim()) {
+      errors.pan_no = "*Pan Card is required";
+    }
+    if (!updateFormData.aadhar_no.trim()) {
+      errors.aadhar_no = "*Aadhar Card is required";
+    }
+    if (!updateFormData.date_of_birth.trim()) {
+      errors.date_of_birth = "*DOB is required";
+    }
+    if (!updateFormData.address.trim()) {
+      errors.address = "*Address is required";
+    }
+    if (!updateFormData.offer_letter_date.trim()) {
+      errors.offer_letter_date = "*offer letter is required";
+    }
+    if (!updateFormData.date_of_exit.trim()) {
+      errors.date_of_exit = "*Exit Date is required";
+    }
+    if (!updateFormData.reporting_manager_id) {
+      errors.reporting_manager_id = "*Reporting Manager is required";
+    }
+    if (!updateFormData.remarks.trim()) {
+      errors.remarks = "*Summary is required";
+    }
+    if (!updateFormData.branch_name.trim()) {
+      errors.branch_name = "*Branch Name is required";
+    }
+
     // ✅ Update state and return validation result
     setUpdateFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
+
+
+  const nextUpdateStep = () => {
+      setCurrentUpdateStep((prev) => prev +1);
+  };
+  const prevUpdateStep = () => setCurrentUpdateStep((prev) =>prev-1);
+
   const handleUpdateSubmit = async (e) => {
     //console.log("Update function calling...");
     e.preventDefault();
@@ -549,14 +645,16 @@ const handleDelete = async (id) => {
           updateUser({ id: selectedEmployee.id, userData: updateFormData })
         ).unwrap();
         //console.log(response);
-  
+
         if (response.success) {
           handleUpdateFlashMessage(response.message, "success");
-          dispatch(listUsers({
-            page: currentPage,
-            limit: employeePerPage,
-            search: searchTerm,
-          }));
+          dispatch(
+            listUsers({
+              page: currentPage,
+              limit: employeePerPage,
+              search: searchTerm,
+            })
+          );
           setTimeout(() => {
             setEditUserModalOpen(false);
           }, 3000);
@@ -571,7 +669,7 @@ const handleDelete = async (id) => {
       }
     }
   };
-  
+
   //end update employee code
 
   //if (userLoading) return <p>Loading...</p>;
@@ -614,15 +712,15 @@ const handleDelete = async (id) => {
         <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
           {/*------- Table Data Start -------*/}
           <EmployeeTable
-  Employees={users?.data}
-  setEditUserModalOpen={setEditUserModalOpen}
-  setViewModalOpen={setViewModalOpen}
-  selectedEmployee={selectedEmployee}
-  setSelectedEmployee={setSelectedEmployee}
-  deleteFlashMessage={deleteFlashMessage} // ✅ Pass delete message
-  deleteFlashMsgType={deleteFlashMsgType}
-  handleDelete={handleDelete} // ✅ Pass delete type
-/>
+            Employees={users?.data}
+            setEditUserModalOpen={setEditUserModalOpen}
+            setViewModalOpen={setViewModalOpen}
+            selectedEmployee={selectedEmployee}
+            setSelectedEmployee={setSelectedEmployee}
+            deleteFlashMessage={deleteFlashMessage} // ✅ Pass delete message
+            deleteFlashMsgType={deleteFlashMsgType}
+            handleDelete={handleDelete} // ✅ Pass delete type
+          />
           {/*------- Table Data End -------*/}
         </div>
         {/* Pagination Controls with Number */}
@@ -635,53 +733,59 @@ const handleDelete = async (id) => {
 
       {/* Add User Modal */}
       {isAddEmployeeModalOpen && (
-  <AddEmployeeModal
-    setAddEmployeeModalOpen={setAddEmployeeModalOpen}
-    formData={formData}
-    setFormData={setFormData}
-    formErrors={formErrors}
-    setFormErrors={setFormErrors}
-    flashMessage={flashMessage}
-    setFlashMessage={setFlashMessage}
-    flashMsgType={flashMsgType}
-    setFlashMsgType={setFlashMsgType}
-    handleFlashMessage={handleFlashMessage}
-    handleChange={handleChange}
-    handleFileChange={handleFileChange}
-    handleMultipleFileChange={handleMultipleFileChange}
-    clearauditSignature={clearauditSignature}
-    saveauditSignature={saveauditSignature}
-    handleSubmit={handleSubmit}
-    validateInputs={validateInputs}
-    sigauditCanvas={sigauditCanvas}
-    isSignatureauditEmpty={isSignatureauditEmpty}
-    setIsSignatureauditEmpty={setIsSignatureauditEmpty}
-  />
-)}
+        <AddEmployeeModal
+          setAddEmployeeModalOpen={setAddEmployeeModalOpen}
+          formData={formData}
+          setFormData={setFormData}
+          formErrors={formErrors}
+          setFormErrors={setFormErrors}
+          flashMessage={flashMessage}
+          setFlashMessage={setFlashMessage}
+          flashMsgType={flashMsgType}
+          setFlashMsgType={setFlashMsgType}
+          handleFlashMessage={handleFlashMessage}
+          handleChange={handleChange}
+          handleFileChange={handleFileChange}
+          handleMultipleFileChange={handleMultipleFileChange}
+          clearauditSignature={clearauditSignature}
+          saveauditSignature={saveauditSignature}
+          handleSubmit={handleSubmit}
+          validateInputs={validateInputs}
+          sigauditCanvas={sigauditCanvas}
+          isSignatureauditEmpty={isSignatureauditEmpty}
+          setIsSignatureauditEmpty={setIsSignatureauditEmpty}
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      )}
 
       {/* Edit User Modal */}
       {isEditUserModalOpen && (
-  <EditUserModal
-    setEditUserModalOpen={setEditUserModalOpen}
-    selectedEmployee={selectedEmployee}
-    setSelectedEmployee={setSelectedEmployee}
-    updateFormData={updateFormData}
-    setUpdateFormData={setUpdateFormData}
-    updateFormErrors={updateFormErrors}
-    setUpdateFormErrors={setUpdateFormErrors}
-    updateFlashMessage={updateFlashMessage}
-    setUpdateFlashMessage={setUpdateFlashMessage}
-    updateFlashMsgType={updateFlashMsgType}
-    setUpdateFlashMsgType={setUpdateFlashMsgType}
-    handleUpdateChange={handleUpdateChange}
-    handleUpdateFileChange={handleUpdateFileChange}
-    handleUpdateMultipleFileChange={handleUpdateMultipleFileChange}
-    validateUpdateInputs={validateUpdateInputs}
-    handleUpdateSubmit={handleUpdateSubmit}
-    handleUpdateFlashMessage={handleUpdateFlashMessage}
-  />
-)}
-
+        <EditUserModal
+          setEditUserModalOpen={setEditUserModalOpen}
+          selectedEmployee={selectedEmployee}
+          setSelectedEmployee={setSelectedEmployee}
+          updateFormData={updateFormData}
+          setUpdateFormData={setUpdateFormData}
+          updateFormErrors={updateFormErrors}
+          setUpdateFormErrors={setUpdateFormErrors}
+          updateFlashMessage={updateFlashMessage}
+          setUpdateFlashMessage={setUpdateFlashMessage}
+          updateFlashMsgType={updateFlashMsgType}
+          setUpdateFlashMsgType={setUpdateFlashMsgType}
+          handleUpdateChange={handleUpdateChange}
+          handleUpdateFileChange={handleUpdateFileChange}
+          handleUpdateMultipleFileChange={handleUpdateMultipleFileChange}
+          validateUpdateInputs={validateUpdateInputs}
+          handleUpdateSubmit={handleUpdateSubmit}
+          handleUpdateFlashMessage={handleUpdateFlashMessage}
+          nextUpdateStep={nextUpdateStep}
+          prevUpdateStep={prevUpdateStep}
+          currentUpdateStep={currentUpdateStep}
+        />
+      )}
 
       {/* View User Modal */}
       {isViewModalOpen && (

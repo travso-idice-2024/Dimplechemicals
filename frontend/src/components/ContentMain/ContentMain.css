@@ -37,7 +37,7 @@
 @media screen and (max-width: 1200px) {
   .content-grid-one,
   .content-grid-two {
-    column-gap: 12px;
+    column-gap: 6px;
   }
   .main-content-holder,
   .subgrid-two {
@@ -60,7 +60,7 @@
   .content-grid-two .grid-two-item:nth-child(3) .subgrid-two {
     grid-template-columns: repeat(2, 1fr);
     height: 220px;
-    column-gap: 12px;
+    column-gap: 6px;
   }
   .content-grid-two {
     row-gap: 12px;

@@ -1,0 +1,144 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./ReportManageData.css";
+import { useNavigate } from "react-router-dom";
+import ContentTop from "../../ContentTop/ContentTop";
+import {todaysLeadReport} from '../../../redux/leadSlice';
+import axios from "axios";
+
+
+
+const TodaysLeadReport = () => {
+  const dispatch = useDispatch();
+
+   const { todaysLeads} = useSelector(
+      (state) => state.lead
+    );
+
+    console.log("todaysLeads",todaysLeads);
+    useEffect(()=>{
+      dispatch(todaysLeadReport());
+    },[dispatch]);
+    
+
+    const getAuthToken = () => localStorage.getItem("token");
+    const handleExportData = async () => {
+      try {
+        // ✅ Get token
+        const token = getAuthToken();
+    
+        // ✅ Correct API call
+        const response = await axios.get("http://localhost:5000/api/auth/export-todays-leads", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: "blob", // ✅ Keep it outside headers
+        });
+    
+        // ✅ Create a URL for the blob
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+    
+        // ✅ Create a temporary <a> tag to download the file
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Todays_Leads_Report.xlsx"); // File name
+        document.body.appendChild(link);
+        link.click();
+    
+        // ✅ Cleanup after download
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error exporting data:", error);
+      }
+    };
+    
+  const navigate = useNavigate();
+  return (
+    <div className="main-content">
+      <ContentTop />
+    <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-white text-[15.5px] font-semibold flex items-center">
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 36 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={() => navigate(-1)}
+                className="cursor-pointer"
+              >
+                <path
+                  d="M22.5 27L13.5 18L22.5 9"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              Todays Leads
+            </h1>
+          </div>
+          <button
+                className="bg-bgData text-white px-3 py-1 rounded hover:bg-blue-600"
+                onClick={handleExportData}
+              >
+               Export Data
+              </button>
+        </div>
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+          {/* {/------- Table Data Start -------/} */}
+          <div className="overflow-x-auto">
+        <table className="min-w-full table-auto">
+          <thead>
+            <tr className="bg-[#473b33] rounded-[8px]">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Name
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Email
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Phone
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Lead Source
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Lead Status
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Comapny
+              </th> 
+            </tr>
+          </thead>
+          <tbody>
+            {todaysLeads && todaysLeads?.data?.map((lead, index) => (
+            <tr key={index+1}>
+              <td className="px-4 py-2 text-textdata">{index + 1}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.assignedPerson?.fullname}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.customer?.email_id}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.customer?.primary_contact}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.customer?.primary_contact}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.lead_source}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.lead_status}</td>
+              <td className="px-4 py-2 text-textdata">{lead?.customer?.customer}</td>
+
+            </tr>
+         ))}
+          </tbody>
+        </table>
+      </div>
+          {/* {/------- Table Data End -------/} */}
+        </div>
+      </div>
+    </div>
+    </div>
+  );
+};
+
+export default TodaysLeadReport;

@@ -23,32 +23,32 @@ const Employee = () => {
         <table className="min-w-full rounded-[8px] border-none">
           <thead className="bg-[#1e1e2d78]">
             <tr className="">
-              <th className="px-4 py-2">ID</th>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Role</th>
-              <th className="px-4 py-2">Department</th>
-              <th className="px-4 py-2">Project Name</th>
-              <th className="px-4 py-2">Completed (%)</th>
+              <th className="px-4 py-2 text-textdata">ID</th>
+              <th className="px-4 py-2 text-textdata">Name</th>
+              <th className="px-4 py-2 text-textdata">Email</th>
+              <th className="px-4 py-2 text-textdata">Status</th>
+              <th className="px-4 py-2 text-textdata">Role</th>
+              <th className="px-4 py-2 text-textdata">Department</th>
+              <th className="px-4 py-2 text-textdata">Project Name</th>
+              <th className="px-4 py-2 text-textdata">Completed (%)</th>
             </tr>
           </thead>
           <tbody>
             {employeeData.map((employee) => (
               <tr key={employee.id} className="text-center hover:bg-[#1e1e2d78] cursor-pointer">
-                <td className="px-4 py-2">{employee.id}</td>
-                <td className="px-4 py-2">{employee.name}</td>
-                <td className="px-4 py-2">{employee.email}</td>
-                <td className={`px-4 py-2 font-semibold ${
+                <td className="px-4 py-2 text-textdata">{employee.id}</td>
+                <td className="px-4 py-2 text-textdata">{employee.name}</td>
+                <td className="px-4 py-2 text-textdata">{employee.email}</td>
+                <td className={`px-4 py-2 text-textdata font-semibold ${
                   employee.status === "Active" ? "text-green-500" : 
                   employee.status === "Inactive" ? "text-red-500" : 
                   "text-yellow-500"}`}>
                   {employee.status}
                 </td>
-                <td className="px-4 py-2">{employee.role}</td>
-                <td className="px-4 py-2">{employee.department}</td>
-                <td className="px-4 py-2">{employee.project}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-textdata">{employee.role}</td>
+                <td className="px-4 py-2 text-textdata">{employee.department}</td>
+                <td className="px-4 py-2 text-textdata">{employee.project}</td>
+                <td className="px-4 py-2 text-textdata">
                   <div className="w-32 bg-gray-300 rounded-full">
                     <div className="bg-green-500 text-xs font-medium text-white text-center p-1 rounded-full" style={{ width: `${employee.progress}%` }}>
                       {employee.progress}%

@@ -27,7 +27,14 @@ import PerformaceandAppraises from './components/MainComponent/HRManagement/Perf
 import SalaryManage from './components/MainComponent/HRManagement/SalaryManagement/SalaryManage';
 import DocumentCompletion from './components/MainComponent/HRManagement/DocumentCompletion/DocumentCompletion';
 import CustomerManageData from './components/MainComponent/CustomerManagement/CustomerManageData';
+import SalesProgressMange from './components/MainComponent/SalesProgressLeadManageData/SalesProgressMange';
+import SalesViewLeadData from './components/MainComponent/SalesProgressLeadManageData/SalesViewLeadData';
 import PrivateRoute from './PrivateRoute';
+import { LeadFollowList } from './components/MainComponent/MarketingManagement/LeadFollowList';
+import SalesManageData from './components/MainComponent/SalesManagement/SalesManageData';
+import ReportManageData from './components/MainComponent/ReportManagement/ReportManageData';
+import TodaysLeadReport from './components/MainComponent/ReportManagement/TodaysLeadReport';
+import LeadByStatusReport from './components/MainComponent/ReportManagement/LeadByStatusReport';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -44,7 +51,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Content />} />
           {/* <Route path="/marketing-management/leads" element={<MarketingManage />} /> */}
-          <Route path="/lead-management" element={<MarketingManage />} />
+          <Route path="/lead-management" element={<MarketingManage />} />
           <Route path="/marketing-management/assignment" element={<SalesPersonAssign />} />
           <Route path="/marketing-management/follow-up-form" element={<SalesPersonFollowUp />} />
           <Route path="/marketing-management/po-form" element={<SalePOForm />} />
@@ -57,11 +64,17 @@ function App() {
           <Route path="/hr/salary" element={<SalaryManage/> } />
           <Route path="/hr/document" element={<DocumentCompletion/>}/>
           <Route path="/role-management" element={<RoleManage />} />
+          <Route path="/report-management" element={<ReportManageData />} />
+          <Route path="/todayleadreport" element={<TodaysLeadReport />} />
+          <Route path="/statusleadreport" element={<LeadByStatusReport/>}/>
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>
+          <Route path="/sale-management" element={<SalesManageData/>}/>
           <Route path="/user-management" element={<UserManage />} />
           <Route path="/document-management" element={<DocumentManage />} />
           <Route path="/customer-requirement" element={<CustomerRequire />} />
+          <Route path="/lead-sales" element={<SalesProgressMange />} />
+          <Route path="/lead-sales/lead/:leadId" element={<SalesViewLeadData/>}/>
           <Route path="/settings" element={<SettingPage />} />
           <Route path="/audit-management" element={<AuditManage />} />
           <Route path="/quotation-creation" element={<QuotationManage />} />
@@ -69,6 +82,7 @@ function App() {
           <Route path="/quotation-creation/quotation-details" element={<QuotationData />} />
           <Route path="/customer-requirement/lead-generate" element={<LeadGenerate />} />
           <Route path="/demo" element={<Demo />} />
+          <Route path='/lead-followups/:leadId' element={<LeadFollowList/>} />
           {/* Add more protected routes here */}
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

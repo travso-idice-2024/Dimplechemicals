@@ -3,38 +3,44 @@ import { personsImgs } from "../utils/images";
 
 export const navigationLinks = [
   { id: 1, title: "Home", image: iconsImgs.home, path: "/dashboard" },
+  // {
+  //   id: 2,
+  //   title: "Department Management",
+  //   image: iconsImgs.department,
+  //   path: "/department-management",
+  // },
+  // {
+  //   id: 3,
+  //   title: "Role Management",
+  //   image: iconsImgs.role,
+  //   path: "/role-management",
+  // },
   {
     id: 2,
-    title: "Department Management",
-    image: iconsImgs.department,
-    path: "/department-management",
-  },
-  {
-    id: 3,
-    title: "Role Management",
-    image: iconsImgs.role,
-    path: "/role-management",
-  },
-  {
-    id: 4,
     title: "Employee Management",
     image: iconsImgs.employee,
     path: "/employee-management",
   },
   {
-    id: 5,
-    title: "Customer Management",
-    image: iconsImgs.department,
-    path: "/customer-management",
-  },
-  {
-    id: 6,
+    id: 3,
     title: "Lead Management",
     image: iconsImgs.lead,
     path: "/lead-management",
   },
   {
-    id: 7,
+    id: 4,
+    title: "Customer Management",
+    image: iconsImgs.department,
+    path: "/customer-management",
+  },
+  {
+    id: 5,
+    title: "Sales Management",
+    image: iconsImgs.assignment,
+    path: "/sale-management",
+  },
+  {
+    id: 6,
     title: "Marketing Management",
     image: iconsImgs.marketing,
     path: "/marketing-management",
@@ -46,19 +52,19 @@ export const navigationLinks = [
       //   path: "/marketing-management/leads",
       // },
       {
-        id: 7.1,
+        id: 6.1,
         title: "SalesPerson Assignment",
         image: iconsImgs.assignment,
         path: "/marketing-management/assignment",
       },
       {
-        id: 7.2,
+        id: 6.2,
         title: "Sales Follow-Up Form",
         image: iconsImgs.followupform,
         path: "/marketing-management/follow-up-form",
       },
       {
-        id: 7.3,
+        id: 6.3,
         title: "Sales PO Form",
         image: iconsImgs.poform,
         path: "/marketing-management/po-form",
@@ -66,7 +72,7 @@ export const navigationLinks = [
     ],
   },
   {
-    id: 8,
+    id: 7,
     title: "HR Management",
     image: iconsImgs.hr,
     path: "/hr",
@@ -78,55 +84,55 @@ export const navigationLinks = [
       //   path: "/hr/employee-management",
       // },
       {
-        id: 8.1,
+        id: 7.1,
         title: "Attendance Management",
         image: iconsImgs.assignment,
         path: "/hr/attandance",
       },
       {
-        id: 8.2,
+        id: 7.2,
         title: "Leave Mangement",
         image: iconsImgs.assignment,
         path: "/hr/leave",
       },
       {
-        id: 8.3,
+        id: 7.3,
         title: "Salary Management",
         image: iconsImgs.assignment,
         path: "/hr/salary",
       },
       {
-        id: 8.4,
+        id: 7.4,
         title: "Recruitment and Hiring",
         image: iconsImgs.assignment,
         path: "/hr/recruitment",
       },
       // {
-      //   id: 8.6,
+      //   id: 7.6,
       //   title: "Candidate Application",
       //   image: iconsImgs.assignment,
       //   path: "/hr/candidate",
       // },
       // {
-      //   id: 8.7,
+      //   id: 7.7,
       //   title: "Interview Scheduling",
       //   image: iconsImgs.assignment,
       //   path: "/hr/interview",
       // },
       {
-        id: 8.5,
+        id: 7.5,
         title: "Performance & Appraises",
         image: iconsImgs.assignment,
         path: "/hr/performance",
       },
       // {
-      //   id: 8.9,
+      //   id: 7.9,
       //   title: "Promotion & Increment",
       //   image: iconsImgs.assignment,
       //   path: "/hr/promotion",
       // },
       {
-        id: 8.6,
+        id: 7.6,
         title: "Documents & Compliance",
         image: iconsImgs.assignment,
         path: "/hr/document",
@@ -141,17 +147,7 @@ export const navigationLinks = [
       // { id: 3.4, title: 'Sales PO Form', image: iconsImgs.poform, path: '/marketing-management/po-form' }
     ],
   },
-  
-  
-  
-  
-  {
-    id: 9,
-    title: "Sales Management",
-    image: iconsImgs.assignment,
-    path: "/sale-management",
-  },
-  
+
   // {
   //   id: 6,
   //   title: "User Management",
@@ -165,10 +161,17 @@ export const navigationLinks = [
   //   path: "/customer-requirement",
   // },
   {
-    id: 10,
+    id: 8,
     title: "Report Management",
     image: iconsImgs.dmanage,
     path: "/report-management",
+  },
+
+  {
+    id: 9,
+    title: "Sales Lead Updation",
+    image: iconsImgs.assignment,
+    path: "/lead-sales",
   },
   // {
   //   id: 9,
@@ -197,7 +200,7 @@ export const navigationLinks = [
   // { id: 7, title: 'Savings', image: iconsImgs.wallet, path: '/savings' },
   // { id: 8, title: 'Financial Advice', image: iconsImgs.wealth, path: '/advice' },
   // { id: 9, title: 'Account', image: iconsImgs.user, path: '/account' },
-  { id: 11, title: "Settings", image: iconsImgs.gears, path: "/settings" },
+  { id: 10, title: "Settings", image: iconsImgs.gears, path: "/settings"},
 ];
 
 //------------ Own Data --------------//
