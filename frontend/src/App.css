@@ -25,7 +25,7 @@
   --clr-yellow: #fec80a;
   --clr-jet: #1e1e2d78;
   --clr-peach: #ffc397;
-  --font-family-bai: "Bai Jamjuree", sans-serif;
+  --font-family-bai: "Verdana", sans-serif;
   --transition-default: all 300ms ease-in-out;
 }
 
@@ -80,7 +80,7 @@ button {
 
 /* commons */
 .lg-value {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 600;
 }
 .grid-common {
@@ -104,7 +104,7 @@ button {
 .grid-c-title-text {
   font-weight: 500;
   color: var(--clr-silver);
-  font-size: 17px;
+  font-size: 15px;
 }
 .grid-c-title-icon img {
   width: 20px;

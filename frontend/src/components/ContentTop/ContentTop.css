@@ -18,14 +18,32 @@
 }
 .content-top-title {
   color: var(--clr-white);
-  font-size: 20px;
+  font-size: 16.5px;
   font-weight: 600;
 }
 .content-top-btn {
-  margin-left: 18px;
+  margin-left: 15px;
 }
 .content-top-btn img {
   width: 24px;
+}
+
+.bgdatacolornewsData{
+  border: 1px solid var(--clr-primar-light);
+  border-radius: 5px;
+  padding: 5px !important;
+}
+
+.bordernewdata{
+  border: 1px solid var(--clr-primar-light);
+}
+
+.content-top-btns {
+  margin-left: 15px;
+}
+.content-top-btns img {
+  /* width: 24px; */
+  border-radius: 100%;
 }
 .content-top-btn img:hover {
   filter: brightness(0) invert(1);

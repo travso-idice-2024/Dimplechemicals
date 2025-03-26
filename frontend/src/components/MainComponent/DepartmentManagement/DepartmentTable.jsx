@@ -58,11 +58,11 @@ const DepartmentTable = ({
     <table className="min-w-full table-auto">
       <thead>
         <tr className="bg-[#473b33] rounded-[8px]">
-          <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Department Name</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Description</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Status</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Department Name</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Description</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Status</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Action
           </th>
         </tr>
@@ -70,11 +70,11 @@ const DepartmentTable = ({
       <tbody>
         {Departments?.map((department, index) => (
           <tr key={index}>
-            <td className="px-4 py-2">{index + 1}</td>
-            <td className="px-4 py-2">{department.department_name}</td>
-            <td className="px-4 py-2">{department.department_description}</td>
-            <td className="px-4 py-2">{department.status}</td>
-            <td className="px-4 py-2 space-x-2">
+            <td className="px-4 py-2 text-textdata">{index + 1}</td>
+            <td className="px-4 py-2 text-textdata">{department.department_name}</td>
+            <td className="px-4 py-2 text-textdata">{department.department_description}</td>
+            <td className="px-4 py-2 text-textdata">{department.status}</td>
+            <td className="px-4 py-2 text-textdata space-x-2">
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                 onClick={() => {

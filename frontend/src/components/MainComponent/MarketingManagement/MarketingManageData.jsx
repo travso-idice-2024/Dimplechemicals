@@ -43,7 +43,7 @@ const MarketingManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const leadPerPage = 10;
+  const leadPerPage = 4;
 
   // Fetch departments whenever searchTerm or currentPage changes
   useEffect(() => {

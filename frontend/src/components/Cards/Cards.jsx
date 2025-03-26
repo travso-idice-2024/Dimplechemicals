@@ -24,7 +24,7 @@ ChartJS.register(
 
 const Cards = () => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-  const lead = [30, 45, 60, 20, 80, 70];
+  const lead = [20, 30, 45, 60, 70, 80];
   const conversion = ["30%", "50%", "60%", "50%", "10%", "30%"];
 
   const barData = {
@@ -87,6 +87,8 @@ const Cards = () => {
         });
       },
     },
+    barThickness: 50, // Fixing bar width
+    maxBarThickness: 50, // Maximum width allowed
   };
 
   return (
@@ -97,7 +99,7 @@ const Cards = () => {
           <img src={iconsImgs.plus} alt="Add" />
         </button>
       </div>
-      <p className="text-[14px] text-bgDataNew mt-6 mb-2">Monthly Leads and Conversion Rate</p>
+      {/* <p className="text-[14px] text-bgDataNew mt-6 mb-2">Monthly Leads and Conversion Rate</p> */}
       <div className="">
         <Bar data={barData} options={barOptions} />
       </div>

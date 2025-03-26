@@ -62,16 +62,16 @@ const CustomerTable = ({
     <table className="min-w-full table-auto">
       <thead>
         <tr className="bg-[#473b33] rounded-[8px]">
-          <th className="px-4 py-2 text-left text-bgDataNew"></th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Company Name</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Client Name </th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Email</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">location</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata"></th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Company Name</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Client Name </th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Email</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">location</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Phone Number
           </th>
-          <th className="px-4 py-2 text-left text-bgDataNew">
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Action
           </th>
           
@@ -80,14 +80,14 @@ const CustomerTable = ({
       <tbody>
         {customers?.map((user, index) => (
           <tr key={index}>
-            <td className="px-4 py-2"><input type="checkbox" className="w-4 h-4 accent-orange-500" /></td>
-            <td className="px-4 py-2">{index + 1}</td>
-            <td className="px-4 py-2">{user.company_name}</td>
-            <td className="px-4 py-2">{user.client_name}</td>
-            <td className="px-4 py-2">{user.email_id}</td>
-            <td className="px-4 py-2">{user.location}</td>
-            <td className="px-4 py-2">{user.primary_contact}</td>
-            <td className="px-4 py-2 space-x-2 text-center">
+            <td className="px-4 py-2 text-textdata"><input type="checkbox" className="w-4 h-4 accent-orange-500" /></td>
+            <td className="px-4 py-2 text-textdata">{index + 1}</td>
+            <td className="px-4 py-2 text-textdata">{user.company_name}</td>
+            <td className="px-4 py-2 text-textdata">{user.client_name}</td>
+            <td className="px-4 py-2 text-textdata">{user.email_id}</td>
+            <td className="px-4 py-2 text-textdata">{user.location}</td>
+            <td className="px-4 py-2 text-textdata">{user.primary_contact}</td>
+            <td className="px-4 py-2 text-textdata space-x-2 text-center">
             {/* <button
                 className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
                 onClick={() => {

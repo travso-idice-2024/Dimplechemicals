@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
+  const navigate = useNavigate();
   console.log("selectedLead",selectedLead);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
@@ -52,6 +54,12 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
             <p>{selectedLead?.assignedPerson?.fullname}</p>
           </div>
           <div className="flex items-end justify-end gap-2">
+          <button
+              className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+              onClick={() => navigate(`/lead-followups/${selectedLead?.id}`)}
+            >
+              View Follow
+            </button>
             <button
               className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => setViewModalOpen(false)}

@@ -59,19 +59,19 @@ const RoleTable = ({
       <table className="min-w-full table-auto">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-            <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-            <th className="px-4 py-2 text-left text-bgDataNew">Role</th>
-            <th className="px-4 py-2 text-left text-bgDataNew">Role Description</th>
-            <th className="px-4 py-2 text-left text-bgDataNew">Action</th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Role</th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Role Description</th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Action</th>
           </tr>
         </thead>
         <tbody>
           {Roles?.map((role, index) => (
             <tr key={index}>
-              <td className="px-4 py-2">{index+1}</td>
-              <td className="px-4 py-2">{role.role_name}</td>
-              <td className="px-4 py-2">{role.role_description}</td>
-              <td className="px-4 py-2 space-x-2">
+              <td className="px-4 py-2 text-textdata">{index+1}</td>
+              <td className="px-4 py-2 text-textdata">{role.role_name}</td>
+              <td className="px-4 py-2 text-textdata">{role.role_description}</td>
+              <td className="px-4 py-2 text-textdata space-x-2">
                 <button
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                   onClick={() => {

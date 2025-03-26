@@ -27,7 +27,7 @@ const Financial = () => {
         {financialAdvice.map((advice, index) => (
           <div key={index} className="flex items-start space-x-2">
             <span className="text-green-500 font-bold">✔</span>
-            <p className="text text-silver-v1">{advice}</p>
+            <p className="text text-silver-v1 text-textdata">{advice}</p>
                 </div>
         ))}
         </div>
