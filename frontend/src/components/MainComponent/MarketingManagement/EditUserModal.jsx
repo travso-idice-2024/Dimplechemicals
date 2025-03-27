@@ -136,10 +136,10 @@ const EditUserModal = ({
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               >
                 <option>Select the lead source</option>
-                <option value="New">Marketing</option>
-                <option value="InProgress">Sales</option>
-                <option value="Completed">Reference</option>
-                <option value="Direct">Direct</option>
+                <option value="Marketing">Marketing</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Reference">Reference</option>
+                  <option value="Direct">Direct</option>
               </select>
               {updateLeadFormErrors?.lead_source && (
                 <p className="text-red-500">

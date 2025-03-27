@@ -35,6 +35,7 @@ import SalesManageData from './components/MainComponent/SalesManagement/SalesMan
 import ReportManageData from './components/MainComponent/ReportManagement/ReportManageData';
 import TodaysLeadReport from './components/MainComponent/ReportManagement/TodaysLeadReport';
 import LeadByStatusReport from './components/MainComponent/ReportManagement/LeadByStatusReport';
+import LeadBySourceReport from './components/MainComponent/ReportManagement/LeadBySourceReport';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -67,6 +68,9 @@ function App() {
           <Route path="/report-management" element={<ReportManageData />} />
           <Route path="/todayleadreport" element={<TodaysLeadReport />} />
           <Route path="/statusleadreport" element={<LeadByStatusReport/>}/>
+          <Route path="/sourceleadreport" element={<LeadBySourceReport/>} />
+
+
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>
           <Route path="/sale-management" element={<SalesManageData/>}/>

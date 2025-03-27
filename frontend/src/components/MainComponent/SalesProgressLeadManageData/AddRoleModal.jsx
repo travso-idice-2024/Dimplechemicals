@@ -56,10 +56,10 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]">
               <option>Select the Source</option>
-              <option value="">Marketing</option>
-              <option value="">Sales</option>
-              <option value="">Reference</option>
-              <option value="">Direct</option>
+              <option value="Marketing">Marketing</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Reference">Reference</option>
+                  <option value="Direct">Direct</option>
             </select>
           </div>
 
