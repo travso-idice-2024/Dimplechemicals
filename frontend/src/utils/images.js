@@ -29,7 +29,7 @@ import quotation from "../assets/icons/quotation.svg";
 import employee from "../assets/icons/employee.svg";
 import role from "../assets/icons/role.svg";
 import department from "../assets/icons/department.svg";
-import marketing from "../assets/icons/marketing.svg";
+import marketing from "../assets/icons/Marketing.svg";
 import lead from "../assets/icons/lead.svg";
 import assignment from "../assets/icons/assignment.svg";
 import poform from "../assets/icons/poform.svg";

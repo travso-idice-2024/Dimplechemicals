@@ -1,4 +1,4 @@
-import "../../MainCSSFile.css";
+import "../../MainCssFile.css";
 import ContentTop from '../../../components/ContentTop/ContentTop';
 import MarketingManageData from "../../../components/MainComponent/MarketingManagement/MarketingManageData";
 
