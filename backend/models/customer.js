@@ -69,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Customer',
-    tableName: "Customers",
+    tableName: "customers",
     timestamps: true, // Includes createdAt and updatedAt automatically
   });
   return Customer;

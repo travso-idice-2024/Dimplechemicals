@@ -2,7 +2,7 @@ import { iconsImgs } from "../utils/images";
 import { personsImgs } from "../utils/images";
 
 export const navigationLinks = [
-  { id: 1, title: "Home", image: iconsImgs.home, path: "/dashboard" },
+  { id: 1, title: "DashBoard", image: iconsImgs.home, path: "/dashboard" },
   // {
   //   id: 2,
   //   title: "Department Management",
@@ -38,6 +38,34 @@ export const navigationLinks = [
     title: "Sales Management",
     image: iconsImgs.assignment,
     path: "/sale-management",
+    submenu: [
+      {
+        id: 5.1,
+        title: "Plan of Action for Day",
+        image: iconsImgs.followupform,
+        path: "/sale-management/plan-of-action-for-day",
+      },
+      {
+        id: 5.2,
+        title: "Leads ManageMent",
+        image: iconsImgs.lead,
+        path: "/sale-management/leads",
+        submenu: [
+          {
+            id: "5.2.1",
+            title: "SalesPerson Assignment",
+            image: iconsImgs.assignment,
+            path: "/sale-management/leads/assignment",
+          },
+          {
+            id: "5.2.2",
+            title: "PO Form for Deal Finalization",
+            image: iconsImgs.poform,
+            path: "/sale-management/leads/po-form",
+          },
+        ],
+      },
+    ],
   },
   {
     id: 6,
@@ -45,31 +73,45 @@ export const navigationLinks = [
     image: iconsImgs.marketing,
     path: "/marketing-management",
     submenu: [
-      // {
-      //   id: 2.1,
-      //   title: "Leads Manage",
-      //   image: iconsImgs.lead,
-      //   path: "/marketing-management/leads",
-      // },
       {
         id: 6.1,
-        title: "SalesPerson Assignment",
-        image: iconsImgs.assignment,
-        path: "/marketing-management/assignment",
+        title: "Leads Management",
+        image: iconsImgs.followupform,
+        path: "/marketing-management/lead-management",
       },
       {
         id: 6.2,
-        title: "Sales Follow-Up Form",
+        title: "Leads via Sources",
         image: iconsImgs.followupform,
-        path: "/marketing-management/follow-up-form",
+        path: "/marketing-management/lead-via-source",
       },
       {
         id: 6.3,
-        title: "Sales PO Form",
-        image: iconsImgs.poform,
-        path: "/marketing-management/po-form",
+        title: "Budget Analysis",
+        image: iconsImgs.followupform,
+        path: "/marketing-management/budget-analysis",
       },
-    ],
+      {
+        id: 6.4,
+        title: "Other Marketing",
+        image: iconsImgs.followupform,
+        path: "/marketing-management/other-like",
+        submenu: [
+          {
+            id: "6.4.1",
+            title: "Newspaper Ad",
+            image: iconsImgs.followupform,
+            path: "/marketing-management/other-like/newspaper-ad",
+          },
+          {
+            id: "6.4.2",
+            title: "Flyers",
+            image: iconsImgs.followupform,
+            path: "/marketing-management/other-like/flyers",
+          },
+        ]
+      },
+    ]
   },
   {
     id: 7,
@@ -77,36 +119,42 @@ export const navigationLinks = [
     image: iconsImgs.hr,
     path: "/hr",
     submenu: [
-      // {
-      //   id: 3.1,
-      //   title: "Employee Management",
-      //   image: iconsImgs.employee,
-      //   path: "/hr/employee-management",
-      // },
       {
         id: 7.1,
-        title: "Attendance Management",
-        image: iconsImgs.assignment,
-        path: "/hr/attandance",
+        title: "Employee Details",
+        image: iconsImgs.employee,
+        path: "/hr/employee-details",
       },
       {
         id: 7.2,
-        title: "Leave Mangement",
+        title: "Attendance Sheet",
         image: iconsImgs.assignment,
-        path: "/hr/leave",
+        path: "/hr/attandance-sheet",
       },
-      {
-        id: 7.3,
-        title: "Salary Management",
-        image: iconsImgs.assignment,
-        path: "/hr/salary",
-      },
-      {
-        id: 7.4,
-        title: "Recruitment and Hiring",
-        image: iconsImgs.assignment,
-        path: "/hr/recruitment",
-      },
+      // {
+      //   id: 7.1,
+      //   title: "Attendance Management",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/attandance",
+      // },
+      // {
+      //   id: 7.2,
+      //   title: "Leave Mangement",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/leave",
+      // },
+      // {
+      //   id: 7.3,
+      //   title: "Salary Management",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/salary",
+      // },
+      // {
+      //   id: 7.4,
+      //   title: "Recruitment and Hiring",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/recruitment",
+      // },
       // {
       //   id: 7.6,
       //   title: "Candidate Application",
@@ -119,24 +167,24 @@ export const navigationLinks = [
       //   image: iconsImgs.assignment,
       //   path: "/hr/interview",
       // },
-      {
-        id: 7.5,
-        title: "Performance & Appraises",
-        image: iconsImgs.assignment,
-        path: "/hr/performance",
-      },
+      // {
+      //   id: 7.5,
+      //   title: "Performance & Appraises",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/performance",
+      // },
       // {
       //   id: 7.9,
       //   title: "Promotion & Increment",
       //   image: iconsImgs.assignment,
       //   path: "/hr/promotion",
       // },
-      {
-        id: 7.6,
-        title: "Documents & Compliance",
-        image: iconsImgs.assignment,
-        path: "/hr/document",
-      },
+      // {
+      //   id: 7.6,
+      //   title: "Documents & Compliance",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/document",
+      // },
       // {
       //   id: 4.1,
       //   title: "Exit & Offboarding",
@@ -191,7 +239,7 @@ export const navigationLinks = [
   //   image: iconsImgs.quotation,
   //   path: "/audit-management",
   // },
-  
+
   // { id: 3, title: 'Budget', image: iconsImgs.budget, path: '/budget'},
   // { id: 4, title: 'Transactions', image: iconsImgs.plane, path: '/transactions' },
   // { id: 4, title: 'Subscriptions', image: iconsImgs.wallet, path: '/subscriptions' },
@@ -200,7 +248,7 @@ export const navigationLinks = [
   // { id: 7, title: 'Savings', image: iconsImgs.wallet, path: '/savings' },
   // { id: 8, title: 'Financial Advice', image: iconsImgs.wealth, path: '/advice' },
   // { id: 9, title: 'Account', image: iconsImgs.user, path: '/account' },
-  { id: 10, title: "Settings", image: iconsImgs.gears, path: "/settings"},
+  { id: 10, title: "Settings", image: iconsImgs.gears, path: "/settings" },
 ];
 
 //------------ Own Data --------------//
@@ -771,6 +819,6 @@ export const savings = [
     saving_amount: 250000,
     title: "Amit Kashayap",
     date_taken: "23/12/22",
-    amount_left:0,
+    amount_left: 0,
   },
 ];

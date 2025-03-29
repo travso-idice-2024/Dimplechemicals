@@ -222,12 +222,12 @@ export const todaysLeadReport = createAsyncThunk(
 //lead by status
 export const AllLeadsData = createAsyncThunk(
   "auth/all-leads",
-  async ({search = "",lead_status="", lead_source="", start_date="", end_date="" ,leadOwner="" }, { rejectWithValue }) => {
+  async ({search = "",lead_status="", lead_source="", start_date="", end_date="" ,leadOwner="" ,customer=""}, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/all-leads`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: {search ,lead_status,lead_source,start_date,end_date,leadOwner},
+        params: {search ,lead_status,lead_source,start_date,end_date,leadOwner,customer},
       });
       return response.data;
     } catch (leadError) {

@@ -31,11 +31,14 @@ import SalesProgressMange from './components/MainComponent/SalesProgressLeadMana
 import SalesViewLeadData from './components/MainComponent/SalesProgressLeadManageData/SalesViewLeadData';
 import PrivateRoute from './PrivateRoute';
 import { LeadFollowList } from './components/MainComponent/MarketingManagement/LeadFollowList';
-import SalesManageData from './components/MainComponent/SalesManagement/SalesManageData';
 import ReportManageData from './components/MainComponent/ReportManagement/ReportManageData';
 import TodaysLeadReport from './components/MainComponent/ReportManagement/TodaysLeadReport';
 import LeadByStatusReport from './components/MainComponent/ReportManagement/LeadByStatusReport';
 import LeadBySourceReport from './components/MainComponent/ReportManagement/LeadBySourceReport';
+import LeadByOwnershipReport from './components/MainComponent/ReportManagement/LeadByOwnershipReport';
+import AttendanceSheetData from './components/MainComponent/HRManagement/AttendanceSheet/AttendanceSheetData';
+import MarketingManageData from './components/MainComponent/MarketingManagement/MarketingManageData';
+import LeadByIndustryReport from './components/MainComponent/ReportManagement/LeadByIndustryReport';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -51,17 +54,19 @@ function App() {
           {/* Protect private routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Content />} />
-          {/* <Route path="/marketing-management/leads" element={<MarketingManage />} /> */}
+          <Route path="/marketing-management/lead-management" element={<MarketingManage />} />
           <Route path="/lead-management" element={<MarketingManage />} />
-          <Route path="/marketing-management/assignment" element={<SalesPersonAssign />} />
-          <Route path="/marketing-management/follow-up-form" element={<SalesPersonFollowUp />} />
-          <Route path="/marketing-management/po-form" element={<SalePOForm />} />
+          <Route path="/sale-management/leads/assignment" element={<SalesPersonAssign />} />
+          <Route path="/sale-management/plan-of-action-for-day" element={<SalesPersonFollowUp />} />
+          <Route path="/sale-management/leads/po-form" element={<SalePOForm />} />
           <Route path="/employee-management" element={<EmployeeManage />} />
           <Route path="/hr/attandance" element={<Attandance/>} /> 
           <Route path="/hr/leave" element={<LeaveManage/>} /> 
           <Route path="/hr/recruitment" element={<RecruiterHiring/>} />
           <Route path="/hr/performance" element={<PerformaceandAppraises/>
           } />
+          <Route path="/hr/employee-details" element={<EmployeeManage />} />
+          <Route path="/hr/attandance-sheet" element={<AttendanceSheetData />} />
           <Route path="/hr/salary" element={<SalaryManage/> } />
           <Route path="/hr/document" element={<DocumentCompletion/>}/>
           <Route path="/role-management" element={<RoleManage />} />
@@ -69,11 +74,12 @@ function App() {
           <Route path="/todayleadreport" element={<TodaysLeadReport />} />
           <Route path="/statusleadreport" element={<LeadByStatusReport/>}/>
           <Route path="/sourceleadreport" element={<LeadBySourceReport/>} />
-
-
+          <Route path="/ownershipleadreport" element={<LeadByOwnershipReport />} />
+          <Route path="/industryleadreport" element= {<LeadByIndustryReport/>} />
+          
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>
-          <Route path="/sale-management" element={<SalesManageData/>}/>
+          <Route path="/marketing-management" element={<MarketingManageData/>}/>
           <Route path="/user-management" element={<UserManage />} />
           <Route path="/document-management" element={<DocumentManage />} />
           <Route path="/customer-requirement" element={<CustomerRequire />} />

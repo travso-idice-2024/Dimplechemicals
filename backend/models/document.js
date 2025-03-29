@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Document',
-      tableName: 'Documents', // Explicitly specify table name if needed
+      tableName: 'documents', // Explicitly specify table name if needed
       timestamps: true // Ensures createdAt & updatedAt are automatically managed
     }
   );

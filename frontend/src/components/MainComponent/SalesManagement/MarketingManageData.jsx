@@ -1,8 +1,8 @@
 import React from "react";
-import "./SalesManageData.css";
+import "./MarketingManageData.css";
 import ContentTop from "../../ContentTop/ContentTop";
 
-const SalesManageData = () => {
+const MarketingManageData = () => {
 
   return (
     <div className="main-content">
@@ -12,7 +12,7 @@ const SalesManageData = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-white text-[18px] font-semibold">
-                Sales Management
+                Marketing Management
               </h1>
             </div>
             <div className="flex items-center gap-[5px]">
@@ -61,4 +61,4 @@ const SalesManageData = () => {
   );
 };
 
-export default SalesManageData;
+export default MarketingManageData;

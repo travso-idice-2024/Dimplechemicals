@@ -611,7 +611,7 @@ const exportTodaysLeadsToExcel = async (req, res) => {
 const getAllLeads = async (req, res) => {
   try {
    
-    const { search = "", lead_status, lead_source, start_date, end_date ,leadOwner} = req.query;
+    const { search = "", lead_status, lead_source, start_date, end_date ,leadOwner, customer} = req.query;
 
     let whereCondition = {};
 
@@ -633,9 +633,13 @@ const getAllLeads = async (req, res) => {
       whereCondition.assign_date = { [Op.lte]: end_date }; // Less than or equal to end_date
     }
 
-      let leadOwnerCondition = {};
+     // let leadOwnerCondition = {};
       if (leadOwner) {
-        leadOwnerCondition.fullname = { [Op.like]: `%${leadOwner}%` };
+        whereCondition.lead_owner_id  = leadOwner;
+      }
+
+      if (customer) {
+        whereCondition.customer_id   = customer;
       }
 
     if (search) {
@@ -655,7 +659,7 @@ const getAllLeads = async (req, res) => {
         {
           model: Customer,
           as: "customer",
-          attributes: ["company_name","address"],
+          attributes: ["company_name","address","email_id","primary_contact"],
         },
         {
           model: User,
@@ -689,7 +693,7 @@ const getAllLeads = async (req, res) => {
 
 const exportLeadsToExcel = async (req, res) => {
   try {
-    const { search = "", lead_status="", lead_source="", start_date="", end_date="", leadOwner="" } = req.query;
+    const { search = "", lead_status="", lead_source="", start_date="", end_date="", leadOwner="", customer="" } = req.query;
 
     let whereCondition = {};
 
@@ -711,9 +715,12 @@ const exportLeadsToExcel = async (req, res) => {
       whereCondition.assign_date = { [Op.lte]: end_date };
     }
 
-    let leadOwnerCondition = {};
     if (leadOwner) {
-      leadOwnerCondition.fullname = { [Op.like]: `%${leadOwner}%` };
+      whereCondition.lead_owner_id  = leadOwner;
+    }
+
+    if (customer) {
+      whereCondition.customer_id   = customer;
     }
 
     if (search) {

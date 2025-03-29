@@ -141,32 +141,32 @@ const SalesProgressMange = () => {
                 {allLeadsCount?.assignedLeadsCount}
               </span>
             </div>
-            <h2 className="text-xl font-semibold">Assigned Lead</h2>
-            <p className="text-lg">{userDeatail?.fullname}</p>
+            <h2 className="text-textdata font-semibold">Assigned Lead</h2>
+            <p className="text-[12px]">{userDeatail?.fullname}</p>
           </div>
           <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
             <FontAwesomeIcon
               icon={faDollarSign}
               className="text-4xl text-bgDataNew mb-2"
             />
-            <h2 className="text-xl font-semibold">Total Sales</h2>
-            <p className="text-lg">₹1,25,000</p>
+            <h2 className="text-textdata font-semibold">Total Sales</h2>
+            <p className="text-[12px]">₹1,25,000</p>
           </div>
           <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
             <FontAwesomeIcon
               icon={faPhone}
               className="text-4xl text-bgDataNew mb-2"
             />
-            <h2 className="text-xl font-semibold">Pending Follow-Ups</h2>
-            <p className="text-lg">5 Clients</p>
+            <h2 className="text-textdata font-semibold">Pending Follow-Ups</h2>
+            <p className="text-[12px]">5 Clients</p>
           </div>
           <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
             <FontAwesomeIcon
               icon={faHandshake}
               className="text-4xl text-bgDataNew mb-2"
             />
-            <h2 className="text-xl font-semibold">Closed Deals</h2>
-            <p className="text-lg">3 Successful Sales</p>
+            <h2 className="text-textdata font-semibold">Closed Deals</h2>
+            <p className="text-[12px]">3 Successful Sales</p>
           </div>
         </div>
       </div>
