@@ -115,7 +115,7 @@ const Notification = () => {
       </div>
       <div className="mb-4">
         <div className="flex flex-col">
-          <h3 className="text-left font-poppins font-semibold text-[15px] md:text-[18px] text-white">
+          <h3 className="text-left font-poppins font-semibold text-[15px] md:text-textdata text-white">
             Notification Settings
           </h3>
           <div className="flex items-center justify-between mt-5">
@@ -149,7 +149,7 @@ const Notification = () => {
         <div className="flex flex-col gap-[24px] mt-8">
           {sections.map((section) => (
             <div key={section.title} className="flex flex-col gap-[10px]">
-              <h5 className="text-left font-poppins font-semibold text-[15px] md:text-[17px] text-white">
+              <h5 className="text-left font-poppins font-semibold text-[12px] md:text-[14px] text-white">
                 {section.title}
               </h5>
               <div className="flex flex-col gap-[8px]">
@@ -175,7 +175,7 @@ const Notification = () => {
                         }`}
                       ></div>
                     </div>
-                    <span className="font-inter font-medium text-[12px] md:text-[15px] text-white">
+                    <span className="font-inter font-medium text-[12px] md:text-[13px] text-white">
                       {option}
                     </span>
                   </label>

@@ -1,38 +1,99 @@
-import { iconsImgs } from "../../utils/images"
-
-
-const financialAdvice = [
-  "Apni income ka 20% savings aur investments me lagayein.",
-  "Emergency ke liye hamesha 6 mahine ka expense alag rakhein.",
-  "Debt-free hone ki koshish karein aur unnecessary loans na lein.",
-  "Har mahine budget banayein aur uska palan karein.",
-  "Mutual funds aur stocks me invest karne se pehle research karein.",
-  "Credit card ka istemal sirf zaroorat ke waqt karein aur time par bill chukayein.",
-  "Retirement planning jaldi shuru karein taki financial freedom mile.",
-  "Apni income badhane ke naye tareeke khojein jaise freelancing ya side business.",
-  "Medical insurance lene se future financial burden se bach sakte hain.",
-  "Fixed Deposits aur Recurring Deposits bhi ek safe investment option hain.",
-];
+import React, { useState } from "react";
+import ReactApexChart from "react-apexcharts";
+import { iconsImgs } from "../../utils/images";
+import "./Financial.css"
 
 const Financial = () => {
+  const colors = [
+    "#e2dc1b",
+    "#ed0b1e",
+    "#e8dcdd",
+    "#e29198",
+    "#14a01e",
+  ];
+
+  const [chartData] = useState({
+    series: [
+      {
+        data: [50, 20, 40, 5, 25],
+      },
+    ],
+    options: {
+      chart: {
+        height: 350,
+        type: "bar",
+        events: {
+          click: function (chart, w, e) {
+            // console.log(chart, w, e)
+          },
+        },
+      },
+      colors: colors,
+      plotOptions: {
+        bar: {
+          columnWidth: "50%",
+          distributed: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      xaxis: {
+        categories: [
+          ["Cold"],
+          ["Hot"],
+          ["Lost"],
+          ["On Hold"],
+          ["Warm"],
+        ],
+        labels: {
+          style: {
+            colors: "#fff", 
+            fontSize: "14px",
+          },
+        },
+      },
+      yaxis: {
+        min: 0,
+        max: 50,
+        tickAmount: 10,
+        labels: {
+          style: {
+            colors: "#ffffff", // Makes Y-axis labels white
+            fontSize: "12px",
+          },
+        },
+      },
+      tooltip: {
+        theme: "dark", // This will make the tooltip background black
+      },
+    },
+  });
+
   return (
     <div className="subgrid-two-item grid-common grid-c8 flex flex-col justify-between">
-        <div className="grid-c-title">
-            <h3 className="grid-c-title-text">Financial Advice</h3>
-            <button className="grid-c-title-icon">
-                <img src={ iconsImgs.plus } />
-            </button>
+      <div className="grid-c-title">
+        <h3 className="grid-c-title-text">Lead Analysis Graph</h3>
+        <button className="grid-c-title-icon">
+          <img src={iconsImgs.plus} alt="plus-icon" />
+        </button>
+      </div>
+      <div className="grid-c8-content">
+        <div id="chart">
+          <ReactApexChart
+            options={chartData.options}
+            series={chartData.series}
+            type="bar"
+            height={350}
+          />
         </div>
-        <div className="grid-c8-content">
-        {financialAdvice.map((advice, index) => (
-          <div key={index} className="flex items-start space-x-2">
-            <span className="text-green-500 font-bold">✔</span>
-            <p className="text text-silver-v1 text-textdata">{advice}</p>
-                </div>
-        ))}
-        </div>
+        <div id="html-dist"></div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Financial
+export default Financial;

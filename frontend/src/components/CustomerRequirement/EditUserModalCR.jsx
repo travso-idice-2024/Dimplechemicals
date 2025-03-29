@@ -9,7 +9,7 @@ const EditUserModalCR = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Edit Requirement
         </h2>
 
@@ -17,7 +17,7 @@ const EditUserModalCR = ({
 
           <div className="flex items-center gap-2">
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Full Name :
             </label>
             <input
@@ -30,7 +30,7 @@ const EditUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Email :
             </label>
             <input
@@ -46,7 +46,7 @@ const EditUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Title :
             </label>
             <input
@@ -59,7 +59,7 @@ const EditUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Requirement :
             </label>
             <textarea
@@ -72,7 +72,7 @@ const EditUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Contact :
             </label>
             <input
@@ -87,7 +87,7 @@ const EditUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Status :
             </label>
             <select

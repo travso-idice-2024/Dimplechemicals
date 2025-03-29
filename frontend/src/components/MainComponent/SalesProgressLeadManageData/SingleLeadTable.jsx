@@ -61,7 +61,7 @@ const SingleLeadTable = ({setLeadStatusProgress, LeadSingleData}) => {
 
   return (
     <div className="bg-white w-full pt-0 pb-4 rounded-[6px] flex flex-col">
-      <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <h2 className="text-white text-textdata font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
         Lead Details
       </h2>
       <div className="mt-5 md:mt-6 px-6 grid grid-cols-1 md:grid-cols-3 gap-3 overflow-y-auto h-fit text-black">
@@ -88,10 +88,10 @@ const SingleLeadTable = ({setLeadStatusProgress, LeadSingleData}) => {
 // Reusable component for displaying details
 const Detail = ({ label, value }) => (
   <div className="flex items-center gap-3">
-    <label className="font-poppins font-semibold text-[18px] text-bgData">
+    <label className="font-poppins font-semibold text-textdata text-bgData">
       {label}
     </label>
-    <p className="font-poppins font-semibold text-[18px]">:</p>
+    <p className="font-poppins font-semibold text-textdata">:</p>
     <p>{value}</p>
   </div>
 );

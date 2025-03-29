@@ -10,13 +10,13 @@ const QuotationAddForm = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Quotation
         </h2>
         <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2">
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Project Name :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Project Name :
             </label>
             <input
               type="text"
@@ -30,8 +30,8 @@ const QuotationAddForm = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Cost :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Cost :
             </label>
             <input
               type="number"
@@ -45,8 +45,8 @@ const QuotationAddForm = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Start and End Date :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Start and End Date :
             </label>
             <div className="flex gap-2">
               <input
@@ -73,8 +73,8 @@ const QuotationAddForm = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Services Offered by Us :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Services Offered by Us :
             </label>
             <textarea
               type="text"

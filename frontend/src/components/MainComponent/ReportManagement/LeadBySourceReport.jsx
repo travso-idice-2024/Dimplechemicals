@@ -115,7 +115,7 @@ const LeadBySourceReport = () => {
               </h1>
               {/* <input
               type="search"
-              className="border border-[#473b33] bg-transparent px-3 py-[0.25rem] text-white outline-none"
+              className="border border-[#473b33] bg-transparent px-3 py-[0.15rem] text-white outline-none"
               placeholder="Search"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -141,7 +141,7 @@ const LeadBySourceReport = () => {
               <div>
                 <input
                   type="search"
-                  className="relative m-0 block text-textdata w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                  className="relative m-0 block text-textdata w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={handleSearchChange}

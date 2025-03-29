@@ -16,14 +16,14 @@ const AuditManageUserModal = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Fill The NC Form
         </h2>
 
         <div className="mt-5 md:mt-7 px-4 flex flex-col gap-2">
           <div className="w-full flex items-center gap-4">
             <div className="w-full">
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 NC Form Description :
               </label>
               <textarea
@@ -36,7 +36,7 @@ const AuditManageUserModal = ({
             </div>
 
             <div className="w-full">
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 Action Plan :
               </label>
               <textarea
@@ -92,7 +92,7 @@ const AuditManageUserModal = ({
             </div>
 
             <div className="w-full">
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 Due Date :
               </label>
               <input
@@ -112,7 +112,7 @@ const AuditManageUserModal = ({
               onChange={handleDigitalSignatureChange}
               className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
             />
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Digital Signature (Client Approval) :
             </label>
           </div> */}

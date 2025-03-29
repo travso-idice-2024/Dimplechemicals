@@ -141,16 +141,16 @@ const EditProfile = () => {
     <div className="navigationData">
       <form className="flex flex-col items-center" onSubmit={handleSubmit}>
         <div className="text-center mb-5">
-          <h2 className="font-poppins text-[15px] md:text-[23px] font-semibold text-white">
+          <h2 className="font-poppins text-[15px] md:text-[19px] font-semibold text-white">
             Profile Setup
           </h2>
-          <p className="font-inter font-medium text-[10px] md:text-[18px] text-white">
+          <p className="font-inter font-medium text-[10px] md:text-textdata text-white">
             Fill important details to Update Profile
           </p>
         </div>
         {/* Profile Photo and Badge */}
         {/* Profile Photo Section */}
-        <div className="mb-3 relative w-[100px] h-[100px] md:w-[160px] md:h-[160px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
+        <div className="mb-3 relative w-[100px] h-[100px] md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
           {profilePhoto ? (
             <img
               src={profilePhoto}
@@ -165,7 +165,7 @@ const EditProfile = () => {
                 alt="Placeholder"
                 className="md:w-8 md:h-8 w-4 h-4 mb-1"
               />
-              <span className="font-inter font-medium text-[12px] md:text-[16px] text-[#869E9D] text-center">
+              <span className="font-inter font-medium text-[10px] md:text-[12px] text-[#869E9D] text-center">
                 Upload <br />
                 Profile Photo
               </span>
@@ -175,14 +175,14 @@ const EditProfile = () => {
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center gap-1 md:gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
             <label
               htmlFor="profile-upload"
-              className="bg-[#fe6c00] text-white p-[4px] md:py-2 md:px-4 rounded-[5px] cursor-pointer text-[14px]"
+              className="bg-[#fe6c00] text-white p-[2px] md:py-2 md:px-2 rounded-[5px] cursor-pointer text-[13px]"
             >
               Upload
             </label>
             <button
               type="button"
               onClick={handleRemoveProfilePhoto}
-              className="bg-red-500 text-white p-[4px] md:py-2 md:px-4 rounded-[5px] text-[14px] cursor-pointer"
+              className="bg-red-500 text-white p-[2px] md:py-2 md:px-2 rounded-[5px] text-[13px] cursor-pointer"
             >
               Remove
             </button>
@@ -198,7 +198,7 @@ const EditProfile = () => {
         <div className="w-full px-4 grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
           {/* Full Name */}
           <div>
-            <label className="text-left font-inter block text-white mb-1 text-[16px] font-medium">
+            <label className="text-left font-inter block text-white mb-1 text-[14px] font-medium">
               Full Name
             </label>
             <input
@@ -207,13 +207,13 @@ const EditProfile = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
-              className="rounded-[5px] text-black px-4 py-2 w-full h-[45px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[16px]"
+              className="rounded-[5px] text-black px-4 py-2 w-full h-[45px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[14px]"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="text-left font-inter block text-white mb-1 text-[16px] font-medium">
+            <label className="text-left font-inter block text-white mb-1 text-[14px] font-medium">
               Email
             </label>
             <input
@@ -222,13 +222,13 @@ const EditProfile = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="rounded-[5px] text-black px-4 py-2 w-full h-[45px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[16px]"
+              className="rounded-[5px] text-black px-4 py-2 w-full h-[45px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[14px]"
             />
           </div>
 
           {/* Phone Number */}
           <div>
-            <label className="text-left font-inter block text-white mb-1 text-[16px] font-medium">
+            <label className="text-left font-inter block text-white mb-1 text-[14px] font-medium">
               Phone No.
             </label>
             <input
@@ -237,13 +237,13 @@ const EditProfile = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="rounded-[5px] text-black px-4 py-2 w-full h-[45px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[16px]"
+              className="rounded-[5px] text-black px-4 py-2 w-full h-[45px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[14px]"
             />
           </div>
 
           {/* Gender */}
           <div>
-            <label className="text-left font-inter block text-white mb-1 text-[16px] font-medium">
+            <label className="text-left font-inter block text-white mb-1 text-[14px] font-medium">
               Gender
             </label>
             <Select
@@ -334,7 +334,7 @@ const EditProfile = () => {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-black font-sans w-full p-2 h-[45px] bg-[#F0F7F7] border border-[#F0F7F7] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-[#F0F7F7] placeholder:font-sans placeholder:font-normal placeholder:text-customBlack placeholder:text-[16px]"
+                className="w-full text-black font-sans w-full p-2 h-[45px] bg-[#F0F7F7] border border-[#F0F7F7] rounded-[5px] focus:outline-none focus:ring-2 focus:ring-[#F0F7F7] placeholder:font-sans placeholder:font-normal placeholder:text-customBlack placeholder:text-[14px]"
               />
               <div
                 className="absolute top-2/4 right-4 transform -translate-y-2/4 cursor-pointer text-gray-500"
@@ -386,7 +386,7 @@ const EditProfile = () => {
         </div>
         {/* Description */}
         <div className="mb-6 w-full px-4">
-          <label className="text-left text-white font-inter block text-[#000000] mb-1 text-[16px] font-medium">
+          <label className="text-left text-white font-inter block text-[#000000] mb-1 text-[14px] font-medium">
             Description
           </label>
           <textarea
@@ -394,13 +394,13 @@ const EditProfile = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="rounded-[5px] text-black px-4 py-2 w-full h-[132px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[16px]"
+            className="rounded-[5px] text-black px-4 py-2 w-full h-[132px] focus:outline-none focus:ring-2 focus:ring-[#fe6c00] bg-[#F0F7F7] placeholder:text-[#869E9D] placeholder:font-inter placeholder:font-medium placeholder:text-[14px]"
           ></textarea>
         </div>
         {/* Submit Button */}
         <button
           type="submit"
-          className="mt-4 w-[150px] h-[45px] bg-[#fe6c00] text-white py-3 px-4 rounded-[5px] hover:bg-[#fe6c00] transition text-[16px] font-bold font-poppins"
+          className="mt-4 w-[150px] h-[45px] bg-[#fe6c00] text-white py-3 px-4 rounded-[5px] hover:bg-[#fe6c00] transition text-[14px] font-bold font-poppins"
         >
           Update Data
         </button>

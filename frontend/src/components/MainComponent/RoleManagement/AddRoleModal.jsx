@@ -92,13 +92,13 @@ const AddRoleModal = ({
     </div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
         <div className="bg-white w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-          <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+          <h2 className="text-white text-textdata font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Role
           </h2>
           <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2">
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Role Name:
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Role Name:
               </label>
               <input
                 type="text"
@@ -114,8 +114,8 @@ const AddRoleModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Role Description:
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Role Description:
               </label>
               <textarea
                 name="role_description"

@@ -17,34 +17,33 @@ import {
   faHandshake,
 } from "@fortawesome/free-solid-svg-icons";
 
-import {fetchCurrentUser} from "../../../redux/authSlice";
-import {todaysAssignedLeadsCount,todaysLead} from "../../../redux/leadSlice";
-
+import { fetchCurrentUser } from "../../../redux/authSlice";
+import { todaysAssignedLeadsCount, todaysLead } from "../../../redux/leadSlice";
 
 const SalesProgressMange = () => {
-  
   const dispatch = useDispatch();
-  const {user:userDeatail}  = useSelector((state) => state.auth);
-  const {allLeadsCount,salesPersonleads,totalPages} = useSelector((state) => state.lead);
+  const { user: userDeatail } = useSelector((state) => state.auth);
+  const { allLeadsCount, salesPersonleads, totalPages } = useSelector(
+    (state) => state.lead
+  );
 
   //console.log("salesPersonleads", salesPersonleads?.data);
-   // Pagination & Search States
-    const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const leadPerPage = 10;
+  // Pagination & Search States
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const leadPerPage = 10;
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchCurrentUser());
     dispatch(todaysAssignedLeadsCount());
-    dispatch(todaysLead({  page: currentPage,
-      limit: leadPerPage,
-      search: searchTerm}));
+    dispatch(
+      todaysLead({ page: currentPage, limit: leadPerPage, search: searchTerm })
+    );
     // eslint-disable-next-line
-  },[dispatch,currentPage, searchTerm]);
+  }, [dispatch, currentPage, searchTerm]);
 
-
-   // Handle search input change
-   const handleSearchChange = (e) => {
+  // Handle search input change
+  const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page when searching
   };
@@ -53,7 +52,6 @@ const SalesProgressMange = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
 
   //const [searchTerm, setSearchTerm] = useState("");
   const [leadDataShowNew, setLeadDataShowNew] = useState(false);
@@ -125,68 +123,86 @@ const SalesProgressMange = () => {
     <div className="main-content">
       <UserContentTop />
 
-      {
-        !leadDataShowNew && (
-      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer" onClick={() => {
-                  setLeadDataShowNew(true);
-                }}>
-            <div className="relative">
+      {!leadDataShowNew && (
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"
+              onClick={() => {
+                setLeadDataShowNew(true);
+              }}
+            >
+              <div className="relative">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="text-4xl text-bgDataNew mb-2"
+                />
+                <span className="absolute -top-2 -right-3 bg-red-500 text-white text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full">
+                  {allLeadsCount?.assignedLeadsCount}
+                </span>
+              </div>
+              <h2 className="text-textdata font-semibold">Assigned Lead</h2>
+              <p className="text-[12px]">{userDeatail?.fullname}</p>
+            </div>
+            <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faDollarSign}
                 className="text-4xl text-bgDataNew mb-2"
               />
-              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full">
-                {allLeadsCount?.assignedLeadsCount}
-              </span>
+              <h2 className="text-textdata font-semibold">Total Sales</h2>
+              <p className="text-[12px]">₹1,25,000</p>
             </div>
-            <h2 className="text-textdata font-semibold">Assigned Lead</h2>
-            <p className="text-[12px]">{userDeatail?.fullname}</p>
-          </div>
-          <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
-            <FontAwesomeIcon
-              icon={faDollarSign}
-              className="text-4xl text-bgDataNew mb-2"
-            />
-            <h2 className="text-textdata font-semibold">Total Sales</h2>
-            <p className="text-[12px]">₹1,25,000</p>
-          </div>
-          <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
-            <FontAwesomeIcon
-              icon={faPhone}
-              className="text-4xl text-bgDataNew mb-2"
-            />
-            <h2 className="text-textdata font-semibold">Pending Follow-Ups</h2>
-            <p className="text-[12px]">5 Clients</p>
-          </div>
-          <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
-            <FontAwesomeIcon
-              icon={faHandshake}
-              className="text-4xl text-bgDataNew mb-2"
-            />
-            <h2 className="text-textdata font-semibold">Closed Deals</h2>
-            <p className="text-[12px]">3 Successful Sales</p>
+            <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
+              <FontAwesomeIcon
+                icon={faPhone}
+                className="text-4xl text-bgDataNew mb-2"
+              />
+              <h2 className="text-textdata font-semibold">
+                Pending Follow-Ups
+              </h2>
+              <p className="text-[12px]">5 Clients</p>
+            </div>
+            <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
+              <FontAwesomeIcon
+                icon={faHandshake}
+                className="text-4xl text-bgDataNew mb-2"
+              />
+              <h2 className="text-textdata font-semibold">Closed Deals</h2>
+              <p className="text-[12px]">3 Successful Sales</p>
+            </div>
           </div>
         </div>
-      </div>
-)
-}
-      {
-        leadDataShowNew && (
-          <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+      )}
+      {leadDataShowNew && (
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
           <div className="flex flex-col gap-[20px]">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-white text-[18px] font-semibold">
-                  Assign Task Lead
+                <h1 class="text-white text-[15.5px] font-semibold flex items-center cursor-pointer" onClick={() => setLeadDataShowNew(false)}>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="cursor-pointer"
+                  >
+                    <path
+                      d="M22.5 27L13.5 18L22.5 9"
+                      stroke="white"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                  Assign TaskLead
                 </h1>
               </div>
               <div className="flex items-center gap-[5px]">
                 <div>
                   <input
                     type="search"
-                    className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                    className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
                     placeholder="Search"
                     value={searchTerm}
                     onChange={handleSearchChange}
@@ -210,20 +226,18 @@ const SalesProgressMange = () => {
               totalPages={totalPages}
             />
           </div>
-  
+
           {/* Edit User Modal */}
           {isEditUserModalOpen && (
             <EditUserModal setEditUserModalOpen={setEditUserModalOpen} />
           )}
-  
+
           {/* View User Modal */}
           {isViewModalOpen && (
             <ViewUserModal setViewModalOpen={setViewModalOpen} />
           )}
         </div>
-        )
-      }
-      
+      )}
     </div>
   );
 };

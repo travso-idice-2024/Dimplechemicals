@@ -65,12 +65,18 @@ export const addLeadCommunication = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.post(`${API_URL}/auth/lead-communication`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.post(
+        `${API_URL}/auth/lead-communication`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data;
     } catch (leadError) {
-      return rejectWithValue(leadError.response?.data || "Failed to add lead communication");
+      return rejectWithValue(
+        leadError.response?.data || "Failed to add lead communication"
+      );
     }
   }
 );
@@ -78,7 +84,7 @@ export const addLeadCommunication = createAsyncThunk(
 // ✅ UPDATE LEAD
 export const updateLead = createAsyncThunk(
   "auth/leadUpdate",
-  async ({  id, updateLeadData }, { rejectWithValue }) => {
+  async ({ id, updateLeadData }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.put(
@@ -101,7 +107,7 @@ export const updateLead = createAsyncThunk(
 
 export const getLeadById = createAsyncThunk(
   "auth/getLeadById",
-  async ({leadId}, { rejectWithValue }) => {
+  async ({ leadId }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(
@@ -112,9 +118,7 @@ export const getLeadById = createAsyncThunk(
       );
       return response.data;
     } catch (leadError) {
-      return rejectWithValue(
-        leadError.response?.data || "Failed to get lead"
-      );
+      return rejectWithValue(leadError.response?.data || "Failed to get lead");
     }
   }
 );
@@ -147,9 +151,12 @@ export const todaysAssignedLeadsCount = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/todaysAssignedLeadsCount`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/todaysAssignedLeadsCount`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data;
     } catch (leadError) {
       return rejectWithValue(
@@ -178,17 +185,20 @@ export const todaysLead = createAsyncThunk(
   }
 );
 
-//lead communication 
+//lead communication
 export const leadCommunicationById = createAsyncThunk(
   "auth/lead-communications-list",
-  async ({leadId, page = 1, limit = 5, search = ""}, { rejectWithValue }) => {
+  async ({ leadId, page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
     try {
       //console.log(leadId, page,limit, search);
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/lead-communications-list/${leadId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { leadId, page, limit, search },
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/lead-communications-list/${leadId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { leadId, page, limit, search },
+        }
+      );
       return response.data;
     } catch (leadError) {
       return rejectWithValue(
@@ -198,7 +208,6 @@ export const leadCommunicationById = createAsyncThunk(
   }
 );
 
-
 //Todays lead report
 // ✅ FETCH ALL LEADS (Without Pagination)
 export const todaysLeadReport = createAsyncThunk(
@@ -207,7 +216,7 @@ export const todaysLeadReport = createAsyncThunk(
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/users-todays-leads`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     } catch (leadError) {
@@ -218,16 +227,34 @@ export const todaysLeadReport = createAsyncThunk(
   }
 );
 
-
 //lead by status
 export const AllLeadsData = createAsyncThunk(
   "auth/all-leads",
-  async ({search = "",lead_status="", lead_source="", start_date="", end_date="" ,leadOwner="" ,customer=""}, { rejectWithValue }) => {
+  async (
+    {
+      search = "",
+      lead_status = "",
+      lead_source = "",
+      start_date = "",
+      end_date = "",
+      leadOwner = "",
+      customer = "",
+    },
+    { rejectWithValue }
+  ) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/all-leads`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: {search ,lead_status,lead_source,start_date,end_date,leadOwner,customer},
+        params: {
+          search,
+          lead_status,
+          lead_source,
+          start_date,
+          end_date,
+          leadOwner,
+          customer,
+        },
       });
       return response.data;
     } catch (leadError) {
@@ -238,40 +265,74 @@ export const AllLeadsData = createAsyncThunk(
   }
 );
 
+//converted lead report
+export const ConvertedLeadData = createAsyncThunk(
+  "auth/won-lead-communications",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(
+        `${API_URL}/auth/won-lead-communications`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch converted"
+      );
+    }
+  }
+);
 
 // 🔹 LEAD SLICE
 const leadSlice = createSlice({
   name: "lead",
   initialState: {
     leads: [],
-    communicationleads:[],
-    communicationleadsList:[],
-    lead:null,
-    salesPersonleads:[],
+    allWonleads: [],
+    communicationleads: [],
+    communicationleadsList: [],
+    lead: null,
+    salesPersonleads: [],
     allLeads: [],
-    allLeadsCount:0,
+    allLeadsCount: 0,
     leadLoading: false,
     leadError: null,
     totalPages: 1,
-    todaysLeads:[],
-    allfilterleads:[],
+    todaysLeads: [],
+    allfilterleads: [],
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-    
-    .addCase(AllLeadsData.pending, (state) => {
-      state.leadLoading = true;
-      state.leadError = null;
-    })
-    .addCase(AllLeadsData.fulfilled, (state, action) => {
-      state.leadLoading = false;
-      state.allfilterleads = action.payload;
-    })
-    .addCase(AllLeadsData.rejected, (state, action) => {
-      state.leadLoading = false;
-      state.leadError = action.payload;
-    })
+
+      .addCase(AllLeadsData.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(AllLeadsData.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.allfilterleads = action.payload;
+      })
+      .addCase(AllLeadsData.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+      .addCase(ConvertedLeadData.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(ConvertedLeadData.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.allWonleads = action.payload;
+      })
+      .addCase(ConvertedLeadData.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
       .addCase(fetchAllLeads.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -284,7 +345,7 @@ const leadSlice = createSlice({
         state.leadLoading = false;
         state.leadError = action.payload;
       })
-      
+
       .addCase(todaysLeadReport.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -322,7 +383,7 @@ const leadSlice = createSlice({
         state.leadLoading = false;
         state.leadError = action.payload;
       })
-      
+
       .addCase(leadCommunicationById.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -336,7 +397,7 @@ const leadSlice = createSlice({
         state.leadLoading = false;
         state.leadError = action.payload;
       })
-      
+
       .addCase(todaysLead.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -370,9 +431,12 @@ const leadSlice = createSlice({
         if (!Array.isArray(state.communicationleads)) {
           state.communicationleads = [];
         }
-      
+
         // Add new lead to the list
-        state.communicationleads = [action.payload.data, ...state.communicationleads];
+        state.communicationleads = [
+          action.payload.data,
+          ...state.communicationleads,
+        ];
         state.leadLoading = false;
         state.leadError = null;
       })

@@ -1,7 +1,7 @@
 /* sidebar */
 .sidebar {
     background-color: var(--clr-primary);
-    width: 330px;
+    width: 360px;
     padding: 15px 10px;
     transition: var(--transition-default);
   }
@@ -54,7 +54,7 @@
     }
   }
   .sidebar-change {
-    margin-left: -330px;
+    margin-left: -360px;
   }
   
   .nav-item {
@@ -74,6 +74,10 @@
     border: 1px solid transparent;
     transition: var(--transition-default);
   }
+
+  .nav-link span{
+    font-size: 13px !important;
+  }
   .nav-link:hover {
     border: 1px solid var(--clr-primar-light);
   }
@@ -83,9 +87,9 @@
       rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
   }
  /* Submenu */
- .nav-links {
+ .submenu-link {
   display: block;
-  height: 35px;
+  height: 32px;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -96,11 +100,45 @@
   border: 1px solid transparent;
   transition: var(--transition-default);
 }
-.nav-links:hover {
+
+.submenu-link span{
+  font-size: 12px;
+}
+.submenu-link:hover {
   border: 1px solid var(--clr-primar-light);
 }
-.nav-links.active {
-  background-color: var(--clr-pumpkin);
+.submenu-link.active {
+  background-color: #fe6c00b0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+
+/* Nested Submenu */
+.nested-submenu-link {
+  display: block;
+  height: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex;
+  padding: 5px 5px;
+  column-gap: 6px;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  transition: var(--transition-default);
+}
+
+.nested-submenu-link span{
+  font-size: 11px;
+}
+
+
+.nested-submenu-link:hover {
+  border: 1px solid var(--clr-primar-light);
+}
+.nested-submenu-link.active {
+  background-color: #bd5913d6;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
@@ -114,7 +152,7 @@
   width:19px;
 }
   .nav-link-text {
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
   }
 
   @media screen and (max-width: 1400px) {
@@ -167,3 +205,6 @@
       margin-left: 0px;
     }
   }
+
+
+

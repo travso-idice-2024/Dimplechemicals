@@ -13,18 +13,18 @@ const DepartmentTable = ({
     <table className="min-w-full table-auto">
       <thead>
         <tr className="bg-[#473b33] rounded-[8px]">
-          <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">SalesPerson Name</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Assigned By</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">Assigned Date</th>
-          <th className="px-4 py-2 text-left text-bgDataNew">
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">SalesPerson Name</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Assigned By</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Assigned Date</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Priority
           </th>
-          <th className="px-4 py-2 text-left text-bgDataNew">
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Date Visit
           </th>
           
-          {/* <th className="px-4 py-2 text-left text-bgDataNew">
+          {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Action
           </th> */}
         </tr>
@@ -32,13 +32,13 @@ const DepartmentTable = ({
       <tbody>
         {currentUsers.map((user, index) => (
           <tr key={index}>
-            <td className="px-4 py-2">{index + 1 + (currentPage - 1) * usersPerPage}</td>
-            <td className="px-4 py-2">{user.name}</td>
-            <td className="px-4 py-2">{user.assignedby}</td>
-            <td className="px-4 py-2">{user.date}</td>
-            <td className="px-4 py-2">{user.priority}</td>
-            <td className="px-4 py-2">{user.datevisit}</td>
-            {/* <td className="px-4 py-2 space-x-2">
+            <td className="px-4 py-2 text-textdata">{index + 1 + (currentPage - 1) * usersPerPage}</td>
+            <td className="px-4 py-2 text-textdata">{user.name}</td>
+            <td className="px-4 py-2 text-textdata">{user.assignedby}</td>
+            <td className="px-4 py-2 text-textdata">{user.date}</td>
+            <td className="px-4 py-2 text-textdata">{user.priority}</td>
+            <td className="px-4 py-2 text-textdata">{user.datevisit}</td>
+            {/* <td className="px-4 py-2 text-textdata space-x-2">
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                 onClick={() => {

@@ -9,7 +9,7 @@ const LeadGenerationModal = ({ selectedUserLead, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white md:w-[1080px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Lead of {selectedUserLead.name}
         </h2>
 
