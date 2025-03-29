@@ -29,7 +29,7 @@ const Loans = () => {
     <div className="subgrid-two-item grid-common grid-c7">
       <div className="grid-c-title pb-8">
         <h3 className="grid-c-title-text">
-          Meeting Scheduled by Sales Executive
+        Plan of Action
         </h3>
         <button className="grid-c-title-icon">
           <img src={iconsImgs.plus} />

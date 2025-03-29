@@ -7,15 +7,13 @@ import { SidebarContext } from "../../context/sidebarContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import dimplechemical from "../../assets/images/Dimple-Logo.png";
 
-
 const Sidebar = () => {
   const navigate = useNavigate();
-  const [activeLinkIdx] = useState(1);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
 
-   // Track open/close state for each submenu
-   const [openSubmenus, setOpenSubmenus] = useState({});
+  // Track open/close state for each submenu
+  const [openSubmenus, setOpenSubmenus] = useState({});
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -30,22 +28,63 @@ const Sidebar = () => {
     setOpenSubmenus((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  // Recursive function to render submenus
+  const renderSubmenu = (submenu) => {
+    return (
+      <ul className="ml-4 mt-2 space-y-1">
+        {submenu.map((subItem) => (
+          <li key={subItem.id} className="nav-item">
+            <NavLink
+              to={subItem.path}
+              className={({ isActive }) =>
+                `text-sm nav-link ${isActive ? "active" : ""}`
+              }
+              onClick={(e) => {
+                if (subItem.submenu) {
+                  e.preventDefault(); // Prevent navigation if submenu exists
+                  toggleSubmenu(subItem.id);
+                }
+              }}
+            >
+              <img
+                src={subItem.image}
+                className="nav-link-icon"
+                alt={subItem.title}
+              />
+              <span className="nav-link-text text-[13px]">{subItem.title}</span>
+              {/* Show dropdown arrow if submenu exists */}
+              {subItem.submenu && (
+                <span
+                  className="submenu-toggle text-textdata"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleSubmenu(subItem.id);
+                  }}
+                >
+                  {openSubmenus[subItem.id] ? "▲" : "▼"}
+                </span>
+              )}
+            </NavLink>
+            {/* Render nested submenu if it exists and is open */}
+            {subItem.submenu && openSubmenus[subItem.id] && (
+              <div className="ml-4">{renderSubmenu(subItem.submenu)}</div>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div className={`sidebar ${sidebarClass}`}>
-      {/* <div className="user-info">
-        <div className="info-img img-fit-cover">
-          <img src={personsImgs.person_four} alt="profile image" />
-        </div>
-        <span className="info-name">Priya Sharma</span>
-      </div> */}
-
       <div className="user-info p-1" style={{ width: "100%" }}>
-        {/* <div className="info-img img-fit-cover">
-          <img src={personsImgs.person_four} alt="profile image" />
-        </div> */}
-        <img src={dimplechemical} alt="" style={{ width: "100%" }} className="cursor-pointer" onClick={()=>navigate("/dashboard")} />
-        {/* <span className="info-name">Priya Sharma</span> */}
+        <img
+          src={dimplechemical}
+          alt=""
+          style={{ width: "100%" }}
+          className="cursor-pointer"
+          onClick={() => navigate("/dashboard")}
+        />
       </div>
 
       <nav className="navigation">
@@ -69,40 +108,26 @@ const Sidebar = () => {
                   className="nav-link-icon"
                   alt={navigationLink.title}
                 />
-                <span className="nav-link-text text-textdata">{navigationLink.title}</span>
-                  {/* Show dropdown arrow if submenu exists */}
-                  {navigationLink.submenu && (
+                <span className="nav-link-text text-textdata">
+                  {navigationLink.title}
+                </span>
+                {/* Show dropdown arrow if submenu exists */}
+                {navigationLink.submenu && (
                   <span
                     className="submenu-toggle text-textdata"
-                    onClick={() =>  (navigationLink.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleSubmenu(navigationLink.id);
+                    }}
                   >
                     {openSubmenus[navigationLink.id] ? "▲" : "▼"}
                   </span>
                 )}
-
               </NavLink>
-              {/* Submenu (Dropdown) */}
-              {navigationLink.submenu && openSubmenus[navigationLink.id] && (
-                <ul className="ml-8 mt-2 space-y-1">
-                  {navigationLink.submenu.map((subItem) => (
-                      <li key={subItem.id} className="nav-item">
-                        <NavLink
-                          to={subItem.path}
-                          className={({ isActive }) =>
-                            `text-sm nav-link ${isActive ? "active" : ""}`
-                          }
-                        >
-                          <img
-                            src={subItem.image}
-                            className="nav-link-icon"
-                            alt={subItem.title}
-                          />
-                          <span className="nav-link-text text-[13px]">{subItem.title}</span>
-                        </NavLink>
-                      </li>
-                    ))}
-                </ul>
-              )}
+              {/* Render submenu if it exists and is open */}
+              {navigationLink.submenu &&
+                openSubmenus[navigationLink.id] &&
+                renderSubmenu(navigationLink.submenu)}
             </li>
           ))}
         </ul>

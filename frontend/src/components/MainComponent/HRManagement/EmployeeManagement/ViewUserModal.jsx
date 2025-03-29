@@ -35,7 +35,7 @@ const ViewUserModal = ({ setViewModalOpen , selectedEmployee,setEditUserModalOpe
         </div>
         <div className="flex items-end justify-end gap-2 px-6">
             <button
-              className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+              className="mt-4 bg-bgDataNew text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => {setEditUserModalOpen(true)
                 setViewModalOpen(false)
               }}

@@ -14,7 +14,7 @@ const Employee = () => {
   return (
     <div className="grid-two-item grid-common grid-c4 flex flex-col justify-between">
       <div className="grid-c-title">
-        <h3 className="grid-c-title-text">Employee Project Status</h3>
+        <h3 className="grid-c-title-text">Employee Hot Leads</h3>
         <button className="grid-c-title-icon">
           <img src={iconsImgs.plus} />
         </button>

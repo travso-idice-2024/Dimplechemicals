@@ -4,30 +4,34 @@ import "./ReportManageData.css";
 import { useNavigate } from "react-router-dom";
 import ContentTop from "../../ContentTop/ContentTop";
 import { AllLeadsData } from "../../../redux/leadSlice";
+import { fetchAllCustomers } from "../../../redux/customerSlice";
 import axios from "axios";
 import { iconsImgs } from "../../../utils/images";
 
-const LeadBySourceReport = () => {
+const LeadByIndustryReport = () => {
   const dispatch = useDispatch();
 
   const { allfilterleads } = useSelector((state) => state.lead);
+  const { allCustomers } = useSelector((state) => state.customer);
 
   console.log("allfilterleads", allfilterleads);
+  console.log("allCustomers", allCustomers);
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchSource, setsearchSource] = useState("");
+  const [searchCustomer, setSearchCustomer] = useState("");
   // const [currentPage, setCurrentPage] = useState(1);
   // const leadPerPage = 10;
 
   // Fetch departments whenever searchTerm or currentPage changes
   useEffect(() => {
+    dispatch(fetchAllCustomers()); // Fetch all users for dropdown menu
     dispatch(
       AllLeadsData({
         search: searchTerm,
-        lead_source: searchSource,
+        customer: searchCustomer,
       })
     );
-  }, [dispatch, searchTerm, searchSource]);
+  }, [dispatch, searchTerm, searchCustomer]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -35,8 +39,8 @@ const LeadBySourceReport = () => {
     //setCurrentPage(1); // Reset to first page when searching
   };
 
-  const handleLeadSourceChange = (e) => {
-    setsearchSource(e.target.value);
+  const handleLeadCustomerChange = (e) => {
+    setSearchCustomer(e.target.value);
     //setCurrentPage(1); // Reset to first page when searching
   };
 
@@ -61,7 +65,7 @@ const LeadBySourceReport = () => {
           },
           params: {
             search: searchTerm,
-            lead_source: searchSource,
+            customer: searchCustomer,
           },
           responseType: "blob", // ✅ Important to keep it here
         }
@@ -73,7 +77,7 @@ const LeadBySourceReport = () => {
       // ✅ Create a temporary <a> tag to download the file
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "Leads_source_Report.xlsx"); // File name
+      link.setAttribute("download", "Leads_owner_Report.xlsx"); // File name
       document.body.appendChild(link);
       link.click();
 
@@ -111,30 +115,24 @@ const LeadBySourceReport = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Leads by Source
+                Leads by Owner
               </h1>
-              {/* <input
-              type="search"
-              className="border border-[#473b33] bg-transparent px-3 py-[0.25rem] text-white outline-none"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            /> */}
             </div>
 
             <div className="flex items-center gap-[5px]">
               <div>
                 <select
                   name="lead_status"
-                  value={searchSource}
-                  onChange={handleLeadSourceChange}
+                  value={searchCustomer}
+                  onChange={handleLeadCustomerChange}
                   className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-[#1e1e2d] bg-clip-padding px-3 py-[0.40rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:bg-[#1e1e2d] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
                 >
-                  <option value="">Select the lead source</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Reference">Reference</option>
-                  <option value="Direct">Direct</option>
+                  <option value="">Select the Industry</option>
+                  {allCustomers?.data?.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.company_name}
+                  </option>
+                  ))}
                 </select>
               </div>
 
@@ -172,18 +170,22 @@ const LeadBySourceReport = () => {
                       Id
                     </th>
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Lead Source
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Email
-                    </th>
-                  
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                       Company
                     </th>
+
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                       Lead Owner
                     </th>
+                   
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Email
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Phone
+                    </th>
+                  
+                   
+                  
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                       Created Time
                     </th>
@@ -198,17 +200,19 @@ const LeadBySourceReport = () => {
                       <tr key={index + 1}>
                         <td className="px-4 py-2 text-textdata">{index + 1}</td>
                         <td className="px-4 py-2 text-textdata">
-                          {lead?.lead_source}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {lead?.customer?.email_id}
-                        </td>                       
-                        <td className="px-4 py-2 text-textdata">
                           {lead?.customer?.company_name}
                         </td>
                         <td className="px-4 py-2 text-textdata">
                           {lead?.leadOwner?.fullname}
                         </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {lead?.customer?.email_id}
+                        </td>  
+                        <td className="px-4 py-2 text-textdata">
+                          {lead?.customer?.primary_contact}
+                        </td>                     
+                      
+                       
                         <td className="px-4 py-2 text-textdata">
                           {/* {lead?.assign_date?.split("T")[0]} */}
                           {new Date(lead?.assign_date)?.toLocaleDateString(
@@ -236,4 +240,4 @@ const LeadBySourceReport = () => {
   );
 };
 
-export default LeadBySourceReport;
+export default LeadByIndustryReport;

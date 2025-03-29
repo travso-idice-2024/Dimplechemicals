@@ -64,6 +64,11 @@ const EmployeeTable = ({
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Location</th>
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Designation</th>
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Status</th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Leaves Pending</th>
+
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Email</th>
+
+             
             {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Role</th> */}
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Action</th>
           </tr>
@@ -73,12 +78,19 @@ const EmployeeTable = ({
             <tr key={index}>
               <td className="px-4 py-2 text-textdata">{index + 1}</td>
               <td className="px-4 py-2 text-textdata">{user?.emp_id}</td>
-              <td className="px-4 py-2 text-textdata">{user?.fullname}</td>
+              <td className="px-4 py-2 text-textdata cursor-pointer"  onClick={() => {
+                    setSelectedEmployee(user);
+                    setViewModalOpen(true);
+                  }}>{user?.fullname}</td>
               <td className="px-4 py-2 text-textdata">{user?.jobDetail?.department?.department_name}</td>
               <td className="px-4 py-2 text-textdata">{user?.jobDetail?.reportingManager?.fullname}</td>
               <td className="px-4 py-2 text-textdata">{user?.jobDetail?.work_location}</td>
               <td className="px-4 py-2 text-textdata">{user?.jobDetail?.job_title}</td>
               <td className="px-4 py-2 text-textdata">{user.status}</td>
+              <td className="px-4 py-2 text-textdata">5</td>
+
+              <td className="px-4 py-2 text-textdata">{user.email}</td>
+
               {/* <td className="px-4 py-2 text-textdata">{user?.employeeRole?.role?.role_name}</td> */}
               
               <td className="px-4 py-2 text-textdata space-x-2">
