@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { SidebarContext } from "../../context/sidebarContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import dimplechemical from "../../assets/images/Dimple-Logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -28,8 +30,11 @@ const Sidebar = () => {
     setOpenSubmenus((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Recursive function to render submenus
-  const renderSubmenu = (submenu) => {
+  // Recursive function to render nested submenus
+  const renderSubmenu = (submenu, level) => {
+    const submenuClass =
+      level === 1 ? "submenu-link" : level === 2 ? "nested-submenu-link" : "";
+
     return (
       <ul className="ml-4 mt-2 space-y-1">
         {submenu.map((subItem) => (
@@ -37,11 +42,11 @@ const Sidebar = () => {
             <NavLink
               to={subItem.path}
               className={({ isActive }) =>
-                `text-sm nav-link ${isActive ? "active" : ""}`
+                `${submenuClass} ${isActive ? "active" : ""}`
               }
               onClick={(e) => {
                 if (subItem.submenu) {
-                  e.preventDefault(); // Prevent navigation if submenu exists
+                  e.preventDefault();
                   toggleSubmenu(subItem.id);
                 }
               }}
@@ -51,23 +56,23 @@ const Sidebar = () => {
                 className="nav-link-icon"
                 alt={subItem.title}
               />
-              <span className="nav-link-text text-[13px]">{subItem.title}</span>
-              {/* Show dropdown arrow if submenu exists */}
+              <span className="nav-link-text">{subItem.title}</span>
               {subItem.submenu && (
                 <span
-                  className="submenu-toggle text-textdata"
+                  className="submenu-toggle"
                   onClick={(e) => {
                     e.preventDefault();
                     toggleSubmenu(subItem.id);
                   }}
                 >
-                  {openSubmenus[subItem.id] ? "▲" : "▼"}
+                  {openSubmenus[subItem.id] ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown}/>}
                 </span>
               )}
             </NavLink>
-            {/* Render nested submenu if it exists and is open */}
             {subItem.submenu && openSubmenus[subItem.id] && (
-              <div className="ml-4">{renderSubmenu(subItem.submenu)}</div>
+              <div className="ml-4">
+                {renderSubmenu(subItem.submenu, level + 1)}
+              </div>
             )}
           </li>
         ))}
@@ -120,14 +125,14 @@ const Sidebar = () => {
                       toggleSubmenu(navigationLink.id);
                     }}
                   >
-                    {openSubmenus[navigationLink.id] ? "▲" : "▼"}
+                    {openSubmenus[navigationLink.id] ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown}/>}
                   </span>
                 )}
               </NavLink>
               {/* Render submenu if it exists and is open */}
               {navigationLink.submenu &&
                 openSubmenus[navigationLink.id] &&
-                renderSubmenu(navigationLink.submenu)}
+                renderSubmenu(navigationLink.submenu, 1)}
             </li>
           ))}
         </ul>

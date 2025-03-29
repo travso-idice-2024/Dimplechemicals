@@ -63,7 +63,9 @@ module.exports = (sequelize, DataTypes) => {
 
   LeadCommunication.associate = (models) => {
     LeadCommunication.belongsTo(models.Customer, { foreignKey: 'customer_id' });
-    LeadCommunication.belongsTo(models.User, { foreignKey: 'lead_owner_id' });
+    //LeadCommunication.belongsTo(models.User, { foreignKey: 'lead_owner_id',  });
+    LeadCommunication.belongsTo(models.User, { foreignKey: 'lead_owner_id',as: 'leadOwner' });
+    LeadCommunication.belongsTo(models.User, { foreignKey: 'sales_persion_id', as: 'salesPerson' });
   };
 
   return LeadCommunication;

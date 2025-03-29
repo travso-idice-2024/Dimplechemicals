@@ -3,15 +3,24 @@ import { iconsImgs } from "../../utils/images";
 import "./ContentTop.css";
 import { useContext } from "react";
 import { SidebarContext } from "../../context/sidebarContext";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../redux/authSlice";
+import { logout,fetchCurrentUser } from "../../redux/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+
 
 const ContentTop = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const {user:userDeatail}  = useSelector((state) => state.auth);
+  console.log("userDeatail", userDeatail);
+   useEffect(() => {
+      dispatch(fetchCurrentUser());
+    }, [dispatch]);
+
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
 
@@ -65,7 +74,7 @@ const ContentTop = () => {
         >
           <img src={iconsImgs.menu} alt="" />
         </button>
-        <h3 className="content-top-title">Welcome Sneha Mishra</h3>
+        <h3 className="content-top-title">Welcome {userDeatail?.fullname}</h3>
       </div>
       <div className="content-top-btns flex">
         {/* <button
@@ -136,8 +145,8 @@ const ContentTop = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="flex flex-col items-start">
-              <h2 className="font-bai text-[12px] text-white">Sneha Mishra</h2>
-              <p className="font-bai text-[10px] text-white">Sneha@example...</p>
+              <h2 className="font-bai text-[12px] text-white">{userDeatail?.fullname}</h2>
+              <p className="font-bai text-[10px] text-white">{userDeatail?.email}</p>
               </div>
               <div>
               <FontAwesomeIcon icon={faChevronDown} className="text-white text-[12px] mb-2"/>
@@ -157,8 +166,8 @@ const ContentTop = () => {
                   className="w-9 h-9 rounded-full aspect-square object-cover"
                 />
                 <div>
-                  <p className="text-[12px] font-semibold">Sneha Mishra</p>
-                  <p className="text-[10px] text-gray-500">Sneha@example.com </p>
+                  <p className="text-[12px] font-semibold">{userDeatail?.fullname}</p>
+                  <p className="text-[10px] text-gray-500">{userDeatail?.email}</p>
                 </div>
               </div>
               <button

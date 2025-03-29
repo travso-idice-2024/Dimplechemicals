@@ -279,7 +279,7 @@ const handleSubmit = async(e) => {
 
               {step === 2 && (
                 <div className="flex-col justify-center space-x-2">
-                  <p className="text-left mb-5 text-lg">Please Enter the OTP</p>
+                  <p className="text-left mb-5 text-lg">Please  OTP</p>
                   {otp.map((value, index) => (
                     <input
                       key={index}

@@ -251,19 +251,19 @@ const handleDelete = async (id) => {
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
         <div className="flex items-center justify-between">
-          <h1 className="text-white text-[20px] font-semibold">
+          <h1 className="text-white text-textdata font-semibold">
             Department Management
           </h1>
           <div className="flex items-center gap-[5px]">
             <input
               type="search"
-              className="border border-[#473b33] bg-transparent px-3 py-[0.25rem] text-white outline-none"
+              className="border border-[#473b33] bg-transparent px-3 py-[0.15rem] text-white outline-none"
               placeholder="Search"
               value={searchTerm}
               onChange={handleSearchChange}
             />
             <button
-              className="flex items-center text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
               onClick={() => setAddModalOpen(true)}
             >
               <img

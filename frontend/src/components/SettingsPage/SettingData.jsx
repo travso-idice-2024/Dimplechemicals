@@ -15,7 +15,7 @@ const SettingData = () => {
     <div className="main-content-holder max-h-[620px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
         <div className="flex items-center justify-between">
-          <h1 className="text-white text-[20px] font-semibold">Settings</h1>
+          <h1 className="text-white text-textdata font-semibold">Settings</h1>
         </div>
         <div className="w-full flex gap-[20px]">
           {/* Left Sidebar for Settings List */}
@@ -26,9 +26,9 @@ const SettingData = () => {
                   <li
                     key={setting.id}
                     onClick={() => setActiveSetting(setting)}
-                    className={`cursor-pointer p-1 py-1.5 px-4 rounded-lg nav-item ${
+                    className={`cursor-pointer p-1 py-1.5 px-4 rounded-[5px] nav-item ${
                       activeSetting.id === setting.id
-                        ? "bg-[#fe6c00] text-black font-semibold"
+                        ? "bg-[#fe6c00cf] text-black font-semibold"
                         : "bg-transparent text-white hover:bg-[#fc6b001c]"
                     }`}
                   >
@@ -38,7 +38,7 @@ const SettingData = () => {
                         className="nav-link-icons"
                         alt={setting.title}
                       />
-                      <span className="nav-link-text">{setting.title}</span>
+                      <span className="nav-link-text text-textdata">{setting.title}</span>
                     </NavLink>
                   </li>
                 ))}

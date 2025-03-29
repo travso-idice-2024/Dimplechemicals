@@ -23,20 +23,20 @@ const AgreementCreateForm = ({
         className="bg-white md:w-[600px] md:h-[650px] pt-0 pb-4 rounded-[6px] flex flex-col"
         onSubmit={handleAgreemnetSubmit}
       >
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Fill the Aggrement Details
         </h2>
         <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto max-h-[650px] scrollbar-hide">
           {errorAgreement && (
             <p className="text-red-500 text-center font-medium">{errorAgreement}</p>
           )}
-          <h3 className="text-black text-center text-[20px] font-poopins font-semibold border-b w-fit px-3 inline-block">
+          <h3 className="text-black text-center text-textdata font-poopins font-semibold border-b w-fit px-3 inline-block">
             Client Details
           </h3>
           <div className="grid grid-row-1 md:grid-cols-2 gap-4">
             <div className="w-full">
               <label className="font-poppins font-medium text-[16px] text-bgData">
-                Enter the Client Name :
+                 Client Name :
               </label>
               <input
                 type="text"
@@ -50,7 +50,7 @@ const AgreementCreateForm = ({
             </div>
             <div className="w-full">
               <label className="font-poppins font-medium text-[16px] text-bgData">
-                Enter the Email :
+                 Email :
               </label>
               <input
                 type="email"
@@ -64,7 +64,7 @@ const AgreementCreateForm = ({
             </div>
             <div className="w-full">
               <label className="font-poppins font-medium text-[16px] text-bgData">
-                Enter the Conatct :
+                 Conatct :
               </label>
               <input
                 type="number"
@@ -79,7 +79,7 @@ const AgreementCreateForm = ({
 
             <div className="w-full">
               <label className="font-poppins font-medium text-[16px] text-bgData">
-                Enter the Date :
+                 Date :
               </label>
               <input
                 type="date"
@@ -97,7 +97,7 @@ const AgreementCreateForm = ({
 
           <div className="w-full">
             <label className="font-poppins font-medium text-[16px] text-bgData">
-              Enter the Address :
+               Address :
             </label>
             <textarea
               type="text"
@@ -110,7 +110,7 @@ const AgreementCreateForm = ({
             />
           </div>
 
-          <h3 className="mt-2 text-black text-center text-[20px] font-poopins font-semibold border-b w-fit px-3 inline-block">
+          <h3 className="mt-2 text-black text-center text-textdata font-poopins font-semibold border-b w-fit px-3 inline-block">
             Payment Terms
           </h3>
           <div className="grid grid-row-1 md:grid-cols-2 gap-4">
@@ -137,7 +137,7 @@ const AgreementCreateForm = ({
                 name="paymentMethod"
                 value={formAgreementData.paymentMethod}
                 onChange={handleAgreementChange}
-                placeholder="Enter the Payment Methods"
+                placeholder=" Payment Methods"
                 required
                 className="block w-full text-black mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 placeholder:text-gray-400"
               />
@@ -146,7 +146,7 @@ const AgreementCreateForm = ({
 
           <div className="w-full">
             <label className="font-poppins font-medium text-[16px] text-bgData">
-              Enter the Milestone Payment Schedule :
+               Milestone Payment Schedule :
             </label>
             <textarea
               type="text"
@@ -161,7 +161,7 @@ const AgreementCreateForm = ({
 
           <div className="w-full">
             <label className="font-poppins font-medium text-[16px] text-bgData">
-              Enter the Scope of Work :
+               Scope of Work :
             </label>
             <textarea
               type="text"
@@ -174,7 +174,7 @@ const AgreementCreateForm = ({
             />
           </div>
 
-          <h3 className="mt-2 text-black text-center text-[20px] font-poopins font-semibold border-b w-fit px-3 inline-block">
+          <h3 className="mt-2 text-black text-center text-textdata font-poopins font-semibold border-b w-fit px-3 inline-block">
             Responsibilities
           </h3>
 
@@ -211,7 +211,7 @@ const AgreementCreateForm = ({
           {/* Tab Data */}
           <div className="w-full flex items-center">
             <button
-              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-[18px] flex items-center justify-center relative ${
+              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
                 activeButtonSignature === "signature"
                   ? "text-black"
                   : "text-[#667877]"
@@ -225,7 +225,7 @@ const AgreementCreateForm = ({
             </button>
 
             <button
-              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-[18px] flex items-center justify-center relative ${
+              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
                 activeButtonSignature === "photoSignature"
                   ? "text-black"
                   : "text-[#667877]"

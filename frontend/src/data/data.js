@@ -59,7 +59,7 @@ export const navigationLinks = [
           },
           {
             id: "5.2.2",
-            title: "PO Form for Deal Finalization",
+            title: "PO Form Deal Finalization",
             image: iconsImgs.poform,
             path: "/sale-management/leads/po-form",
           },

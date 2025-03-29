@@ -9,14 +9,14 @@ const AddUserModalCR = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Requirement
         </h2>
         <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Full Name :
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Full Name :
               </label>
               <input
                 type="text"
@@ -30,8 +30,8 @@ const AddUserModalCR = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Email :
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Email :
               </label>
               <input
                 type="email"
@@ -46,8 +46,8 @@ const AddUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Title :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Title :
             </label>
             <input
               type="text"
@@ -61,8 +61,8 @@ const AddUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Requirement :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Requirement :
             </label>
             <textarea
               type="text"
@@ -76,8 +76,8 @@ const AddUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Contact :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Contact :
             </label>
             <input
               type="number"
@@ -91,8 +91,8 @@ const AddUserModalCR = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Status :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Status :
             </label>
             <select
               value={newUser.status}

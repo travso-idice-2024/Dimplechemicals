@@ -43,6 +43,8 @@ const {
 const {
   createLeadCommunication,
   getLeadCommunicationsByLeadId,
+  getWonLeadCommunications,
+  exportWonLeadCommunications
 } = require("../controllers/leadCommunicationController");
 
 const authMiddleware = require("../middlewares/auth.middleware");
@@ -108,5 +110,7 @@ router.get(
   authMiddleware,
   getLeadCommunicationsByLeadId
 );
+router.get("/won-lead-communications", authMiddleware, getWonLeadCommunications);
+router.get("/export-won-Lead", authMiddleware, exportWonLeadCommunications);
 
 module.exports = router;

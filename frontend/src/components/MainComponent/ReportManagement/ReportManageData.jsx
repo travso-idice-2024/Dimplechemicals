@@ -13,7 +13,7 @@ const ReportManageData = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-white text-[18px] font-semibold">
+              <h1 className="text-white text-textdata font-semibold">
                 Report Management
               </h1>
             </div>
@@ -21,7 +21,7 @@ const ReportManageData = () => {
               {/* <div>
                 <input
                   type="search"
-                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={handleSearchChange}
@@ -29,7 +29,7 @@ const ReportManageData = () => {
               </div>
               <div>
                 <button
-                  className="flex items-center text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                   onClick={() => setAddCustomerModalOpen(true)}
                 >
                   <img

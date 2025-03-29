@@ -52,10 +52,10 @@ const EmployeeTable = ({
     {deleteFlashMessage && deleteFlashMsgType  === "success" && <SuccessMessage message={deleteFlashMessage} />}
     {deleteFlashMessage && deleteFlashMsgType  === "error" && <ErrorMessage message={deleteFlashMessage} />}
   </div>
-    <div className="overflow-x-auto">
-      <table className="min-w-full table-auto">
+    <div className="overflow-x-auto w-[1140px]">
+      <table className="w-max table-auto">
         <thead>
-          <tr className="bg-[#473b33] rounded-[8px]">
+          <tr className="bg-[#473b33] rounded-[8px] text-center">
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Emp ID</th>
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Name</th>
@@ -64,7 +64,7 @@ const EmployeeTable = ({
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Location</th>
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Designation</th>
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Status</th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Leaves Pending</th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Leaves</th>
 
             <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Email</th>
 
@@ -75,25 +75,25 @@ const EmployeeTable = ({
         </thead>
         <tbody>
           {Employees?.map((user, index) => (
-            <tr key={index}>
-              <td className="px-4 py-2 text-textdata">{index + 1}</td>
-              <td className="px-4 py-2 text-textdata">{user?.emp_id}</td>
-              <td className="px-4 py-2 text-textdata cursor-pointer"  onClick={() => {
+            <tr key={index} className="text-center">
+              <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
+              <td className="px-4 py-2 text-newtextdata">{user?.emp_id}</td>
+              <td className="px-4 py-2 text-newtextdata cursor-pointer"  onClick={() => {
                     setSelectedEmployee(user);
                     setViewModalOpen(true);
                   }}>{user?.fullname}</td>
-              <td className="px-4 py-2 text-textdata">{user?.jobDetail?.department?.department_name}</td>
-              <td className="px-4 py-2 text-textdata">{user?.jobDetail?.reportingManager?.fullname}</td>
-              <td className="px-4 py-2 text-textdata">{user?.jobDetail?.work_location}</td>
-              <td className="px-4 py-2 text-textdata">{user?.jobDetail?.job_title}</td>
-              <td className="px-4 py-2 text-textdata">{user.status}</td>
-              <td className="px-4 py-2 text-textdata">5</td>
+              <td className="px-4 py-2 text-newtextdata">{user?.jobDetail?.department?.department_name}</td>
+              <td className="px-4 py-2 text-newtextdata">{user?.jobDetail?.reportingManager?.fullname}</td>
+              <td className="px-4 py-2 text-newtextdata">{user?.jobDetail?.work_location}</td>
+              <td className="px-4 py-2 text-newtextdata">{user?.jobDetail?.job_title}</td>
+              <td className="px-4 py-2 text-newtextdata">{user.status}</td>
+              <td className="px-4 py-2 text-newtextdata">5</td>
 
-              <td className="px-4 py-2 text-textdata">{user.email}</td>
+              <td className="px-4 py-2 text-newtextdata">{user.email}</td>
 
-              {/* <td className="px-4 py-2 text-textdata">{user?.employeeRole?.role?.role_name}</td> */}
+              {/* <td className="px-4 py-2 text-newtextdata">{user?.employeeRole?.role?.role_name}</td> */}
               
-              <td className="px-4 py-2 text-textdata space-x-2">
+              <td className="px-4 py-2 text-newtextdata flex items-center space-x-2">
                 <button
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                   onClick={() => {

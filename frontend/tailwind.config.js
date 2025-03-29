@@ -14,6 +14,7 @@ export default {
       },
       fontSize: {
         textdata: "14px",
+        newtextdata: "13px",
       },
       fontFamily: {
         bai: ['Verdana', 'sans-serif'],

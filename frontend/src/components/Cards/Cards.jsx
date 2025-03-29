@@ -67,8 +67,22 @@ const Cards = () => {
       },
     },
     scales: {
+      x: {
+        ticks: {
+          color: "white", // X-axis labels white
+        },
+        grid: {
+          color: "rgba(251, 242, 242, 0.2)", // Optional: X-axis grid lines ko halka white
+        },
+      },
       y: {
         beginAtZero: true,
+        ticks: {
+          color: "white", // Y-axis labels white
+        },
+        grid: {
+          color: "rgba(255, 255, 255, 0.2)", // Optional: Y-axis grid lines ko halka white
+        },
       },
     },
     animation: {
@@ -87,8 +101,8 @@ const Cards = () => {
         });
       },
     },
-    barThickness: 50, // Fixing bar width
-    maxBarThickness: 50, // Maximum width allowed
+    barThickness: 40, // Fixing bar width
+    maxBarThickness: 40, // Maximum width allowed
   };
 
   return (

@@ -93,14 +93,14 @@ const AddDepartmentModal = ({
       {/* Modal */}
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
         <div className="bg-white w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-          <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+          <h2 className="text-white text-textdata font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Department
           </h2>
           <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2">
             {/* Department Name */}
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Department Name:
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Department Name:
               </label>
               <input
                 type="text"
@@ -117,8 +117,8 @@ const AddDepartmentModal = ({
 
             {/* Department Head */}
             {/* <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Department Head:
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Department Head:
               </label>
               <select
                 name="department_head"
@@ -141,8 +141,8 @@ const AddDepartmentModal = ({
 
             {/* Status */}
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Status:
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Status:
               </label>
               <select
                 name="status"
@@ -161,8 +161,8 @@ const AddDepartmentModal = ({
 
             {/* Department Description */}
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Description:
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Description:
               </label>
               <textarea
                 name="department_description"

@@ -31,16 +31,16 @@ const AssignLeadModal = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Assign New Lead
           </h2>
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-fit">
+          <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-fit">
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 Select Customer:
               </label>
               <select
                 name="customer_id"
                 value={leadData?.customer_id || ""}
                 onChange={handleLeadCustomerChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                className="block w-full text-textdata mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               >
                 <option value="">Select the Customer</option>
 
@@ -58,7 +58,7 @@ const AssignLeadModal = ({
             </div>
             {leadData?.customer_id &&(
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 Select address:
               </label>
               <select
@@ -82,8 +82,8 @@ const AssignLeadModal = ({
             )}
 
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Lead Source :
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Lead Source :
               </label>
               <select
                 name="lead_source"
@@ -103,8 +103,8 @@ const AssignLeadModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Lead Status :
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Lead Status :
               </label>
               <select
                 name="lead_status"
@@ -126,7 +126,7 @@ const AssignLeadModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 Select Sales Person :
               </label>
               <select
@@ -150,7 +150,7 @@ const AssignLeadModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-[18px] text-bgData">
+              <label className="font-poppins font-medium text-textdata text-bgData">
                 Select assign date :
               </label>
               <input
@@ -168,8 +168,8 @@ const AssignLeadModal = ({
             </div>
 
             <div className="md:col-span-2">
-              <label className="font-poppins font-medium text-[18px] text-bgData">
-                Enter the Description :
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                 Description :
               </label>
               <textarea
                 type="text"

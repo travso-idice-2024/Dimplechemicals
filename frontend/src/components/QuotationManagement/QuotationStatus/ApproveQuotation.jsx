@@ -12,7 +12,7 @@ const ApproveQuotation = ({ message, setAcceptQuotationPopup }) => {
       style={{ pointerEvents: "none" }}
     >
       <div className="bg-white md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Upload Document with Template
         </h2>
 

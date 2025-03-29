@@ -39,6 +39,11 @@ import LeadByOwnershipReport from './components/MainComponent/ReportManagement/L
 import AttendanceSheetData from './components/MainComponent/HRManagement/AttendanceSheet/AttendanceSheetData';
 import MarketingManageData from './components/MainComponent/MarketingManagement/MarketingManageData';
 import LeadByIndustryReport from './components/MainComponent/ReportManagement/LeadByIndustryReport';
+import ConvertedLeadReport from './components/MainComponent/ReportManagement/ConvertedLeadReport';
+import LeadviaSourceData from './components/MainComponent/MarketingManagement/LeadViaSource/LeadviaSourceData';
+import BudgetAnalysisData from './components/MainComponent/MarketingManagement/BudgetAnalysis/BudgetAnalysisData';
+import FlyersData from './components/MainComponent/MarketingManagement/FlyersPage/FlyersData';
+import NewsAdsData from './components/MainComponent/MarketingManagement/NewsPaperAds/NewsAdsData';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -76,10 +81,19 @@ function App() {
           <Route path="/sourceleadreport" element={<LeadBySourceReport/>} />
           <Route path="/ownershipleadreport" element={<LeadByOwnershipReport />} />
           <Route path="/industryleadreport" element= {<LeadByIndustryReport/>} />
+          <Route path="/convertedleadreport" element={<ConvertedLeadReport/>} />
           
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>
           <Route path="/marketing-management" element={<MarketingManageData/>}/>
+          <Route path="/marketing-management/lead-via-source" element={<LeadviaSourceData />}/>
+          <Route path="/marketing-management/budget-analysis" element={<BudgetAnalysisData/>}/>
+          <Route path="/marketing-management/other-like/newspaper-ad" element={<NewsAdsData/>}/>
+          <Route path="/marketing-management/other-like/flyers" element={<FlyersData/>}/>
+
+
+
+
           <Route path="/user-management" element={<UserManage />} />
           <Route path="/document-management" element={<DocumentManage />} />
           <Route path="/customer-requirement" element={<CustomerRequire />} />

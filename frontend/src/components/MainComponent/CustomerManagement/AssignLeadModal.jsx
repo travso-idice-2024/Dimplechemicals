@@ -22,13 +22,13 @@ const AssignLeadModal = ({
    </div>
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white w-[850px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Lead
         </h2>
         <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-fit">
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Lead Source :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Lead Source :
             </label>
             <select 
              name="lead_source"
@@ -45,8 +45,8 @@ const AssignLeadModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Lead Status :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Lead Status :
             </label>
             <select 
              name="lead_status"
@@ -65,7 +65,7 @@ const AssignLeadModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Select Sales Person :
             </label>
             <select 
@@ -84,7 +84,7 @@ const AssignLeadModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-[18px] text-bgData">
+            <label className="font-poppins font-medium text-textdata text-bgData">
               Select assign date :
             </label>
             <input
@@ -100,8 +100,8 @@ const AssignLeadModal = ({
           </div>
 
           <div className="md:col-span-2">
-            <label className="font-poppins font-medium text-[18px] text-bgData">
-              Enter the Description :
+            <label className="font-poppins font-medium text-textdata text-bgData">
+               Description :
             </label>
             <textarea
               type="text"
