@@ -14,7 +14,7 @@ const ReportManageData = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-white text-textdata font-semibold">
-                Report Management
+                Lead Report's
               </h1>
             </div>
             <div className="flex items-center gap-[5px]">

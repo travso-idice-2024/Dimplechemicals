@@ -1,0 +1,244 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./EmpReportManageData.css";
+import { useNavigate } from "react-router-dom";
+import ContentTop from "../../ContentTop/ContentTop";
+import { EmpReportMonthYearWise } from "../../../redux/userSlice";
+import axios from "axios";
+import { iconsImgs } from "../../../utils/images";
+
+const EmpByMonthAndYearReport = () => {
+  const dispatch = useDispatch();
+
+  const { empData } = useSelector((state) => state.user);
+
+  console.log("empData", empData);
+
+  // Pagination & Search States
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchMonth, setSearchMonth] = useState("");
+  const [searchYear, setSearchYear] = useState("");
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const leadPerPage = 10;
+
+  // Fetch departments whenever searchTerm or currentPage changes
+  useEffect(() => {
+    dispatch(
+      EmpReportMonthYearWise({
+        month: searchMonth,
+        year: searchYear,
+      })
+    );
+  }, [dispatch, searchMonth, searchYear]);
+
+  // Handle search input change
+  //   const handleSearchChange = (e) => {
+  //     setSearchTerm(e.target.value);
+  //     //setCurrentPage(1); // Reset to first page when searching
+  //   };
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const getAuthToken = () => localStorage.getItem("token");
+
+  const handleExportData = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        "http://localhost:5000/api/auth/export-employee",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            month: searchMonth,
+            year: searchYear,
+          },
+          responseType: "blob", // ✅ Important to keep it here
+        }
+      );
+
+      // ✅ Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // ✅ Create a temporary <a> tag to download the file
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Employee_MonthYear_Wise_Report.xlsx"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // ✅ Cleanup after download
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
+  };
+
+  const navigate = useNavigate();
+  return (
+    <div className="main-content">
+      <ContentTop />
+      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="flex flex-col gap-[20px]">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-white text-[15.5px] font-semibold flex items-center">
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={() => navigate(-1)}
+                  className="cursor-pointer"
+                >
+                  <path
+                    d="M22.5 27L13.5 18L22.5 9"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>
+                </svg>
+                Employee Report By Month & Year
+              </h1>
+            </div>
+
+            <div className="flex items-center gap-[5px]">
+              <div>
+                <select
+                  value={searchMonth}
+                  onChange={(e) => setSearchMonth(e.target.value)}
+                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                >
+                  <option value="">Select Month</option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+
+              <div>
+                <select
+                  value={searchYear}
+                  onChange={(e) => setSearchYear(e.target.value)}
+                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                >
+                  <option value="">Select Year</option>
+                  {Array.from({ length: 101 }, (_, i) => 2000 + i).map(
+                    (year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+              <div>
+                <button
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  onClick={handleExportData}
+                >
+                  <img
+                    src={iconsImgs.plus}
+                    alt="plus icon"
+                    className="w-[18px] mr-1"
+                  />{" "}
+                  Export Data
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+            {/* {/------- Table Data Start -------/} */}
+            <div className="overflow-x-auto">
+              <table className="min-w-full table-auto">
+                <thead>
+                  <tr className="bg-[#473b33] rounded-[8px]">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Id
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Emp Id
+                    </th>
+
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Full Name
+                    </th>
+
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Emil
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Phone
+                    </th>
+
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Status
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Joining Date
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {empData &&
+                    empData?.data?.map((user, index) => (
+                      <tr key={index + 1}>
+                        <td className="px-4 py-2 text-textdata">{index + 1}</td>
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.emp_id}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.fullname}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.email}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.phone}
+                        </td>
+
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.status}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {new Date(
+                            user?.jobDetail?.date_of_joining
+                          )?.toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            {/* {/------- Table Data End -------/} */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EmpByMonthAndYearReport;

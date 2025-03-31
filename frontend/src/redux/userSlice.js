@@ -171,12 +171,67 @@ export const removeUser = createAsyncThunk(
   }
 );
 
+//emp report month year wise
+export const EmpReportMonthYearWise = createAsyncThunk(
+  "auth/allEmployeeData",
+  async ({ month="", year="" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/allEmployeeData`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { month, year },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch emp");
+    }
+  }
+);
+
+//emp report department wise
+export const EmpReportDepartmentWise = createAsyncThunk(
+  "auth/employee-department",
+  async ({ department_id, search = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/employee-department`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { department_id, search },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch emp");
+    }
+  }
+);
+
+
+//emp report location wise report
+export const EmpReportLocationWise = createAsyncThunk(
+  "auth/employee-location",
+  async ({ search = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/employee-location`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { search },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch emp");
+    }
+  }
+);
+
 // 🔹 USER SLICE
 const userSlice = createSlice({
   name: "user",
   initialState: {
     users: [],
     allusers: [],
+    emplocationData:[],
+    empData:[],
+    empDepartData:[],
     userDataWithRole: [],
     userLoading: false,
     userError: null,
@@ -194,6 +249,46 @@ const userSlice = createSlice({
         state.allusers = action.payload;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
+      .addCase(EmpReportLocationWise.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(EmpReportLocationWise.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.emplocationData = action.payload;
+      })
+      .addCase(EmpReportLocationWise.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
+      .addCase(EmpReportDepartmentWise.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(EmpReportDepartmentWise.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.empDepartData = action.payload;
+      })
+      .addCase(EmpReportDepartmentWise.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+      
+
+      .addCase(EmpReportMonthYearWise.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(EmpReportMonthYearWise.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.empData = action.payload;
+      })
+      .addCase(EmpReportMonthYearWise.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = action.payload;
       })
