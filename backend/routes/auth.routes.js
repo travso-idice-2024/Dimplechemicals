@@ -7,6 +7,14 @@ const {
   updateEmployee,
   deleteEmployee,
   getCurrentUser,
+  getAllEmployees,
+  exportEmployeesToExcel,
+  getDepartmentWise,
+  exportEmployeesDepartment,
+  getExitedEmployees,
+  exportExitedEmployees,
+  getEmployeesLocation,
+  exportEmployeesLocation
 } = require("../controllers/auth.controller");
 const {
   listRoles,
@@ -112,5 +120,15 @@ router.get(
 );
 router.get("/won-lead-communications", authMiddleware, getWonLeadCommunications);
 router.get("/export-won-Lead", authMiddleware, exportWonLeadCommunications);
+
+
+//employee reports 
+
+router.get("/allEmployeeData", authMiddleware, getAllEmployees);
+router.get("/export-employee", authMiddleware, exportEmployeesToExcel);
+router.get("/employee-department", authMiddleware, getDepartmentWise);
+router.get("/export-employee-department",authMiddleware,exportEmployeesDepartment);
+router.get("/employee-location", authMiddleware, getEmployeesLocation);
+router.get("/export-employee-location",authMiddleware,exportEmployeesLocation);
 
 module.exports = router;

@@ -213,6 +213,20 @@ export const navigationLinks = [
     title: "Report Management",
     image: iconsImgs.dmanage,
     path: "/report-management",
+    submenu: [
+      {
+        id: 8.1,
+        title: "Lead Report",
+        image: iconsImgs.followupform,
+        path: "/report-management/lead-report",
+      },
+      {
+        id: 8.1,
+        title: "Employee Report",
+        image: iconsImgs.followupform,
+        path: "/report-management/employee-report",
+      },
+    ]
   },
 
   {

@@ -1,5 +1,8 @@
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
+const ExcelJS = require("exceljs");
+const path = require("path");
+const fs =require("fs");
 const {
   User,
   EmployeeRole,
@@ -820,6 +823,346 @@ exports.getCurrentUser = async (req, res) => {
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllEmployees = async (req, res) => {
+  try {
+    const { month, year } = req.query;
+
+    let whereCondition = {};
+
+    if (year) {
+      whereCondition["$jobDetail.date_of_joining$"] = {
+        [Op.gte]: new Date(year, 0, 1),
+        [Op.lte]: new Date(year, 11, 31),
+      };
+    }
+
+    if (month && year) {
+      whereCondition["$jobDetail.date_of_joining$"] = {
+        [Op.gte]: new Date(year, month - 1, 1),
+        [Op.lte]: new Date(year, month, 0),
+      };
+    }
+
+    const employees = await User.findAll({
+      where: whereCondition,
+      include: [
+        { model: EmployeeRole, as: "employeeRole" },
+        { model: JobDetail, as: "jobDetail" },
+        { model: BankDetail, as: "bankDetail" },
+      ],
+    });
+
+    res.status(200).json({ success: true, data: employees });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message});
+  }
+};
+
+exports.exportEmployeesToExcel = async (req, res) => {
+  try {
+    const { month, year } = req.query;
+
+    let whereCondition = {};
+
+    if (year) {
+      whereCondition["$jobDetail.date_of_joining$"] = {
+        [Op.gte]: new Date(year, 0, 1),
+        [Op.lte]: new Date(year, 11, 31),
+      };
+    }
+
+    if (month && year) {
+      whereCondition["$jobDetail.date_of_joining$"] = {
+        [Op.gte]: new Date(year, month - 1, 1),
+        [Op.lte]: new Date(year, month, 0),
+      };
+    }
+
+    const employees = await User.findAll({
+      where: whereCondition,
+      include: [
+        { model: EmployeeRole, as: "employeeRole" },
+        { model: JobDetail, as: "jobDetail" },
+        { model: BankDetail, as: "bankDetail" },
+      ],
+    });
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Employees Report");
+
+    worksheet.columns = [
+      { header: "Employee ID", key: "emp_id", width: 15 },
+      { header: "Full Name", key: "fullname", width: 25 },
+      { header: "Email", key: "email", width: 30 },
+      { header: "Phone", key: "phone", width: 15 },
+      { header: "Status", key: "status", width: 10 },
+      { header: "Joining Date", key: "date_of_joining", width: 20 },
+    ];
+
+    employees.forEach((emp) => {
+      worksheet.addRow({
+        emp_id: emp.emp_id,
+        fullname: emp.fullname,
+        email: emp.email,
+        phone: emp.phone,
+        status: emp.status,
+        date_of_joining: emp.jobDetail?.date_of_joining || "N/A",
+      });
+    });
+
+    // const filePath = path.join(__dirname, ../exports/Employees_Report.xlsx);
+    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+        const filePath = path.join(__dirname, `../exports/Employees_Report_${timestamp}.xlsx`);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    await workbook.xlsx.writeFile(filePath);
+    res.download(filePath, "Employees_Report.xlsx");
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message});
+  }
+};
+
+
+exports.getDepartmentWise = async (req, res) => {
+  try {
+    const { department_id, search = "" } = req.query;
+
+    let whereCondition = {};
+
+    if (department_id) {
+      whereCondition.department_id = department_id;
+    }
+
+    let searchCondition = {};
+    if (search) {
+      searchCondition[Op.or] = [
+        { "$employee.fullname$": { [Op.like]: `%${search}%` } },
+        { "$employee.email$": { [Op.like]: `%${search}%` } },
+        { "$employee.phone$": { [Op.like]: `%${search}%` } },
+      ];
+    }
+
+    const employees = await JobDetail.findAll({
+      where: { ...whereCondition, ...searchCondition },
+      include: [
+        { model: User, as: "employee", attributes: ["fullname", "email", "phone"] },
+        { model: Department, as: "department", attributes: ["department_name"] },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({ success: true, data: employees });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+exports.exportEmployeesDepartment = async (req, res) => {
+  try {
+    const { department_id } = req.query;
+
+    let whereCondition = {};
+    if (department_id) {
+      whereCondition.department_id = department_id;
+    }
+
+    const employees = await JobDetail.findAll({
+      where: whereCondition,
+      include: [
+        {
+          model: User,
+          as: "employee",
+          attributes: ["fullname", "email", "phone"],
+          include: [
+            // { model: EmployeeRole, as: "employeeRole", attributes: ["role_name"] }, // ✅ Fix Role linking
+          ],
+        },
+        { model: Department, as: "department", attributes: ["department_name"] },
+        // { model: BankDetail, as: "bankDetail" },
+      ],
+    });
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Employees Report");
+
+    worksheet.columns = [
+      { header: "Employee Name", key: "fullname", width: 25 },
+      { header: "Email", key: "email", width: 30 },
+      { header: "Phone", key: "phone", width: 15 },
+      { header: "Department", key: "department", width: 20 },
+      // { header: "Role", key: "role", width: 20 },
+      { header: "Job Title", key: "job_title", width: 20 },
+      { header: "Employment Type", key: "employment_type", width: 20 },
+      { header: "Joining Date", key: "date_of_joining", width: 20 },
+    ];
+
+    employees.forEach((emp) => {
+      worksheet.addRow({
+        fullname: emp.employee?.fullname || "N/A",
+        email: emp.employee?.email || "N/A",
+        phone: emp.employee?.phone || "N/A",
+        department: emp.department?.department_name || "N/A",
+        // role: emp.employee?.employeeRole?.role_name || "N/A",
+        job_title: emp.job_title,
+        employment_type: emp.employment_type,
+        date_of_joining: emp.date_of_joining,
+      });
+    });
+    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+    const filePath = path.join(__dirname, `../exports/Employees_Report_${timestamp}.xlsx`);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    await workbook.xlsx.writeFile(filePath);
+    res.download(filePath, `Employees_Report_${timestamp}.xlsx`);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message});
+  }
+};
+
+exports.getEmployeesLocation = async (req, res) => {
+  try {
+    const { search } = req.query;
+
+    let userWhereCondition = {};
+    let jobDetailWhereCondition = {};
+
+    // 🔍 Apply search filter (optional)
+    if (search) {
+      userWhereCondition = {
+        [Op.or]: [
+          { fullname: { [Op.like]: `%${search}%` } },
+          { email: { [Op.like]: `%${search}%` } },
+          { phone: { [Op.like]: `%${search}%` } },
+        ],
+      };
+    }
+
+    // 📍 Apply location filter only if provided
+    // if (location) {
+    //   jobDetailWhereCondition.work_location = { [Op.like]: `%${location}%` };
+    // }
+
+    const employees = await User.findAll({
+      where: userWhereCondition, // Apply search filter
+      include: [
+        {
+          model: JobDetail,
+          as: "jobDetail",
+          where: search ? jobDetailWhereCondition : undefined, // Apply only if location is given
+          //required: !!location, // If location is provided, it must match
+        },
+        {
+          model: EmployeeRole,
+          as: "employeeRole",
+          required: false,
+        },
+        {
+          model: BankDetail,
+          as: "bankDetail",
+          required: false,
+        },
+        {
+          model: Document,
+          as: "documents",
+          required: false,
+        },
+      ],
+    });
+
+    return res.status(200).json({ employees });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: "Something went wrong",
+      error: error.message,
+   });
+ }
+};
+
+exports.exportEmployeesLocation = async (req, res) => {
+  try {
+    const { search } = req.query;
+
+    // Validate location filter
+    let whereCondition = {};
+    if (search) {
+      whereCondition["$jobDetail.work_location$"] = { [Op.like]: `%${search}%` };
+    }
+
+    // Fetch employees
+    const employees = await User.findAll({
+      where: whereCondition,
+      include: [
+        { model: EmployeeRole, as: "employeeRole" },
+        { model: JobDetail, as: "jobDetail" },
+        { model: BankDetail, as: "bankDetail" },
+      ],
+    });
+
+    if (!employees.length) {
+      return res.status(404).json({ message: "No employees found for this location" });
+    }
+
+    // Create Excel workbook and worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Employees Location Report");
+
+    // Define Excel Columns
+    worksheet.columns = [
+      { header: "Employee ID", key: "emp_id", width: 15 },
+      { header: "Full Name", key: "fullname", width: 25 },
+      { header: "Email", key: "email", width: 30 },
+      { header: "Phone", key: "phone", width: 15 },
+      { header: "Work Location", key: "work_location", width: 20 },
+      //{ header: "Department", key: "department", width: 20 },
+      { header: "Joining Date", key: "date_of_joining", width: 20 },
+    ];
+
+    // Insert Data Rows
+    employees.forEach((emp) => {
+      worksheet.addRow({
+        emp_id: emp.emp_id,
+        fullname: emp.fullname,
+        email: emp.email,
+        phone: emp.phone,
+        work_location: emp.jobDetail?.work_location || "N/A",
+        //department: emp.jobDetail?.department_id || "N/A",
+        date_of_joining: emp.jobDetail?.date_of_joining || "N/A",
+      });
+    });
+
+    const exportDir = path.join(__dirname, "../exports");
+
+    if (!fs.existsSync(exportDir)) {
+      fs.mkdirSync(exportDir, { recursive: true });
+    }
+
+    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+    const fileName = `Employees_Location_Report_${timestamp}.xlsx`;
+    const filePath = path.join(exportDir, fileName);
+
+    // Remove existing file if already exists
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Save Excel file
+    await workbook.xlsx.writeFile(filePath);
+
+    res.download(filePath, fileName);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message});
   }
 };
 

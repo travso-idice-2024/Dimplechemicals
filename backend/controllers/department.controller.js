@@ -2,36 +2,90 @@ const { Op } = require("sequelize");
 const { Department } = require("../models");
 
 // ✅ List all departments
+// const listDepartments = async (req, res) => {
+//     try {
+//         const { page = 1, limit = 10, search = "" } = req.query;
+        
+//         const pageNumber = parseInt(page, 10);
+//         const pageSize = parseInt(limit, 10);
+//         const offset = (pageNumber - 1) * pageSize;
+        
+//         const whereCondition = search
+//             ? { department_name: { [Op.like]: `%${search}%` } }
+//             : {};
+
+//         const { count, rows } = await Department.findAndCountAll({
+//             where: whereCondition,
+//             limit: pageSize,
+//             offset,
+//             order: [["department_name", "ASC"]],
+//         });
+
+//         res.status(200).json({
+//             success: true,
+//             data: rows,
+//             currentPage: pageNumber,
+//             totalPages: Math.ceil(count / pageSize),
+//             totalItems: count,
+//         });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// };
+
+
 const listDepartments = async (req, res) => {
     try {
-        const { page = 1, limit = 10, search = "" } = req.query;
-        
-        const pageNumber = parseInt(page, 10);
-        const pageSize = parseInt(limit, 10);
-        const offset = (pageNumber - 1) * pageSize;
-        
-        const whereCondition = search
-            ? { department_name: { [Op.like]: `%${search}%` } }
-            : {};
-
-        const { count, rows } = await Department.findAndCountAll({
-            where: whereCondition,
-            limit: pageSize,
-            offset,
-            order: [["department_name", "ASC"]],
-        });
-
-        res.status(200).json({
-            success: true,
-            data: rows,
-            currentPage: pageNumber,
-            totalPages: Math.ceil(count / pageSize),
-            totalItems: count,
-        });
+      const { page = 1, limit = 10, search = "", all } = req.query;
+  
+      // Convert page & limit to integers
+      const pageNumber = parseInt(page, 10) || 1;
+      const pageSize = parseInt(limit, 10) || 10;
+      const offset = (pageNumber - 1) * pageSize;
+  
+      // Search filter (checks `department_name`)
+      const whereCondition = search
+        ? {
+            [Op.or]: [{ department_name: { [Op.like]: `%${search}%` } }],
+          }
+        : {};
+  
+      // Common query options
+      const queryOptions = {
+        where: whereCondition,
+        order: [["department_name", "ASC"]], // Sorting by department name
+        attributes: { exclude: [] }, // Fetch all fields
+      };
+  
+      // Fetch all departments if 'all' is set to true
+      if (all === "true") {
+        const departments = await Department.findAll(queryOptions);
+        return res.status(200).json({ success: true, data: departments });
+      }
+  
+      // Fetch paginated & filtered departments
+      const { count, rows } = await Department.findAndCountAll({
+        ...queryOptions,
+        limit: pageSize,
+        offset,
+      });
+  
+      res.status(200).json({
+        success: true,
+        data: rows,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(count / pageSize),
+        totalItems: count,
+      });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong",
+        error: error.message,
+      });
     }
-};
+  };
+  
 
 // ✅ Add a new department
 const addDepartment = async (req, res) => {

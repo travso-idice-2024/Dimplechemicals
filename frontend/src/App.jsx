@@ -31,19 +31,24 @@ import SalesProgressMange from './components/MainComponent/SalesProgressLeadMana
 import SalesViewLeadData from './components/MainComponent/SalesProgressLeadManageData/SalesViewLeadData';
 import PrivateRoute from './PrivateRoute';
 import { LeadFollowList } from './components/MainComponent/MarketingManagement/LeadFollowList';
-import ReportManageData from './components/MainComponent/ReportManagement/ReportManageData';
-import TodaysLeadReport from './components/MainComponent/ReportManagement/TodaysLeadReport';
-import LeadByStatusReport from './components/MainComponent/ReportManagement/LeadByStatusReport';
-import LeadBySourceReport from './components/MainComponent/ReportManagement/LeadBySourceReport';
-import LeadByOwnershipReport from './components/MainComponent/ReportManagement/LeadByOwnershipReport';
+import LeadReportManageData from './components/MainComponent/LeadReportManagement/ReportManageData';
+import EmpReportManageData from './components/MainComponent/EmployeeReportManagement/EmpReportManageData';
+
+import TodaysLeadReport from './components/MainComponent/LeadReportManagement/TodaysLeadReport';
+import LeadByStatusReport from './components/MainComponent/LeadReportManagement/LeadByStatusReport';
+import LeadBySourceReport from './components/MainComponent/LeadReportManagement/LeadBySourceReport';
+import LeadByOwnershipReport from './components/MainComponent/LeadReportManagement/LeadByOwnershipReport';
 import AttendanceSheetData from './components/MainComponent/HRManagement/AttendanceSheet/AttendanceSheetData';
 import MarketingManageData from './components/MainComponent/MarketingManagement/MarketingManageData';
-import LeadByIndustryReport from './components/MainComponent/ReportManagement/LeadByIndustryReport';
-import ConvertedLeadReport from './components/MainComponent/ReportManagement/ConvertedLeadReport';
+import LeadByIndustryReport from './components/MainComponent/LeadReportManagement/LeadByIndustryReport';
+import ConvertedLeadReport from './components/MainComponent/LeadReportManagement/ConvertedLeadReport';
 import LeadviaSourceData from './components/MainComponent/MarketingManagement/LeadViaSource/LeadviaSourceData';
 import BudgetAnalysisData from './components/MainComponent/MarketingManagement/BudgetAnalysis/BudgetAnalysisData';
 import FlyersData from './components/MainComponent/MarketingManagement/FlyersPage/FlyersData';
 import NewsAdsData from './components/MainComponent/MarketingManagement/NewsPaperAds/NewsAdsData';
+import EmpByMonthAndYearReport from './components/MainComponent/EmployeeReportManagement/EmpByMonthAndYearReport';
+import EmpByDepartmentReport from './components/MainComponent/EmployeeReportManagement/EmpByDepartmentReport';
+import EmployeeLocationWiseReport from './components/MainComponent/EmployeeReportManagement/EmployeeLocationWiseReport';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -75,13 +80,19 @@ function App() {
           <Route path="/hr/salary" element={<SalaryManage/> } />
           <Route path="/hr/document" element={<DocumentCompletion/>}/>
           <Route path="/role-management" element={<RoleManage />} />
-          <Route path="/report-management" element={<ReportManageData />} />
+          <Route path="/report-management/lead-report" element={<LeadReportManageData />} />
+          <Route path="/report-management/employee-report" element={<EmpReportManageData />} />
           <Route path="/todayleadreport" element={<TodaysLeadReport />} />
           <Route path="/statusleadreport" element={<LeadByStatusReport/>}/>
           <Route path="/sourceleadreport" element={<LeadBySourceReport/>} />
           <Route path="/ownershipleadreport" element={<LeadByOwnershipReport />} />
           <Route path="/industryleadreport" element= {<LeadByIndustryReport/>} />
           <Route path="/convertedleadreport" element={<ConvertedLeadReport/>} />
+
+
+          <Route path="/empmonthreport" element={<EmpByMonthAndYearReport/>} />
+          <Route path='/empdepartmentreport' element={<EmpByDepartmentReport/>} />
+          <Route path='/emplocationreport' element={<EmployeeLocationWiseReport/>}/>
           
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>
