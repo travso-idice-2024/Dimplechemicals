@@ -55,6 +55,18 @@ const {
   exportWonLeadCommunications
 } = require("../controllers/leadCommunicationController");
 
+const {
+  getAllLeaveData,
+  updateMultipleLeaves,
+}= require("../controllers/leave.controller");
+const {
+  checkIn,
+  checkOut,
+  getCheckinCheckoutReport,
+  exportCheckinCheckoutReport,
+  getDailyWorkingHours
+} = require("../controllers/chekinCheckout.controller");
+
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
 
@@ -130,5 +142,15 @@ router.get("/employee-department", authMiddleware, getDepartmentWise);
 router.get("/export-employee-department",authMiddleware,exportEmployeesDepartment);
 router.get("/employee-location", authMiddleware, getEmployeesLocation);
 router.get("/export-employee-location",authMiddleware,exportEmployeesLocation);
+
+router.get("/leave", authMiddleware, getAllLeaveData);
+router.post("/update-leave", authMiddleware, updateMultipleLeaves);
+
+//checkin checkout routes
+router.post("/checkin", authMiddleware, checkIn);
+router.post("/checkout", authMiddleware, checkOut);
+router.get("/checkin-checkout-report",authMiddleware ,getCheckinCheckoutReport);
+router.get("/export-checkin-checkout",authMiddleware ,exportCheckinCheckoutReport);
+router.get("/calculate-workhours",authMiddleware ,getDailyWorkingHours);
 
 module.exports = router;

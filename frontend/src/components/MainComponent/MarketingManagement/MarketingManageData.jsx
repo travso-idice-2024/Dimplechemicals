@@ -411,7 +411,7 @@ const MarketingManageData = () => {
                   alt="plus icon"
                   className="w-[18px] mr-1"
                 />{" "}
-                Assign New Leads
+                Add New Lead
               </button>
             </div>
           </div>

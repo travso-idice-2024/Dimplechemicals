@@ -26,13 +26,19 @@ const EmpReportManagementTable = ({}) => {
       reportName: "Location wise Report",
       description: "Employee Location wise Report",
     },
+    {
+      id: 3,
+      reportName: "Check In/Check Out Report",
+      description: "Employee Check In/Check Out Report",
+    },
   ];
 
   // Mapping report names to specific routes
   const reportPathMap = {
     "Month and Year Report": "/empmonthreport",
     "Deprtment wise Report": "/empdepartmentreport",
-    "Location wise Report": "/emplocationreport"
+    "Location wise Report": "/emplocationreport",
+    "Check In/Check Out Report": "/empcheckincheckoutreport"
   };
 
   return (
@@ -80,6 +86,5 @@ const EmpReportManagementTable = ({}) => {
       </div>
     </>
   );
-};
-
+}
 export default EmpReportManagementTable;

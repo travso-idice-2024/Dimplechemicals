@@ -3,33 +3,40 @@ import { useDispatch, useSelector } from "react-redux";
 import "./EmpReportManageData.css";
 import { useNavigate } from "react-router-dom";
 import ContentTop from "../../ContentTop/ContentTop";
-import { EmpReportMonthYearWise } from "../../../redux/userSlice";
+import {
+  EmpCheckInCheckOutReportData,
+  fetchAllUsers,
+} from "../../../redux/userSlice";
 import axios from "axios";
 import { iconsImgs } from "../../../utils/images";
 
-const EmpByMonthAndYearReport = () => {
+const EmpCheckInCheckoutReport = () => {
   const dispatch = useDispatch();
 
-  const { empData } = useSelector((state) => state.user);
+  const { empCinCotData, allusers } = useSelector((state) => state.user);
 
-  //console.log("empData", empData);
+  console.log("empCinCotData", empCinCotData);
+  console.log("allusers", allusers);
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [searchMonth, setSearchMonth] = useState("");
-  const [searchYear, setSearchYear] = useState("");
+  const [searchEmp, setSearchEmp] = useState("");
+  const [searchDay, setSearchDay] = useState("");
   // const [currentPage, setCurrentPage] = useState(1);
   // const leadPerPage = 10;
 
   // Fetch departments whenever searchTerm or currentPage changes
   useEffect(() => {
+    dispatch(fetchAllUsers());
     dispatch(
-      EmpReportMonthYearWise({
+      EmpCheckInCheckOutReportData({
         month: searchMonth,
-        year: searchYear,
+        emp_id: searchEmp,
+        day: searchDay,
       })
     );
-  }, [dispatch, searchMonth, searchYear]);
+  }, [dispatch, searchMonth, searchEmp]);
 
   // Handle search input change
   //   const handleSearchChange = (e) => {
@@ -58,7 +65,8 @@ const EmpByMonthAndYearReport = () => {
           },
           params: {
             month: searchMonth,
-            year: searchYear,
+            emp_id: searchEmp,
+            day: searchDay,
           },
           responseType: "blob", // ✅ Important to keep it here
         }
@@ -70,7 +78,7 @@ const EmpByMonthAndYearReport = () => {
       // ✅ Create a temporary <a> tag to download the file
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "Employee_MonthYear_Wise_Report.xlsx"); // File name
+      link.setAttribute("download", "Employee_Working_Hours_Report.xlsx"); // File name
       document.body.appendChild(link);
       link.click();
 
@@ -108,7 +116,7 @@ const EmpByMonthAndYearReport = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Employee Report By Month & Year
+                Employee CheckIn/CheckOut Report
               </h1>
             </div>
 
@@ -120,35 +128,40 @@ const EmpByMonthAndYearReport = () => {
                   className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
                 >
                   <option value="">Select Month</option>
-                  <option value="01">January</option>
-                  <option value="02">February</option>
-                  <option value="03">March</option>
-                  <option value="04">April</option>
-                  <option value="05">May</option>
-                  <option value="06">June</option>
-                  <option value="07">July</option>
-                  <option value="08">August</option>
-                  <option value="09">September</option>
-                  <option value="10">October</option>
-                  <option value="11">November</option>
-                  <option value="12">December</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                      {new Date(0, i).toLocaleString("en", { month: "long" })}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <select
+                  value={searchDay}
+                  onChange={(e) => setSearchDay(e.target.value)}
+                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                >
+                  <option value="">Select Day</option>
+                  {Array.from({ length: 31 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div>
                 <select
-                  value={searchYear}
-                  onChange={(e) => setSearchYear(e.target.value)}
+                  value={searchEmp}
+                  onChange={(e) => setSearchEmp(e.target.value)}
                   className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
                 >
-                  <option value="">Select Year</option>
-                  {Array.from({ length: 101 }, (_, i) => 2000 + i).map(
-                    (year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    )
-                  )}
+                  <option value="">Select Employee</option>
+                  {allusers?.data?.map((user, index) => (
+                    <option key={index} value={user.id}>
+                      {user.fullname}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -176,57 +189,61 @@ const EmpByMonthAndYearReport = () => {
                       Id
                     </th>
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Emp Id
+                      Date
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                      Name
                     </th>
 
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Full Name
+                      CheckIn Time
                     </th>
 
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Emil
+                      Checkout Time
                     </th>
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Phone
-                    </th>
-
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Status
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Joining Date
+                      Location
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {empData &&
-                    empData?.data?.map((user, index) => (
+                  {empCinCotData &&
+                    empCinCotData?.records?.map((user, index) => (
                       <tr key={index + 1}>
                         <td className="px-4 py-2 text-textdata">{index + 1}</td>
                         <td className="px-4 py-2 text-textdata">
-                          {user?.emp_id}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {user?.fullname}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {user?.email}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {user?.phone}
-                        </td>
-
-                        <td className="px-4 py-2 text-textdata">
-                          {user?.status}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {new Date(
-                            user?.jobDetail?.date_of_joining
-                          )?.toLocaleDateString("en-GB", {
+                          {new Date(user?.data)?.toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric",
                           })}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.User?.fullname}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {new Date(user?.check_in_time)?.toLocaleTimeString(
+                            "en-US",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            }
+                          )}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {new Date(user?.check_out_time)?.toLocaleTimeString(
+                            "en-US",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            }
+                          )}
+                        </td>
+                        <td className="px-4 py-2 text-textdata">
+                          {user?.checkin_location}
                         </td>
                       </tr>
                     ))}
@@ -241,4 +258,4 @@ const EmpByMonthAndYearReport = () => {
   );
 };
 
-export default EmpByMonthAndYearReport;
+export default EmpCheckInCheckoutReport;

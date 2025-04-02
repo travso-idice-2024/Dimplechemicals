@@ -131,6 +131,12 @@ export const navigationLinks = [
         image: iconsImgs.assignment,
         path: "/hr/attandance-sheet",
       },
+      {
+        id: 7.2,
+        title: "leave Management",
+        image: iconsImgs.assignment,
+        path: "/hr/leave",
+      },
       // {
       //   id: 7.1,
       //   title: "Attendance Management",

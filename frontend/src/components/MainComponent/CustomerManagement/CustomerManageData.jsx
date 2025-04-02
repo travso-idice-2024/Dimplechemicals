@@ -242,7 +242,7 @@ const CustomerManageData = () => {
     e.preventDefault();
     if (validateEditInputs()) {
       try {
-        console.log("editFormData",editFormData);
+        //console.log("editFormData",editFormData);
         const response = await dispatch(
           updateCustomer({
             id: selectedCustomer.id,
