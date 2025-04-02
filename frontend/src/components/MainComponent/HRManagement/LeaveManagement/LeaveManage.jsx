@@ -1,15 +1,84 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./MarketingManageData.css";
 import "../../../../layout/MainCssFile.css";
 import { iconsImgs } from "../../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
-// import ViewUserModal from "./ViewUserModal";
-// import EditUserModal from "./EditUserModal";
 import ContentTop from "../../../ContentTop/ContentTop";
+import {  fetchLeaveData,updateLeaveData} from "../../../../redux/userSlice";
 
 const LeaveManage = () => {
+  const dispatch = useDispatch();
+  const {leaveData} = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    dispatch(fetchLeaveData());
+  }, [dispatch]);
+
+
+  const [updatedLeaves, setUpdatedLeaves] = useState(
+    Array.isArray(leaveData?.data) ? leaveData.data : []
+  );
+  
+  useEffect(() => {
+    if (Array.isArray(leaveData?.data)) {
+      setUpdatedLeaves([...leaveData.data]);
+    }
+  }, [leaveData]);
+  
+  const handleChange = (index, field, value) => {
+    //console.log(`Updating index ${index}, field ${field}, value ${value}`);
+    const updatedData = [...updatedLeaves];
+    updatedData[index] = { ...updatedData[index], [field]: value };
+    setUpdatedLeaves(updatedData);
+  };
+  
+  useEffect(() => {
+    console.log("updatedLeaves after change:", updatedLeaves);
+  }, [updatedLeaves]);
+
+  const [flashMessage, setFlashMessage] = useState("");
+    const [flashMsgType, setFlashMsgType] = useState("");
+  
+    // handle flash messages show
+  
+    const handleFlashMessage = (message, type) => {
+      setFlashMessage(message);
+      setFlashMsgType(type);
+      setTimeout(() => {
+        setFlashMessage("");
+        setFlashMsgType("");
+      }, 3000);
+    };
+
+  // Submit updated leave data
+  const handleUpdate = async () => {
+    try {
+      const response = await dispatch(updateLeaveData({leaves: updatedLeaves})).unwrap();;
+      console.log("response",response);
+      if (response.success === true) {
+        handleFlashMessage(response?.message, "success");
+        dispatch(fetchLeaveData());
+        //alert("Leaves updated successfully!");
+        //setAddUserModalOpen(false);
+      } else {
+        handleFlashMessage(
+          response?.message || "Something went wrong",
+          "error"
+        );
+        //alert("Failed to update leaves.");
+      }
+    } catch (error) {
+      console.error("Error updating leaves:", error);
+      alert("Something went wrong. Please try again later.");
+    }
+  };
+
+
   const [searchTerm, setSearchTerm] = useState("");
   // Load initial users from localStorage or use default list
   const [users, setUsers] = useState(() => {
@@ -82,7 +151,7 @@ const LeaveManage = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-white text-textdata font-semibold">
-                Leave Request
+                Leave Request Details
               </h1>
             </div>
             <div className="flex items-center gap-[5px]">
@@ -95,7 +164,7 @@ const LeaveManage = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              {/* <div>
+              <div>
                 <button
                   className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                   onClick={() => setAddUserModalOpen(true)}
@@ -105,9 +174,9 @@ const LeaveManage = () => {
                     alt="plus icon"
                     className="w-[18px] mr-1"
                   />{" "}
-                  Add Assignment
+                  Update leave Data
                 </button>
-              </div> */}
+              </div>
             </div>
           </div>
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
@@ -131,7 +200,17 @@ const LeaveManage = () => {
 
         {/* Add User Modal */}
         {isAddUserModalOpen && (
-          <AddRoleModal setAddUserModalOpen={setAddUserModalOpen} />
+          <AddRoleModal setAddUserModalOpen={setAddUserModalOpen}
+           LeaveData={leaveData?.data}
+           updatedLeaves={updatedLeaves}
+           setUpdatedLeaves={setUpdatedLeaves}
+           handleChange={handleChange}
+           handleUpdate={handleUpdate}
+           flashMessage={flashMessage}
+          setFlashMessage={setFlashMessage}
+          flashMsgType={flashMsgType}
+          setFlashMsgType={setFlashMsgType}
+          handleFlashMessage={handleFlashMessage} />
         )}
 
         {/* Edit User Modal */}

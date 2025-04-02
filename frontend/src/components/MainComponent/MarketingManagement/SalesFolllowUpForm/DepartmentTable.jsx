@@ -6,6 +6,7 @@ const DepartmentTable = ({
   setViewModalOpen,
   currentPage,
   usersPerPage,
+  setSelectedUser
 }) => {
   return (
     <div className="overflow-x-auto w-[1140px]">
@@ -35,7 +36,11 @@ const DepartmentTable = ({
               <td className="px-4 py-2">
                 {index + 1 + (currentPage - 1) * usersPerPage}
               </td>
-              <td className="px-4 py-2 text-textdata">{user.leadname}</td>
+              <td className="px-4 py-2 text-textdata cursor-pointer" onClick={() => {
+                  setViewModalOpen(true);
+                  setSelectedUser(user);
+
+                }}>{user.leadname}</td>
               <td className="px-4 py-2 text-textdata">{user.salespersonname}</td>
               <td className="px-4 py-2 text-textdata">{user.meetdate}</td>
               <td className="px-4 py-2 text-textdata">{user.meettype}</td>

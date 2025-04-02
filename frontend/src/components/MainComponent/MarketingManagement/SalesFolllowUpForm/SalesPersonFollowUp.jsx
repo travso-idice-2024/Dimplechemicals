@@ -5,6 +5,7 @@ import { iconsImgs } from "../../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
+import ViewUserModal  from "./ViewUserModal";
 // import ViewUserModal from "./ViewUserModal";
 // import EditUserModal from "./EditUserModal";
 import ContentTop from "../../../ContentTop/ContentTop";
@@ -12,6 +13,7 @@ import ContentTop from "../../../ContentTop/ContentTop";
 const SalesPersonFollowUp = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // Load initial users from localStorage or use default list
+    const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState(() => {
     const storedUsers = localStorage.getItem("follow-up-form");
     return storedUsers
@@ -79,6 +81,7 @@ const SalesPersonFollowUp = () => {
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  
 
   return (
     <div className="main-content">
@@ -111,7 +114,7 @@ const SalesPersonFollowUp = () => {
                     alt="plus icon"
                     className="w-[18px] mr-1"
                   />{" "}
-                  Add Follow-Up Form
+                  POA for Day
                 </button>
               </div>
             </div>
@@ -124,6 +127,7 @@ const SalesPersonFollowUp = () => {
               setViewModalOpen={setViewModalOpen}
               currentPage={currentPage}
               usersPerPage={usersPerPage}
+              setSelectedUser={setSelectedUser}
             />
             {/*------- Table Data End -------*/}
           </div>
@@ -146,9 +150,9 @@ const SalesPersonFollowUp = () => {
         )} */}
 
         {/* View User Modal */}
-        {/* {isViewModalOpen && (
-          <ViewUserModal setViewModalOpen={setViewModalOpen} />
-        )} */}
+        {isViewModalOpen && (
+          <ViewUserModal setViewModalOpen={setViewModalOpen} selectedUser={selectedUser} />
+        )}
       </div>
     </div>
   );

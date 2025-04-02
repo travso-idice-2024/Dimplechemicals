@@ -223,12 +223,76 @@ export const EmpReportLocationWise = createAsyncThunk(
   }
 );
 
+//emp check in checkout report
+export const EmpCheckInCheckOutReportData = createAsyncThunk(
+  "auth/checkin-checkout-report",
+  async ({ month="", emp_id="",day="" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/checkin-checkout-report`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { month, emp_id ,day },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch check in checkout data");
+    }
+  }
+);
+
+//fetch leave data
+export const fetchLeaveData = createAsyncThunk(
+  "auth/leave",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/leave`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch all leave data"
+      );
+    }
+  }
+);
+
+//update leave data
+export const updateLeaveData = createAsyncThunk(
+  "auth/update-leave",
+  async ({ leaves }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+
+      // Corrected axios.post usage
+      const response = await axios.post(
+        `${API_URL}/auth/update-leave`, // URL
+        { leaves }, // Request body (data)
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Correct placement for headers
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to update leave data"
+      );
+    }
+  }
+);
+
 // 🔹 USER SLICE
 const userSlice = createSlice({
   name: "user",
   initialState: {
     users: [],
     allusers: [],
+    leaveData:[],
+    empCinCotData:[],
     emplocationData:[],
     empData:[],
     empDepartData:[],
@@ -252,6 +316,35 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
+
+      .addCase(fetchLeaveData.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(fetchLeaveData.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.leaveData = action.payload;
+      })
+      .addCase(fetchLeaveData.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
+
+      
+      .addCase(EmpCheckInCheckOutReportData.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(EmpCheckInCheckOutReportData.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.empCinCotData = action.payload;
+      })
+      .addCase(EmpCheckInCheckOutReportData.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
 
       .addCase(EmpReportLocationWise.pending, (state) => {
         state.userLoading = true;
@@ -362,6 +455,31 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
+
+      .addCase(updateLeaveData.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(updateLeaveData.fulfilled, (state, action) => {
+        state.userLoading = false;
+
+        if (!Array.isArray(state.leaveData)) {
+          state.leaveData = [];
+        }
+
+        const index = state.leaveData.findIndex(
+          (leave) => leave.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.leaveData[index] = action.payload;
+        }
+      })
+      .addCase(updateLeaveData.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+      
       .addCase(removeUser.pending, (state) => {
         state.userLoading = true;
         state.userError = null;

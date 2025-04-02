@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg: 'Password is required' },
           notEmpty: { msg: 'Password cannot be empty' },
-          len: { args: [8, 100], msg: 'Password must be at least 8 characters' },
+          len: { args: [6, 100], msg: 'Password must be at least 6 characters' },
           isStrongPassword(value) {
             const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
             if (!regex.test(value)) {

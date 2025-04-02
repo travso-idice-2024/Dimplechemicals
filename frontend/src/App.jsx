@@ -49,6 +49,7 @@ import NewsAdsData from './components/MainComponent/MarketingManagement/NewsPape
 import EmpByMonthAndYearReport from './components/MainComponent/EmployeeReportManagement/EmpByMonthAndYearReport';
 import EmpByDepartmentReport from './components/MainComponent/EmployeeReportManagement/EmpByDepartmentReport';
 import EmployeeLocationWiseReport from './components/MainComponent/EmployeeReportManagement/EmployeeLocationWiseReport';
+import EmpCheckInCheckoutReport from './components/MainComponent/EmployeeReportManagement/EmpCheckInCheckoutReport';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -89,10 +90,10 @@ function App() {
           <Route path="/industryleadreport" element= {<LeadByIndustryReport/>} />
           <Route path="/convertedleadreport" element={<ConvertedLeadReport/>} />
 
-
           <Route path="/empmonthreport" element={<EmpByMonthAndYearReport/>} />
           <Route path='/empdepartmentreport' element={<EmpByDepartmentReport/>} />
           <Route path='/emplocationreport' element={<EmployeeLocationWiseReport/>}/>
+          <Route path='/empcheckincheckoutreport' element={<EmpCheckInCheckoutReport/>}/>
           
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>

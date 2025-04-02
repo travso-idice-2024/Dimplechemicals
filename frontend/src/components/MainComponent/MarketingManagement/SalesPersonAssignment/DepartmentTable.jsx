@@ -24,9 +24,9 @@ const DepartmentTable = ({
             Date Visit
           </th>
           
-          {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
             Action
-          </th> */}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -38,29 +38,29 @@ const DepartmentTable = ({
             <td className="px-4 py-2 text-textdata">{user.date}</td>
             <td className="px-4 py-2 text-textdata">{user.priority}</td>
             <td className="px-4 py-2 text-textdata">{user.datevisit}</td>
-            {/* <td className="px-4 py-2 text-textdata space-x-2">
-              <button
+            <td className="px-4 py-2 text-textdata space-x-2">
+              {/* <button
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                 onClick={() => {
                   setViewModalOpen(true);
                 }}
               >
                 View
-              </button>
+              </button> */}
               <button
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                onClick={() => {
-                  setEditUserModalOpen(true);
-                }}
+                className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
+                // onClick={() => {
+                //   setEditUserModalOpen(true);
+                // }}
               >
-                Edit
+                Deal
               </button>
-              <button
+              {/* <button
                 className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 Delete
-              </button>
-            </td> */}
+              </button> */}
+            </td>
           </tr>
         ))}
       </tbody>
