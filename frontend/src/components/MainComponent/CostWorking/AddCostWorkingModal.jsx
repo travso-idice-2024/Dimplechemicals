@@ -113,13 +113,13 @@ const AddCostWorkingModal = ({
 
       {/* Modal Container */}
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[980px]  rounded-[6px]">
+        <div className="bg-white w-[900px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Cost Working
           </h2>
 
           <div className="p-4 mt-5 overflow-y-auto h-[440px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-48 gap-y-2">
               {/* Select Customer */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -129,7 +129,7 @@ const AddCostWorkingModal = ({
                   name="company_name"
                   value={costWorkingData.company_name || ""}
                   onChange={handleCostWorkingCustomerChange}
-                  className="block w-full text-textdata mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                  className="block w-full text-textdata mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9.50px]"
                 >
                   <option value="">Select the Customer</option>
                   {allCustomers?.data?.map((customer) => (
@@ -149,7 +149,7 @@ const AddCostWorkingModal = ({
               {costWorkingData.company_name && (
                 <div>
                   <label className="font-poppins font-medium text-textdata text-bgData">
-                    Select Location:
+                    Select Location Site:
                   </label>
                   <select
                     name="location"
@@ -168,9 +168,9 @@ const AddCostWorkingModal = ({
               )}
               {/* Additional Fields */}
               {[
+                "estimate_date",
                 "nature_of_work",
                 "technology_used",
-                "estimate_date",
                 "revision_date",
                 "area_to_be_coated",
                 "thickness_in_mm",
@@ -207,16 +207,18 @@ const AddCostWorkingModal = ({
                   )}
                 </div>
               ))}
-
-              
             </div>
             {/* Product List */}
-            <div className="mt-4 px-4">
-                <h3 className="font-poppins font-medium text-textdata text-bgData mb-2">
-                  Products
-                </h3>
+            <h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
+              Products
+            </h3>
 
-                {costWorkingData.products.map((product, index) => (
+            <div className="px-4">
+              {costWorkingData.products.map((product, index) => (
+                <>
+                  <h3 className=" text-bgDataNew font-poppins font-medium text-textdatanew text-bgData mt-5">
+                    Product {index+1} :
+                  </h3>
                   <div
                     key={index}
                     className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
@@ -267,26 +269,27 @@ const AddCostWorkingModal = ({
                       onClick={() => handleRemoveProduct(index)}
                       className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                     >
-                      Remove
+                      Remove Product Field
                     </button>
                   </div>
-                ))}
+                </>
+              ))}
 
-                {/* Add Product Button */}
-                <button
-                  type="button"
-                  onClick={handleAddProduct}
-                  className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 mt-2"
-                >
-                  Add Product
-                </button>
+              {/* Add Product Button */}
+              <button
+                type="button"
+                onClick={handleAddProduct}
+                className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-orange-600 mt-2"
+              >
+                Add Product
+              </button>
 
-                {/* Display Total Material Cost */}
-                <div className="mt-4 font-poppins text-[16px] font-semibold text-bgData">
-                  Total Material Cost: ₹{" "}
-                  {costWorkingData.total_material_cost || 0}
-                </div>
+              {/* Display Total Material Cost */}
+              <div className="mt-4 font-poppins bg-bgDataNew w-fit text-white text-center rounded-[5px] py-2 px-3 text-[16px] font-semibold text-bgData">
+                Total Material Cost: &nbsp;₹{" "}
+                {costWorkingData.total_material_cost || 0}
               </div>
+            </div>
           </div>
 
           {/* Submit and Close Buttons */}

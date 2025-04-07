@@ -40,7 +40,7 @@ const [isCostWorkingModalOpen, setIsCostWorkingModalOpen] = useState(false);
 // Pagination & Search States
 const [searchTerm, setSearchTerm] = useState("");
 const [currentPage, setCurrentPage] = useState(1);
-const costWorkingPerPage = 10;
+const costWorkingPerPage = 8;
 
 
   // Fetch departments whenever searchTerm or currentPage changes
