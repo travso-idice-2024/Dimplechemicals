@@ -30,8 +30,8 @@ const CostWorkingTable = ({
           <ErrorMessage message={deleteFlashMessage} />
         )}
       </div>
-      <div className="overflow-x-auto w-[1140px]">
-        <table className="w-max table-auto">
+      <div className="overflow-x-auto w-full">
+        <table className="w-full table-auto">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
