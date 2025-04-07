@@ -52,7 +52,8 @@ const Financial = () => {
         labels: {
           style: {
             colors: "#fff", 
-            fontSize: "14px",
+            fontSize: "12px",
+            fontWeight: "500"
           },
         },
       },
@@ -70,6 +71,13 @@ const Financial = () => {
       tooltip: {
         theme: "dark", // This will make the tooltip background black
       },
+      plotOptions: {
+        bar: {
+          columnWidth: "40%", // Graph bars ki thickness ko adjust karne ke liye
+          distributed: true,
+        },
+      },
+      
     },
   });
 
@@ -87,7 +95,7 @@ const Financial = () => {
             options={chartData.options}
             series={chartData.series}
             type="bar"
-            height={350}
+            height={220}
           />
         </div>
         <div id="html-dist"></div>

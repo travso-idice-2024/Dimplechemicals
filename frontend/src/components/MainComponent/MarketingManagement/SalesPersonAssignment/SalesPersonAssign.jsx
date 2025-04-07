@@ -81,8 +81,8 @@ const SalesPersonAssign = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-white text-textdata font-semibold">
-                SalesPerson Assignment
+              <h1 className="text-white text-[15px] font-semibold">
+                Sales Lead
               </h1>
             </div>
             <div className="flex items-center gap-[5px]">
@@ -105,7 +105,7 @@ const SalesPersonAssign = () => {
                     alt="plus icon"
                     className="w-[18px] mr-1"
                   />{" "}
-                  Add Assignment
+                  Add New Lead
                 </button>
               </div>
             </div>

@@ -46,7 +46,7 @@ const Budget = () => {
         curve: "smooth",
       },
       title: {
-        text: "Expected Sales & Archieved Sales",
+        // text: "Expected Sales & Archieved Sales",
         align: "left",
         style: {
           color: "#fe6c00", // Orange title
@@ -67,7 +67,7 @@ const Budget = () => {
       xaxis: {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
         title: {
-          text: "Month",
+          text: "",
           style: {
             color: "#fe6c00", // Orange x-axis title
           },
@@ -136,7 +136,7 @@ const Budget = () => {
             options={state.options}
             series={state.series}
             type="line"
-            height={350}
+            height={200}
           />
         </div>
         <div id="html-dist"></div>

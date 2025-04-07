@@ -8,34 +8,22 @@ import Savings from "../Savings/Savings";
 import Loans from "../Loans/Loans";
 import Financial from "../Financial/Financial";
 import Employee from "../Employee/Employee";
+import MeetingPage from "../Meeting/MeetingPage";
 
 const ContentMain = () => {
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <Cards />
-        <Transactions />
+        {/* <Transactions /> */}
+        <Financial />
         <Budget />
         <Report />
-        <Loans />
-        <Financial />
+        <Loans /> 
+        {/* <Financial /> */}
+        <Transactions />
       </div>
-      {/* <div className="content-grid-two">
-            <Budget />
-            <div className="grid-two-item">
-              <div className="subgrid-two">
-                <Subscriptions />
-                <Savings />
-              </div>
-            </div>
-
-            <div className="grid-two-item">
-              <div className="subgrid-two">
-                <Loans />
-                <Financial />
-              </div>
-            </div>
-        </div> */}
+      <MeetingPage/>
       <Employee />
     </div>
   );

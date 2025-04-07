@@ -141,7 +141,7 @@ const AttendanceSheetData = () => {
                   className="cursor-pointer"
                 >
                   <path
-                    d="M22.5 27L13.5 18L22.5 9"
+                    d="M22.5 27L13.5 18L22.5 9" 
                     stroke="white"
                     strokeWidth="3"
                     strokeLinecap="round"
@@ -154,17 +154,17 @@ const AttendanceSheetData = () => {
 
             <div className="flex items-center gap-[5px]">
               <div>
-                <span className="text-green-600">Total Time:  {workingTime}</span>
+                <span className="text-green-600 text-textdata">Total Time:  {workingTime}</span>
               </div>
               <div>
                 <select
                   value={searchMonth}
                   onChange={(e) => setSearchMonth(e.target.value)}
-                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none"
                 >
-                  <option value="">Select Month</option>
+                  <option className="text-[16px]" value="">Select Month</option>
                   {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                    <option className="text-[16px]" key={i + 1} value={String(i + 1).padStart(2, "0")}>
                       {new Date(0, i).toLocaleString("en", { month: "long" })}
                     </option>
                   ))}
@@ -174,7 +174,7 @@ const AttendanceSheetData = () => {
                 <select
                   value={searchDay}
                   onChange={(e) => setSearchDay(e.target.value)}
-                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none"
                 >
                   <option value="">Select Day</option>
                   {Array.from({ length: 31 }, (_, i) => {
@@ -192,7 +192,7 @@ const AttendanceSheetData = () => {
                 <select
                   value={searchEmp}
                   onChange={(e) => setSearchEmp(e.target.value)}
-                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none"
                 >
                   <option value="">Select Employee</option>
                   {allusers?.data?.map((user, index) => (
@@ -204,7 +204,7 @@ const AttendanceSheetData = () => {
               </div>
               <div>
                 <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.20rem]"
                   onClick={handleExportData}
                 >
                   <img

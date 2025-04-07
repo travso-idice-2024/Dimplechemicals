@@ -53,13 +53,13 @@ export const navigationLinks = [
         submenu: [
           {
             id: "5.2.1",
-            title: "SalesPerson Assignment",
+            title: "Sales Lead",
             image: iconsImgs.assignment,
             path: "/sale-management/leads/assignment",
           },
           {
             id: "5.2.2",
-            title: "PO Form Deal Finalization",
+            title: "Finalize Deal",
             image: iconsImgs.poform,
             path: "/sale-management/leads/po-form",
           },
@@ -85,32 +85,32 @@ export const navigationLinks = [
         image: iconsImgs.followupform,
         path: "/marketing-management/lead-via-source",
       },
-      {
-        id: 6.3,
-        title: "Budget Analysis",
-        image: iconsImgs.followupform,
-        path: "/marketing-management/budget-analysis",
-      },
-      {
-        id: 6.4,
-        title: "Other Marketing",
-        image: iconsImgs.followupform,
-        path: "/marketing-management/other-like",
-        submenu: [
-          {
-            id: "6.4.1",
-            title: "Newspaper Ad",
-            image: iconsImgs.followupform,
-            path: "/marketing-management/other-like/newspaper-ad",
-          },
-          {
-            id: "6.4.2",
-            title: "Flyers",
-            image: iconsImgs.followupform,
-            path: "/marketing-management/other-like/flyers",
-          },
-        ]
-      },
+      // {
+      //   id: 6.3,
+      //   title: "Budget Analysis",
+      //   image: iconsImgs.followupform,
+      //   path: "/marketing-management/budget-analysis",
+      // },
+      // {
+      //   id: 6.4,
+      //   title: "Other Marketing",
+      //   image: iconsImgs.followupform,
+      //   path: "/marketing-management/other-like",
+      //   submenu: [
+      //     {
+      //       id: "6.4.1",
+      //       title: "Newspaper Ad",
+      //       image: iconsImgs.followupform,
+      //       path: "/marketing-management/other-like/newspaper-ad",
+      //     },
+      //     {
+      //       id: "6.4.2",
+      //       title: "Flyers",
+      //       image: iconsImgs.followupform,
+      //       path: "/marketing-management/other-like/flyers",
+      //     },
+      //   ]
+      // },
     ]
   },
   {
@@ -131,12 +131,12 @@ export const navigationLinks = [
         image: iconsImgs.assignment,
         path: "/hr/attandance-sheet",
       },
-      {
-        id: 7.2,
-        title: "leave Management",
-        image: iconsImgs.assignment,
-        path: "/hr/leave",
-      },
+      // {
+      //   id: 7.2,
+      //   title: "leave Management",
+      //   image: iconsImgs.assignment,
+      //   path: "/hr/leave",
+      // },
       // {
       //   id: 7.1,
       //   title: "Attendance Management",
@@ -222,7 +222,7 @@ export const navigationLinks = [
     submenu: [
       {
         id: 8.1,
-        title: "Lead Report",
+        title: "Sales Report",
         image: iconsImgs.followupform,
         path: "/report-management/lead-report",
       },

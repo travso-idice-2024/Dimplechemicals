@@ -24,8 +24,8 @@ ChartJS.register(
 
 const Cards = () => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-  const lead = [20, 30, 45, 60, 70, 80];
-  const conversion = ["30%", "50%", "60%", "50%", "10%", "30%"];
+  const lead = [20, 30, 45, 50,65, 95];
+  const conversion = ["30%", "50%", "60%", "50%", "10%", "30%", "10%", "40%","50","30%", "50%", "60%"];
 
   const barData = {
     labels: months,
@@ -40,6 +40,7 @@ const Cards = () => {
 
   const barOptions = {
     responsive: true,
+    maintainAspectRatio: false, // ✅ Graph ka height adjust karne ke liye
     plugins: {
       tooltip: {
         enabled: true,
@@ -70,21 +71,24 @@ const Cards = () => {
       x: {
         ticks: {
           color: "white", // X-axis labels white
+          grid: { color: "rgba(251, 242, 242, 0.2)" },
         },
         grid: {
           color: "rgba(251, 242, 242, 0.2)", // Optional: X-axis grid lines ko halka white
         },
       },
       y: {
-        beginAtZero: true,
+        min: 0, // Y-axis minimum value
+        max: 100, // Y-axis maximum value
         ticks: {
-          color: "white", // Y-axis labels white
+          stepSize: 5, // Har tick 5 ke gap me aayega (0, 5, 10, 15, ..., 80)
+          color: "white",
         },
         grid: {
           color: "rgba(255, 255, 255, 0.2)", // Optional: Y-axis grid lines ko halka white
         },
       },
-    },
+    },    
     animation: {
       onComplete: function () {
         const chartInstance = this;
@@ -101,8 +105,8 @@ const Cards = () => {
         });
       },
     },
-    barThickness: 40, // Fixing bar width
-    maxBarThickness: 40, // Maximum width allowed
+    barThickness: 30, // Fixing bar width
+    maxBarThickness: 30, // Maximum width allowed
   };
 
   return (
@@ -115,7 +119,7 @@ const Cards = () => {
       </div>
       {/* <p className="text-[14px] text-bgDataNew mt-6 mb-2">Monthly Leads and Conversion Rate</p> */}
       <div className="">
-        <Bar data={barData} options={barOptions} />
+        <Bar data={barData} options={barOptions} height={200} />
       </div>
     </div>
   );

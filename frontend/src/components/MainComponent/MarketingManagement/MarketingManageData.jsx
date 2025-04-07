@@ -8,7 +8,12 @@ import AddRoleModal from "./AddRoleModal";
 import ViewUserModal from "./ViewUserModal";
 import EditUserModal from "./EditUserModal";
 import AssignLeadModal from "./AssignLeadModal";
-import { addLead, updateLead, listLeads,removeLead } from "../../../redux/leadSlice";
+import {
+  addLead,
+  updateLead,
+  listLeads,
+  removeLead,
+} from "../../../redux/leadSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { fetchUserWithRole } from "../../../redux/userSlice";
 import {
@@ -351,7 +356,7 @@ const MarketingManageData = () => {
   //delete lead==========================================================
   const [deleteFlashMessage, setDeleteFlashMessage] = useState("");
   const [deleteFlashMsgType, setDeleteFlashMsgType] = useState("");
-  
+
   // ✅ Function to show delete flash messages
   const handleDeleteFlashMessage = (message, type) => {
     setDeleteFlashMessage(message);
@@ -361,7 +366,7 @@ const MarketingManageData = () => {
       setDeleteFlashMsgType("");
     }, 3000); // Hide the message after 3 seconds
   };
-  
+
   const handleDelete = async (id) => {
     try {
       await dispatch(removeLead(id)).unwrap();
@@ -380,7 +385,7 @@ const MarketingManageData = () => {
       );
     }
   };
-  
+
   //end delete lead======================================================
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">

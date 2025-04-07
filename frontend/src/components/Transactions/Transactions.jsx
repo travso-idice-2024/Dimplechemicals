@@ -70,13 +70,13 @@ const Transactions = () => {
         </button>
       </div>
 
-      <div className="grid-content flex items-center justify-center">
+      <div className="grid-content flex items-center justify-center mb-4">
         <div id="chart">
           <ReactApexChart
             options={chartData.options}
             series={chartData.series}
             type="pie"
-            width={380}
+            width={350}
           />
         </div>
       </div>

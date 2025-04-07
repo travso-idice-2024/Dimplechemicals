@@ -40,7 +40,7 @@ const Report = () => {
         labels: {
           style: {
             colors: ["#ffffff", "#f39c12", "#f39c12", "#f39c12", "#f39c12"], // Orange color for each month name
-            fontSize: "14px",
+            fontSize: "12px",
           },
         },
         tickAmount: 4, // Controls the number of ticks displayed
@@ -52,7 +52,7 @@ const Report = () => {
         labels: {
           style: {
             colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"], // Orange color for each month name
-            fontSize: "14px",
+            fontSize: "12px",
           },
         },
       },
@@ -77,7 +77,7 @@ const Report = () => {
           options={chartData.options}
           series={chartData.series}
           type="bar"
-          height={430}
+          height={220}
         />
       </div>
     </div>
