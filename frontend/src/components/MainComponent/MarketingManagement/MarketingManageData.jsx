@@ -27,6 +27,8 @@ const MarketingManageData = () => {
     (state) => state.lead
   );
 
+  //console.log("leads",leads);
+
   const { userDataWithRole } = useSelector((state) => state.user);
 
   const { user: userDeatail } = useSelector((state) => state.auth);
@@ -34,8 +36,8 @@ const MarketingManageData = () => {
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
-  console.log("allCustomers", allCustomers?.data);
-  console.log("customerAddress", customerAddress);
+  //console.log("allCustomers", allCustomers?.data);
+  //console.log("customerAddress", customerAddress);
   const [selectedLead, setSelectedLead] = useState({});
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);

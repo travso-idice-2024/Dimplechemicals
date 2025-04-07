@@ -20,10 +20,6 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
                     "Visit End time",
                     "Customer Name",
                     "Contact Person Name",
-                    "Company Name",
-                    "Industry Type",
-                    "Location",
-                    "Pincode",
                     "Customer Need",
                     "Product Proposed",
                     "Total Cost Amount",
@@ -37,46 +33,75 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
                 </tr>
               </thead>
               <tbody>
-                {selectedLeadData?.visits?.length > 0 ? (
-                  selectedLeadData.visits.map((visit, index) => (
+                {selectedLeadData?.leads?.length > 0 ? (
+                  selectedLeadData.leads.map((visit, visitIndex) => (
                     <tr
-                      key={index}
-                      className="text-center hover:bg-[#1e1e2d78] cursor-pointer"
+                      key={visitIndex}
+                      className="text-center bg-[#1e1e2d78] cursor-pointer"
                     >
-                      <td className="px-4 py-2 text-textdata">{visit.date}</td>
-                      <td className="px-4 py-2 text-textdata">{visit.type}</td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.startTime}
+                        {visit.assign_date.split("T")[0]}
+                      </td>
+                      <td className="px-4 py-2 text-textdata">visit</td>
+                      <td className="px-4 py-2 text-textdata">
+                        {
+                          visit?.first_check_in_time
+                            ? new Date(
+                                visit.first_check_in_time
+                              ).toLocaleTimeString("en-US", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              })
+                            : "00:00" // Or any other placeholder you want to display
+                        }
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.endTime}
+                        {
+                          visit?.second_check_out_time
+                            ? new Date(
+                                visit.second_check_out_time
+                              ).toLocaleTimeString("en-US", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              })
+                            : "00:00" // Or any other placeholder you want to display
+                        }
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.customerName}
+                        {visit.customer.company_name}
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.contactPerson}
+                        {visit.customer.client_name}
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.companyName}
+                        {visit.special_requirement}
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.industryType}
+                        <div key={visitIndex}>
+                          {visit.costWorking?.map((cw, cwIndex) => (
+                            <ul key={cwIndex}>
+                              {cw.costWorkingProducts?.map(
+                                (product, productIndex) => (
+                                  <li key={productIndex}>
+                                    {product.product_name}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          ))}
+                        </div>
                       </td>
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.location}
-                      </td>
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.pincode}
-                      </td>
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.customerNeed}
-                      </td>
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.productProposed}
-                      </td>
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.totalCost}
+                      <td className="px-4 py-2 text-textdata" key={visitIndex}>
+                      {visit.costWorking?.map((cw, cwIndex) => (
+                      <div >
+                          
+                            
+                             {cw.total_cost_amount}
+                          
+                        </div>
+                      ))}
                       </td>
                       <td className="px-4 py-2 text-textdata">
                         <ol className="list-decimal list-inside">
@@ -86,7 +111,7 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
                         </ol>
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.nextVisitDate}
+                        {visit.next_followup.split("T")[0]}
                       </td>
                     </tr>
                   ))

@@ -104,10 +104,10 @@ const MeetingPage = () => {
                     setViewLeadReportOpen(true);
                   }}
                 >
-                  {metting.assignedPerson?.fullname}
+                  {metting.assigned_person?.fullname}
                 </td>
                 <td className="px-4 py-2 text-textdata">
-                  {metting.assignedPerson?.email}
+                  {metting.assigned_person?.email}
                 </td>
                 <td className="px-4 py-2 text-textdata">
                   {metting.lead_count}

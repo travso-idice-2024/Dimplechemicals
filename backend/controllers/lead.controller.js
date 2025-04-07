@@ -1,5 +1,5 @@
 const { Op, Sequelize, fn ,col} = require("sequelize");
-const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking } = require("../models");
+const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -816,9 +816,28 @@ const getTodayAssignedLeads = async (req, res) => {
           model: CostWorking,
           as: "costWorking",
           separate: true,
+          attributes: [
+            "id",
+            "total_application_labour_cost",
+            "total_project_cost",
+            "total_material_cost"
+          ],
           limit: 1,
           order: [["createdAt", "DESC"]],
           required: false,
+          include: [
+            {
+              model: CostWorkingProduct,
+              as: "costWorkingProducts",
+              include: [
+                {
+                  model: Product,
+                  as: "product",
+                  attributes: ["product_name"], // only fetch name
+                },
+              ],
+            },
+          ],
         },
         {
           model: CheckinCheckout,
@@ -851,7 +870,27 @@ const getTodayAssignedLeads = async (req, res) => {
           leads: [],
         };
       }
-    
+      const costWorkings = lead.costWorking || [];
+
+      costWorkings.forEach((cw) => {
+        const {
+          total_application_labour_cost = 0,
+          total_project_cost = 0,
+          total_material_cost = 0,
+        } = cw;
+      
+        cw.dataValues.total_cost_amount =
+          total_application_labour_cost +
+          total_project_cost +
+          total_material_cost;
+      
+        // 🛠 Flatten product_name into each product
+        cw.costWorkingProducts?.forEach((cwp) => {
+          cwp.dataValues.product_name = cwp.product?.product_name || null;
+          delete cwp.dataValues.product; // optional: remove nested object
+        });
+      });
+      
       const costWorking = lead.costWorking?.[0];
       if (costWorking) {
         const {
@@ -866,6 +905,17 @@ const getTodayAssignedLeads = async (req, res) => {
           total_project_cost +
           total_material_cost;
       }
+      // ✅ Extract check_in_time from first and check_out_time from second
+  const checkins = lead.checkinCheckouts;
+  const firstCheckIn = checkins?.[0]?.check_in_time || null;
+  const secondCheckOut = checkins?.[1]?.check_out_time || null;
+
+  // 🧪 Add only those two as final output
+  lead.dataValues.first_check_in_time = firstCheckIn;
+  lead.dataValues.second_check_out_time = secondCheckOut;
+
+  // Optional: remove full checkinCheckouts array if you don't need it
+  delete lead.dataValues.checkinCheckouts;
     
       grouped[assignedId].lead_count += 1;
       grouped[assignedId].leads.push(lead);

@@ -34,12 +34,29 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "assigned_person_id",
         onDelete: "SET NULL",
       });
-
+      
       Lead.hasMany(models.CostWorking, {
         as: "costWorking",
         foreignKey: "company_name",
         sourceKey: "customer_id",
         onDelete: "CASCADE",
+      });
+      
+      // Nested relationships using models object only
+      models.CostWorking.hasMany(models.CostWorkingProduct, {
+        foreignKey: "cost_working_id",
+        as: "costWorkingProducts",
+      });
+      models.CostWorkingProduct.belongsTo(models.CostWorking, {
+        foreignKey: "cost_working_id",
+      });
+      
+      models.CostWorkingProduct.belongsTo(models.Product, {
+        foreignKey: "product_id",
+        as: "product",
+      });
+      models.Product.hasMany(models.CostWorkingProduct, {
+        foreignKey: "product_id",
       });
     }
   }
