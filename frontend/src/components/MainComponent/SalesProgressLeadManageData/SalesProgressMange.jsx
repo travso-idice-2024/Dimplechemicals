@@ -15,10 +15,18 @@ import {
   faDollarSign,
   faPhone,
   faHandshake,
+  faClock 
 } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { todaysAssignedLeadsCount, todaysLead } from "../../../redux/leadSlice";
+import SuccessMessage from "../../AlertMessage/SuccessMessage";
+import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const SalesProgressMange = () => {
   const dispatch = useDispatch();
@@ -27,7 +35,7 @@ const SalesProgressMange = () => {
     (state) => state.lead
   );
 
-  //console.log("salesPersonleads", salesPersonleads?.data);
+  console.log("allLeadsCount", allLeadsCount);
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -118,14 +126,227 @@ const SalesProgressMange = () => {
   // const indexOfLastUser = currentPage * usersPerPage;
   // const indexOfFirstUser = indexOfLastUser - usersPerPage;
   // const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  ///check in checkout button
+  const [flashMessage, setFlashMessage] = useState("");
+  const [flashMsgType, setFlashMsgType] = useState("");
 
+  const handleFlashMessage = (message, type) => {
+    setFlashMessage(message);
+    setFlashMsgType(type);
+    setTimeout(() => {
+      setFlashMessage("");
+      setFlashMsgType("");
+    }, 3000);
+  };
+
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+
+  // useEffect(() => {
+  //   // Retrieve stored value from localStorage
+  //   const storedCheckIn = JSON.parse(localStorage.getItem("isCheckedIn"));
+  
+  //   // If no value exists, initialize it with `false`
+  //   if (storedCheckIn === null) {
+  //     localStorage.setItem("isCheckedIn", JSON.stringify(false));
+  //   } else {
+  //     setIsCheckedIn(storedCheckIn);
+  //   }
+  // }, []);
+ 
+
+  const [checkInTime, setCheckInTime] = useState(null);
+  const [checkOutTime, setCheckOutTime] = useState(null);
+
+  // ✅ Load data from localStorage on mount
+  useEffect(() => {
+    const storedCheckIn = localStorage.getItem("checkInTime");
+    const storedCheckOut = localStorage.getItem("checkOutTime");
+
+    setCheckInTime(storedCheckIn ? storedCheckIn : null);
+    setCheckOutTime(storedCheckOut ? storedCheckOut : null);
+  }, []);
+
+  const handleToggle = async () => {
+    if (isCheckedIn) {
+      await handleCheckOut();
+    } else {
+      await handleCheckIn();
+    }
+    setIsCheckedIn(!isCheckedIn);
+  };
+
+  const getLocationName = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
+      );
+      const data = await response.json();
+      // Ensure you get a detailed address
+      return data.address
+        ? `${data.address.city}, ${data.address.state}, ${data.address.country}`
+        : "Unknown Location";
+    } catch (error) {
+      console.error("Error fetching location name:", error);
+      return "Unknown Location";
+    }
+  };
+
+  const handleCheckIn = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        const locationName = await getLocationName(latitude, longitude);
+
+        const checkInData = {
+          emp_id: userDeatail?.id,
+          //checkInTime: new Date().toISOString().replace("T", " ").split(".")[0],
+          latitude,
+          longitude,
+          checkin_location: locationName,
+          data: new Date().toISOString().split("T")[0],
+        };
+
+        //console.log("checkInData", checkInData);
+
+        try {
+          const token = getAuthToken();
+          //console.log("token",token);
+          const response = await axios.post(
+            `${API_URL}/auth/checkin`,
+            checkInData,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const checkInTime = new Date(
+            response?.data?.checkInRecord?.check_in_time
+          );
+          const formattedTime = checkInTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          setCheckInTime(formattedTime);
+          setCheckOutTime(null); // Reset checkout on new check-in
+          localStorage.setItem("checkInTime", formattedTime);
+          localStorage.removeItem("checkOutTime"); // Ensure fresh data
+
+
+          setIsCheckedIn(true);
+          // localStorage.setItem("isCheckedIn", JSON.stringify(true));
+
+          handleFlashMessage(response?.data?.message, "success");
+        } catch (error) {
+          handleFlashMessage(error || "Failed to check in", "error");
+          //console.log(error);
+          //return console.log(error.response?.data || "Failed to check in");
+        }
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
+
+  const handleCheckOut = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        const locationName = await getLocationName(latitude, longitude);
+
+        const checkOutData = {
+          emp_id: userDeatail?.id,
+          //checkInTime: new Date().toISOString().replace("T", " ").split(".")[0],
+          latitude,
+          longitude,
+          checkout_location: locationName,
+          data: new Date().toISOString().split("T")[0],
+        };
+
+        try {
+          const token = getAuthToken();
+          //console.log(token);
+          const response = await axios.post(
+            `${API_URL}/auth/checkout`,
+            checkOutData,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          //localStorage.removeItem("checkInTime");
+          const checkOutTime = new Date(
+            response?.data?.checkOutRecord?.check_out_time
+          );
+          const formattedTime = checkOutTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          setCheckOutTime(formattedTime);
+          setCheckInTime(null);
+          localStorage.setItem("checkOutTime", formattedTime);
+          localStorage.removeItem("checkInTime");
+          //localStorage.setItem("checkInTime", formattedTime);
+          setIsCheckedIn(false);
+          // localStorage.setItem("isCheckedIn", JSON.stringify(false));
+          handleFlashMessage(response?.data?.message, "success");
+          //console.log(response);
+          //return response.data;
+        } catch (error) {
+          handleFlashMessage(error || "Failed to check out", "error");
+          //return console.log(error.response?.data || "Failed to check out");
+        }
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
   return (
     <div className="main-content">
-      <UserContentTop />
+      <UserContentTop isCheckedIn={isCheckedIn} setIsCheckedIn={setIsCheckedIn} handleCheckOut={handleCheckOut} />
+
 
       {!leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* chech in check out  */}
+            <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
+              <FontAwesomeIcon
+                icon={faClock}
+                className="text-4xl text-bgDataNew mb-2"
+              />
+              <h2 className="text-textdata font-semibold">
+                {" "}
+                <button
+                  onClick={handleToggle}
+                  className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${
+                    isCheckedIn
+                      ? "bg-red-600 hover:bg-red-800"
+                      : "bg-green-600 hover:bg-green-800"
+                  }`}
+                >
+                  {isCheckedIn ? "Check Out" : "Check In"}
+                </button>
+              </h2>
+              <p className="text-[12px]">
+                {" "}
+                {/* ✅ Show nothing if no check-in */}
+                {!checkInTime && !checkOutTime && (
+                  <span className="text-bgDataNew">No check-in yet.</span>
+                )}
+                {/* ✅ Show check-in time if user has checked in */}
+                {checkInTime && !checkOutTime && (
+                  <span className="text-bgDataNew text-[13px]">
+                    <b className="text-green-500">Check In :</b> {checkInTime}
+                  </span>
+                )}
+                {/* ✅ Show check-in and check-out times after user checks out */}
+                {!checkInTime && checkOutTime && (
+                  <span className="text-bgDataNew text-[13px]">
+                    <b className="text-green-500">Check Out : </b>{" "}
+                    {checkOutTime}
+                  </span>
+                )}
+              </p>
+            </div>
             <div
               className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"
               onClick={() => {
@@ -178,7 +399,10 @@ const SalesProgressMange = () => {
           <div className="flex flex-col gap-[20px]">
             <div className="flex items-center justify-between">
               <div>
-                <h1 class="text-white text-[15.5px] font-semibold flex items-center cursor-pointer" onClick={() => setLeadDataShowNew(false)}>
+                <h1
+                  class="text-white text-[15.5px] font-semibold flex items-center cursor-pointer"
+                  onClick={() => setLeadDataShowNew(false)}
+                >
                   <svg
                     width="20"
                     height="20"

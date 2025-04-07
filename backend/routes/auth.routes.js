@@ -46,7 +46,8 @@ const {
   getAllUsersTodaysLeads,
   exportTodaysLeadsToExcel,
   getAllLeads,
-  exportLeadsToExcel
+  exportLeadsToExcel,
+  getTodayAssignedLeads
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -66,6 +67,19 @@ const {
   exportCheckinCheckoutReport,
   getDailyWorkingHours
 } = require("../controllers/chekinCheckout.controller");
+
+const {
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  toggleProductStatus,
+} = require("../controllers/product.controller");
+
+const {
+  createCostWorking,
+  getCostWorking,
+  updateCostWorking
+} = require("../controllers/costWorking.controller");
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -152,5 +166,18 @@ router.post("/checkout", authMiddleware, checkOut);
 router.get("/checkin-checkout-report",authMiddleware ,getCheckinCheckoutReport);
 router.get("/export-checkin-checkout",authMiddleware ,exportCheckinCheckoutReport);
 router.get("/calculate-workhours",authMiddleware ,getDailyWorkingHours);
+
+
+router.get("/todayleads-count", authMiddleware, getTodayAssignedLeads);
+
+//product routes
+router.get("/allProducts",authMiddleware, getAllProducts);
+router.post("/addProduct",authMiddleware, createProduct);       
+router.put("/updateProduct/:id",authMiddleware, updateProduct);     
+router.put("/deleteProduct/:id",authMiddleware, toggleProductStatus);
+router.post("/addCostWorking", authMiddleware, createCostWorking);
+router.get("/getcostingwork",authMiddleware, getCostWorking);
+//router.get("/getcostingwork/:cr_id",authMiddleware, getCostWorking);
+router.put('/cost-working/update/:id',authMiddleware, updateCostWorking);
 
 module.exports = router;
