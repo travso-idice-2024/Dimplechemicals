@@ -40,6 +40,7 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
         "Total Cost Amount",
         "Visit Remarks",
         "Next Visit Plan Date",
+        
       ].map((col, index) => (
         <th key={index} className="border border-[#3e3d53] px-2 py-2 text-left font-semibold">
           {col}
