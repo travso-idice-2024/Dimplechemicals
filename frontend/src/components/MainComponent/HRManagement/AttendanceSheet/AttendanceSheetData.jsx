@@ -35,7 +35,7 @@ const AttendanceSheetData = () => {
 
       // ✅ Correct API call with query parameters
       const response = await axios.get(
-        "http://localhost:5000/api/auth/calculate-workhours",
+        `${API_URL}/auth/calculate-workhours`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ const AttendanceSheetData = () => {
 
       // ✅ Correct API call with query parameters
       const response = await axios.get(
-        "http://localhost:5000/api/auth/export-checkin-checkout",
+        `${API_URL}/auth/export-checkin-checkout`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

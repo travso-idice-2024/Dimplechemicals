@@ -1,3 +1,17 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import SuccessMessage from "../AlertMessage/SuccessMessage";
+import ErrorMessage from "../AlertMessage/ErrorMessage";
+import axios from "axios";
+import TodaysLeadReport from "./TodaysLeadReport";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
+
 import { iconsImgs } from "../../utils/images";
 import "./Loans.css";
 
@@ -23,6 +37,39 @@ const mettingsschedule = [
 ];
 
 const Loans = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [viewLeadReportOpen, setViewLeadReportOpen] = useState(false);
+  const [selectedLeadData,setSelectedLeadData] = useState(false);
+
+  const [todayLeadCount, setTodayLeadCount] = useState([]);
+  const fetchPlanOfActionReport = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        `${API_URL}/auth/todayleads-count`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+      setTodayLeadCount(response.data.data);
+      console.log("response", response.data.data);
+      //return response.data; // Return data if needed
+    } catch (error) {
+      console.error("Error in fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchPlanOfActionReport();
+  }, [dispatch]);
+
+
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-GB");
   return (
@@ -51,20 +98,30 @@ const Loans = () => {
               </tr>
             </thead>
             <tbody>
-              {mettingsschedule.map((metting) => (
+              {todayLeadCount?.map((metting,index) => (
                 <tr
                   key={metting.id}
                   className="text-center hover:bg-[#1e1e2d78] cursor-pointer"
                 >
-                  <td className="px-4 py-2 text-textdata">{metting.id}</td>
-                  <td className="px-4 py-2 text-textdata">{metting.name}</td>
-                  <td className="px-4 py-2 text-textdata">{metting.todaymeeting}</td>
-                  <td className="px-4 py-2 text-textdata">{metting.archeieveday}</td>
+                  <td className="px-4 py-2 text-textdata">{index + 1 }</td>
+                  <td className="px-4 py-2 text-textdata" onClick={() => {
+                      setSelectedLeadData(metting);
+                      setViewLeadReportOpen(true);
+                    }}>{metting.assignedPerson?.fullname}</td>
+                  <td className="px-4 py-2 text-textdata">{metting.assignedPerson?.email}</td>
+                  <td className="px-4 py-2 text-textdata">{metting.lead_count}</td>
                 </tr>
               ))}
             </tbody>
           </table>
       </div>
+      {/* View User Modal */}
+            {viewLeadReportOpen && (
+              <TodaysLeadReport
+              setViewLeadReportOpen={setViewLeadReportOpen}
+              selectedLeadData={selectedLeadData}
+              />
+            )}
       </div>
     </div>
   );

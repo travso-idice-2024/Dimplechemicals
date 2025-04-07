@@ -268,7 +268,19 @@ export const navigationLinks = [
   // { id: 7, title: 'Savings', image: iconsImgs.wallet, path: '/savings' },
   // { id: 8, title: 'Financial Advice', image: iconsImgs.wealth, path: '/advice' },
   // { id: 9, title: 'Account', image: iconsImgs.user, path: '/account' },
-  { id: 10, title: "Settings", image: iconsImgs.gears, path: "/settings" },
+  {
+    id: 10,
+    title: "Product Management",
+    image: iconsImgs.department,
+    path: "/product-management",
+  },
+  {
+    id: 11,
+    title: "Costworking Management",
+    image: iconsImgs.department,
+    path: "/cost-management",
+  },
+  { id: 12, title: "Settings", image: iconsImgs.gears, path: "/settings" },
 ];
 
 //------------ Own Data --------------//
