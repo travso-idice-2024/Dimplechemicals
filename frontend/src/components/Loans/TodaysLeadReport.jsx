@@ -1,8 +1,9 @@
 import React from "react";
 
 const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
+  console.log("selectedLeadData",selectedLeadData);
   return (
-    <div className="p-6 bg-white shadow rounded-lg relative z-50">
+    <div className="p-6 bg-[#2c2b3f] shadow rounded-lg relative z-50">
       {/* Close Button */}
       <button
         onClick={() => setViewLeadReportOpen(false)}
@@ -19,7 +20,7 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
       {/* Employee Name */}
       <div className="mb-2">
         <span className="font-bold">Name of Employee:</span>{" "}
-        <span>{selectedLeadData?.employeeName || "_________"}</span>
+        <span>{selectedLeadData?.assigned_person?.fullname || "_________"}</span>
       </div>
 
       {/* Table */}
@@ -34,10 +35,6 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
         "Visit End time",
         "Customer Name",
         "Contact Person Name",
-        "Company Name",
-        "Industry Type",
-        "Location",
-        "Pincode",
         "Customer Need",
         "Product Proposed",
         "Total Cost Amount",
@@ -51,22 +48,18 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
     </tr>
   </thead>
   <tbody>
-    {selectedLeadData?.visits?.length > 0 ? (
-      selectedLeadData.visits.map((visit, index) => (
+    {selectedLeadData?.leads?.length > 0 ? (
+      selectedLeadData.leads.map((visit, index) => (
         <tr key={index} className="hover:bg-[#393857]">
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.date}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.type}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.assign_date.split("T")[0]}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">Visit</td>
           <td className="border border-[#3e3d53] px-2 py-1">{visit.startTime}</td>
           <td className="border border-[#3e3d53] px-2 py-1">{visit.endTime}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.customerName}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.contactPerson}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.companyName}</td>
-          <td className="border border-[#3e3d53] px-2 py-1 italic">{visit.industryType}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.location}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.pincode}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.customerNeed}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.productProposed}</td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.totalCost}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.customer?.company_name}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.customer?.client_name}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.special_requirement}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.product_detail}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.budget}</td>
           <td className="border border-[#3e3d53] px-2 py-1">
             <ol className="list-decimal list-inside">
               {visit.remarks?.map((remark, i) => (
@@ -74,7 +67,7 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
               ))}
             </ol>
           </td>
-          <td className="border border-[#3e3d53] px-2 py-1">{visit.nextVisitDate}</td>
+          <td className="border border-[#3e3d53] px-2 py-1">{visit.next_followup}</td>
         </tr>
       ))
     ) : (

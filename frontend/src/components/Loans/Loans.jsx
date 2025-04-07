@@ -41,7 +41,7 @@ const Loans = () => {
   const navigate = useNavigate();
 
   const [viewLeadReportOpen, setViewLeadReportOpen] = useState(false);
-  const [selectedLeadData,setSelectedLeadData] = useState(false);
+  const [selectedLeadData,setSelectedLeadData] = useState([]);
 
   const [todayLeadCount, setTodayLeadCount] = useState([]);
   const fetchPlanOfActionReport = async () => {
@@ -59,7 +59,8 @@ const Loans = () => {
         }
       );
       setTodayLeadCount(response.data.data);
-      console.log("response", response.data.data);
+      //setSelectedLeadData(response.data.data);
+      //console.log("response", response.data.data);
       //return response.data; // Return data if needed
     } catch (error) {
       console.error("Error in fetching data:", error);
@@ -68,7 +69,8 @@ const Loans = () => {
   useEffect(() => {
     fetchPlanOfActionReport();
   }, [dispatch]);
-
+ 
+  console.log(selectedLeadData);
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-GB");
@@ -107,8 +109,8 @@ const Loans = () => {
                   <td className="px-4 py-2 text-textdata" onClick={() => {
                       setSelectedLeadData(metting);
                       setViewLeadReportOpen(true);
-                    }}>{metting.assignedPerson?.fullname}</td>
-                  <td className="px-4 py-2 text-textdata">{metting.assignedPerson?.email}</td>
+                    }}>{metting.assigned_person?.fullname}</td>
+                  <td className="px-4 py-2 text-textdata">{metting.assigned_person?.email}</td>
                   <td className="px-4 py-2 text-textdata">{metting.lead_count}</td>
                 </tr>
               ))}

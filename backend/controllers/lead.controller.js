@@ -798,33 +798,58 @@ const getTodayAssignedLeads = async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Start of today
 
-    // Fetch count of leads assigned today, grouped by assigned_person_id
-    const leadsData = await Lead.findAll({
-      attributes: [
-        'assigned_person_id',
-        [sequelize.fn('COUNT', sequelize.col('assigned_person_id')), 'lead_count'],
-      ],
+    // Step 1: Get all leads assigned today with full info
+    const leads = await Lead.findAll({
       where: {
         assign_date: { [Op.gte]: today },
       },
-      group: ['assigned_person_id'],
       include: [
         {
           model: User,
-          as: 'assignedPerson',
-          attributes: ['id', 'fullname', 'email'], // Include user details
+          as: "assignedPerson",
+          attributes: ["id", "fullname", "email"],
+        },
+        {
+          model: User,
+          as: "leadOwner",
+        },
+        {
+          model: Customer,
+          as: "customer",
         },
       ],
+      order: [["assign_date", "DESC"]],
     });
+
+    // Step 2: Group by assigned person and count
+    const grouped = {};
+
+    leads.forEach((lead) => {
+      const assignedId = lead.assigned_person_id;
+
+      if (!grouped[assignedId]) {
+        grouped[assignedId] = {
+          assigned_person: lead.assignedPerson,
+          lead_count: 0,
+          leads: [],
+        };
+      }
+
+      grouped[assignedId].lead_count += 1;
+      grouped[assignedId].leads.push(lead);
+    });
+
+    // Step 3: Convert grouped object to array
+    const result = Object.values(grouped);
 
     res.json({
       success: true,
-      data: leadsData,
+      data: result,
     });
   } catch (error) {
     console.error("Error fetching assigned leads:", error);
     res.status(500).json({ message: "Server Error"});
-}
+  }
 };
 
 module.exports = {
