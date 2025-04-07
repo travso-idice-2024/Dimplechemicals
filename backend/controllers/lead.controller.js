@@ -1,5 +1,5 @@
 const { Op, Sequelize, fn ,col} = require("sequelize");
-const { Lead, Customer, User } = require("../models"); // Import models
+const { Lead, Customer, User, sequelize } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -793,6 +793,40 @@ const exportLeadsToExcel = async (req, res) => {
   }
 };
 
+const getTodayAssignedLeads = async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Start of today
+
+    // Fetch count of leads assigned today, grouped by assigned_person_id
+    const leadsData = await Lead.findAll({
+      attributes: [
+        'assigned_person_id',
+        [sequelize.fn('COUNT', sequelize.col('assigned_person_id')), 'lead_count'],
+      ],
+      where: {
+        assign_date: { [Op.gte]: today },
+      },
+      group: ['assigned_person_id'],
+      include: [
+        {
+          model: User,
+          as: 'assignedPerson',
+          attributes: ['id', 'fullname', 'email'], // Include user details
+        },
+      ],
+    });
+
+    res.json({
+      success: true,
+      data: leadsData,
+    });
+  } catch (error) {
+    console.error("Error fetching assigned leads:", error);
+    res.status(500).json({ message: "Server Error"});
+}
+};
+
 module.exports = {
   addLead,
   getLeadList,
@@ -804,5 +838,6 @@ module.exports = {
   getAllUsersTodaysLeads,
   exportTodaysLeadsToExcel,
   getAllLeads,
-  exportLeadsToExcel
+  exportLeadsToExcel,
+  getTodayAssignedLeads
 };

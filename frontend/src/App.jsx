@@ -27,6 +27,9 @@ import PerformaceandAppraises from './components/MainComponent/HRManagement/Perf
 import SalaryManage from './components/MainComponent/HRManagement/SalaryManagement/SalaryManage';
 import DocumentCompletion from './components/MainComponent/HRManagement/DocumentCompletion/DocumentCompletion';
 import CustomerManageData from './components/MainComponent/CustomerManagement/CustomerManageData';
+import ProductManageData from './components/MainComponent/ProductManagement/ProductManageData';
+import CostWorking from './components/MainComponent/CostWorking/CostWorkingManageData';
+
 import SalesProgressMange from './components/MainComponent/SalesProgressLeadManageData/SalesProgressMange';
 import SalesViewLeadData from './components/MainComponent/SalesProgressLeadManageData/SalesViewLeadData';
 import PrivateRoute from './PrivateRoute';
@@ -97,6 +100,9 @@ function App() {
           
           <Route path="/department-management" element={<DepartmentManage />} />
           <Route path="/customer-management" element={<CustomerManageData/>}/>
+          <Route path="/product-management" element={<ProductManageData/>}/>
+          <Route path="/cost-management" element={<CostWorking/>}/>
+
           <Route path="/marketing-management" element={<MarketingManageData/>}/>
           <Route path="/marketing-management/lead-via-source" element={<LeadviaSourceData />}/>
           <Route path="/marketing-management/budget-analysis" element={<BudgetAnalysisData/>}/>

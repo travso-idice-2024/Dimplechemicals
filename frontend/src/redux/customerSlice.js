@@ -180,17 +180,8 @@ const customerSlice = createSlice({
         state.customerError = null;
       })
       .addCase(addCustomer.fulfilled, (state, action) => {
-        // ✅ Add new customer to existing state without re-fetching
         state.customers.data = [action.payload.data, ...state.customers.data];
       })
-      // .addCase(addCustomer.fulfilled, (state, action) => {
-      //   state.customerLoading = false;
-      //   if (Array.isArray(state.customers)) {
-      //     state.customers.push(action.payload.data);
-      //   } else {
-      //     state.customers = [action.payload.data]; // Reset to an array if it's undefined
-      //   }
-      // })
       .addCase(addCustomer.rejected, (state, action) => {
         state.customerLoading = false;
         state.customerError = action.payload;
