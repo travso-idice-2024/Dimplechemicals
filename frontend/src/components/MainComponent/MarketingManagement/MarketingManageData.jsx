@@ -356,7 +356,6 @@ const MarketingManageData = () => {
   //delete lead==========================================================
   const [deleteFlashMessage, setDeleteFlashMessage] = useState("");
   const [deleteFlashMsgType, setDeleteFlashMsgType] = useState("");
-
   // ✅ Function to show delete flash messages
   const handleDeleteFlashMessage = (message, type) => {
     setDeleteFlashMessage(message);
@@ -366,7 +365,6 @@ const MarketingManageData = () => {
       setDeleteFlashMsgType("");
     }, 3000); // Hide the message after 3 seconds
   };
-
   const handleDelete = async (id) => {
     try {
       await dispatch(removeLead(id)).unwrap();
@@ -385,7 +383,6 @@ const MarketingManageData = () => {
       );
     }
   };
-
   //end delete lead======================================================
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
