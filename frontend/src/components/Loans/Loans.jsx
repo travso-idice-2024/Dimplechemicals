@@ -6,7 +6,7 @@ import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import SuccessMessage from "../AlertMessage/SuccessMessage";
 import ErrorMessage from "../AlertMessage/ErrorMessage";
 import axios from "axios";
-import TodaysLeadReport from "./TodaysLeadReport";
+import TodaysLeadReport from "../Meeting/TodaysLeadReport";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

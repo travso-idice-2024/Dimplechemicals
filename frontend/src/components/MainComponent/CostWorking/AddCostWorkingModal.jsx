@@ -119,7 +119,7 @@ const AddCostWorkingModal = ({
           </h2>
 
           <div className="p-4 mt-5 overflow-y-auto h-[440px]">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
               {/* Select Customer */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
