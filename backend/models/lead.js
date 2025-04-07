@@ -28,6 +28,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "assigned_person_id",
         onDelete: "SET NULL",
       });
+      Lead.hasMany(models.CheckinCheckout, {
+        as: "checkinCheckouts",
+        foreignKey: "emp_id",
+        sourceKey: "assigned_person_id",
+        onDelete: "SET NULL",
+      });
+
+      Lead.hasMany(models.CostWorking, {
+        as: "costWorking",
+        foreignKey: "company_name",
+        sourceKey: "customer_id",
+        onDelete: "CASCADE",
+      });
     }
   }
   Lead.init(
@@ -116,9 +129,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true, // You can set it to false if required
       },
-      lead_custom_address: {  // New column
+      lead_custom_address: {
+        // New column
         type: DataTypes.STRING,
-        allowNull:true,
+        allowNull: true,
       },
       budget_status: {
         type: DataTypes.BOOLEAN,

@@ -1,5 +1,5 @@
 const { Op, Sequelize, fn ,col} = require("sequelize");
-const { Lead, Customer, User, sequelize } = require("../models");
+const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -798,28 +798,85 @@ const getTodayAssignedLeads = async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Start of today
 
-    // Fetch count of leads assigned today, grouped by assigned_person_id
-    const leadsData = await Lead.findAll({
-      attributes: [
-        'assigned_person_id',
-        [sequelize.fn('COUNT', sequelize.col('assigned_person_id')), 'lead_count'],
-      ],
+    const leads = await Lead.findAll({
       where: {
         assign_date: { [Op.gte]: today },
       },
-      group: ['assigned_person_id'],
       include: [
         {
           model: User,
-          as: 'assignedPerson',
-          attributes: ['id', 'fullname', 'email'], // Include user details
+          as: "assignedPerson",
+          attributes: ["id", "fullname", "email"],
+        },
+        {
+          model: User,
+          as: "leadOwner",
+        },
+        {
+          model: CostWorking,
+          as: "costWorking",
+          separate: true,
+          limit: 1,
+          order: [["createdAt", "DESC"]],
+          required: false,
+        },
+        {
+          model: CheckinCheckout,
+          as: "checkinCheckouts",
+          where: {
+            data: {
+              [Op.gte]: today,
+            },
+          },
+          required: false,
+        },
+        {
+          model: Customer,
+          as: "customer",
         },
       ],
+      order: [["assign_date", "DESC"]],
     });
+
+    // Group by assigned person
+    const grouped = {};
+
+    leads.forEach((lead) => {
+      const assignedId = lead.assigned_person_id;
+    
+      if (!grouped[assignedId]) {
+        grouped[assignedId] = {
+          assigned_person: lead.assignedPerson,
+          lead_count: 0,
+          leads: [],
+        };
+      }
+    
+      const costWorking = lead.costWorking?.[0];
+      if (costWorking) {
+        const {
+          total_application_labour_cost = 0,
+          total_project_cost = 0,
+          total_material_cost = 0,
+        } = costWorking;
+    
+        // ✅ Add total_cost_amount as a new field, not replacing the model instance
+        costWorking.dataValues.total_cost_amount =
+          total_application_labour_cost +
+          total_project_cost +
+          total_material_cost;
+      }
+    
+      grouped[assignedId].lead_count += 1;
+      grouped[assignedId].leads.push(lead);
+    });
+    
+
+    const result = Object.values(grouped);
 
     res.json({
       success: true,
-      data: leadsData,
+      data: result,
     });
   } catch (error) {
     console.error("Error fetching assigned leads:", error);
