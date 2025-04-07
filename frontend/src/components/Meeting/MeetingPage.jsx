@@ -77,7 +77,7 @@ const MeetingPage = () => {
           <img src={iconsImgs.plus} />
         </button>
       </div>
-      <p className="text-[#fe6c00] text-start mb-2 text-[11px]">
+      <p className="text-[#fe6c00] text-start -mb-2 text-[11px]">
         <b>Today's Date</b> : &nbsp;&nbsp;{formattedDate}
       </p>
       <div className="overflow-x-auto shadow-md">

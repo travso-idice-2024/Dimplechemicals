@@ -39,13 +39,12 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
               <tbody>
                 {selectedLeadData?.visits?.length > 0 ? (
                   selectedLeadData.visits.map((visit, index) => (
-                    <tr key={index} className="text-center hover:bg-[#1e1e2d78] cursor-pointer">
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.date}
-                      </td>
-                      <td className="px-4 py-2 text-textdata">
-                        {visit.type}
-                      </td>
+                    <tr
+                      key={index}
+                      className="text-center hover:bg-[#1e1e2d78] cursor-pointer"
+                    >
+                      <td className="px-4 py-2 text-textdata">{visit.date}</td>
+                      <td className="px-4 py-2 text-textdata">{visit.type}</td>
                       <td className="px-4 py-2 text-textdata">
                         {visit.startTime}
                       </td>
@@ -93,10 +92,7 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
                   ))
                 ) : (
                   <tr>
-                    <td
-                      colSpan="15"
-                      className="px-4 py-2 text-textdata"
-                    >
+                    <td colSpan="15" className="px-4 py-2 text-textdata">
                       No visit data available.
                     </td>
                   </tr>
