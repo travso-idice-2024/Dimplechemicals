@@ -113,17 +113,17 @@ const AddCostWorkingModal = ({
 
       {/* Modal Container */}
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[850px] p-4 rounded-[6px]">
+        <div className="bg-white w-[980px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Cost Working
           </h2>
 
-          <div className="px-4 mt-5 overflow-y-auto h-[410px]">
+          <div className="p-4 mt-5 overflow-y-auto h-[440px]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 ">
               {/* Select Customer */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
-                  Select Customer:
+                  Select Name of Company:
                 </label>
                 <select
                   name="company_name"
@@ -290,7 +290,7 @@ const AddCostWorkingModal = ({
           </div>
 
           {/* Submit and Close Buttons */}
-          <div className="flex items-end justify-end gap-2 px-4 mt-4">
+          <div className="flex items-end justify-end gap-2 px-4 my-4">
             <button
               type="submit"
               className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
