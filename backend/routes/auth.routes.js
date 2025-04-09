@@ -47,7 +47,9 @@ const {
   exportTodaysLeadsToExcel,
   getAllLeads,
   exportLeadsToExcel,
-  getTodayAssignedLeads
+  getTodayAssignedLeads,
+  updateDealFinalised,
+  getFinalisedDeals
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -80,6 +82,12 @@ const {
   getCostWorking,
   updateCostWorking
 } = require("../controllers/costWorking.controller");
+
+const{
+  createPlan,
+  getPlanOfActions,
+  updateSalesPerson
+}= require("../controllers/planofaction.controller");
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -179,5 +187,11 @@ router.post("/addCostWorking", authMiddleware, createCostWorking);
 router.get("/getcostingwork",authMiddleware, getCostWorking);
 //router.get("/getcostingwork/:cr_id",authMiddleware, getCostWorking);
 router.put('/cost-working/update/:id',authMiddleware, updateCostWorking);
+router.put('/deal-finalised/:id', authMiddleware, updateDealFinalised);
+router.get("/finalised-deal", authMiddleware, getFinalisedDeals);
+// Plan of Action routes
+router.post("/create-planofaction", authMiddleware, createPlan);
+router.get("/getplanofaction", authMiddleware, getPlanOfActions);
+router.put("/update-planofaction/:id", authMiddleware, updateSalesPerson);
 
 module.exports = router;

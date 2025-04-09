@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../MarketingManageData.css";
 import "../../../../layout/MainCssFile.css";
 import { iconsImgs } from "../../../../utils/images";
@@ -9,86 +10,47 @@ import AddRoleModal from "./AddRoleModal";
 // import EditUserModal from "./EditUserModal";
 import ContentTop from "../../../ContentTop/ContentTop";
 
-const SalePOForm = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  // Load initial users from localStorage or use default list
-  const [users, setUsers] = useState(() => {
-    const storedUsers = localStorage.getItem("po-form");
-    return storedUsers
-      ? JSON.parse(storedUsers)
-      : [
-        {
-          ponumber: 34567,
-          podate: "24-01-2025",
-          companyname: "Dimple Sharma",
-          departmentname: "Sales",
-          suppliername: "Idice System",
-          supplieraddress: "XYZ Street, Delhi, India",
-          suppliercontact: 8524564223,
-          supplierEmail: "supplier@gmail.com",
-          productname: "Steel",
-          category: "Raw Material",
-          quantity: 2,
-          amount: 2000,
-          productcode: 4567
-        },
-        {
-          ponumber: 67890,
-          podate: "10-02-2025",
-          companyname: "Rahul Enterprises",
-          departmentname: "IT",
-          suppliername: "Tech Solutions",
-          supplieraddress: "45, MG Road, Mumbai, India",
-          suppliercontact: 9876543210,
-          supplierEmail: "techsupplier@gmail.com",
-          productname: "Aluminium Sheet",
-          category: "Metal",
-          quantity: 5,
-          amount: 7500,
-          productcode: 7890
-        }
-        ];
-  });
+import {
+  finalizeDeals,
+} from "../../../../redux/leadSlice";
 
+const SalePOForm = () => {
+   const dispatch = useDispatch();
+    const { finalizeDealsData, totalPages, departmentloading, departmenterror } = useSelector(
+      (state) => state.lead
+    );
+ 
+  //console.log("finalizeDealsData",finalizeDealsData);
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
-  const usersPerPage = 8;
-  const totalPages = Math.ceil(users.length / usersPerPage);
 
-  // Load currentPage from sessionStorage or default to page 1
-  const [currentPage, setCurrentPage] = useState(() => {
-    return parseInt(sessionStorage.getItem("currentPage")) || 1;
-  });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const leadPerPage = 4;
 
-  // Save currentPage to sessionStorage when it changes
-  useEffect(() => {
-    sessionStorage.setItem("currentPage", currentPage);
-  }, [currentPage]);
 
-  // Save users to localStorage whenever users state updates
-  useEffect(() => {
-    localStorage.setItem("po-form", JSON.stringify(users));
-  }, [users]);
+   useEffect(() => {
+      dispatch(
+        finalizeDeals({
+          page: currentPage,
+          limit: leadPerPage,
+          search: searchTerm,
+        })
+      );
+    }, [dispatch, currentPage, searchTerm]);
+ 
+     // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
   // Handle page change
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  // Filtered user list based on search
-  const filteredUsers = users
-    .sort((a, b) => b.companyname.localeCompare(a.companyname))
-    .filter(
-      (user) =>
-        user.companyname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.departmentname.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-  // Paginate user data
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   return (
     <div className="main-content">
@@ -98,7 +60,7 @@ const SalePOForm = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-white text-textdata font-semibold">
-                SalesPO Form
+                Sales PO Form
               </h1>
             </div>
             <div className="flex items-center gap-[5px]">
@@ -130,10 +92,8 @@ const SalePOForm = () => {
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
-              currentUsers={currentUsers}
+              finalizeDealsData={finalizeDealsData?.data || []}
               setViewModalOpen={setViewModalOpen}
-              currentPage={currentPage}
-              usersPerPage={usersPerPage}
             />
             {/*------- Table Data End -------*/}
           </div>

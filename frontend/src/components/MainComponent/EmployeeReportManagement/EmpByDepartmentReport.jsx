@@ -7,6 +7,9 @@ import { EmpReportDepartmentWise } from "../../../redux/userSlice";
 import {fetchAllDepartments} from "../../../redux/departmentSlice";
 import axios from "axios";
 import { iconsImgs } from "../../../utils/images";
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const EmpByDepartmentReport = () => {
   const dispatch = useDispatch();
@@ -51,8 +54,6 @@ const EmpByDepartmentReport = () => {
     setCurrentPage(newPage);
   };
 
-  const getAuthToken = () => localStorage.getItem("token");
-
   const handleExportData = async () => {
     try {
       // ✅ Get token
@@ -60,7 +61,7 @@ const EmpByDepartmentReport = () => {
 
       // ✅ Correct API call with query parameters
       const response = await axios.get(
-        "http://localhost:5000/api/auth/export-employee-department",
+        `${API_URL}/auth/export-employee-department`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

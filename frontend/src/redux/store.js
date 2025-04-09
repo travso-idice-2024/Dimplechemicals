@@ -6,6 +6,7 @@ import customerReducer from "./customerSlice";
 import leadReducer from "./leadSlice";
 import productReducer from "./productSlice";
 import costWorkingReducer from "./costWorkingSlice";
+import poaReducer from "./poaSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     customer:customerReducer,
     lead: leadReducer,
     product: productReducer,  // add product reducer here...
-    costWorking: costWorkingReducer
+    costWorking: costWorkingReducer,
+    poa:poaReducer
     // add other reducers here as needed...
   },
 });

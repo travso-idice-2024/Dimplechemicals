@@ -1,0 +1,89 @@
+import React from "react";
+
+const AllEmpPlanOfActionReport = ({
+  setAllEmpPlanOfActionReport,
+  allselectedPOA,
+}) => {
+  console.log("allselectedPOA", allselectedPOA);
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto">
+        {/* Header */}
+        <div className="text-center border-b border-gray-300 p-4">
+          <h2 className="text-red-600 font-bold text-xl">
+            ALL EMPLOYEE POA REPORT
+          </h2>
+          <h3 className="text-lg font-semibold mt-1">
+            Consolidated Business Plan of Employee Format
+          </h3>
+          <div className="mt-2 text-[16px] font-medium">
+            For the Year {new Date().getFullYear()} -{" "}
+            {new Date().getFullYear() + 1}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto p-4">
+          <table className="w-full border border-collapse">
+            <thead>
+              <tr className="bg-gray-200 text-sm text-center">
+                {[
+                  "Sr. No.",
+                  "Employee Name",
+                  "No. of Companies",
+                  "Product Sale / Work Execution",
+                  "Total Material Qty. / Total Area (in Sqm)",
+                  "Approx Business Potential",
+                ].map((col, idx) => (
+                  <th key={idx} className="border px-4 py-2 font-medium">
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+
+            <tbody>
+              {allselectedPOA && allselectedPOA.length > 0 ? (
+                allselectedPOA.map((poa, index) => (
+                  <tr key={index} className="text-center text-sm">
+                    <td className="border px-4 py-2">{index + 1}</td>
+                    <td className="border px-4 py-2">
+                      {poa.salesPerson?.fullname}
+                    </td>
+                    <td className="border px-4 py-2">{poa.total_customer}</td>
+                    <td className="border px-4 py-2">{poa.product_sale}</td>
+                    <td className="border px-4 py-2">
+                      {poa.total_material_qty}
+                    </td>
+                    <td className="border px-4 py-2">{poa.approx_business}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="border px-4 py-4 text-center text-gray-500"
+                  >
+                    No Business Plan data available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Close Button */}
+        <div className="flex justify-end p-4">
+          <button
+            onClick={() => setAllEmpPlanOfActionReport(false)}
+            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AllEmpPlanOfActionReport;

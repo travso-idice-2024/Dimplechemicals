@@ -6,7 +6,9 @@ import ContentTop from "../../ContentTop/ContentTop";
 import {todaysLeadReport} from '../../../redux/leadSlice';
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
+const getAuthToken = () => localStorage.getItem("token");
 
 const TodaysLeadReport = () => {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const TodaysLeadReport = () => {
         const token = getAuthToken();
     
         // ✅ Correct API call
-        const response = await axios.get("http://localhost:5000/api/auth/export-todays-leads", {
+        const response = await axios.get(`${API_URL}/auth/export-todays-leads`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

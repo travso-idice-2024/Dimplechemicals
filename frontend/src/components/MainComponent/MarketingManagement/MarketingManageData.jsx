@@ -20,6 +20,10 @@ import {
   fetchAllCustomers,
   getAllAddressByCustomerId,
 } from "../../../redux/customerSlice";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+const getAuthToken = () => localStorage.getItem("token");
 
 const MarketingManageData = () => {
   const dispatch = useDispatch();
@@ -386,6 +390,40 @@ const MarketingManageData = () => {
     }
   };
   //end delete lead======================================================
+
+  const updateDealFinalize = async (id) => {
+    try {
+      const token = getAuthToken();
+
+      // ✅ Correct Axios PUT call
+      const response = await axios.put(
+        `${API_URL}/auth/deal-finalised/${id}`,
+        {}, // No body data being sent
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+
+      //console.log(response);
+
+      // ✅ Handle success response
+      handleDeleteFlashMessage(response?.data?.message, "success");
+
+      // ✅ Refresh lead list
+      dispatch(
+        listLeads({
+          page: currentPage,
+          limit: leadPerPage,
+          search: searchTerm,
+        })
+      );
+    } catch (error) {
+      console.error("Error finalizing deal:", error);
+    }
+  };
+
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
@@ -433,6 +471,7 @@ const MarketingManageData = () => {
             deleteFlashMsgType={deleteFlashMsgType}
             handleDeleteFlashMessage={handleDeleteFlashMessage}
             handleDelete={handleDelete}
+            updateDealFinalize={updateDealFinalize}
           />
           {/*------- Table Data End -------*/}
         </div>

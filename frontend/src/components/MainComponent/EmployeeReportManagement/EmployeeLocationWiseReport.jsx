@@ -6,6 +6,9 @@ import ContentTop from "../../ContentTop/ContentTop";
 import { EmpReportLocationWise } from "../../../redux/userSlice";
 import axios from "axios";
 import { iconsImgs } from "../../../utils/images";
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const EmployeeLocationWiseReport = () => {
   const dispatch = useDispatch();
@@ -49,7 +52,7 @@ const EmployeeLocationWiseReport = () => {
 
       // ✅ Correct API call with query parameters
       const response = await axios.get(
-        "http://localhost:5000/api/auth/export-employee-location",
+        `${API_URL}/auth/export-employee-location`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

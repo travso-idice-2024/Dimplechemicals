@@ -6,13 +6,15 @@ import ContentTop from "../../ContentTop/ContentTop";
 import { ConvertedLeadData } from "../../../redux/leadSlice";
 import axios from "axios";
 import { iconsImgs } from "../../../utils/images";
+const API_URL = import.meta.env.VITE_API_URL;
+const getAuthToken = () => localStorage.getItem("token");
 
 const ConvertedLeadReport = () => {
   const dispatch = useDispatch();
 
   const { allWonleads } = useSelector((state) => state.lead);
 
-  console.log("allWonleads", allWonleads);
+  //console.log("allWonleads", allWonleads);
   
   // Pagination & Search States
   //const [searchTerm, setSearchTerm] = useState("");
@@ -50,7 +52,7 @@ const ConvertedLeadReport = () => {
 
       // ✅ Correct API call with query parameters
       const response = await axios.get(
-        "http://localhost:5000/api/auth/export-won-Lead",
+        `${API_URL}/auth/export-won-Lead`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

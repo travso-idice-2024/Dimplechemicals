@@ -1,88 +1,272 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../MarketingManageData.css";
 import "../../../../layout/MainCssFile.css";
 import { iconsImgs } from "../../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
-import ViewUserModal  from "./ViewUserModal";
-// import ViewUserModal from "./ViewUserModal";
-// import EditUserModal from "./EditUserModal";
+import PoaReportOfUser from "./PoaReportOfUser";
+import AllEmpPlanOfActionReport from "./AllEmpPlanOfActionReport";
+import ParticularLeadAssign from "./ParticularLeadAssign";
 import ContentTop from "../../../ContentTop/ContentTop";
+import { fetchUserWithRole } from "../../../../redux/userSlice";
+import { fetchAllCustomers,getAllAddressByCustomerId } from "../../../../redux/customerSlice";
+import {
+  listPOA,
+  addPOA,
+  updatePOA,
+  fetchAllPoaReports,
+} from "../../../../redux/poaSlice";
 
 const SalesPersonFollowUp = () => {
+  console.log("SalesPersonFollowUp component mounted");
+
+  const dispatch = useDispatch();
+
+  const { poaList, totalPages, poaLoading, poaError } = useSelector(
+    (state) => state.poa
+  );
+
+ 
+  const { userDataWithRole } = useSelector((state) => state.user);
+
+  const { allCustomers, customerAddress } = useSelector(
+    (state) => state.customer
+  );
+  console.log("allCustomers", allCustomers);
+  const [selectedPOA, setSelectedPOA] = useState({});
+
+  const [allselectedPOA, allsetSelectedPOA] = useState([]);
+  // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const leadPerPage = 4;
+
   // Load initial users from localStorage or use default list
-    const [selectedUser, setSelectedUser] = useState(null);
-  const [users, setUsers] = useState(() => {
-    const storedUsers = localStorage.getItem("follow-up-form");
-    return storedUsers
-      ? JSON.parse(storedUsers)
-      : [
-          {
-            leadname: "Pooja Sharma",
-            salespersonname: "Uma Sharma",
-            meetdate: "25-01-2025",
-            meettype: "In-Person",
-            clientname: "Dimple Sharma",
-            companyname: "Idice System",
-            meetingSummary:
-              "A high-priority meeting was held on 25th January 2025 between Pooja Sharma and salesperson Uma Sharma. The next client meeting is scheduled for 4th March 2025. The discussion focused on the sales proposal and understanding the client’s requirements.",
-          },
-          {
-            leadname: "Prashant Mishra",
-            salespersonname: "Sapna Dubey",
-            meetdate: "25-01-2025",
-            meettype: "In-Person",
-            clientname: "Dimple Sharma",
-            companyname: "Idice System",
-            meetingSummary:
-              "A high-priority meeting was held on 25th January 2025 between Pooja Sharma and salesperson Uma Sharma. The next client meeting is scheduled for 4th March 2025. The discussion focused on the sales proposal and understanding the client’s requirements.",
-          },
-        ];
-  });
 
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
-  const usersPerPage = 8;
-  const totalPages = Math.ceil(users.length / usersPerPage);
+  const [selectedPOAId, setSelectedPOAId] = useState(null);
+  const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
+  const poaPerPage = 8;
 
-  // Load currentPage from sessionStorage or default to page 1
-  const [currentPage, setCurrentPage] = useState(() => {
-    return parseInt(sessionStorage.getItem("currentPage")) || 1;
-  });
+  const [poaReportOpen, setpoaReportOpen] = useState(false);
+  const [allEmpPlanOfActionReport, setAllEmpPlanOfActionReport]  = useState(false);
 
-  // Save currentPage to sessionStorage when it changes
   useEffect(() => {
-    sessionStorage.setItem("currentPage", currentPage);
-  }, [currentPage]);
+    dispatch(fetchAllCustomers());
+    dispatch(
+      fetchUserWithRole({
+        roleId: 4,
+      })
+    );
+    dispatch(
+      listPOA({
+        page: currentPage,
+        limit: poaPerPage,
+        search: searchTerm,
+      })
+    );
+  }, [dispatch, currentPage, searchTerm]);
 
-  // Save users to localStorage whenever users state updates
-  useEffect(() => {
-    localStorage.setItem("follow-up-form", JSON.stringify(users));
-  }, [users]);
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
   // Handle page change
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  // Filtered user list based on search
-  const filteredUsers = users
-    .sort((a, b) => b.leadname.localeCompare(a.leadname))
-    .filter(
-      (user) =>
-        user.leadname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.salespersonname.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  //add POA
+  const [poaData, setPoaData] = useState({
+    customer_id: "",
+    location:"",
+    contact_persion_name: "",
+    sales_persion_id: "",
+    meeting_date: "",
+    meeting_type: "",
+    meeting_summary: "",
+    product_sale: "",
+    total_material_qty: "",
+    approx_business: "",
+    project_name: "",
+  });
 
-  // Paginate user data
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const [poaFormErrors, setPoaFormErrors] = useState({});
+  const [poaFlashMessage, setPoaFlashMessage] = useState("");
+  const [poaFlashMsgType, setPoaFlashMsgType] = useState("");
+
+  // Input change handler
+  const handlePoaChange = (e) => {
+    const { name, value } = e.target;
+    setPoaData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Customer change handler
+  const handlePoaCustomerChange = (e) => {
+    const { value } = e.target;
+    dispatch(getAllAddressByCustomerId({ id: value }));
+
+    setPoaData((prevData) => ({
+      ...prevData,
+      customer_id: value,
+    }));
+  };
+
+  // Flash message handler
+  const handlePoaFlashMessage = (message, type) => {
+    setPoaFlashMessage(message);
+    setPoaFlashMsgType(type);
+    setTimeout(() => {
+      setPoaFlashMessage("");
+      setPoaFlashMsgType("");
+    }, 3000);
+  };
+
+  // Validation
+  const validatePoaForm = () => {
+    let errors = {};
+    if (!poaData.customer_id) errors.customer_id = "Customer is required.";
+    if (!poaData.contact_persion_name)
+      errors.contact_persion_name = "Contact Person Name is required.";
+    if (!poaData.sales_persion_id)
+      errors.sales_persion_id = "Sales Person is required.";
+    if (!poaData.meeting_date)
+      errors.meeting_date = "Meeting Date is required.";
+    if (!poaData.meeting_type)
+      errors.meeting_type = "Meeting Type is required.";
+    if (!poaData.meeting_summary)
+      errors.meeting_summary = "Meeting Summary is required.";
+    if (!poaData.product_sale)
+      errors.product_sale = "Product Sale is required.";
+    if (!poaData.total_material_qty)
+      errors.total_material_qty = "Total Material Qty is required.";
+    if (!poaData.approx_business)
+      errors.approx_business = "Approx Business is required.";
+    if (!poaData.project_name)
+      errors.project_name = "Project Name is required.";
+
+    setPoaFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Submit handler
+  const handleSubmitPoa = async (e) => {
+    e.preventDefault();
+    if (validatePoaForm()) {
+      try {
+        const response = await dispatch(addPOA(poaData)).unwrap(); // Make sure your action is named `addPoa`
+        
+        if (response?.success) {
+          handlePoaFlashMessage(response?.message, "success");
+
+          dispatch(
+            listPOA({
+              page: currentPage,
+              limit: poaPerPage,
+              search: searchTerm,
+            })
+          );
+
+          setPoaData({
+            customer_id: "",
+            contact_persion_name: "",
+            sales_persion_id: "",
+            meeting_date: "",
+            meeting_type: "",
+            meeting_summary: "",
+            product_sale: "",
+            total_material_qty: "",
+            approx_business: "",
+            project_name: "",
+          });
+
+          setTimeout(() => {
+            setAddUserModalOpen(false); // Make sure modal state name matches
+          }, 3000);
+        } else {
+          handlePoaFlashMessage(
+            response?.message || "Something went wrong",
+            "error"
+          );
+        }
+      } catch (error) {
+        console.error("Error adding POA:", error);
+        handlePoaFlashMessage(error?.message || "An error occurred", "error");
+      }
+    }
+  };
+
+  //END ADD POA
+
+  //assignPOAToUser
+  const [poaUpdateData, setPoaUpdateData] = useState({
+    sales_persion_id: ""
+  });
+
+  // Input change handler
+  const handlePoaUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setPoaUpdateData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const validatePoaUpdateForm = () => {
+    let errors = {};
+    if (!poaUpdateData.sales_persion_id)
+      errors.sales_persion_id = "Sales Person is required.";
+
+    setPoaFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const handleAssignSalesPerson = async () => {
+    if (!validatePoaUpdateForm()) return;
+    try {
+      const response = await dispatch(updatePOA({
+        id: selectedPOA.id,
+        sales_persion_id: poaUpdateData.sales_persion_id
+      })).unwrap();
   
-
+       console.log(response);
+      if (response?.success) {
+        handlePoaFlashMessage(response?.message, "success");
+  
+        setPoaUpdateData  ({
+          sales_persion_id: "",
+        });
+        // Reset state
+        setTimeout(() => {
+          setIsLeadAssignPopup(false); // Make sure modal state name matches
+        }, 3000);
+        setSelectedPOAId(null);
+        setSelectedPOA("");
+  
+        // Refresh list
+        dispatch(listPOA({
+          page: currentPage,
+          limit: poaPerPage,
+          search: searchTerm,
+        }));
+      } else {
+        handlePoaFlashMessage("Failed to update", "error");
+      }
+    } catch (error) {
+      console.error("Update error:", error);
+      handlePoaFlashMessage(error?.message || "Something went wrong", "error");
+    }
+  };
+  
+  //
   return (
     <div className="main-content">
       <ContentTop />
@@ -95,6 +279,17 @@ const SalesPersonFollowUp = () => {
               </h1>
             </div>
             <div className="flex items-center gap-[5px]">
+            <div>
+                <button
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  onClick={() => {
+                    allsetSelectedPOA(poaList?.data);
+                    setAllEmpPlanOfActionReport(true);
+                  }}
+                >
+                  All Employee POA 
+                </button>
+              </div>
               <div>
                 <input
                   type="search"
@@ -123,13 +318,17 @@ const SalesPersonFollowUp = () => {
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
-              currentUsers={currentUsers}
+              poaList={poaList?.data || []}
               setViewModalOpen={setViewModalOpen}
-              currentPage={currentPage}
-              usersPerPage={usersPerPage}
-              setSelectedUser={setSelectedUser}
+              selectedPOA={selectedPOA}
+              setSelectedPOA={setSelectedPOA}
+              isLeadAssignPopup={isLeadAssignPopup} 
+              setIsLeadAssignPopup={setIsLeadAssignPopup}
+              setSelectedPOAId={setSelectedPOAId}
+              selectedPOAId={selectedPOAId}
+              poaReportOpen={poaReportOpen} 
+              setpoaReportOpen={setpoaReportOpen}
             />
-            {/*------- Table Data End -------*/}
           </div>
           {/* Pagination Controls with Number */}
           <Pagination
@@ -141,7 +340,19 @@ const SalesPersonFollowUp = () => {
 
         {/* Add User Modal */}
         {isAddUserModalOpen && (
-          <AddRoleModal setAddUserModalOpen={setAddUserModalOpen} />
+          <AddRoleModal
+            setAddUserModalOpen={setAddUserModalOpen}
+            poaData={poaData}
+            handlePoaChange={handlePoaChange}
+            handleSubmitPoa={handleSubmitPoa}
+            poaFormErrors={poaFormErrors}
+            poaFlashMessage={poaFlashMessage}
+            poaFlashMsgType={poaFlashMsgType}
+            allCustomers={allCustomers}
+            handlePoaCustomerChange={handlePoaCustomerChange}
+            customerAddress={customerAddress}
+            userDataWithRole={userDataWithRole}
+          />
         )}
 
         {/* Edit User Modal */}
@@ -151,7 +362,43 @@ const SalesPersonFollowUp = () => {
 
         {/* View User Modal */}
         {isViewModalOpen && (
-          <ViewUserModal setViewModalOpen={setViewModalOpen} selectedUser={selectedUser} />
+          <ViewUserModal
+            setpoaReportOpen={setpoaReportOpen}
+            selectedUser={selectedUser}
+          />
+        )}
+
+     {poaReportOpen && (
+        <PoaReportOfUser
+        setpoaReportOpen={setpoaReportOpen}
+          selectedPOA={selectedPOA}
+        />
+      )}
+
+
+
+{allEmpPlanOfActionReport && (
+        <AllEmpPlanOfActionReport
+        setAllEmpPlanOfActionReport={setAllEmpPlanOfActionReport}
+        allselectedPOA={allselectedPOA}
+        />
+      )}
+
+
+{isLeadAssignPopup && (
+          <ParticularLeadAssign
+          setIsLeadAssignPopup={setIsLeadAssignPopup}
+            setSelectedPOAId={setSelectedPOAId}
+            selectedPOA={selectedPOA}
+            userDataWithRole={userDataWithRole}
+            handleAssignSalesPerson={handleAssignSalesPerson}
+            poaUpdateData={poaUpdateData} setPoaUpdateData={setPoaUpdateData}
+            handlePoaUpdateChange={handlePoaUpdateChange}
+            validatePoaUpdateForm={validatePoaUpdateForm}
+            poaFlashMessage={poaFlashMessage}
+            poaFlashMsgType={poaFlashMsgType}
+            poaFormErrors={poaFormErrors}
+          />
         )}
       </div>
     </div>

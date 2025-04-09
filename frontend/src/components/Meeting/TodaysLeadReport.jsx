@@ -105,13 +105,13 @@ const TodaysLeadReport = ({ setViewLeadReportOpen, selectedLeadData }) => {
                       </td>
                       <td className="px-4 py-2 text-textdata">
                         <ol className="list-decimal list-inside">
-                          {visit.remarks?.map((remark, i) => (
+                          {visit?.remarks?.map((remark, i) => (
                             <li key={i}>{remark}</li>
                           ))}
                         </ol>
                       </td>
                       <td className="px-4 py-2 text-textdata">
-                        {visit.next_followup.split("T")[0]}
+                        {visit?.next_followup?.split("T")[0]}
                       </td>
                     </tr>
                   ))

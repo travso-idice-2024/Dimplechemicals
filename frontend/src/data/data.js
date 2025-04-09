@@ -55,7 +55,8 @@ export const navigationLinks = [
             id: "5.2.1",
             title: "Sales Lead",
             image: iconsImgs.assignment,
-            path: "/sale-management/leads/assignment",
+            //path: "/sale-management/leads/assignment",
+            path: "/lead-management",
           },
           {
             id: "5.2.2",

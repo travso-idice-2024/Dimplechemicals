@@ -33,7 +33,7 @@ const EditProductModal = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Product
           </h2>
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-[480px]">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
           <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Product Name :</label>
               <input
@@ -103,21 +103,8 @@ const EditProductModal = ({
               {editFormErrors.rate && <p className="text-red-500 text-sm">{editFormErrors.rate}</p>}
             </div>
 
-            {/* Product Description */}
-            <div className="col-span-3">
-              <label className="font-poppins font-medium text-textdata text-bgData">Product Description :</label>
-              <textarea
-                name="product_description"
-                placeholder="Product Description"
-                value={editFormData.product_description}
-                onChange={handleEditChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2 h-[80px]"
-              ></textarea>
-              {editFormErrors.product_description && <p className="text-red-500 text-sm">{editFormErrors.product_description}</p>}
-            </div>
-
-            {/* Status */}
-            <div className="col-span-3">
+ {/* Status */}
+ <div className="">
               <label className="font-poppins font-medium text-textdata text-bgData">Status :</label>
               <select
                 name="status"
@@ -131,6 +118,21 @@ const EditProductModal = ({
               </select>
               {editFormErrors.status && <p className="text-red-500 text-sm">{editFormErrors.status}</p>}
             </div>
+
+            {/* Product Description */}
+            <div className="col-span-3">
+              <label className="font-poppins font-medium text-textdata text-bgData">Product Description :</label>
+              <textarea
+                name="product_description"
+                placeholder="Product Description"
+                value={editFormData.product_description}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2 h-[80px]"
+              ></textarea>
+              {editFormErrors.product_description && <p className="text-red-500 text-sm">{editFormErrors.product_description}</p>}
+            </div>
+
+           
           </div>
           <div className="flex items-end justify-end gap-2 px-4">
             <button

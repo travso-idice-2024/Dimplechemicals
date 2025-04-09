@@ -24,6 +24,25 @@ export const listLeads = createAsyncThunk(
   }
 );
 
+
+export const finalizeDeals = createAsyncThunk(
+  "auth/finalised-deal",
+  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/finalised-deal`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, limit, search },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch leads"
+      );
+    }
+  }
+);
+
 // ✅ FETCH ALL LEADS (Without Pagination)
 export const fetchAllLeads = createAsyncThunk(
   "lead/fetchAllLeads",
@@ -294,6 +313,7 @@ const leadSlice = createSlice({
     allWonleads: [],
     communicationleads: [],
     communicationleadsList: [],
+    finalizeDealsData:[],
     lead: null,
     salesPersonleads: [],
     allLeads: [],
@@ -317,6 +337,20 @@ const leadSlice = createSlice({
         state.allfilterleads = action.payload;
       })
       .addCase(AllLeadsData.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+      
+      .addCase(finalizeDeals.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(finalizeDeals.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.finalizeDealsData = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(finalizeDeals.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
       })

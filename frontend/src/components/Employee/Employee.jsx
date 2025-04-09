@@ -12,7 +12,7 @@ const employeeData = [
 
 const Employee = () => {
   return (
-    <div className="grid-two-item grid-common grid-c4 flex flex-col justify-between"> 
+    <div className="grid-two-item grid-common grid-c4 flex flex-col justify-between mb-5"> 
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">Employee Hot Leads</h3>
         <button className="grid-c-title-icon">

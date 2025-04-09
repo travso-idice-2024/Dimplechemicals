@@ -156,6 +156,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true, // ✅ Allow null
         defaultValue: null, // ✅ Default is null
       },
+      deal_finalised: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+     },
     },
     {
       sequelize,

@@ -23,6 +23,7 @@ const DepartmentTable = ({
   deleteFlashMsgType,
   handleDeleteFlashMessage,
   handleDelete,
+  updateDealFinalize
 }) => {
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
@@ -38,9 +39,9 @@ const DepartmentTable = ({
         )}
       </div>
       <div
-        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-full"}`}
+        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-[1180px]"}`}
       >
-        <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"}`}>
+        <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-max"}`}>
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata"></th>
@@ -113,6 +114,12 @@ const DepartmentTable = ({
               >
                 Assign Lead
               </button> */}
+               <button
+                className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
+                onClick={() => updateDealFinalize(user?.id)}
+              >
+                Deal
+              </button>
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                     onClick={() => {

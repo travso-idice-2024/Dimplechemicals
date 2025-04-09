@@ -934,6 +934,85 @@ const getTodayAssignedLeads = async (req, res) => {
 }
 };
 
+const updateDealFinalised = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const lead = await Lead.findByPk(id);
+    if (!lead) {
+      return res.status(404).json({ success: false, message: "Lead not found" });
+    }
+
+    lead.deal_finalised = true; // or 1
+    await lead.save();
+
+    res.json({
+      success: true,
+      message: "Deal finalised successfully",
+      data: lead,
+    });
+  } catch (error) {
+    console.error("Error updating deal_finalised:", error);
+    res.status(500).json({ success: false, message: "Server error"});
+  }
+};
+
+const getFinalisedDeals = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = "" } = req.query;
+
+    const offset = (page - 1) * limit;
+
+    const whereClause = {
+      deal_finalised: 1,
+    };
+
+    // Apply search if provided
+    if (search) {
+      whereClause[Op.or] = [
+        { '$customer.name$': { [Op.like]:`%${search}%` } },
+        { '$assignedPerson.fullname$': { [Op.like]: `%${search}%` } },
+        { '$leadOwner.fullname$': { [Op.like]: `%${search}%` } }
+      ];
+    }
+
+    const { rows: leads, count: total } = await Lead.findAndCountAll({
+      where: whereClause,
+      include: [
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["id", "fullname", "email"],
+        },
+        {
+          model: User,
+          as: "leadOwner",
+          attributes: ["id", "fullname", "email"],
+        },
+        {
+          model: Customer,
+          as: "customer",
+        },
+      ],
+      order: [["updatedAt", "DESC"]],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+    });
+
+    res.json({
+      success: true,
+      data: leads,
+      pagination: {
+        total,
+        page: parseInt(page),
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching finalised deals:", error);
+    res.status(500).json({ success: false, message: "Server Error"});
+  }
+};
 module.exports = {
   addLead,
   getLeadList,
@@ -946,5 +1025,7 @@ module.exports = {
   exportTodaysLeadsToExcel,
   getAllLeads,
   exportLeadsToExcel,
-  getTodayAssignedLeads
+  getTodayAssignedLeads,
+  updateDealFinalised,
+  getFinalisedDeals
 };

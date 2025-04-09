@@ -10,6 +10,10 @@ import {
 import axios from "axios";
 import { iconsImgs } from "../../../../utils/images";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+const getAuthToken = () => localStorage.getItem("token");
+
 const AttendanceSheetData = () => {
   const dispatch = useDispatch();
 
@@ -81,7 +85,7 @@ const AttendanceSheetData = () => {
     setCurrentPage(newPage);
   };
 
-  const getAuthToken = () => localStorage.getItem("token");
+  
 
   const handleExportData = async () => {
     try {

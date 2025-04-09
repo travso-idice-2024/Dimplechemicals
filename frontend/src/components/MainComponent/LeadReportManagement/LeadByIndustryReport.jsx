@@ -7,6 +7,9 @@ import { AllLeadsData } from "../../../redux/leadSlice";
 import { fetchAllCustomers } from "../../../redux/customerSlice";
 import axios from "axios";
 import { iconsImgs } from "../../../utils/images";
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const LeadByIndustryReport = () => {
   const dispatch = useDispatch();
@@ -58,7 +61,7 @@ const LeadByIndustryReport = () => {
 
       // ✅ Correct API call with query parameters
       const response = await axios.get(
-        "http://localhost:5000/api/auth/export-leads",
+        `${API_URL}/auth/export-leads`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
