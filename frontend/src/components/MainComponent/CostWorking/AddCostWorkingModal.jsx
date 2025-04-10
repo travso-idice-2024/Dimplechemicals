@@ -99,6 +99,14 @@ const AddCostWorkingModal = ({
     });
   };
 
+  const fields = [
+    { name: "unit", placeholder: "Unit No." },
+    { name: "qty_for", placeholder: "Quantity" },
+    { name: "std_pak", placeholder: "Std Pack (Unit No.)" },
+    { name: "std_basic_rate", placeholder: "Std Basic Rate" },
+    { name: "basic_amount", placeholder: "Basic Amount" },
+  ];
+
   return (
     <>
       {/* Flash Messages */}
@@ -217,7 +225,7 @@ const AddCostWorkingModal = ({
               {costWorkingData.products.map((product, index) => (
                 <>
                   <h3 className=" text-bgDataNew font-poppins font-medium text-textdatanew text-bgData mt-5">
-                    Product {index+1} :
+                    Product {index + 1} :
                   </h3>
                   <div
                     key={index}
@@ -239,7 +247,7 @@ const AddCostWorkingModal = ({
                     </select>
 
                     {/* Other Input Fields (excluding total_material_cost) */}
-                    {[
+                    {/* {[
                       "unit",
                       "qty_for",
                       "std_pak",
@@ -259,6 +267,18 @@ const AddCostWorkingModal = ({
                               word.charAt(0).toUpperCase() + word.slice(1)
                           )
                           .join(" ")}
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    ))} */}
+
+                    {fields.map(({ name, placeholder }) => (
+                      <input
+                        key={name}
+                        type="text"
+                        name={name}
+                        value={product[name] || ""}
+                        onChange={(e) => handleProductChange(e, index)}
+                        placeholder={placeholder}
                         className="block w-full rounded-[5px] border px-3 py-2"
                       />
                     ))}

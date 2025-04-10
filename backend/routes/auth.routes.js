@@ -14,7 +14,8 @@ const {
   getExitedEmployees,
   exportExitedEmployees,
   getEmployeesLocation,
-  exportEmployeesLocation
+  exportEmployeesLocation,
+  exportEmployeesListToExcel
 } = require("../controllers/auth.controller");
 const {
   listRoles,
@@ -34,6 +35,7 @@ const {
   updateCustomer,
   removeCustomer,
   getCustomerAddresses,
+  exportCustomersToExcel
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -193,5 +195,7 @@ router.get("/finalised-deal", authMiddleware, getFinalisedDeals);
 router.post("/create-planofaction", authMiddleware, createPlan);
 router.get("/getplanofaction", authMiddleware, getPlanOfActions);
 router.put("/update-planofaction/:id", authMiddleware, updateSalesPerson);
+router.get("/export-employee-details", authMiddleware, exportEmployeesListToExcel);
+router.get("/export-customers", authMiddleware, exportCustomersToExcel);
 
 module.exports = router;

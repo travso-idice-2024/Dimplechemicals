@@ -66,11 +66,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:true,
     },
+    cust_id: {
+      type: DataTypes.STRING,
+      unique:true,
+    },
   }, {
     sequelize,
     modelName: 'Customer',
     tableName: "customers",
     timestamps: true, // Includes createdAt and updatedAt automatically
+    hooks: {
+      async afterCreate(customer) {
+        const newCustId = `CUST${String(customer.id).padStart(2, '0')}`;
+        await customer.update({ cust_id: newCustId });
+      },
+    },
   });
   return Customer;
 };

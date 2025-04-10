@@ -1166,6 +1166,144 @@ exports.exportEmployeesLocation = async (req, res) => {
   }
 };
 
+exports.exportEmployeesListToExcel = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = "", roleId, all } = req.query;
+
+    // Convert page & limit to integers
+    const pageNumber = parseInt(page, 10) || 1;
+    const pageSize = parseInt(limit, 10) || 10;
+    const offset = (pageNumber - 1) * pageSize;
+
+    // Search filter (checks fullname, email, and phone)
+    const whereCondition = search
+      ? {
+          [Op.or]: [
+            { fullname: { [Op.like]: `%${search}%` } },
+            { email: { [Op.like]: `%${search}%` } },
+            { phone: { [Op.like]: `%${search}%` } },
+          ],
+        }
+      : {};
+
+    // 🔹 Apply role filter dynamically
+    if (roleId) {
+      whereCondition["$employeeRole.role_id$"] = roleId;
+    }
+
+    // Common query options
+    const queryOptions = {
+      where: whereCondition,
+      include: [
+        {
+          model: EmployeeRole,
+          as: "employeeRole",
+          include: [{ model: Role, as: "role", attributes: ["role_name"] }],
+        },
+        {
+          model: JobDetail,
+          as: "jobDetail",
+          include: [
+            {
+              model: Department,
+              as: "department",
+              attributes: ["department_name"],
+            },
+            {
+              model: User, // Fetch reporting manager
+              as: "reportingManager",
+              attributes: ["id", "fullname"], // Only fetch name & ID
+            },
+          ],
+        },
+        {
+          model: BankDetail, // Fetch bank details
+          as: "bankDetail",
+          attributes: ["bank_name", "account_number", "ifsc_code", "branch_name", "account_type"], // Select necessary fields
+        },
+      ],
+      attributes: { exclude: [] }, // Fetch all fields
+    };
+
+    // Fetch all employees if 'all' is set to true
+    const employees = all === "true"
+      ? await User.findAll(queryOptions)
+      : await User.findAll({
+          ...queryOptions,
+          limit: pageSize,
+          offset,
+        });
+
+    // Initialize Excel Workbook
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Employees Data Report");
+
+    // Dynamically create columns based on employee data
+    worksheet.columns = [
+      { header: "Employee ID", key: "emp_id", width: 15 },
+      { header: "Full Name", key: "fullname", width: 25 },
+      { header: "Date of Birth", key: "date_of_birth", width: 25 },
+      { header: "Email", key: "email", width: 30 },
+      { header: "Phone", key: "phone", width: 15 },
+      { header: "Status", key: "status", width: 10 },
+      { header: "Date of Joining", key: "date_of_joining", width: 20 },
+      { header: "Role", key: "role", width: 20 },
+      { header: "Department", key: "department", width: 20 },
+      { header: "Aadhar No", key: "aadhar_no", width: 20 },
+      { header: "PanCard No", key: "pan_no", width: 20 },
+      { header: "Reporting Manager", key: "reporting_manager", width: 20 },
+      { header: "Bank Name", key: "bank_name", width: 20 },
+      { header: "Account Number", key: "account_number", width: 20 },
+      { header: "IFSC Code", key: "ifsc_code", width: 15 },
+      { header: "Address", key: "address", width: 15 },
+      // Add more columns as needed
+    ];
+
+    // Add rows for each employee
+    employees.forEach((emp) => {
+      worksheet.addRow({
+        emp_id: emp.emp_id,
+        date_of_birth: emp.date_of_birth,
+        fullname: emp.fullname,
+        email: emp.email,
+        phone: emp.phone,
+        status: emp.status,
+        date_of_joining: emp.jobDetail?.date_of_joining || "N/A",
+        role: emp.employeeRole?.role?.role_name || "N/A",
+        aadhar_no: emp.aadhar_no,
+        pan_no: emp.pan_no,
+        department: emp.jobDetail?.department?.department_name || "N/A",
+        reporting_manager: emp.jobDetail?.reportingManager?.fullname || "N/A",
+        bank_name: emp.bankDetail?.bank_name || "N/A",
+        account_number: emp.bankDetail?.account_number || "N/A",
+        ifsc_code: emp.bankDetail?.ifsc_code || "N/A",
+        address: emp.address,
+      });
+    });
+
+    // Generate file path with timestamp
+    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+    const filePath = path.join(__dirname, `../exports/Employees_List_Report_${timestamp}.xlsx`);
+
+    // Delete existing file if present
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Write workbook to file
+    await workbook.xlsx.writeFile(filePath);
+
+    // Send the file for download
+    res.download(filePath, `Employees_List_Report_${timestamp}.xlsx`);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+};
+
 
 
 

@@ -15,9 +15,12 @@ import {
   updateCustomer,
   removeCustomer,
 } from "../../../redux/customerSlice";
-
-
 import {fetchCurrentUser} from "../../../redux/authSlice";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const CustomerManageData = () => {
   const dispatch = useDispatch();
@@ -311,6 +314,44 @@ const CustomerManageData = () => {
 
   //end delete customer ========================================================================
 
+  //export customer data in excel file
+  const handleExportData = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        `${API_URL}/auth/export-customers`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            search:searchTerm
+          },
+          responseType: "blob", // ✅ Important to keep it here
+        }
+      );
+
+      // ✅ Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // ✅ Create a temporary <a> tag to download the file
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Customer_Report.xlsx"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // ✅ Cleanup after download
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
+  };
+//end export customer data in excel file
 
  
 
@@ -351,6 +392,14 @@ const CustomerManageData = () => {
                   Add Customer
                 </button>
               </div>
+              <div>
+              <button
+                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={handleExportData}
+              >
+                Export Data
+              </button>
+            </div>
             </div>
           </div>
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">

@@ -76,7 +76,7 @@ export const navigationLinks = [
     submenu: [
       {
         id: 6.1,
-        title: "Leads Management",
+        title: "Lead Assignment",
         image: iconsImgs.followupform,
         path: "/marketing-management/lead-management",
       },
@@ -232,6 +232,18 @@ export const navigationLinks = [
         title: "Employee Report",
         image: iconsImgs.followupform,
         path: "/report-management/employee-report",
+      },
+      {
+        id: 8.3,
+        title: "POA Report",
+        image: iconsImgs.followupform,
+        path: "/report-management/plan-of-action-for-day",
+      },
+      {
+        id: 8.4,
+        title: "Sales Activity Report",
+        image: iconsImgs.followupform,
+        path: "/report-management/sales-activity-report",
       },
     ]
   },

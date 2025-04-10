@@ -53,6 +53,8 @@ import EmpByMonthAndYearReport from './components/MainComponent/EmployeeReportMa
 import EmpByDepartmentReport from './components/MainComponent/EmployeeReportManagement/EmpByDepartmentReport';
 import EmployeeLocationWiseReport from './components/MainComponent/EmployeeReportManagement/EmployeeLocationWiseReport';
 import EmpCheckInCheckoutReport from './components/MainComponent/EmployeeReportManagement/EmpCheckInCheckoutReport';
+import POAReport from './components/MainComponent/POAReport/SalesPersonFollowUp';
+import SalesVisitReport from './components/MainComponent/SalesVisitReport/SalesPOForm';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -125,6 +127,9 @@ function App() {
           <Route path="/customer-requirement/lead-generate" element={<LeadGenerate />} />
           <Route path="/demo" element={<Demo />} />
           <Route path='/lead-followups/:leadId' element={<LeadFollowList/>} />
+          <Route path="/report-management/plan-of-action-for-day"  element={<POAReport/>}/>
+          <Route path='/report-management/sales-activity-report' element={<SalesVisitReport/>}/>
+
           {/* Add more protected routes here */}
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

@@ -22,36 +22,6 @@ const CustomerTable = ({
   handleDeleteFlashMessage,
   handleDelete
 }) => {
-
-  const dispatch = useDispatch();
-
-  // const [flashMessage, setFlashMessage] = useState("");
-  // const [flashMsgType, setFlashMsgType] = useState("");
-
-
-  // // Function to show flash messages
-  // const handleFlashMessage = (message, type) => {
-  //   setFlashMessage(message);
-  //   setFlashMsgType(type);
-  //   setTimeout(() => {
-  //     setFlashMessage("");
-  //     setFlashMsgType("");
-  //   }, 3000); // Hide the message after 3 seconds
-  // };
-
-  // const handleDelete = async (id) => {
-    
-  //     try {
-  //       await dispatch(removeCustomer(id)).unwrap();
-  //       handleFlashMessage("Customer deleted successfully!", "success");
-  //       dispatch(listCustomers()); // Refresh customer list
-  //     } catch (error) {
-  //       handleFlashMessage(error?.message || "Failed to delete customer", "error");
-  //     }
-    
-  // };
-
-
   return (
     <>
     <div className="fixed top-5 right-5 z-50">
@@ -64,6 +34,7 @@ const CustomerTable = ({
         <tr className="bg-[#473b33] rounded-[8px]">
           <th className="px-4 py-2 text-left text-bgDataNew text-textdata"></th>
           <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Cust Id</th>
           <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Company Name</th>
           <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Client Name </th>
           <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Email</th>
@@ -82,6 +53,7 @@ const CustomerTable = ({
           <tr key={index}>
             <td className="px-4 py-2 text-textdata"><input type="checkbox" className="w-4 h-4 accent-orange-500" /></td>
             <td className="px-4 py-2 text-textdata">{index + 1}</td>
+            <td className="px-4 py-2 text-textdata">{user.cust_id}</td>
             <td className="px-4 py-2 text-textdata">{user.company_name}</td>
             <td className="px-4 py-2 text-textdata">{user.client_name}</td>
             <td className="px-4 py-2 text-textdata">{user.email_id}</td>

@@ -14,6 +14,11 @@ import {
   updateUser,
 } from "../../../../redux/userSlice";
 import SignatureCanvas from "react-signature-canvas";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const EmployeeManageData = () => {
   const dispatch = useDispatch();
@@ -59,7 +64,6 @@ const EmployeeManageData = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formErrors, setFormErrors] = useState({});
 
-
   const [formData, setFormData] = useState({
     // User Table Fields
     username: "",
@@ -104,7 +108,6 @@ const EmployeeManageData = () => {
     // Documents Table Fields
     documents: [],
   });
-
 
   const [flashMessage, setFlashMessage] = useState("");
   const [flashMsgType, setFlashMsgType] = useState("");
@@ -193,7 +196,6 @@ const EmployeeManageData = () => {
   const validateInputs = () => {
     let errors = {};
 
-   
     if (currentStep === 1) {
       // ✅ Required fields validation (only necessary fields)
       if (!formData.fullname.trim()) {
@@ -253,11 +255,11 @@ const EmployeeManageData = () => {
     }
     if (currentStep === 2) {
       // ✅ Required fields validation (only necessary fields)
-      
+
       if (!formData.department_id.trim()) {
         errors.department_id = "*Department is required";
       }
-      
+
       if (!formData.job_title.trim()) {
         errors.job_title = "*Job title is required";
       }
@@ -273,7 +275,7 @@ const EmployeeManageData = () => {
       if (!formData.work_location.trim()) {
         errors.work_location = "*Work location is required";
       }
-     
+
       if (!formData.offer_letter_date.trim()) {
         errors.offer_letter_date = "*offer letter is required";
       }
@@ -289,7 +291,7 @@ const EmployeeManageData = () => {
     }
     if (currentStep === 3) {
       // ✅ Required fields validation (only necessary fields)
-      
+
       if (!formData.bank_name.trim()) {
         errors.bank_name = "*Bank name is required";
       }
@@ -311,13 +313,12 @@ const EmployeeManageData = () => {
     return Object.keys(errors).length === 0;
   };
 
-
   const nextStep = () => {
     if (validateInputs(currentStep)) {
-      setCurrentStep((prev) => prev +1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
-  const prevStep = () => setCurrentStep((prev) =>prev-1);
+  const prevStep = () => setCurrentStep((prev) => prev - 1);
 
   const handleSubmit = async (e) => {
     console.log("this function is calling");
@@ -629,11 +630,10 @@ const EmployeeManageData = () => {
     return Object.keys(errors).length === 0;
   };
 
-
   const nextUpdateStep = () => {
-      setCurrentUpdateStep((prev) => prev +1);
+    setCurrentUpdateStep((prev) => prev + 1);
   };
-  const prevUpdateStep = () => setCurrentUpdateStep((prev) =>prev-1);
+  const prevUpdateStep = () => setCurrentUpdateStep((prev) => prev - 1);
 
   const handleUpdateSubmit = async (e) => {
     //console.log("Update function calling...");
@@ -672,6 +672,46 @@ const EmployeeManageData = () => {
 
   //end update employee code
 
+
+  //export employee data in excel file
+  const handleExportData = async () => {
+      try {
+        // ✅ Get token
+        const token = getAuthToken();
+  
+        // ✅ Correct API call with query parameters
+        const response = await axios.get(
+          `${API_URL}/auth/export-employee-details`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              search:searchTerm
+            },
+            responseType: "blob", // ✅ Important to keep it here
+          }
+        );
+  
+        // ✅ Create a URL for the blob
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+  
+        // ✅ Create a temporary <a> tag to download the file
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Employee_Report.xlsx"); // File name
+        document.body.appendChild(link);
+        link.click();
+  
+        // ✅ Cleanup after download
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error exporting data:", error);
+      }
+    };
+  //end export employee data in excel file
+
   //if (userLoading) return <p>Loading...</p>;
   //if (userError) return <p>{userError}</p>;
 
@@ -705,6 +745,14 @@ const EmployeeManageData = () => {
                   className="w-[18px] mr-1"
                 />{" "}
                 Add Employee
+              </button>
+            </div>
+            <div>
+              <button
+                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={handleExportData}
+              >
+                Export Data
               </button>
             </div>
           </div>

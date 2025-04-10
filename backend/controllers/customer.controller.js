@@ -1,5 +1,8 @@
 const { Op } = require("sequelize");
 const { Customer } = require("../models");
+const ExcelJS = require('exceljs');
+const fs = require('fs');
+const path = require('path');
 
 
 const listCustomers = async (req, res) => {
@@ -48,9 +51,6 @@ const listCustomers = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
-
-
 
 const addCustomer = async (req, res) => {
     try {
@@ -207,4 +207,86 @@ const getCustomerAddresses = async (req, res) => {
     }
 };
 
-module.exports = { addCustomer,listCustomers,updateCustomer, removeCustomer ,getCustomerAddresses};
+
+const exportCustomersToExcel = async (req, res) => {
+    try {
+      const { search = "" } = req.query;
+  
+      // Search condition
+      let whereCondition = {};
+      if (search) {
+        whereCondition = {
+          [Op.or]: [
+            { company_name: { [Op.like]: `%${search}%` } },
+            { client_name: { [Op.like]: `%${search}%` } },
+            { email_id: { [Op.like]: `%${search}%` } },
+            { cust_id: { [Op.like]: `%${search}%` } },
+            { pan_no: { [Op.like]: `%${search}%` } },
+            { primary_contact: { [Op.like]: `%${search}%` } },
+          ]
+        };
+      }
+  
+      const customers = await Customer.findAll({
+        where: whereCondition,
+        order: [['id', 'ASC']],
+      });
+  
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Customers Report");
+  
+      worksheet.columns = [
+        { header: "Customer ID", key: "cust_id", width: 15 },
+        { header: "Company Name", key: "company_name", width: 25 },
+        { header: "Client Name", key: "client_name", width: 20 },
+        { header: "Designation", key: "designation", width: 15 },
+        { header: "Primary Contact", key: "primary_contact", width: 20 },
+        { header: "Secondary Contact", key: "secondary_contact", width: 20 },
+        { header: "Email", key: "email_id", width: 25 },
+        { header: "Address", key: "address", width: 30 },
+        { header: "Address 2", key: "address_2", width: 30 },
+        { header: "Address 3", key: "address_3", width: 30 },
+        { header: "Address 4", key: "address_4", width: 30 },
+        { header: "Location", key: "location", width: 20 },
+        { header: "Pincode", key: "pincode", width: 15 },
+        { header: "PAN No", key: "pan_no", width: 20 },
+        { header: "Status", key: "active_status", width: 15 }
+      ];
+  
+      customers.forEach(customer => {
+        worksheet.addRow({
+          cust_id: customer.cust_id,
+          company_name: customer.company_name,
+          client_name: customer.client_name,
+          designation: customer.designation,
+          primary_contact: customer.primary_contact,
+          secondary_contact: customer.secondary_contact,
+          email_id: customer.email_id,
+          address: customer.address,
+          address_2: customer.address_2,
+          address_3: customer.address_3,
+          address_4: customer.address_4,
+          location: customer.location,
+          pincode: customer.pincode,
+          pan_no: customer.pan_no,
+          active_status: customer.active_status
+        });
+      });
+  
+      const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+      const filePath = path.join(__dirname, `../exports/Customers_Report_${timestamp}.xlsx`);
+  
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+  
+      await workbook.xlsx.writeFile(filePath);
+      return res.download(filePath, "Customers_Report.xlsx");
+  
+    } catch (error) {
+      console.error("Export Error:", error);
+      res.status(500).json({ success: false, message: error.message});
+    }
+};
+
+module.exports = { addCustomer,listCustomers,updateCustomer, removeCustomer ,getCustomerAddresses,exportCustomersToExcel};
