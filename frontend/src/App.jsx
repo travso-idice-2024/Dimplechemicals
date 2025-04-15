@@ -55,6 +55,8 @@ import EmployeeLocationWiseReport from './components/MainComponent/EmployeeRepor
 import EmpCheckInCheckoutReport from './components/MainComponent/EmployeeReportManagement/EmpCheckInCheckoutReport';
 import POAReport from './components/MainComponent/POAReport/SalesPersonFollowUp';
 import SalesVisitReport from './components/MainComponent/SalesVisitReport/SalesPOForm';
+import CustomerHistoryCard from './components/MainComponent/CustomerHistoryCard/CustomerManageData';
+import CustomerInfoForm from './components/MainComponent/CustomerInfoForm/CustomerManageData';
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -111,9 +113,6 @@ function App() {
           <Route path="/marketing-management/other-like/newspaper-ad" element={<NewsAdsData/>}/>
           <Route path="/marketing-management/other-like/flyers" element={<FlyersData/>}/>
 
-
-
-
           <Route path="/user-management" element={<UserManage />} />
           <Route path="/document-management" element={<DocumentManage />} />
           <Route path="/customer-requirement" element={<CustomerRequire />} />
@@ -129,6 +128,8 @@ function App() {
           <Route path='/lead-followups/:leadId' element={<LeadFollowList/>} />
           <Route path="/report-management/plan-of-action-for-day"  element={<POAReport/>}/>
           <Route path='/report-management/sales-activity-report' element={<SalesVisitReport/>}/>
+          <Route path='/report-management/customer-history-card' element={<CustomerHistoryCard/>}/>
+          <Route path='/report-management/customer-info-form' element={<CustomerInfoForm/>}/>
 
           {/* Add more protected routes here */}
         </Route>

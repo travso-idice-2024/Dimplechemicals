@@ -86,7 +86,7 @@ const SalePOForm = () => {
                     setAllEmpSARReport(true);
                   }}
                 >
-                  All Employee POA 
+                  All Employee SAR
                 </button>
               </div>
             </div>

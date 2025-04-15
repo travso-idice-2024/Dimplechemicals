@@ -102,10 +102,10 @@ const EmployeeTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.jobDetail?.job_title}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">{user.status}</td>
+                <td className="px-4 py-2 text-newtextdata">{user?.status}</td>
                 <td className="px-4 py-2 text-newtextdata">5</td>
 
-                <td className="px-4 py-2 text-newtextdata">{user.email}</td>
+                <td className="px-4 py-2 text-newtextdata">{user?.email}</td>
 
                 {/* <td className="px-4 py-2 text-newtextdata">{user?.employeeRole?.role?.role_name}</td> */}
 
@@ -136,7 +136,7 @@ const EmployeeTable = ({
                           "Are you sure you want to delete this employee?"
                         )
                       ) {
-                        handleDelete(user.id);
+                        handleDelete(user?.id);
                       }
                     }}
                   >

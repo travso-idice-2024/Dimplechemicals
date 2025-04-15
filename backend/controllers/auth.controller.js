@@ -539,7 +539,7 @@ exports.addEmployee = async (req, res) => {
       work_location,
       reporting_manager_id,
       offer_letter_date,
-      date_of_exit,
+      //date_of_exit,
       bank_name,
       account_number,
       ifsc_code,
@@ -584,7 +584,7 @@ exports.addEmployee = async (req, res) => {
           work_location,
           reporting_manager_id,
           offer_letter_date,
-          date_of_exit,
+         // date_of_exit,
         }, // Relation
         bankDetail: {
           bank_name,

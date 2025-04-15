@@ -96,7 +96,7 @@ const EmployeeManageData = () => {
     work_location: "",
     reporting_manager_id: "",
     offer_letter_date: "",
-    date_of_exit: "",
+    //date_of_exit: "",
 
     // Bank Details Table Fields
     bank_name: "",
@@ -279,9 +279,9 @@ const EmployeeManageData = () => {
       if (!formData.offer_letter_date.trim()) {
         errors.offer_letter_date = "*offer letter is required";
       }
-      if (!formData.date_of_exit.trim()) {
-        errors.date_of_exit = "*Exit Date is required";
-      }
+      // if (!formData.date_of_exit.trim()) {
+      //   errors.date_of_exit = "*Exit Date is required";
+      // }
       if (!formData.reporting_manager_id) {
         errors.reporting_manager_id = "*Reporting Manager is required";
       }
@@ -612,9 +612,9 @@ const EmployeeManageData = () => {
     if (!updateFormData.offer_letter_date.trim()) {
       errors.offer_letter_date = "*offer letter is required";
     }
-    if (!updateFormData.date_of_exit.trim()) {
-      errors.date_of_exit = "*Exit Date is required";
-    }
+    // if (!updateFormData.date_of_exit.trim()) {
+    //   errors.date_of_exit = "*Exit Date is required";
+    // }
     if (!updateFormData.reporting_manager_id) {
       errors.reporting_manager_id = "*Reporting Manager is required";
     }

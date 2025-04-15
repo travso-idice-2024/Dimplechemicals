@@ -485,7 +485,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Exit Date:
                 </label>
@@ -501,7 +501,7 @@ const AddEmployeeModal = ({
                     {formErrors.date_of_exit}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">

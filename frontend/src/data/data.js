@@ -245,6 +245,18 @@ export const navigationLinks = [
         image: iconsImgs.followupform,
         path: "/report-management/sales-activity-report",
       },
+      {
+        id: 8.5,
+        title: "Customer History Card",
+        image: iconsImgs.followupform,
+        path: "/report-management/customer-history-card",
+      },
+      {
+        id: 8.6,
+        title: "Customer Info Form",
+        image: iconsImgs.followupform,
+        path: "/report-management/customer-info-form",
+      },
     ]
   },
 

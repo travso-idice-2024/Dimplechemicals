@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Customer } = require("../models");
+const { Customer, Lead, User } = require("../models");
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
@@ -289,4 +289,81 @@ const exportCustomersToExcel = async (req, res) => {
     }
 };
 
-module.exports = { addCustomer,listCustomers,updateCustomer, removeCustomer ,getCustomerAddresses,exportCustomersToExcel};
+
+const customerInfo = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // 🔍 If customer ID is provided
+      if (id) {
+        const customer = await Customer.findOne({
+          where: { id, active_status: "active" },
+          include: [
+            {
+              model: Lead,
+              as: "leads",
+              include: [
+                {
+                  model: User,
+                  as: "assignedPerson",
+                  attributes: ["id", "fullname", "email"],
+                },
+                {
+                  model: User,
+                  as: "leadOwner",
+                  attributes: ["id", "fullname", "email"],
+                },
+              ],
+              order: [["assign_date", "DESC"]],
+            },
+          ],
+        });
+  
+        if (!customer) {
+          return res.status(404).json({ success: false, message: "Customer not found" });
+        }
+  
+        return res.status(200).json({ success: true, data: customer });
+      }
+  
+      // 🔁 If no ID provided, list with pagination or all
+      const { page = 1, limit = 10, search = "", all } = req.query;
+      let whereCondition = { active_status: "active" };
+  
+      if (search) {
+        whereCondition.company_name = { [Op.like]: `%${search}%` };
+      }
+  
+      if (all === "true") {
+        const customers = await Customer.findAll({
+          where: whereCondition,
+          order: [["company_name", "ASC"]],
+        });
+        return res.status(200).json({ success: true, data: customers });
+      }
+  
+      const pageNumber = parseInt(page, 10);
+      const pageSize = parseInt(limit, 10);
+      const offset = (pageNumber - 1) * pageSize;
+  
+      const { count, rows } = await Customer.findAndCountAll({
+        where: whereCondition,
+        limit: pageSize,
+        offset,
+        order: [["company_name", "ASC"]],
+      });
+  
+      res.status(200).json({
+        success: true,
+        data: rows,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(count / pageSize),
+        totalItems: count,
+      });
+    } catch (error) {
+      console.error("Error in customerInfo:", error);
+      res.status(500).json({ success: false, message: error.message});
+    }
+ };
+
+module.exports = { addCustomer,listCustomers,updateCustomer, removeCustomer ,getCustomerAddresses,exportCustomersToExcel,customerInfo};
