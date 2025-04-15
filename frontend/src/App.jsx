@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useContext } from "react";
 import './App.css';
 import Sidebar from './layout/Sidebar/Sidebar';
 import Content from './layout/Content/Content';
@@ -57,16 +58,19 @@ import POAReport from './components/MainComponent/POAReport/SalesPersonFollowUp'
 import SalesVisitReport from './components/MainComponent/SalesVisitReport/SalesPOForm';
 import CustomerHistoryCard from './components/MainComponent/CustomerHistoryCard/CustomerManageData';
 import CustomerInfoForm from './components/MainComponent/CustomerInfoForm/CustomerManageData';
+import { SidebarContext } from './context/sidebarContext';
+
 
 function App() {
   const location = useLocation(); // ✅ Get current route
   const hideSidebarRoutes = ["/"]; // ✅ Sidebar will be hidden on Login Page
   const shouldShowSidebar = !hideSidebarRoutes.includes(location.pathname);
+  const { isSidebarOpen } = useContext(SidebarContext);
 
   return (
     <div className='app'>
       {shouldShowSidebar && <Sidebar />} {/* ✅ Sidebar hidden on "/" */}
-      <div className='content'>
+      <div className={`${isSidebarOpen ? "contentData" : "content"}`}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           {/* Protect private routes */}

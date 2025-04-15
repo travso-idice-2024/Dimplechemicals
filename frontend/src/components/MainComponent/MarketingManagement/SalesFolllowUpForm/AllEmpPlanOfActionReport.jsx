@@ -24,7 +24,7 @@ const AllEmpPlanOfActionReport = ({
 
         {/* Table */}
         <div className="overflow-x-auto p-4">
-          <table className="w-full border border-collapse">
+          <table className="table-auto w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-200 text-sm text-center">
                 {[
@@ -35,7 +35,7 @@ const AllEmpPlanOfActionReport = ({
                   "Total Material Qty. / Total Area (in Sqm)",
                   "Approx Business Potential",
                 ].map((col, idx) => (
-                  <th key={idx} className="border px-4 py-2 font-medium text-newtextdata">
+                  <th key={idx} className="border px-4 py-2 font-medium text-newtextdata whitespace-nowrap">
                     {col}
                   </th>
                 ))}

@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import { iconsImgs } from "../../../../utils/images";
 
-
 const API_URL = import.meta.env.VITE_API_URL;
 const getAuthToken = () => localStorage.getItem("token");
 
@@ -38,19 +37,16 @@ const AttendanceSheetData = () => {
       const token = getAuthToken();
 
       // ✅ Correct API call with query parameters
-      const response = await axios.get(
-        `${API_URL}/auth/calculate-workhours`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            month, // Use function parameter directly
-            emp_id, // Use function parameter directly
-            day, // Use function parameter directly
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/calculate-workhours`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          month, // Use function parameter directly
+          emp_id, // Use function parameter directly
+          day, // Use function parameter directly
+        },
+      });
       setWorkingTime(response?.data?.total_working_hours);
       //console.log("Working hours:", response.data.total_working_hours);
       return response.data; // Return data if needed
@@ -84,8 +80,6 @@ const AttendanceSheetData = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
-  
 
   const handleExportData = async () => {
     try {
@@ -145,7 +139,7 @@ const AttendanceSheetData = () => {
                   className="cursor-pointer"
                 >
                   <path
-                    d="M22.5 27L13.5 18L22.5 9" 
+                    d="M22.5 27L13.5 18L22.5 9"
                     stroke="white"
                     strokeWidth="3"
                     strokeLinecap="round"
@@ -158,7 +152,9 @@ const AttendanceSheetData = () => {
 
             <div className="flex items-center gap-[5px]">
               <div>
-                <span className="text-green-600 text-newtextdata">Total Time:  {workingTime}</span>
+                <span className="text-green-600 text-newtextdata">
+                  Total Time: {workingTime}
+                </span>
               </div>
               <div>
                 <select
@@ -166,9 +162,15 @@ const AttendanceSheetData = () => {
                   onChange={(e) => setSearchMonth(e.target.value)}
                   className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
                 >
-                  <option className="text-newtextdata" value="">Select Month</option>
+                  <option className="text-newtextdata" value="">
+                    Select Month
+                  </option>
                   {Array.from({ length: 12 }, (_, i) => (
-                    <option className="text-[16px]" key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                    <option
+                      className="text-[16px]"
+                      key={i + 1}
+                      value={String(i + 1).padStart(2, "0")}
+                    >
                       {new Date(0, i).toLocaleString("en", { month: "long" })}
                     </option>
                   ))}
@@ -224,7 +226,7 @@ const AttendanceSheetData = () => {
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
+              <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
                     <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
@@ -256,7 +258,9 @@ const AttendanceSheetData = () => {
                   {empCinCotData &&
                     empCinCotData?.records?.map((user, index) => (
                       <tr key={index + 1}>
-                        <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
+                        <td className="px-4 py-2 text-newtextdata">
+                          {index + 1}
+                        </td>
                         <td className="px-4 py-2 text-newtextdata">
                           {new Date(user?.data)?.toLocaleDateString("en-GB", {
                             day: "2-digit",

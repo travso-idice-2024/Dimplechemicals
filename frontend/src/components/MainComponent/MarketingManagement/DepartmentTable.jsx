@@ -39,9 +39,9 @@ const DepartmentTable = ({
         )}
       </div>
       <div
-        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-full"}`}
+        className="overflow-x-auto"
       >
-        <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"}`}>
+        <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
@@ -54,9 +54,7 @@ const DepartmentTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Company Name{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Client Name{" "}
-              </th>
+             
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead Owner
               </th>
@@ -90,9 +88,9 @@ const DepartmentTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.customer?.company_name}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
+                {/* <td className="px-4 py-2 text-newtextdata">
                   {user?.customer?.client_name}
-                </td>
+                </td> */}
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.leadOwner?.fullname}
                 </td>

@@ -33,9 +33,9 @@ const EmployeeTable = ({
         )}
       </div>
       <div
-        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-full"}`}
+        className={`overflow-x-auto`}
       >
-        <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"}`}>
+        <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
@@ -53,9 +53,7 @@ const EmployeeTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Reporting Manager
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Location
-              </th>
+             
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Designation
               </th>
@@ -66,9 +64,7 @@ const EmployeeTable = ({
                 Leaves
               </th>
 
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Email
-              </th>
+             
 
               {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Role</th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
@@ -96,16 +92,13 @@ const EmployeeTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.jobDetail?.reportingManager?.fullname}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
-                  {user?.jobDetail?.work_location}
-                </td>
+               
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.jobDetail?.job_title}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{user?.status}</td>
                 <td className="px-4 py-2 text-newtextdata">5</td>
 
-                <td className="px-4 py-2 text-newtextdata">{user?.email}</td>
 
                 {/* <td className="px-4 py-2 text-newtextdata">{user?.employeeRole?.role?.role_name}</td> */}
 

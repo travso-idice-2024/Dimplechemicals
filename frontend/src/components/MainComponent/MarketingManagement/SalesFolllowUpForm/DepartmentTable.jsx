@@ -21,49 +21,49 @@ const DepartmentTable = ({
   const { isSidebarOpen } = useContext(SidebarContext);
   return (
     <div
-      className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-full"}`}
+      className={`overflow-x-auto`}
     >
-      <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"}`}>
+      <table className="table-auto w-full text-left border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
           <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
               Id
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Company Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Contact Person Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Salse Person Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Meeting Date
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Meeting Type
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Meeting Summary
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Project Name / Application Area
             </th>
-            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Location
             </th> */}
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Product Sale / Work Execution
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Total Material Qty. / Total Area (in Sqm)
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Approx Business Potential
             </th>
-            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
             Action
           </th> */}
           </tr>

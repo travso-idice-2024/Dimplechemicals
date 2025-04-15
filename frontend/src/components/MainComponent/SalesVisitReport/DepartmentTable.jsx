@@ -15,24 +15,24 @@ const DepartmentTable = ({
 
   return (
     <div
-      className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-[1180px]"}`}
-    >
-      <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"} `}>
+        className="overflow-x-auto"
+      >
+        <table className="table-auto w-full text-left border-collapse">
       <thead>
     <tr className="bg-[#473b33] border-t border-x border-[#844c22]">
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Id</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Employee Name</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Company Name</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Date of Visits</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">No. of Visits</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Total Hrs Spend</th>
-      <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata border border-[#844c22]" colSpan={2}>Approx Area</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Total Product Qty. in Kg</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Total Potential Amount</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Types of Documents sent</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Last Visit Date</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Last Visit Remark</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Next Visit Plan</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] ">Id</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Employee Name</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Company Name</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Date of Visits</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">No. of Visits</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Total Hrs Spend</th>
+      <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap" colSpan={2}>Approx Area</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Total Product Qty. in Kg</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Total Potential Amount</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Types of Documents sent</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Last Visit Date</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Last Visit Remark</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Next Visit Plan</th>
     </tr>
     <tr className="bg-[#473b33] border-x border-b border-[#844c22]">
       <th className="px-4 py-2 border border-[#844c22]"></th>
@@ -41,8 +41,8 @@ const DepartmentTable = ({
       <th className="px-4 py-2 border border-[#844c22]"></th>
       <th className="px-4 py-2 border border-[#844c22]"></th>
       <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">SqM</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22]">Cub. Mtr</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">SqM</th>
+      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Cub. Mtr</th>
       <th className="px-4 py-2 border border-[#844c22]"></th>
       <th className="px-4 py-2 border border-[#844c22]"></th>
       <th className="px-4 py-2 border border-[#844c22]"></th>
