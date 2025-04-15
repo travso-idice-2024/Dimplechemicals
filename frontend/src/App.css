@@ -123,9 +123,9 @@ button {
 }
 
 .content{
-  width: 100%;
   background-color: var(--clr-secondary);
   min-height: 100vh;
+  width: 100%;
 }
 
 .bgdatacolornew{

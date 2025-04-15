@@ -1,7 +1,7 @@
 /* sidebar */
 .sidebar {
     background-color: var(--clr-primary);
-    width: 300px;
+    width: 330px;
     padding: 15px 10px;
     transition: var(--transition-default);
   }
@@ -54,7 +54,7 @@
     }
   }
   .sidebar-change {
-    margin-left: -300px;
+    margin-left: -330px;
   }
   
   .nav-item {

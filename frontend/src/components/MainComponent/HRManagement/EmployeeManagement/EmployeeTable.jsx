@@ -33,7 +33,7 @@ const EmployeeTable = ({
         )}
       </div>
       <div
-        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-[1180px]"}`}
+        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-max"}`}
       >
         <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-max"}`}>
           <thead>

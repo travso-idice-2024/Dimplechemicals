@@ -4,13 +4,8 @@ import { iconsImgs } from "../../utils/images";
 import "./Financial.css"
 
 const Financial = () => {
-  const colors = [
-    "#e2dc1b",
-    "#ed0b1e",
-    "#e8dcdd",
-    "#e29198",
-    "#14a01e",
-  ];
+  const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d', '#e57373']
+
 
   const [chartData] = useState({
     series: [
@@ -36,7 +31,14 @@ const Financial = () => {
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+        style: {
+          colors: ['#fff'],
+          fontSize: '14px',
+          fontWeight: 'bold'
+        },
+        offsetY: 0,
+        position: 'center'
       },
       legend: {
         show: false,
@@ -71,12 +73,12 @@ const Financial = () => {
       tooltip: {
         theme: "dark", // This will make the tooltip background black
       },
-      plotOptions: {
-        bar: {
-          columnWidth: "40%", // Graph bars ki thickness ko adjust karne ke liye
-          distributed: true,
-        },
-      },
+      // plotOptions: {
+      //   bar: {
+      //     columnWidth: "40%", // Graph bars ki thickness ko adjust karne ke liye
+      //     distributed: true,
+      //   },
+      // },
       
     },
   });
