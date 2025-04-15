@@ -3,6 +3,8 @@ import ReactApexChart from "react-apexcharts";
 import { iconsImgs } from "../../utils/images";
 import "./Report.css";
 
+const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d']; // Define your color combination
+
 const Report = () => {
   const [chartData, setChartData] = useState({
     series: [
@@ -11,7 +13,7 @@ const Report = () => {
     ],
     options: {
       chart: { type: "bar", height: 430 },
-      colors: ["#e74c3c", "#fe6c00"], // Red for Marketing, Green for Sales
+      colors: [colors[0], colors[1]], // Red for Marketing, Green for Sales
       plotOptions: {
         bar: { horizontal: true, dataLabels: { position: "top" } },
       },
@@ -21,25 +23,26 @@ const Report = () => {
         style: { fontSize: "12px", colors: ["#fff"] },
       },
       stroke: { show: true, width: 1, colors: ["#fff"] },
-      tooltip: { 
-        theme:"dark",
-        shared: true, intersect: false,
+      tooltip: {
+        theme: "dark",
+        shared: true,
+        intersect: false,
         y: {
-            formatter: function (value, { seriesIndex, dataPointIndex, w }) {
-              // Get values of both series at the given index
-              const mktValue = w.globals.series[0][dataPointIndex] || 0;
-              const salesValue = w.globals.series[1][dataPointIndex] || 0;
-              const total = mktValue + salesValue;
-              
-              return `MKTG: ${mktValue} | SALES: ${salesValue} | Total: ${total}`;
-            }
-          }
-    },
+          formatter: function (value, { seriesIndex, dataPointIndex, w }) {
+            // Get values of both series at the given index
+            const mktValue = w.globals.series[0][dataPointIndex] || 0;
+            const salesValue = w.globals.series[1][dataPointIndex] || 0;
+            const total = mktValue + salesValue;
+
+            return `MKTG: ${mktValue} | SALES: ${salesValue} | Total: ${total}`;
+          },
+        },
+      },
       xaxis: {
         categories: ["May", "April", "March", "Feb", "Jan"], // Reversed order
         labels: {
           style: {
-            colors: ["#ffffff", "#f39c12", "#f39c12", "#f39c12", "#f39c12"], // Orange color for each month name
+            colors: [colors[2], colors[3], colors[4], colors[2], colors[3]], // Dynamic colors for months
             fontSize: "12px",
           },
         },
@@ -51,14 +54,14 @@ const Report = () => {
         categories: ["May", "April", "March", "Feb", "Jan"],
         labels: {
           style: {
-            colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"], // Orange color for each month name
+            colors: [colors[1], colors[0], colors[3], colors[4], colors[2]], // Dynamic colors for Y-axis labels
             fontSize: "12px",
           },
         },
       },
       legend: {
         labels: {
-          colors: ["#e74c3c", "#fe6c00"], // Red for "Marketing", Green for "Sales"
+          colors: [colors[0], colors[1]], // Use dynamic colors for the legend items
         },
       },
     },
@@ -85,4 +88,3 @@ const Report = () => {
 };
 
 export default Report;
-

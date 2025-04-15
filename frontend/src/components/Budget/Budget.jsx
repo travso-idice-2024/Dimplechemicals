@@ -4,6 +4,8 @@ import { iconsImgs } from "../../utils/images";
 import { budget } from "../../data/data";
 import ReactApexChart from "react-apexcharts";
 
+const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d', '#e57373'];
+
 const Budget = () => {
   const [state, setState] = useState({
     series: [
@@ -22,7 +24,7 @@ const Budget = () => {
         type: "line",
         dropShadow: {
           enabled: true,
-          color: "#fe6c00", // Orange shadow
+          color: colors[0], // Dynamic shadow color
           top: 18,
           left: 7,
           blur: 10,
@@ -35,46 +37,45 @@ const Budget = () => {
           show: false,
         },
       },
-      colors: ["#fe6c00", "white"], // Orange and White
+      colors: [colors[0], colors[1]], // Dynamic line colors
       dataLabels: {
         enabled: true,
         style: {
-          colors: ["#fe6c00"], // Orange Labels
+          colors: [colors[0]], // Dynamic data label color
         },
       },
       stroke: {
         curve: "smooth",
       },
       title: {
-        // text: "Expected Sales & Archieved Sales",
         align: "left",
         style: {
-          color: "#fe6c00", // Orange title
+          color: colors[0], // Dynamic title color
         },
       },
       grid: {
-        borderColor: "#fe6c00", // Orange grid border
+        borderColor: colors[0], // Dynamic grid border color
         row: {
-          colors: ["#2e2e3c", "transparent"], // Alternating row colors
+          colors: ["#2e2e3c", "transparent"],
           opacity: 0.5,
         },
       },
       markers: {
         size: 5,
-        colors: ["white"],
-        strokeColors: "#fe6c00", // Orange marker border
+        colors: [colors[1]],
+        strokeColors: colors[0], // Dynamic marker border color
       },
       xaxis: {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
         title: {
           text: "",
           style: {
-            color: "#fe6c00", // Orange x-axis title
+            color: colors[0], // Dynamic x-axis title color
           },
         },
         labels: {
           style: {
-            colors: "#fe6c00", // Orange x-axis labels
+            colors: colors[0], // Dynamic x-axis label color
           },
         },
       },
@@ -82,13 +83,12 @@ const Budget = () => {
         title: {
           text: "Sales Analytics",
           style: {
-            color: "#fe6c00", // Orange y-axis title
+            color: colors[0], // Dynamic y-axis title color
           },
         },
         labels: {
           style: {
-            colors: "white", // Orange y-axis labels
-            
+            colors: "white", // Static white y-axis label color
           },
           offsety: 20,
         },
@@ -102,14 +102,14 @@ const Budget = () => {
         offsetY: -25,
         offsetX: -5,
         labels: {
-          colors: ["white", "white"], // Orange legend text
+          colors: ["white", "white"], // Static legend text color
         },
       },
       tooltip: {
         theme: "dark",
         style: {
           fontSize: "12px",
-          colors: ["#fe6c00"], // Orange tooltip text
+          colors: [colors[0]], // Dynamic tooltip text color
         },
         y: {
           formatter: function (val) {

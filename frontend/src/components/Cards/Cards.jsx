@@ -25,7 +25,9 @@ ChartJS.register(
 const Cards = () => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   const lead = [20, 30, 45, 50,65, 95];
-  const conversion = ["30%", "50%", "60%", "50%", "10%", "30%", "10%", "40%","50","30%", "50%", "60%"];
+  const conversion = ["30%", "50%", "60%", "50%", "10%", "30%"];
+  const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d', '#e57373']
+
 
   const barData = {
     labels: months,
@@ -33,7 +35,7 @@ const Cards = () => {
       {
         label: "Monthly Leads & Conversion rate",
         data: lead,
-        backgroundColor: "#fe6c00",
+        backgroundColor: colors,
       },
     ],
   };
@@ -44,7 +46,7 @@ const Cards = () => {
     plugins: {
       tooltip: {
         enabled: true,
-        backgroundColor: "black",
+        backgroundColor: "#000",
         displayColors: false,
         paddingTop: 10,
         callbacks: {
@@ -58,7 +60,7 @@ const Cards = () => {
       },
       datalabels: {
         display: true,
-        color: "white", // Lead ka number white hoga
+        color: "#ffffff", // Lead ka number white hoga
         font: {
           weight: "bold",
           size: 14,
@@ -70,11 +72,11 @@ const Cards = () => {
     scales: {
       x: {
         ticks: {
-          color: "white", // X-axis labels white
-          grid: { color: "rgba(251, 242, 242, 0.2)" },
+          color: "#ffffff", // X-axis labels white
+          grid: { color: "rgba(255,255,255,0.1)" },
         },
         grid: {
-          color: "rgba(251, 242, 242, 0.2)", // Optional: X-axis grid lines ko halka white
+          color: "rgba(255,255,255,0.1)", // Optional: X-axis grid lines ko halka white
         },
       },
       y: {
@@ -82,10 +84,10 @@ const Cards = () => {
         max: 100, // Y-axis maximum value
         ticks: {
           stepSize: 5, // Har tick 5 ke gap me aayega (0, 5, 10, 15, ..., 80)
-          color: "white",
+          color: "#ffffff",
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.2)", // Optional: Y-axis grid lines ko halka white
+          color: "rgba(255,255,255,0.1)", // Optional: Y-axis grid lines ko halka white
         },
       },
     },    
@@ -94,7 +96,7 @@ const Cards = () => {
         const chartInstance = this;
         const ctx = chartInstance.ctx;
         ctx.font = "bold 10px Arial";
-        ctx.fillStyle = "#fe6c00"; // Conversion ka color yellow hoga
+        ctx.fillStyle = "#fbc02d"; // Conversion ka color yellow hoga
         ctx.textAlign = "center";
 
         chartInstance.data.datasets[0].data.forEach((value, index) => {

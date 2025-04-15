@@ -5,7 +5,7 @@ import "./Transactions.css";
 
 const Transactions = () => {
   const series = [30, 10, 5, 65]; // Absolute values
-  const colors = ["rgba(231,76,60,0.85)", "#3498db", "#1e1e2d", "#fe6c00"];// New colors
+  const colors = ["#e74c3c", "#1abc9c", "#9b59b6", "#e57373"]; // New vibrant colors
 
   const [chartData, setChartData] = useState({
     series: series,
@@ -14,11 +14,11 @@ const Transactions = () => {
         type: "pie",
       },
       labels: ["Opened", "Bounced", "Unopened", "Unmailed Data"],
-      colors: colors, // Set new colors here
+      colors: colors, // Apply the vibrant color combination
       dataLabels: {
         enabled: true,
         style: {
-          colors: ["#ffffff"], // Change chart labels color (inside pie chart)
+          colors: ["#ffffff"], // White text for data labels
           fontSize: "14px",
           fontWeight: "bold",
         },
@@ -28,7 +28,7 @@ const Transactions = () => {
       },
       legend: {
         labels: {
-          colors: ["#fff", "#fff", "#fff", "#fff"], // Custom legend label colors
+          colors: ["#fff", "#fff", "#fff", "#fff"], // White text for legend
           useSeriesColors: false, // Prevents using default colors
         },
         position: "right",
