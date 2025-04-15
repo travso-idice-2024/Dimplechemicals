@@ -17,7 +17,7 @@ const DepartmentTable = ({
     <div
       className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-[1180px]"}`}
     >
-      <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-max"} `}>
+      <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"} `}>
       <thead>
     <tr className="bg-[#473b33] border-t border-x border-[#ccc]">
       <th className="px-4 py-2 text-left text-bgDataNew text-textdata border border-[#ccc]">Id</th>
