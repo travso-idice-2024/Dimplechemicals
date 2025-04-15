@@ -43,12 +43,13 @@ import person_three from "../assets/images/person_three.jpg";
 import person_four from "../assets/images/person_four.jpg";
 import YogeshSir from "../assets/images/YogeshSir.jpg"
 import DimpleChemicals from "../assets/images/Dimple-Logo.png"
+import Image_Upload from "../assets/images/Image-Upload.png"
 
 export const iconsImgs = {
     hr, followupform, poform, assignment, lead, marketing, department, role, employee, quotation, security,Logout, privacy_policy, notification, Profile_Icon, alert, bell, bills, budget, card, check, empty_check, gears, home, menu, plane, plus, report, search, user, wallet, wealth, user_add, add_plus, customer_requirement,dmanage
 }
 
 export const personsImgs = {
-    person_one, person_two, person_three, person_four, YogeshSir,DimpleChemicals
+    person_one, person_two, person_three, person_four, YogeshSir,DimpleChemicals,Image_Upload
 };
 

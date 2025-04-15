@@ -35,7 +35,7 @@ const AllEmpPlanOfActionReport = ({
                   "Total Material Qty. / Total Area (in Sqm)",
                   "Approx Business Potential",
                 ].map((col, idx) => (
-                  <th key={idx} className="border px-4 py-2 font-medium">
+                  <th key={idx} className="border px-4 py-2 font-medium text-newtextdata">
                     {col}
                   </th>
                 ))}
@@ -46,23 +46,23 @@ const AllEmpPlanOfActionReport = ({
               {allselectedPOA && allselectedPOA.length > 0 ? (
                 allselectedPOA.map((poa, index) => (
                   <tr key={index} className="text-center text-sm">
-                    <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-2 text-newtextdata">{index + 1}</td>
+                    <td className="border px-4 py-2 text-newtextdata">
                       {poa.salesPerson?.fullname}
                     </td>
-                    <td className="border px-4 py-2">{poa.total_customer}</td>
-                    <td className="border px-4 py-2">{poa.product_sale}</td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-2 text-newtextdata">{poa.total_customer}</td>
+                    <td className="border px-4 py-2 text-newtextdata">{poa.product_sale}</td>
+                    <td className="border px-4 py-2 text-newtextdata">
                       {poa.total_material_qty}
                     </td>
-                    <td className="border px-4 py-2">{poa.approx_business}</td>
+                    <td className="border px-4 py-2 text-newtextdata">{poa.approx_business}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
                     colSpan="6"
-                    className="border px-4 py-4 text-center text-gray-500"
+                    className="border px-4 py-4 text-center text-gray-500 text-newtextdata"
                   >
                     No Business Plan data available.
                   </td>

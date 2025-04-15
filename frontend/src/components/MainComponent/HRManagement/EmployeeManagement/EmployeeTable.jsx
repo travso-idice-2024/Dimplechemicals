@@ -38,40 +38,40 @@ const EmployeeTable = ({
         <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"}`}>
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Emp ID
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Department
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Reporting Manager
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Location
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Designation
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Status
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Leaves
               </th>
 
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Email
               </th>
 
-              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Role</th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Role</th> */}
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Action
               </th>
             </tr>

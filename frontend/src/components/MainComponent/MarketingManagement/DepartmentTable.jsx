@@ -44,32 +44,32 @@ const DepartmentTable = ({
         <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-full"}`}>
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata"></th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Date
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Company Name{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Client Name{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead Owner
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead Source
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead status
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Enquiry For
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Action
               </th>
             </tr>

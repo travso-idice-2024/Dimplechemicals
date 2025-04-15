@@ -27,13 +27,13 @@ const AddRoleModal = ({
       </div>
 
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[700px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New POA
           </h2>
 
           <form onSubmit={handleSubmitPoa}>
-            <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[65vh]">
+            <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto max-h-[65vh]">
               {/* Customer */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">

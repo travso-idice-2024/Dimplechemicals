@@ -48,7 +48,7 @@ const SalesPersonFollowUp = () => {
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
   const [selectedPOAId, setSelectedPOAId] = useState(null);
   const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
-  const poaPerPage = 8;
+  const poaPerPage = 4;
 
   const [poaReportOpen, setpoaReportOpen] = useState(false);
   const [allEmpPlanOfActionReport, setAllEmpPlanOfActionReport]  = useState(false);
