@@ -54,7 +54,7 @@ const DepartmentTable = ({
             {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Location
             </th> */}
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap"> 
               Product Sale / Work Execution
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
