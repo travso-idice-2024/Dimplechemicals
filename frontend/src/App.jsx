@@ -70,7 +70,7 @@ function App() {
   return (
     <div className='app'>
       {shouldShowSidebar && <Sidebar />} {/* ✅ Sidebar hidden on "/" */}
-      <div className={`${isSidebarOpen ? "contentData" : "content"}`}>
+      <div className={`${location.pathname === "/" ? "contentData" : isSidebarOpen ? "contentData" : "content"}`}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           {/* Protect private routes */}
