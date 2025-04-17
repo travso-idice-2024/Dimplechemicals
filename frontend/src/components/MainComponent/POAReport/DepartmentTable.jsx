@@ -21,48 +21,48 @@ const DepartmentTable = ({
   const { isSidebarOpen } = useContext(SidebarContext);
   return (
     <div
-      className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-[1180px]"}`}
+      className={`overflow-x-auto`}
     >
-      <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-max"}`}>
+      <table className="table-auto w-full text-left border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Id
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Company Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Contact Person Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Salse Person Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Meeting Date
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Meeting Type
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Meeting Summary
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Project Name / Application Area
             </th>
-            {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Location
             </th> */}
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Product Sale / Work Execution
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Total Material Qty. / Total Area (in Sqm)
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
               Approx Business Potential
             </th>
-            {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
             Action
           </th> */}
           </tr>
@@ -72,7 +72,7 @@ const DepartmentTable = ({
             <tr key={index}>
               <td className="px-4 py-2">{index + 1}</td>
               <td
-                className="px-4 py-2 text-textdata cursor-pointer"
+                className="px-4 py-2 text-newtextdata cursor-pointer"
                 onClick={() => {
                   setSelectedPOA(user);
                   setpoaReportOpen(true);
@@ -80,34 +80,34 @@ const DepartmentTable = ({
               >
                 {user.customer?.company_name || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.contact_persion_name || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.salesPerson?.fullname || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.meeting_date || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.meeting_type || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata w-[450px] text-justify">
+              <td className="px-4 py-2 text-newtextdata w-[450px] text-justify">
                 {user.meeting_summary || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.project_name || "N/A"}
               </td>
-              {/* <td className="px-4 py-2 text-textdata">
+              {/* <td className="px-4 py-2 text-newtextdata">
                 {user.location || "N/A"}
               </td> */}
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.product_sale || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.total_material_qty || "N/A"}
               </td>
-              <td className="px-4 py-2 text-textdata">
+              <td className="px-4 py-2 text-newtextdata">
                 {user.approx_business || "N/A"}
               </td>
             </tr>

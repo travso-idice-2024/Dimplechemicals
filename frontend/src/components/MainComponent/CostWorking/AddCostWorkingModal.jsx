@@ -121,13 +121,13 @@ const AddCostWorkingModal = ({
 
       {/* Modal Container */}
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[900px]  rounded-[6px]">
+        <div className="bg-white w-[1100px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Cost Working
           </h2>
 
           <div className="p-4 mt-5 overflow-y-auto h-[440px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-48 gap-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-2">
               {/* Select Customer */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">

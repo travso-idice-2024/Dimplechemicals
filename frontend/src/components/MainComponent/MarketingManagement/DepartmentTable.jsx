@@ -46,37 +46,35 @@ const DepartmentTable = ({
         )}
       </div>
       <div
-        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-[1180px]"}`}
+        className="overflow-x-auto"
       >
-        <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-max"}`}>
+        <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata"></th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Date
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Company Name{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                Client Name{" "}
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+             
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead Owner
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead Source
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead status
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Enquiry For
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Action
               </th>
             </tr>
@@ -106,9 +104,9 @@ const DepartmentTable = ({
                             }}>
                   {user?.customer?.company_name}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
+                {/* <td className="px-4 py-2 text-newtextdata">
                   {user?.customer?.client_name}
-                </td>
+                </td> */}
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.leadOwner?.fullname}
                 </td>

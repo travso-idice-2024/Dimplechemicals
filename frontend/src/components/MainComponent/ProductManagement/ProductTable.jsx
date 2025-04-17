@@ -86,11 +86,10 @@ const ProductTable = ({
                 <td className="px-4 py-2 text-textdata">
                   {product.product_description}
                 </td>
-                <td className="px-4 py-2 text-textdata"> <button
+                <td><button
                     className={`${
                       product.status === 1 ? "bg-green-500" : "bg-red-500"
-                    } text-white px-3 py-1 rounded hover:bg-red-600`}
-                    
+                    } text-white px-3 py-1 rounded hover:bg-red-600 text-[12px]`}
                     onClick={() => {
                       if (
                         window.confirm(
@@ -101,9 +100,11 @@ const ProductTable = ({
                       }
                     }}
                   >
-                    {product.status==1 ? "Active":"Inactive"}
+                    {product.status == 1 ? "Active" : "Inactive"}
                   </button></td>
-                <td className="px-4 py-2 text-textdata space-x-2 text-center">
+                <td className="flex items-center gap-2 px-4 py-2 text-textdata">
+                  {" "}
+                  
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                     onClick={() => {
@@ -122,7 +123,7 @@ const ProductTable = ({
                   >
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </button>
-                  {/* <button
+                   {/* <button
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                     onClick={() => {
                       if (
@@ -137,6 +138,7 @@ const ProductTable = ({
                     <FontAwesomeIcon icon={faTrash} />
                   </button> */}
                 </td>
+               
               </tr>
             ))}
           </tbody>

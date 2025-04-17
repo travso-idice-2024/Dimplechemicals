@@ -5,72 +5,42 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white w-[550px] pt-0 pb-4 rounded-[6px] flex flex-col">
-      <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
         <div className="mt-5 md:mt-6 px-6 flex flex-col gap-2">
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Company Name
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.company_name}</p>
+            <Detail
+              label="Company Name"
+              value={selectedCustomer.company_name}
+            />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Client Name
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.client_name}</p>
+            <Detail label="Company Name" value={selectedCustomer.client_name} />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Designation
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.designation}</p>
+            <Detail label="Designation" value={selectedCustomer.designation} />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Primary Contact 
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.primary_contact}</p>
+            <Detail
+              label="Primary Contact"
+              value={selectedCustomer.primary_contact}
+            />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Email ID 
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.email_id}</p>
+            <Detail label="Email Id" value={selectedCustomer.email_id} />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Address 
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.address}</p>
+            <Detail label="Address" value={selectedCustomer.address} />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Location 
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.location}</p>
+            <Detail label="Location" value={selectedCustomer.location} />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Pincode 
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.pincode}</p>
+            <Detail label="Pincode" value={selectedCustomer.pincode} />
           </div>
           <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-            Pan No 
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedCustomer.pan_no}</p>
+            <Detail label="Pan No." value={selectedCustomer.pan_no} />
           </div>
           <div className="flex items-end justify-end gap-2">
             <button
@@ -85,5 +55,15 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
     </div>
   );
 };
+
+const Detail = ({ label, value }) => (
+  <div className="flex items-center gap-3">
+    <label className="font-poppins font-semibold text-textdata text-bgData">
+      {label}
+    </label>
+    <p className="font-poppins font-semibold text-textdata">:</p>
+    <p>{value}</p>
+  </div>
+);
 
 export default ViewCustomerModal;

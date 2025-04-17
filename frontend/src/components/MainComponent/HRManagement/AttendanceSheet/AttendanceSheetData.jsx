@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import { iconsImgs } from "../../../../utils/images";
 
-
 const API_URL = import.meta.env.VITE_API_URL;
 const getAuthToken = () => localStorage.getItem("token");
 
@@ -38,19 +37,16 @@ const AttendanceSheetData = () => {
       const token = getAuthToken();
 
       // ✅ Correct API call with query parameters
-      const response = await axios.get(
-        `${API_URL}/auth/calculate-workhours`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            month, // Use function parameter directly
-            emp_id, // Use function parameter directly
-            day, // Use function parameter directly
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/calculate-workhours`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          month, // Use function parameter directly
+          emp_id, // Use function parameter directly
+          day, // Use function parameter directly
+        },
+      });
       setWorkingTime(response?.data?.total_working_hours);
       //console.log("Working hours:", response.data.total_working_hours);
       return response.data; // Return data if needed
@@ -84,8 +80,6 @@ const AttendanceSheetData = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
-  
 
   const handleExportData = async () => {
     try {
@@ -145,7 +139,7 @@ const AttendanceSheetData = () => {
                   className="cursor-pointer"
                 >
                   <path
-                    d="M22.5 27L13.5 18L22.5 9" 
+                    d="M22.5 27L13.5 18L22.5 9"
                     stroke="white"
                     strokeWidth="3"
                     strokeLinecap="round"
@@ -158,17 +152,25 @@ const AttendanceSheetData = () => {
 
             <div className="flex items-center gap-[5px]">
               <div>
-                <span className="text-green-600 text-textdata">Total Time:  {workingTime}</span>
+                <span className="text-green-600 text-newtextdata">
+                  Total Time: {workingTime}
+                </span>
               </div>
               <div>
                 <select
                   value={searchMonth}
                   onChange={(e) => setSearchMonth(e.target.value)}
-                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none"
+                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
                 >
-                  <option className="text-[16px]" value="">Select Month</option>
+                  <option className="text-newtextdata" value="">
+                    Select Month
+                  </option>
                   {Array.from({ length: 12 }, (_, i) => (
-                    <option className="text-[16px]" key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                    <option
+                      className="text-[16px]"
+                      key={i + 1}
+                      value={String(i + 1).padStart(2, "0")}
+                    >
                       {new Date(0, i).toLocaleString("en", { month: "long" })}
                     </option>
                   ))}
@@ -178,7 +180,7 @@ const AttendanceSheetData = () => {
                 <select
                   value={searchDay}
                   onChange={(e) => setSearchDay(e.target.value)}
-                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none"
+                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
                 >
                   <option value="">Select Day</option>
                   {Array.from({ length: 31 }, (_, i) => {
@@ -196,7 +198,7 @@ const AttendanceSheetData = () => {
                 <select
                   value={searchEmp}
                   onChange={(e) => setSearchEmp(e.target.value)}
-                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none"
+                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
                 >
                   <option value="">Select Employee</option>
                   {allusers?.data?.map((user, index) => (
@@ -208,7 +210,7 @@ const AttendanceSheetData = () => {
               </div>
               <div>
                 <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.20rem]"
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.15rem]"
                   onClick={handleExportData}
                 >
                   <img
@@ -224,30 +226,30 @@ const AttendanceSheetData = () => {
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
+              <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Id
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Date
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Name
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       CheckIn Time
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Checkout Time
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       CheckIn Location
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Checkout Location
                     </th>
                   </tr>
@@ -256,18 +258,20 @@ const AttendanceSheetData = () => {
                   {empCinCotData &&
                     empCinCotData?.records?.map((user, index) => (
                       <tr key={index + 1}>
-                        <td className="px-4 py-2 text-textdata">{index + 1}</td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata">
+                          {index + 1}
+                        </td>
+                        <td className="px-4 py-2 text-newtextdata">
                           {new Date(user?.data)?.toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric",
                           })}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata">
                           {user?.User?.fullname}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata">
                           {
                             user?.check_in_time
                               ? new Date(user.check_in_time).toLocaleTimeString(
@@ -281,7 +285,7 @@ const AttendanceSheetData = () => {
                               : "00:00" // Or any other placeholder you want to display
                           }
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata">
                           {
                             user?.check_out_time
                               ? new Date(
@@ -294,10 +298,10 @@ const AttendanceSheetData = () => {
                               : "00:00" // Or any other placeholder you want to display
                           }
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata">
                           {user?.checkin_location}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata">
                           {user?.checkout_location}
                         </td>
                       </tr>

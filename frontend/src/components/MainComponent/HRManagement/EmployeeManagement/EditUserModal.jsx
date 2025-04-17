@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { personsImgs } from "../../../../utils/images";
 import {
   updateUser,
   listUsers,
@@ -34,7 +35,7 @@ const EditUserModal = ({
   handleUpdateFlashMessage,
   nextUpdateStep,
   prevUpdateStep,
-  currentUpdateStep
+  currentUpdateStep,
 }) => {
   //console.log("selectedEmployee", selectedEmployee);
   const dispatch = useDispatch();
@@ -113,851 +114,944 @@ const EditUserModal = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Update Employee
           </h2>
-          
-           {/* New Code */}
-                    <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
-                      {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
-                        <div key={index} className="flex items-center w-full relative">
-                          {index > 0 && (
-                            <div
-                              className={`h-1 w-full ${
-                                currentUpdateStep > index ? "bg-bgDataNew" : "bg-gray-300"
-                              }`}
-                            ></div>
-                          )}
-          
-                          <div
-                            className={`px-4 py-2 rounded-[8px] text-white font-semibold z-10 ${
-                              currentUpdateStep >= index + 1 ? "bg-bgDataNew" : "bg-gray-300"
-                            }`}
-                          >
-                            {step}
-                          </div>
-          
-                          {index < 3 && (
-                            <div
-                              className={`h-1 w-full ${
-                                currentUpdateStep > index + 1 ? "bg-bgDataNew" : "bg-gray-300"
-                              }`}
-                            ></div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-          
-                    {/* Step 1: Personal Details */}
-                    {currentUpdateStep === 1 && (
-                      <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[400px]">
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Name :
-                          </label>
-                          <input
-                            type="text"
-                            name="fullname"
-                            placeholder="name"
-                            value={updateFormData.fullname}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.fullname && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.fullname}</p>
-                          )}
-                        </div>
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Username :
-                          </label>
-                          <input
-                            type="text"
-                            name="username"
-                            placeholder="name"
-                            value={updateFormData.username}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.username && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.username}</p>
-                          )}
-                        </div>
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Email :
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            placeholder="email"
-                            value={updateFormData.email}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.email && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.email}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Enter Date of Birth:
-                          </label>
-                          <input
-                            type="date"
-                            name="date_of_birth"
-                            placeholder="YYYY-MM-DD"
-                            value={updateFormData.date_of_birth}
-                            onChange={handleUpdateChange}
-                            max={(() => {
-                              const today = new Date();
-                              today.setFullYear(today.getFullYear() - 18);
-                              return today.toISOString().split("T")[0]; // Set max date to 18 years ago
-                            })()}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                          />
-                          {updateFormErrors.date_of_birth && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.date_of_birth}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Phone :
-                          </label>
-                          <input
-                            type="number"
-                            name="phone"
-                            placeholder="Phone"
-                            value={updateFormData.phone}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.phone && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.phone}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Emergency Contact :
-                          </label>
-                          <input
-                            type="number"
-                            name="emergency_contact"
-                            placeholder="emergency contact"
-                            value={updateFormData.emergency_contact}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.emergency_contact && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.emergency_contact}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div className="relative">
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Password :
-                          </label>
-                          <input
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            placeholder="password"
-                            value={updateFormData.password}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
-                          />
-                          <span
-                            className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                          </span>
-                          {updateFormErrors.password && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.password}</p>
-                          )}
-                        </div>
-          
-                        <div className="relative">
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Confirm Password :
-                          </label>
-                          <input
-                            type={showCPassword ? "text" : "password"}
-                            name="confirm_password"
-                            placeholder="confirm password"
-                            value={updateFormData.confirm_password}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
-                          />
-                          <span
-                            className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
-                            onClick={() => setShowCPassword(!showCPassword)}
-                          >
-                            {showCPassword ? <FaEyeSlash /> : <FaEye />}
-                          </span>
-                          {updateFormErrors.confirm_password && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.confirm_password}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Aadhar No:
-                          </label>
-                          <input
-                            type="number"
-                            name="aadhar_no"
-                            placeholder="Aadhar No"
-                            value={updateFormData.aadhar_no}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.aadhar_no && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.aadhar_no}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             PAN No:
-                          </label>
-                          <input
-                            type="text"
-                            name="pan_no"
-                            placeholder="PAN No"
-                            value={updateFormData.pan_no}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.pan_no && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.pan_no}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Select the Role :
-                          </label>
-                          <select
-                            name="role_id"
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                            value={updateFormData.role_id} // Controlled state
-                            onChange={handleUpdateChange} // Update state
-                          >
-                            <option value="">Select the Role</option>
-                            {allRoles?.data?.map((role) => (
-                             <option
-                             key={role.id}
-                             value={role.id}
-                             selected={updateFormData.role_id === role.id}
-                           >
-                             {role.role_name}
-                           </option>
-                            ))}
-                          </select>
-                          {updateFormErrors.role_id && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.role_id}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Select the Gender:
-                          </label>
-                          <select
-                            name="gender"
-                            value={updateFormData.gender}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                          >
-                            <option value="">Select the gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                          </select>
-                          {updateFormErrors.gender && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.gender}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Status:
-                          </label>
-                          <select
-                            name="status"
-                            value={updateFormData.status}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9px]"
-                          >
-                           <option value="" disabled>
-                  Select the Status
-                </option>
-                <option
-                  value="Active"
-                  selected={updateFormData.status === "Active"}
+
+          {/* New Code */}
+          <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
+            {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
+              <div key={index} className="flex items-center w-full relative">
+                {index > 0 && (
+                  <div
+                    className={`h-1 w-full ${
+                      currentUpdateStep > index ? "bg-bgDataNew" : "bg-gray-300"
+                    }`}
+                  ></div>
+                )}
+
+                <div
+                  className={`px-4 py-2 rounded-[8px] text-white font-semibold z-10 ${
+                    currentUpdateStep >= index + 1
+                      ? "bg-bgDataNew"
+                      : "bg-gray-300"
+                  }`}
                 >
-                  Active
-                </option>
-                <option
-                  value="Inactive"
-                  selected={updateFormData.status === "Inactive"}
+                  {step}
+                </div>
+
+                {index < 3 && (
+                  <div
+                    className={`h-1 w-full ${
+                      currentUpdateStep > index + 1
+                        ? "bg-bgDataNew"
+                        : "bg-gray-300"
+                    }`}
+                  ></div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Step 1: Personal Details */}
+          {currentUpdateStep === 1 && (
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto h-fit">
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Name :
+                </label>
+                <input
+                  type="text"
+                  name="fullname"
+                  placeholder="name"
+                  value={updateFormData.fullname}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.fullname && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.fullname}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Username :
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="name"
+                  value={updateFormData.username}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.username && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.username}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Email :
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  value={updateFormData.email}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.email && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.email}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Enter Date of Birth:
+                </label>
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  placeholder="YYYY-MM-DD"
+                  value={updateFormData.date_of_birth}
+                  onChange={handleUpdateChange}
+                  max={(() => {
+                    const today = new Date();
+                    today.setFullYear(today.getFullYear() - 18);
+                    return today.toISOString().split("T")[0]; // Set max date to 18 years ago
+                  })()}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {updateFormErrors.date_of_birth && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.date_of_birth}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Phone :
+                </label>
+                <input
+                  type="number"
+                  name="phone"
+                  placeholder="Phone"
+                  value={updateFormData.phone}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.phone && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.phone}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Emergency Contact :
+                </label>
+                <input
+                  type="number"
+                  name="emergency_contact"
+                  placeholder="emergency contact"
+                  value={updateFormData.emergency_contact}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.emergency_contact && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.emergency_contact}
+                  </p>
+                )}
+              </div>
+
+              <div className="relative">
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Password :
+                </label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  value={updateFormData.password}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
+                />
+                <span
+                  className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  Inactive
-                </option>
-                          </select>
-                          {updateFormErrors.status && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.status}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Upload Profile Picture:
-                          </label>
-                          <input
-                            type="file"
-                            name="profile_image"
-                            accept="image/*"
-                            onChange={(e) => handleUpdateFileChange(e)}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[5px]"
-                          />
-                          <img
-                src={
-                  updateFormData.profile_image
-                    ? `${API_URL.replace("api", "")}${
-                        updateFormData.profile_image
-                      }`
-                    : ""
-                }
-                className="w-10"
-                alt="Profile"
-              />
-                          {updateFormErrors.profile_image && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.profile_image}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Address:
-                          </label>
-                          <textarea
-                            placeholder="Address"
-                            name="address"
-                            value={updateFormData.address}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 h-[50px] rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
-                            rows="3"
-                          />
-                          {updateFormErrors.address && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.address}</p>
-                          )}
-                        </div>
-                      </div>
-                    )}
-          
-                    {/* Step 2: Job Details */}
-                    {currentUpdateStep === 2 && (
-                      <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Basic Salary:
-                          </label>
-                          <input
-                            type="number"
-                            name="salary"
-                            placeholder="Basic Salary"
-                            value={updateFormData.salary}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.salary && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.salary}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Designantion:
-                          </label>
-                          <input
-                            type="text"
-                            name="job_title"
-                            placeholder="Designantion"
-                            value={updateFormData.job_title}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.job_title && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.job_title}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Reporting Location:
-                          </label>
-                          <input
-                            type="text"
-                            name="work_location"
-                            placeholder="Enter Work Location"
-                            value={updateFormData.work_location}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.work_location && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.work_location}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Offer Letter Date:
-                          </label>
-                          <input
-                            type="date"
-                            name="offer_letter_date"
-                            value={updateFormData.offer_letter_date}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                          />
-                          {updateFormErrors.offer_letter_date && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.offer_letter_date}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Joining Date:
-                          </label>
-                          <input
-                            type="date"
-                            name="date_of_joining"
-                            value={updateFormData.date_of_joining}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                          />
-                          {updateFormErrors.date_of_joining && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.date_of_joining}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Exit Date:
-                          </label>
-                          <input
-                            type="date"
-                            name="date_of_exit"
-                            value={updateFormData.date_of_exit}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                          />
-                          {updateFormErrors.date_of_exit && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.date_of_exit}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Select the Department:
-                          </label>
-                          <select
-                            name="department_id"
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                            value={updateFormData.department_id} // Controlled state
-                            onChange={handleUpdateChange} // Update state
-                          >
-                            <option value="">Select the Department</option>
-                            {allDepartments?.data?.map((department) => (
-                  <option
-                    key={department.id}
-                    value={department.id}
-                    selected={updateFormData.department_id === department.id}
-                  >
-                    {department.department_name}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+                {updateFormErrors.password && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.password}
+                  </p>
+                )}
+              </div>
+
+              <div className="relative">
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Confirm Password :
+                </label>
+                <input
+                  type={showCPassword ? "text" : "password"}
+                  name="confirm_password"
+                  placeholder="confirm password"
+                  value={updateFormData.confirm_password}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
+                />
+                <span
+                  className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
+                  onClick={() => setShowCPassword(!showCPassword)}
+                >
+                  {showCPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+                {updateFormErrors.confirm_password && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.confirm_password}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Aadhar No:
+                </label>
+                <input
+                  type="number"
+                  name="aadhar_no"
+                  placeholder="Aadhar No"
+                  value={updateFormData.aadhar_no}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.aadhar_no && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.aadhar_no}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  PAN No:
+                </label>
+                <input
+                  type="text"
+                  name="pan_no"
+                  placeholder="PAN No"
+                  value={updateFormData.pan_no}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.pan_no && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.pan_no}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Select the Role :
+                </label>
+                <select
+                  name="role_id"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                  value={updateFormData.role_id} // Controlled state
+                  onChange={handleUpdateChange} // Update state
+                >
+                  <option value="">Select the Role</option>
+                  {allRoles?.data?.map((role) => (
+                    <option
+                      key={role.id}
+                      value={role.id}
+                      selected={updateFormData.role_id === role.id}
+                    >
+                      {role.role_name}
+                    </option>
+                  ))}
+                </select>
+                {updateFormErrors.role_id && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.role_id}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Select the Gender:
+                </label>
+                <select
+                  name="gender"
+                  value={updateFormData.gender}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                >
+                  <option value="">Select the gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                {updateFormErrors.gender && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.gender}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Status:
+                </label>
+                <select
+                  name="status"
+                  value={updateFormData.status}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9px]"
+                >
+                  <option value="" disabled>
+                    Select the Status
                   </option>
-                ))}
-                          </select>
-                          {updateFormErrors.department_id && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.department_id}
-                            </p>
-                          )}
-                        </div>
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Employment Type:
-                          </label>
-                          <select
-                            name="employment_type"
-                            value={updateFormData.employment_type}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                          >
-                            <option value="">Select Employment Type</option>
-                            <option value="Full-time">Full-time</option>
-                            <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Intern">Intern</option>
-                          </select>
-                          {updateFormErrors.employment_type && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.employment_type}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Reporting Manager:
-                          </label>
-                          <select
-                            name="reporting_manager_id"
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                            value={updateFormData.reporting_manager_id} // Controlled state
-                            onChange={handleUpdateChange} // Update state
-                          >
-                            <option value="">Select Reporting Manager</option>
-                            {allusers?.data?.map((user) => (
-                              <option key={user.id} value={user.id}>
-                                {user.fullname}{" "}
-                                {/* Assuming user object has "name" property */}
-                              </option>
-                            ))}
-                          </select>
-                          {updateFormErrors.reporting_manager_id && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.reporting_manager_id}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Summary for Remarks:
-                          </label>
-                          <textarea
-                            placeholder="Summary for Remarks"
-                            name="remarks"
-                            value={updateFormData.remarks}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
-                            rows="3"
-                          />
-                          {updateFormErrors.remarks && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.remarks}</p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Currently Working:
-                          </label>
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              name="currently_working"
-                              checked={updateFormData.currently_working}
-                              onChange={(e) =>
-                                setupdateFormData({
-                                  ...updateFormData,
-                                  currently_working: e.target.checked,
-                                })
-                              }
-                              className="w-5 h-5 border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] rounded"
-                            />
-                            <label
-                              htmlFor="currently_working"
-                              className="font-poppins text-textdata"
-                            >
-                              Yes
-                            </label>
-                          </div>
-                          {updateFormErrors.currently_working && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.currently_working}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    )}
-          
-                    {/* Step 3: Bank Details */}
-                    {currentUpdateStep === 3 && (
-                      <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Bank Name:
-                          </label>
-                          <input
-                            type="text"
-                            name="bank_name"
-                            placeholder="Bank Name"
-                            value={updateFormData.bank_name}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.bank_name && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.bank_name}</p>
-                          )}
-                        </div>
-          
-                        {/* Branch Name */}
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Branch Name:
-                          </label>
-                          <input
-                            type="text"
-                            name="branch_name"
-                            placeholder="Branch Name"
-                            value={updateFormData.branch_name}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.branch_name && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.branch_name}
-                            </p>
-                          )}
-                        </div>
-          
-                        {/* Account Type */}
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Account Type:
-                          </label>
-                          <input
-                            type="text"
-                            name="account_type"
-                            placeholder="Account Type"
-                            value={updateFormData.account_type}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.account_type && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.account_type}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             Bank Account Number:
-                          </label>
-                          <input
-                            type="number"
-                            name="account_number"
-                            placeholder="Bank Account Number"
-                            value={updateFormData.account_number}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.account_number && (
-                            <p className="text-red-500 text-sm">
-                              {updateFormErrors.account_number}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                             IFSC Code:
-                          </label>
-                          <input
-                            type="text"
-                            name="ifsc_code"
-                            placeholder="IFSC Code"
-                            value={updateFormData.ifsc_code}
-                            onChange={handleUpdateChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.ifsc_code && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.ifsc_code}</p>
-                          )}
-                        </div>
-                      </div>
-                    )}
-          
-                    {/* Step 4: Document Upload */}
-                    {currentUpdateStep === 4 && (
-                      <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-                        {/* File Path */}
-                        <div>
-                          <label className="font-poppins font-medium text-textdata text-bgData">
-                            Documents Upload:
-                          </label>
-                          <input
-                            type="file"
-                            name="documents"
-                            multiple
-                            onChange={handleUpdateMultipleFileChange}
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                          />
-                          {updateFormErrors.documents && (
-                            <p className="text-red-500 text-sm">{updateFormErrors.documents}</p>
-                          )}
-                        </div>
-          
-                        {/* digital signature */}
-                        <div className="">
-                          <label className="font-poppins font-medium text-[16px] text-bgData">
-                            Upload Written Signature :
-                          </label>
-          
-                          <div className="signature-container block w-full mb-2 text-black rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 placeholder:text-gray-400">
-                            <SignatureCanvas
-                              ref={sigauditCanvas}
-                              penColor="white"
-                              canvasProps={{
-                                width: 312,
-                                height: 150,
-                                className: "signature-canvas",
-                                style: {
-                                  borderRadius: "8px",
-                                  backgroundColor: "#fe6c00",
-                                },
-                              }}
-                              onEnd={() => setIsSignatureauditEmpty(false)}
-                            />
-                            <div className="flex items-center justify-end gap-2 mt-2">
-                              <div
-                                onClick={clearauditSignature}
-                                className="bg-gray-500 text-[15px] text-white px-3 py-1 rounded hover:bg-gray-600 cursor-pointer"
-                              >
-                                Clear
-                              </div>
-                              <div
-                                onClick={saveauditSignature}
-                                disabled={isSignatureauditEmpty}
-                                className={`${
-                                  isSignatureauditEmpty
-                                    ? "bg-gray-400 cursor-not-allowed" // Disabled state style
-                                    : "bg-green-700 hover:bg-green-600 cursor-pointer" // Enabled state style
-                                } text-[15px] text-white px-3 py-1 rounded`}
-                              >
-                                Save Signature
-                              </div>
-                            </div>
-                          </div>
-                          <img
-                src={updateFormData.digital_signature} // Assuming   updateFormData.digital_signature contains the base64 data
-                alt="Digital Signature"
-                style={{
-                  width: "100px",
-                  height: "60px",
-                  background: "#fe6c00",
-                  padding: "5px",
-                }} // Adjust size if needed
-              />
-                        </div>
-                      </div>
-                    )}
-          
-                    <div className="flex items-end justify-end gap-2 px-4">
-                      {currentUpdateStep === 1 && (
-                        <>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={nextUpdateStep}
-                          >
-                            Next
-                          </button>
-                          <button
-                            className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                            onClick={() => setEditUserModalOpen(false)}
-                          >
-                            Close
-                          </button>
-                        </>
-                      )}
-                      {currentUpdateStep === 2 && (
-                        <>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={prevUpdateStep}
-                          >
-                            Previous
-                          </button>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={nextUpdateStep}
-                          >
-                            Next
-                          </button>
-                          <button
-                            className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                            onClick={() => setEditUserModalOpen(false)}
-                          >
-                            Close
-                          </button>
-                        </>
-                      )}
-          
-                      {currentUpdateStep === 3 && (
-                        <>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={prevUpdateStep}
-                          >
-                            Previous
-                          </button>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={nextUpdateStep}
-                          >
-                            Next
-                          </button>
-                          <button
-                            className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                            onClick={() => setEditUserModalOpen(false)}
-                          >
-                            Close
-                          </button>
-                        </>
-                      )}
-          
-                      {currentUpdateStep === 4 && (
-                        <>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={prevUpdateStep}
-                          >
-                            Previous
-                          </button>
-                          <button
-                            className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                            onClick={handleUpdateSubmit}
-                          >
-                            Update Employee
-                          </button>
-                          <button
-                            className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                            onClick={() => setEditUserModalOpen(false)}
-                          >
-                            Close
-                          </button>
-                        </>
-                      )}
+                  <option
+                    value="Active"
+                    selected={updateFormData.status === "Active"}
+                  >
+                    Active
+                  </option>
+                  <option
+                    value="Inactive"
+                    selected={updateFormData.status === "Inactive"}
+                  >
+                    Inactive
+                  </option>
+                </select>
+                {updateFormErrors.status && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.status}
+                  </p>
+                )}
+              </div>
+
+              {/* <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Upload Profile Picture:
+                </label>
+                <input
+                  type="file"
+                  name="profile_image"
+                  accept="image/*"
+                  onChange={(e) => handleUpdateFileChange(e)}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[5px]"
+                />
+                <img
+                  src={
+                    updateFormData.profile_image
+                      ? `${API_URL.replace("api", "")}${
+                          updateFormData.profile_image
+                        }`
+                      : ""
+                  }
+                  className="w-10"
+                  alt="Profile"
+                />
+                {updateFormErrors.profile_image && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.profile_image}
+                  </p>
+                )}
+              </div> */}
+
+              <div className="mb-4">
+                <label className="block font-poppins font-medium text-textdata text-bgData mb-1">
+                  Upload Profile Picture:
+                </label>
+
+                {/* Preview box with border */}
+                <div className="flex items-center gap-7 border border-[#473b33] rounded-md px-3 py-[5px] w-fit bg-white shadow-sm">
+                  {/* Profile Image */}
+                  <img
+                    src={
+                      updateFormData.profile_image
+                        ? `${API_URL.replace("api", "")}${
+                            updateFormData.profile_image
+                          }`
+                        : "/default-profile.png" // fallback image
+                    }
+                    alt="Profile"
+                    className="w-10 h-10 object-cover rounded-[5px]"
+                  />
+
+                  {/* Upload Icon Trigger */}
+                  <label
+                    htmlFor="profileUpload"
+                    className="flex items-center gap-1 cursor-pointer text-[#473b33] hover:text-[#5a453a]"
+                  >
+                    <img
+                      src={personsImgs.Image_Upload}
+                      alt="Person Data"
+                      className="w-12 h-10 object-cover"
+                    />{" "}
+                    Upload
+                    {/* Bootstrap icon */}
+                  </label>
+
+                  {/* Hidden File Input */}
+                  <input
+                    type="file"
+                    id="profileUpload"
+                    name="profile_image"
+                    placeholder="select"
+                    accept="image/*"
+                    onChange={(e) => handleUpdateFileChange(e)}
+                    className="hidden"
+                  />
+                </div>
+
+                {/* Error Message */}
+                {updateFormErrors.profile_image && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {updateFormErrors.profile_image}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Address:
+                </label>
+                <textarea
+                  placeholder="Address"
+                  name="address"
+                  value={updateFormData.address}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 h-[50px] rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
+                  rows="3"
+                />
+                {updateFormErrors.address && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.address}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Job Details */}
+          {currentUpdateStep === 2 && (
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Basic Salary:
+                </label>
+                <input
+                  type="number"
+                  name="salary"
+                  placeholder="Basic Salary"
+                  value={updateFormData.salary}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.salary && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.salary}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Designantion:
+                </label>
+                <input
+                  type="text"
+                  name="job_title"
+                  placeholder="Designantion"
+                  value={updateFormData.job_title}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.job_title && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.job_title}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reporting Location:
+                </label>
+                <input
+                  type="text"
+                  name="work_location"
+                  placeholder="Enter Work Location"
+                  value={updateFormData.work_location}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.work_location && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.work_location}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Offer Letter Date:
+                </label>
+                <input
+                  type="date"
+                  name="offer_letter_date"
+                  value={updateFormData.offer_letter_date}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {updateFormErrors.offer_letter_date && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.offer_letter_date}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Joining Date:
+                </label>
+                <input
+                  type="date"
+                  name="date_of_joining"
+                  value={updateFormData.date_of_joining}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {updateFormErrors.date_of_joining && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.date_of_joining}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Exit Date:
+                </label>
+                <input
+                  type="date"
+                  name="date_of_exit"
+                  value={updateFormData.date_of_exit}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {updateFormErrors.date_of_exit && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.date_of_exit}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Select the Department:
+                </label>
+                <select
+                  name="department_id"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                  value={updateFormData.department_id} // Controlled state
+                  onChange={handleUpdateChange} // Update state
+                >
+                  <option value="">Select the Department</option>
+                  {allDepartments?.data?.map((department) => (
+                    <option
+                      key={department.id}
+                      value={department.id}
+                      selected={updateFormData.department_id === department.id}
+                    >
+                      {department.department_name}
+                    </option>
+                  ))}
+                </select>
+                {updateFormErrors.department_id && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.department_id}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Employment Type:
+                </label>
+                <select
+                  name="employment_type"
+                  value={updateFormData.employment_type}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                >
+                  <option value="">Select Employment Type</option>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Intern">Intern</option>
+                </select>
+                {updateFormErrors.employment_type && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.employment_type}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reporting Manager:
+                </label>
+                <select
+                  name="reporting_manager_id"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                  value={updateFormData.reporting_manager_id} // Controlled state
+                  onChange={handleUpdateChange} // Update state
+                >
+                  <option value="">Select Reporting Manager</option>
+                  {allusers?.data?.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.fullname}{" "}
+                      {/* Assuming user object has "name" property */}
+                    </option>
+                  ))}
+                </select>
+                {updateFormErrors.reporting_manager_id && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.reporting_manager_id}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Summary for Remarks:
+                </label>
+                <textarea
+                  placeholder="Summary for Remarks"
+                  name="remarks"
+                  value={updateFormData.remarks}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
+                  rows="3"
+                />
+                {updateFormErrors.remarks && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.remarks}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Currently Working:
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="currently_working"
+                    checked={updateFormData.currently_working}
+                    onChange={(e) =>
+                      setupdateFormData({
+                        ...updateFormData,
+                        currently_working: e.target.checked,
+                      })
+                    }
+                    className="w-5 h-5 border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] rounded"
+                  />
+                  <label
+                    htmlFor="currently_working"
+                    className="font-poppins text-textdata"
+                  >
+                    Yes
+                  </label>
+                </div>
+                {updateFormErrors.currently_working && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.currently_working}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Bank Details */}
+          {currentUpdateStep === 3 && (
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Bank Name:
+                </label>
+                <input
+                  type="text"
+                  name="bank_name"
+                  placeholder="Bank Name"
+                  value={updateFormData.bank_name}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.bank_name && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.bank_name}
+                  </p>
+                )}
+              </div>
+
+              {/* Branch Name */}
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Branch Name:
+                </label>
+                <input
+                  type="text"
+                  name="branch_name"
+                  placeholder="Branch Name"
+                  value={updateFormData.branch_name}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.branch_name && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.branch_name}
+                  </p>
+                )}
+              </div>
+
+              {/* Account Type */}
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Account Type:
+                </label>
+                <input
+                  type="text"
+                  name="account_type"
+                  placeholder="Account Type"
+                  value={updateFormData.account_type}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.account_type && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.account_type}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Bank Account Number:
+                </label>
+                <input
+                  type="number"
+                  name="account_number"
+                  placeholder="Bank Account Number"
+                  value={updateFormData.account_number}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.account_number && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.account_number}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  IFSC Code:
+                </label>
+                <input
+                  type="text"
+                  name="ifsc_code"
+                  placeholder="IFSC Code"
+                  value={updateFormData.ifsc_code}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.ifsc_code && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.ifsc_code}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Step 4: Document Upload */}
+          {currentUpdateStep === 4 && (
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+              {/* File Path */}
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Documents Upload:
+                </label>
+                <input
+                  type="file"
+                  name="documents"
+                  multiple
+                  onChange={handleUpdateMultipleFileChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.documents && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.documents}
+                  </p>
+                )}
+              </div>
+
+              {/* digital signature */}
+              <div className="">
+                <label className="font-poppins font-medium text-[16px] text-bgData">
+                  Upload Written Signature :
+                </label>
+
+                <div className="relative signature-container block w-full mb-2 text-black rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 placeholder:text-gray-400">
+                  <SignatureCanvas
+                    ref={sigauditCanvas}
+                    penColor="white"
+                    canvasProps={{
+                      width: 312,
+                      height: 150,
+                      className: "signature-canvas",
+                      style: {
+                        borderRadius: "8px",
+                        backgroundColor: "#fe6c00",
+                      },
+                    }}
+                    onEnd={() => setIsSignatureauditEmpty(false)}
+                  />
+                  <div className="flex items-center justify-end gap-2 mt-2">
+                    <div
+                      onClick={clearauditSignature}
+                      className="bg-gray-500 text-[15px] text-white px-3 py-1 rounded hover:bg-gray-600 cursor-pointer"
+                    >
+                      Clear
                     </div>
+                    <div
+                      onClick={saveauditSignature}
+                      disabled={isSignatureauditEmpty}
+                      className={`${
+                        isSignatureauditEmpty
+                          ? "bg-gray-400 cursor-not-allowed" // Disabled state style
+                          : "bg-green-700 hover:bg-green-600 cursor-pointer" // Enabled state style
+                      } text-[15px] text-white px-3 py-1 rounded`}
+                    >
+                      Save Signature
+                    </div>
+                  </div>
+                  <img
+                    src={updateFormData.digital_signature} // Assuming   updateFormData.digital_signature contains the base64 data
+                    alt="Digital Signature"
+                    className="absolute rounded-[5px] bottom-[53px] right-[26px]"
+                    style={{
+                      width: "114px",
+                      height: "67px",
+                      background: "rgb(212 32 32 / 68%)",
+                      padding: "5px",
+                    }} // Adjust size if needed
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-end justify-end gap-2 px-4">
+            {currentUpdateStep === 1 && (
+              <>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={nextUpdateStep}
+                >
+                  Next
+                </button>
+                <button
+                  className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                  onClick={() => setEditUserModalOpen(false)}
+                >
+                  Close
+                </button>
+              </>
+            )}
+            {currentUpdateStep === 2 && (
+              <>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={prevUpdateStep}
+                >
+                  Previous
+                </button>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={nextUpdateStep}
+                >
+                  Next
+                </button>
+                <button
+                  className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                  onClick={() => setEditUserModalOpen(false)}
+                >
+                  Close
+                </button>
+              </>
+            )}
+
+            {currentUpdateStep === 3 && (
+              <>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={prevUpdateStep}
+                >
+                  Previous
+                </button>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={nextUpdateStep}
+                >
+                  Next
+                </button>
+                <button
+                  className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                  onClick={() => setEditUserModalOpen(false)}
+                >
+                  Close
+                </button>
+              </>
+            )}
+
+            {currentUpdateStep === 4 && (
+              <>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={prevUpdateStep}
+                >
+                  Previous
+                </button>
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                  onClick={handleUpdateSubmit}
+                >
+                  Update Employee
+                </button>
+                <button
+                  className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                  onClick={() => setEditUserModalOpen(false)}
+                >
+                  Close
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </>

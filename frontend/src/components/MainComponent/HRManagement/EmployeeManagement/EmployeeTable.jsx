@@ -33,45 +33,41 @@ const EmployeeTable = ({
         )}
       </div>
       <div
-        className={`overflow-x-auto ${isSidebarOpen ? "w-full" : "w-max"}`}
+        className={`overflow-x-auto`}
       >
-        <table className={`table-auto ${isSidebarOpen ? "w-full" : "w-max"}`}>
+        <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Emp ID
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Department
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Reporting Manager
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                Location
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+             
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Designation
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Status
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Leaves
               </th>
 
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                Email
-              </th>
+             
 
-              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Role</th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Role</th> */}
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Action
               </th>
             </tr>
@@ -96,16 +92,13 @@ const EmployeeTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.jobDetail?.reportingManager?.fullname}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
-                  {user?.jobDetail?.work_location}
-                </td>
+               
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.jobDetail?.job_title}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{user?.status}</td>
                 <td className="px-4 py-2 text-newtextdata">5</td>
 
-                <td className="px-4 py-2 text-newtextdata">{user?.email}</td>
 
                 {/* <td className="px-4 py-2 text-newtextdata">{user?.employeeRole?.role?.role_name}</td> */}
 

@@ -9,101 +9,101 @@ const ViewUserModal = ({
 }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-      <div className="bg-white w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Employee Details
         </h2>
 
-        {/* Profile Section */}
-        <div className="px-5 py-4">
-          <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
-            <div className="flex items-center gap-2">
-              <img
-                src={
-                  selectedEmployee.profile_image
-                    ? `${API_URL.replace("api", "")}${
-                        selectedEmployee.profile_image
-                      }`
-                    : "https://via.placeholder.com/80"
-                }
-                alt="Profile"
-                className="w-16 h-16 rounded-full border"
-              />
-              <div>
-                <h3 className="text-[15px] font-semibold">
-                  {selectedEmployee.fullname}
-                </h3>
-                <p className="text-gray-600 text-[12px]">
-                  {selectedEmployee.email}
-                </p>
+        <div className="overflow-y-auto h-[400px]">
+          {/* Profile Section */}
+          <div className="px-5 py-4">
+            <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
+              <div className="flex items-center gap-2">
+                <img
+                  src={
+                    selectedEmployee.profile_image
+                      ? `${API_URL.replace("api", "")}${
+                          selectedEmployee.profile_image
+                        }`
+                      : "https://via.placeholder.com/80"
+                  }
+                  alt="Profile"
+                  className="w-16 h-16 rounded-full border"
+                />
+                <div>
+                  <h3 className="text-[15px] font-semibold">
+                    {selectedEmployee.fullname}
+                  </h3>
+                  <p className="text-gray-600 text-[12px]">
+                    {selectedEmployee.email}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Right Section - Status Badge with Ribbon Effect */}
-            <div className="relative inline-block">
-              <div className="bg-green-500 text-white font-bold px-5 py-1 rounded-l-lg pr-8 relative text-[14px]">
-                {selectedEmployee.status}
-                {/* <div className="absolute top-0 right-0 h-full w-5 bg-red-500 clip-ribbon"></div> */}
+              {/* Right Section - Status Badge with Ribbon Effect */}
+              <div className="relative inline-block">
+                <div className="bg-green-500 text-white font-bold px-5 py-1 rounded-l-lg pr-8 relative text-[14px]">
+                  {selectedEmployee.status}
+                  {/* <div className="absolute top-0 right-0 h-full w-5 bg-red-500 clip-ribbon"></div> */}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Details Grid */}
-        <div className="py-3 px-7">
-        <div className="grid grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
-          <Detail label="Status" value={selectedEmployee.status} />
-          <Detail
-            label="Role"
-            value={selectedEmployee.employeeRole.role.role_name}
-          />
-          <Detail label="Gender" value={selectedEmployee.gender} />
-          <Detail label="Phone" value={selectedEmployee.phone} />
-          <Detail label="Aadhar No." value={selectedEmployee.aadhar_no} />
-          <Detail label="PAN No." value={selectedEmployee.pan_no} />
-          <Detail
-            label="Employment Type"
-            value={selectedEmployee.jobDetail.employment_type}
-          />
-          <Detail
-            label="Reporting Manager"
-            value={selectedEmployee.jobDetail.reportingManager.fullname}
-          />
-          <Detail
-            label="Work Location"
-            value={selectedEmployee.jobDetail.work_location}
-          />
-          <Detail
-            label="Department"
-            value={selectedEmployee.jobDetail.department.department_name}
-          />
-          <Detail label="Basic Salary" value={selectedEmployee.salary} />
-          <Detail
-            label="Bank Account"
-            value={selectedEmployee.bankDetail.account_number}
-          />
-          <Detail
-            label="IFSC Code"
-            value={selectedEmployee.bankDetail.ifsc_code}
-          />
-          <Detail label="Address" value={selectedEmployee.address} />
-          
-          <Detail
-            label="Offer Letter"
-            value={selectedEmployee.jobDetail.offer_letter_date}
-          />
-          <Detail
-            label="Joining Date"
-            value={selectedEmployee.jobDetail.date_of_joining}
-          />
-          <Detail
-            label="Exit Date"
-            value={selectedEmployee.jobDetail.date_of_exit}
-          />
-          
+          {/* Details Grid */}
+          <div className="py-3 px-7">
+            <div className="grid grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
+              <Detail label="Status" value={selectedEmployee.status} />
+              <Detail
+                label="Role"
+                value={selectedEmployee.employeeRole.role.role_name}
+              />
+              <Detail label="Gender" value={selectedEmployee.gender} />
+              <Detail label="Phone" value={selectedEmployee.phone} />
+              <Detail label="Aadhar No." value={selectedEmployee.aadhar_no} />
+              <Detail label="PAN No." value={selectedEmployee.pan_no} />
+              <Detail
+                label="Employment Type"
+                value={selectedEmployee.jobDetail.employment_type}
+              />
+              <Detail
+                label="Reporting Manager"
+                value={selectedEmployee.jobDetail.reportingManager.fullname}
+              />
+              <Detail
+                label="Work Location"
+                value={selectedEmployee.jobDetail.work_location}
+              />
+              <Detail
+                label="Department"
+                value={selectedEmployee.jobDetail.department.department_name}
+              />
+              <Detail label="Basic Salary" value={selectedEmployee.salary} />
+              <Detail
+                label="Bank Account"
+                value={selectedEmployee.bankDetail.account_number}
+              />
+              <Detail
+                label="IFSC Code"
+                value={selectedEmployee.bankDetail.ifsc_code}
+              />
+              <Detail label="Address" value={selectedEmployee.address} />
+
+              <Detail
+                label="Offer Letter"
+                value={selectedEmployee.jobDetail.offer_letter_date}
+              />
+              <Detail
+                label="Joining Date"
+                value={selectedEmployee.jobDetail.date_of_joining}
+              />
+              <Detail
+                label="Exit Date"
+                value={selectedEmployee.jobDetail.date_of_exit}
+              />
+            </div>
+          </div>
         </div>
-        </div>
-        
 
         {/* Buttons */}
         <div className="flex justify-end gap-2 px-6">

@@ -125,11 +125,11 @@ const EditUserModal = ({
         )}
       </div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Customer
           </h2>
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-[480px]">
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-fit">
             {/* <div>
             <label className="font-poppins font-medium text-textdata text-bgData">
                Date :
