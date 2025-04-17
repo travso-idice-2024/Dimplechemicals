@@ -74,6 +74,7 @@ function App() {
           <Route path="/dashboard" element={<Content />} />
           <Route path="/marketing-management/lead-management" element={<MarketingManage />} />
           <Route path="/lead-management" element={<MarketingManage />} />
+          <Route path="/sale-management/lead-management" element={<MarketingManage />} />
           <Route path="/sale-management/leads/assignment" element={<SalesPersonAssign />} />
           <Route path="/sale-management/plan-of-action-for-day" element={<SalesPersonFollowUp />} />
           <Route path="/sale-management/leads/po-form" element={<SalePOForm />} />

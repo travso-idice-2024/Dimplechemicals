@@ -1,5 +1,5 @@
 const { Op, Sequelize, fn ,col} = require("sequelize");
-const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct } = require("../models");
+const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -224,6 +224,17 @@ const getLeadList = async (req, res) => {
           },
           { model: User, as: "leadOwner", attributes: ["fullname"] },
           { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
+          {
+            model: LeadAssignedHistory,
+            as: "assignmentHistory", // ✅ Use the alias you defined in association
+            include: [
+              {
+                model: User,
+                as: "assignedPerson", // Same alias as in the association above
+                attributes: ["fullname"],
+              },
+          ],
+        },
         ],
         order: [["createdAt", "DESC"]],
       });
@@ -250,6 +261,17 @@ const getLeadList = async (req, res) => {
         },
         { model: User, as: "leadOwner", attributes: ["fullname"] },
         { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
+        {
+          model: LeadAssignedHistory,
+          as: "assignmentHistory", // ✅ Use the alias you defined in association
+          include: [
+            {
+              model: User,
+              as: "assignedPerson", // Same alias as in the association above
+              attributes: ["fullname"],
+            },
+         ],
+        },
       ],
       order: [["createdAt", "DESC"]],
     });

@@ -8,11 +8,14 @@ import AddRoleModal from "./AddRoleModal";
 import ViewUserModal from "./ViewUserModal";
 import EditUserModal from "./EditUserModal";
 import AssignLeadModal from "./AssignLeadModal";
+import ParticularLeadAssign from "./ParticularLeadAssign";
+import ViewCustomerHistoryCardReport from "./ViewCustomerHistoryCardReport";
 import {
   addLead,
   updateLead,
   listLeads,
   removeLead,
+  updateSalesPersionAssignment
 } from "../../../redux/leadSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { fetchUserWithRole } from "../../../redux/userSlice";
@@ -42,6 +45,7 @@ const MarketingManageData = () => {
   );
   //console.log("allCustomers", allCustomers?.data);
   //console.log("customerAddress", customerAddress);
+  const [selectedCustomer, setSelectedCustomer] = useState({});
   const [selectedLead, setSelectedLead] = useState({});
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
@@ -50,6 +54,10 @@ const MarketingManageData = () => {
   const [showTextareaPS, setShowTextareaPS] = useState(false);
   const [showQuantityPS, setShowQuantityPS] = useState(false);
   const [showBudgetPS, setShowBudgetPS] = useState(false);
+  const [isViewCustomerHistoryCardModalOpen, setViewCustomerHistoryCardModalOpen] = useState(false);
+
+  const [selectedPOAId, setSelectedPOAId] = useState(null);
+  const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
@@ -406,8 +414,6 @@ const MarketingManageData = () => {
         }
       );
 
-      //console.log(response);
-
       // ✅ Handle success response
       handleDeleteFlashMessage(response?.data?.message, "success");
 
@@ -423,6 +429,90 @@ const MarketingManageData = () => {
       console.error("Error finalizing deal:", error);
     }
   };
+
+
+  //assign lead to another sales person 
+
+  //assignPOAToUser
+
+    const [poaUpdateData, setPoaUpdateData] = useState({
+      new_assigned_person_id: ""
+    });
+    //lead_id, new_assigned_person_id
+    // Input change handler
+    const handlePoaUpdateChange = (e) => {
+      const { name, value } = e.target;
+      setPoaUpdateData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+  
+    const validatePoaUpdateForm = () => {
+      let errors = {};
+      if (!poaUpdateData.new_assigned_person_id)
+        errors.new_assigned_person_id = "Sales Person is required.";
+  
+      setUpdateLeadFormErrors(errors);
+      return Object.keys(errors).length === 0;
+    };
+    const handleAssignSalesPerson = async () => {
+      
+      if (!validatePoaUpdateForm()) return;
+      try {
+        const response = await dispatch(updateSalesPersionAssignment({
+          lead_id: selectedLead.id,
+          new_assigned_person_id: poaUpdateData.new_assigned_person_id
+        })).unwrap();
+    
+         //console.log(response);
+        if (response?.success) {
+          handleUpdateLeadFlashMessage(response?.message, "success");
+    
+          setPoaUpdateData  ({
+            new_assigned_person_id: "",
+          });
+          // Reset state
+          setTimeout(() => {
+            setIsLeadAssignPopup(false); // Make sure modal state name matches
+          }, 3000);
+          setSelectedPOAId(null);
+          setSelectedLead("");
+    
+          // Refresh list
+          dispatch( listLeads({
+            page: currentPage,
+            limit: leadPerPage,
+            search: searchTerm,
+          }));
+           
+        } else {
+          handleUpdateLeadFlashMessage("Failed to update", "error");
+        }
+      } catch (error) {
+        console.error("Update error:", error);
+        handleUpdateLeadFlashMessage(error?.message || "Something went wrong", "error");
+      }
+    };
+
+    const fetchCustomerHistory = async (id) => {
+      try {
+        // ✅ Get token
+        const token = getAuthToken();
+  
+        // ✅ Correct API call with query parameters
+        const response = await axios.get(`${API_URL}/auth/customer-history/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setSelectedCustomer(response.data.data);
+        console.log("response", response);
+        //return response.data; // Return data if needed
+      } catch (error) {
+        console.error("Error in fetching data:", error);
+      }
+    };
 
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
@@ -472,6 +562,12 @@ const MarketingManageData = () => {
             handleDeleteFlashMessage={handleDeleteFlashMessage}
             handleDelete={handleDelete}
             updateDealFinalize={updateDealFinalize}
+            isLeadAssignPopup={isLeadAssignPopup} 
+            setIsLeadAssignPopup={setIsLeadAssignPopup}
+            setSelectedPOAId={setSelectedPOAId}
+            selectedPOAId={selectedPOAId}
+            fetchCustomerHistory={fetchCustomerHistory}
+            setViewCustomerHistoryCardModalOpen={setViewCustomerHistoryCardModalOpen}
           />
           {/*------- Table Data End -------*/}
         </div>
@@ -549,6 +645,35 @@ const MarketingManageData = () => {
           customerAddress={customerAddress}
         />
       )}
+
+{isLeadAssignPopup && (
+          <ParticularLeadAssign
+          setIsLeadAssignPopup={setIsLeadAssignPopup}
+            selectedLead={selectedLead}
+            setSelectedLead={setSelectedLead}
+            userDataWithRole={userDataWithRole}
+            handleAssignSalesPerson={handleAssignSalesPerson}
+            poaUpdateData={poaUpdateData} setPoaUpdateData={setPoaUpdateData}
+            handlePoaUpdateChange={handlePoaUpdateChange}
+            validatePoaUpdateForm={validatePoaUpdateForm}
+            updateLeadFormErrors={updateLeadFormErrors}
+            setUpdateLeadFormErrors={setUpdateLeadFormErrors}
+            updateLeadFlashMessage={updateLeadFlashMessage}
+            setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
+            updateLeadFlashMsgType={updateLeadFlashMsgType}
+            setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
+            handleUpdateLeadChange={handleUpdateLeadChange}
+            handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+          />
+        )}
+
+         {/* View User Modal */}
+         {isViewCustomerHistoryCardModalOpen && (
+          <ViewCustomerHistoryCardReport
+            setViewCustomerHistoryCardModalOpen={setViewCustomerHistoryCardModalOpen}
+            selectedCustomer={selectedCustomer}
+          />
+        )}
     </div>
   );
 };

@@ -24,7 +24,6 @@ export const listLeads = createAsyncThunk(
   }
 );
 
-
 export const finalizeDeals = createAsyncThunk(
   "auth/finalised-deal",
   async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
@@ -305,6 +304,25 @@ export const ConvertedLeadData = createAsyncThunk(
   }
 );
 
+export const updateSalesPersionAssignment = createAsyncThunk(
+  "auth/add-lead-assigned-history",
+  async ({ lead_id, new_assigned_person_id }, { rejectWithValue }) => {
+    try {
+      // console.log("redux caling");
+      // console.log(lead_id , new_assigned_person_id);
+      const token = getAuthToken();
+      const response = await axios.post(
+        `${API_URL}/auth/add-lead-assigned-history`,
+        { new_assigned_person_id, lead_id }, // send only the field to update
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to update assigned persion");
+    }
+  }
+);
+
 // 🔹 LEAD SLICE
 const leadSlice = createSlice({
   name: "lead",
@@ -313,7 +331,7 @@ const leadSlice = createSlice({
     allWonleads: [],
     communicationleads: [],
     communicationleadsList: [],
-    finalizeDealsData:[],
+    finalizeDealsData: [],
     lead: null,
     salesPersonleads: [],
     allLeads: [],
@@ -328,6 +346,18 @@ const leadSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
+      .addCase(updateSalesPersionAssignment.fulfilled, (state, action) => {
+        const index = state.leads.data?.findIndex(
+          (item) => item.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.leads.data[index] = action.payload;
+        }
+      })
+      .addCase(updateSalesPersionAssignment.rejected, (state, action) => {
+        state.leadError = action.payload;
+      })
+
       .addCase(AllLeadsData.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -340,7 +370,7 @@ const leadSlice = createSlice({
         state.leadLoading = false;
         state.leadError = action.payload;
       })
-      
+
       .addCase(finalizeDeals.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
