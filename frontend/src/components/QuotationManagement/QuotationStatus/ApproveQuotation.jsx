@@ -8,7 +8,7 @@ const ApproveQuotation = ({ message, setAcceptQuotationPopup }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
       style={{ pointerEvents: "none" }}
     >
       <div className="bg-white md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">

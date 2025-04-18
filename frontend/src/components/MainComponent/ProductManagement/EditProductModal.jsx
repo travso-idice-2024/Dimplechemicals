@@ -28,7 +28,7 @@ const EditProductModal = ({
           <ErrorMessage message={editFlashMessage} />
         )}
       </div>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Product
