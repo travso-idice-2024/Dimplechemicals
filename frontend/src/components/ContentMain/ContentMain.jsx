@@ -27,6 +27,7 @@ const getAuthToken = () => localStorage.getItem("token");
 const ContentMain = () => {
   const dispatch = useDispatch();
   const[totalLeadCount, setTotalLeadCount] = useState(0);
+  const[totalVisitCount, setTotalVisitCount] = useState(0);
 
   const fetchTotalLeadCount = async () => {
     try {
@@ -45,8 +46,27 @@ const ContentMain = () => {
       console.error("Error in fetching data:", error);
     }
   };
+
+  const fetchTotalVisitCount = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(`${API_URL}/auth/total-months-visits`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTotalVisitCount(response.data.totalVisits);
+      //console.log("total lead count", response.data.totalVisits);
+    } catch (error) {
+      console.error("Error in fetching data:", error);
+    }
+  };
   useEffect(() => {
     fetchTotalLeadCount();
+    fetchTotalVisitCount();
   }, [dispatch]);
 
   return (
@@ -62,7 +82,7 @@ const ContentMain = () => {
               </button>
             </div>
             <div class="flex flex-col items-center justify-center">
-              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">5</span>
+              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">{totalLeadCount}</span>
               <h2 className="text-textdata text-[#dccfc6] font-medium mt-1">Total Lead</h2>
             </div>
           </div>
@@ -86,7 +106,7 @@ const ContentMain = () => {
               </button>
             </div>
              <div class="flex flex-col items-center justify-center">
-              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">2</span>
+              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">{totalVisitCount}</span>
               <h2 className="text-textdata text-[#dccfc6] font-medium mt-1">Total Visits</h2>
             </div>
           </div>
