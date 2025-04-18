@@ -13,17 +13,27 @@ import MeetingPage from "../Meeting/MeetingPage";
 const ContentMain = () => {
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <Cards />
-        {/* <Transactions /> */}
-        <Financial />
-        <Budget />
-        <Report />
-        <Loans /> 
-        {/* <Financial /> */}
-        <Transactions />
+      <div className="space-y-3">
+        {/* Flex row for 4 divs */}
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="bg-bgData flex-1 flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"></div>
+          <div className="bg-bgData flex-1 flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"></div>
+          <div className="bg-bgData flex-1 flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"></div>
+          <div className="bg-bgData flex-1 flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"></div>
+        </div>
+
+        {/* Grid for components (3 per row on medium screens) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Cards />
+          <Financial />
+          <Budget />
+          <Report />
+          <Loans />
+          <Transactions />
+        </div>
       </div>
-      <MeetingPage/>
+
+      <MeetingPage />
       <Employee />
     </div>
   );

@@ -26,7 +26,7 @@ const Cards = () => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   const lead = [20, 30, 45, 50,65, 95];
   const conversion = ["30%", "50%", "60%", "50%", "10%", "30%"];
-  const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d', '#e57373']
+  const colors = ['#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61']
 
 
   const barData = {
@@ -96,7 +96,7 @@ const Cards = () => {
         const chartInstance = this;
         const ctx = chartInstance.ctx;
         ctx.font = "bold 10px Arial";
-        ctx.fillStyle = "#fbc02d"; // Conversion ka color yellow hoga
+        ctx.fillStyle = "#ffffff"; // Conversion ka color yellow hoga
         ctx.textAlign = "center";
 
         chartInstance.data.datasets[0].data.forEach((value, index) => {
