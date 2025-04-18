@@ -1,5 +1,5 @@
 const { Op, Sequelize, fn ,col,literal} = require("sequelize");
-const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory } = require("../models");
+const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -1050,6 +1050,122 @@ const getFinalisedDeals = async (req, res) => {
   }
 };
 
+const addDealData = async (req, res) => {
+  try {
+    const {
+      lead_id,
+      date,
+      product_id,
+      area,
+      quantity,
+      rate,
+      amount,
+      advance_amount,
+      deal_amount,
+    } = req.body;
+
+    const leadExists = await Lead.findByPk(lead_id);
+    if (!leadExists) {
+      return res.status(404).json({
+        success: false,
+        message: 'Invalid lead_id: Lead not found',
+      });
+    }
+    const newDeal = await dealData.create({
+      lead_id,
+      date,
+      product_id,
+      area,
+      quantity,
+      rate,
+      amount,
+      advance_amount,
+      deal_amount,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Deal Created successfully',
+      data: newDeal,
+    });
+
+  } catch (error) {
+    console.error('Error inserting deal data:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error',
+    });
+  }
+};
+
+const getDealData = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = '' } = req.query;
+    const offset = (page - 1) * limit;
+
+    const whereClause = {};
+
+    // Search by product name or area (you can add more fields here)
+    if (search) {
+      whereClause[Op.or] = [
+        { area: { [Op.like]: `%${search}%` } },
+        {
+          '$product.product_name$': {
+            [Op.like]: `%${search}%`
+          }
+        }
+      ];
+    }
+
+    const { count, rows } = await dealData.findAndCountAll({
+      where: whereClause,
+      include: [
+        {
+          model: Product,
+          as: 'product',
+          attributes: ['product_name'],
+        },
+        {
+          model: Lead,
+          as: 'lead',
+        }
+      ],
+      offset: parseInt(offset),
+      limit: parseInt(limit),
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Deal data retrieved successfully',
+      data: rows,
+      currentPage: parseInt(page)
+,
+      totalPages: Math.ceil(count / limit),
+      totalRecords: count,
+      
+    });
+  } catch (error) {
+    console.error('Error fetching deal data:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error',
+    });
+  }
+};
+
+const countTotalLeads = async (req, res) => {
+  try {
+    const totalLeads = await Lead.count();
+    res.json({
+      success: true,
+      totalLeads,
+    });
+  } catch (error) {
+    console.error("Error counting total leads:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 
 module.exports = {
   addLead,
@@ -1065,5 +1181,8 @@ module.exports = {
   exportLeadsToExcel,
   getTodayAssignedLeads,
   updateDealFinalised,
-  getFinalisedDeals
+  getFinalisedDeals,
+  addDealData,
+  getDealData,
+  countTotalLeads
 };

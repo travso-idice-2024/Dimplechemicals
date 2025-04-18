@@ -45,7 +45,8 @@ const MeetingPage = () => {
   const [selectedLeadData, setSelectedLeadData] = useState(false);
 
   const [todayPOACount, settodayPOACount] = useState([]);
-  console.log("todayPOACount",todayPOACount);
+  //console.log("todayPOACount",todayPOACount);
+  
   const fetchPlanOfActionReport = async () => {
     try {
       // ✅ Get token

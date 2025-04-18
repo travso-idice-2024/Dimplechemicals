@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./ContentMain.css";
 import Cards from "../Cards/Cards";
 import Transactions from "../Transactions/Transactions";
@@ -10,8 +12,35 @@ import Financial from "../Financial/Financial";
 import Employee from "../Employee/Employee";
 import MeetingPage from "../Meeting/MeetingPage";
 import { iconsImgs } from "../../utils/images";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+const getAuthToken = () => localStorage.getItem("token");
 
 const ContentMain = () => {
+  const dispatch = useDispatch();
+  const[totalLeadCount, setTotalLeadCount] = useState(0);
+
+  const fetchTotalLeadCount = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(`${API_URL}/auth/total-lead-count`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTotalLeadCount(response.data.totalLeads);
+      //console.log("total lead count", response.data.totalLeads);
+    } catch (error) {
+      console.error("Error in fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchTotalLeadCount();
+  }, [dispatch]);
+
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
       <div className="space-y-3">

@@ -29,9 +29,11 @@ const DepartmentTable = ({
   setSelectedPOAId,
   selectedPOAId,
   fetchCustomerHistory,
-  setViewCustomerHistoryCardModalOpen
+  setViewCustomerHistoryCardModalOpen,
+  dealCreationOpenForm,
+  setDealCreationOpenForm,
+  setDealData 
 }) => {
-  console.log("Leads",Leads);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
@@ -96,7 +98,7 @@ const DepartmentTable = ({
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.assign_date.split("T")[0]}
+                  {user?.assign_date?.split("T")[0]}
                 </td>
                 <td className="px-4 py-2 text-newtextdata cursor-pointer" onClick={() => {
                               fetchCustomerHistory(user?.customer?.id);
@@ -130,7 +132,17 @@ const DepartmentTable = ({
               </button> */}
                   <button
                     className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
-                    onClick={() => updateDealFinalize(user?.id)}
+                    //onClick={() => updateDealFinalize(user?.id)}
+                    onClick={() => {
+                      // updateDealFinalize(user?.id)
+                      //setSelectedLead(user);
+                      setDealData((prev) => ({
+                        ...prev,
+                        lead_id: user.id,
+                      }));
+                      setDealCreationOpenForm(true);
+                    }}
+
                   >
                     Deal
                   </button>

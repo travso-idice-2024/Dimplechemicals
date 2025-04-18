@@ -54,6 +54,9 @@ const {
   getTodayAssignedLeads,
   updateDealFinalised,
   getFinalisedDeals,
+  addDealData,
+  getDealData,
+  countTotalLeads
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -209,5 +212,8 @@ router.get("/customer-info/:id", authMiddleware, customerInfo);
 
 router.post("/add-lead-assigned-history", authMiddleware, createLeadAssignedHistory);
 router.get("/poa-for-day", authMiddleware, planOfActionForaDay);
+router.post("/addDeal", authMiddleware, addDealData);
+router.get("/get-Deal-data", authMiddleware, getDealData);
+router.get("/total-lead-count", authMiddleware, countTotalLeads);
 
 module.exports = router;

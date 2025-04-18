@@ -9,13 +9,15 @@ import ViewUserModal from "./ViewUserModal";
 import EditUserModal from "./EditUserModal";
 import AssignLeadModal from "./AssignLeadModal";
 import ParticularLeadAssign from "./ParticularLeadAssign";
+import DealCreationForm from "./DealCreationForm";
 import ViewCustomerHistoryCardReport from "./ViewCustomerHistoryCardReport";
 import {
   addLead,
   updateLead,
   listLeads,
   removeLead,
-  updateSalesPersionAssignment
+  updateSalesPersionAssignment,
+  addDeal
 } from "../../../redux/leadSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { fetchUserWithRole } from "../../../redux/userSlice";
@@ -45,6 +47,7 @@ const MarketingManageData = () => {
   );
   //console.log("allCustomers", allCustomers?.data);
   //console.log("customerAddress", customerAddress);
+  const [dealCreationOpenForm, setDealCreationOpenForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState({});
   const [selectedLead, setSelectedLead] = useState({});
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
@@ -54,7 +57,10 @@ const MarketingManageData = () => {
   const [showTextareaPS, setShowTextareaPS] = useState(false);
   const [showQuantityPS, setShowQuantityPS] = useState(false);
   const [showBudgetPS, setShowBudgetPS] = useState(false);
-  const [isViewCustomerHistoryCardModalOpen, setViewCustomerHistoryCardModalOpen] = useState(false);
+  const [
+    isViewCustomerHistoryCardModalOpen,
+    setViewCustomerHistoryCardModalOpen,
+  ] = useState(false);
 
   const [selectedPOAId, setSelectedPOAId] = useState(null);
   const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
@@ -410,7 +416,7 @@ const MarketingManageData = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
         }
       );
 
@@ -430,89 +436,200 @@ const MarketingManageData = () => {
     }
   };
 
-
-  //assign lead to another sales person 
+  //assign lead to another sales person
 
   //assignPOAToUser
 
-    const [poaUpdateData, setPoaUpdateData] = useState({
-      new_assigned_person_id: ""
-    });
-    //lead_id, new_assigned_person_id
-    // Input change handler
-    const handlePoaUpdateChange = (e) => {
-      const { name, value } = e.target;
-      setPoaUpdateData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-  
-    const validatePoaUpdateForm = () => {
-      let errors = {};
-      if (!poaUpdateData.new_assigned_person_id)
-        errors.new_assigned_person_id = "Sales Person is required.";
-  
-      setUpdateLeadFormErrors(errors);
-      return Object.keys(errors).length === 0;
-    };
-    const handleAssignSalesPerson = async () => {
-      
-      if (!validatePoaUpdateForm()) return;
-      try {
-        const response = await dispatch(updateSalesPersionAssignment({
+  const [poaUpdateData, setPoaUpdateData] = useState({
+    new_assigned_person_id: "",
+  });
+  //lead_id, new_assigned_person_id
+  // Input change handler
+  const handlePoaUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setPoaUpdateData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const validatePoaUpdateForm = () => {
+    let errors = {};
+    if (!poaUpdateData.new_assigned_person_id)
+      errors.new_assigned_person_id = "Sales Person is required.";
+
+    setUpdateLeadFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const handleAssignSalesPerson = async () => {
+    if (!validatePoaUpdateForm()) return;
+    try {
+      const response = await dispatch(
+        updateSalesPersionAssignment({
           lead_id: selectedLead.id,
-          new_assigned_person_id: poaUpdateData.new_assigned_person_id
-        })).unwrap();
-    
-         //console.log(response);
-        if (response?.success) {
-          handleUpdateLeadFlashMessage(response?.message, "success");
-    
-          setPoaUpdateData  ({
-            new_assigned_person_id: "",
-          });
-          // Reset state
-          setTimeout(() => {
-            setIsLeadAssignPopup(false); // Make sure modal state name matches
-          }, 3000);
-          setSelectedPOAId(null);
-          setSelectedLead("");
-    
-          // Refresh list
-          dispatch( listLeads({
+          new_assigned_person_id: poaUpdateData.new_assigned_person_id,
+        })
+      ).unwrap();
+
+      //console.log(response);
+      if (response?.success) {
+        handleUpdateLeadFlashMessage(response?.message, "success");
+
+        setPoaUpdateData({
+          new_assigned_person_id: "",
+        });
+        // Reset state
+        setTimeout(() => {
+          setIsLeadAssignPopup(false); // Make sure modal state name matches
+        }, 3000);
+        setSelectedPOAId(null);
+        setSelectedLead("");
+
+        // Refresh list
+        dispatch(
+          listLeads({
             page: currentPage,
             limit: leadPerPage,
             search: searchTerm,
-          }));
-           
-        } else {
-          handleUpdateLeadFlashMessage("Failed to update", "error");
-        }
-      } catch (error) {
-        console.error("Update error:", error);
-        handleUpdateLeadFlashMessage(error?.message || "Something went wrong", "error");
+          })
+        );
+      } else {
+        handleUpdateLeadFlashMessage("Failed to update", "error");
       }
-    };
+    } catch (error) {
+      console.error("Update error:", error);
+      handleUpdateLeadFlashMessage(
+        error?.message || "Something went wrong",
+        "error"
+      );
+    }
+  };
 
-    const fetchCustomerHistory = async (id) => {
-      try {
-        // ✅ Get token
-        const token = getAuthToken();
-  
-        // ✅ Correct API call with query parameters
-        const response = await axios.get(`${API_URL}/auth/customer-history/${id}`, {
+  const fetchCustomerHistory = async (id) => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        `${API_URL}/auth/customer-history/${id}`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-        setSelectedCustomer(response.data.data);
-        console.log("response", response);
-        //return response.data; // Return data if needed
+        }
+      );
+      setSelectedCustomer(response.data.data);
+      console.log("response", response);
+      //return response.data; // Return data if needed
+    } catch (error) {
+      console.error("Error in fetching data:", error);
+    }
+  };
+
+  ////add deal
+  const [dealData, setDealData] = useState({
+    date: "",
+    product_id : "",
+    area: "",
+    quantity: "",
+    rate: "",
+    amount: "",
+    advance_amount: "",
+    deal_amount: "",
+    lead_id:""
+  });
+
+  const handleDealInputChange = (e) => {
+    const { name, value } = e.target;
+    setDealData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const [dealFormErrors, setDealFormErrors] = useState({});
+  const [addDealFlashMessage, setAddDealFlashMessage] = useState("");
+  const [addDealFlashMsgType, setAddDealFlashMsgType] = useState("");
+
+  const handleAddDealFlashMessage = (message, type) => {
+    setAddDealFlashMessage(message);
+    setAddDealFlashMsgType(type);
+    setTimeout(() => {
+      setAddDealFlashMessage("");
+      setAddDealFlashMsgType("");
+    }, 3000);
+  };
+
+  const validateDealForm = () => {
+    const newErrors = {};
+
+    if (!dealData.date) newErrors.date = "Date is required.";
+    if (!dealData.product_id)
+      newErrors.product_id  = "Product Name is required.";
+    if (!dealData.area)
+      newErrors.area = "Area Name is required.";
+    
+    if (!dealData.quantity) newErrors.quantity = "Quantity is required.";
+    if (!dealData.rate) newErrors.rate = "Rate is required.";
+    if (!dealData.amount) newErrors.amount = "Amount is required.";
+    if (!dealData.advance_amount) newErrors.advance_amount = "Advance amount is required.";
+    if (!dealData.deal_amount) newErrors.deal_amount = "Deal amount is required.";
+
+    setDealFormErrors(newErrors); // Create a new state if not exists: 
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmitDeal = async (e) => {
+    console.log("dealDataform",dealData);
+    e.preventDefault();
+    if (validateDealForm()) {
+      try {
+        const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
+
+        if (response?.success) {
+          handleAddDealFlashMessage(response?.message, "success");
+
+          dispatch(
+            listLeads({
+              page: currentPage,
+              limit: leadPerPage,
+              search: searchTerm,
+            })
+          );
+
+          setDealData({
+            date: "",
+            product_id : "",
+            area: "",
+            quantity: "",
+            rate: "",
+            amount: "",
+            advance_amount: "",
+            deal_amount: "",
+            lead_id:""
+          });
+
+          setTimeout(() => {
+            setDealCreationOpenForm(false);
+          }, 3000);
+        } else {
+          handleAddDealFlashMessage(
+            response?.message || "Something went wrong",
+            "error"
+          );
+        }
       } catch (error) {
-        console.error("Error in fetching data:", error);
+        console.error("Error adding deal:", error);
+        handleAddDealFlashMessage(
+          error?.message || "An error occurred",
+          "error"
+        );
       }
-    };
+    }
+  };
+
+  ////end deal
 
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
@@ -562,12 +679,17 @@ const MarketingManageData = () => {
             handleDeleteFlashMessage={handleDeleteFlashMessage}
             handleDelete={handleDelete}
             updateDealFinalize={updateDealFinalize}
-            isLeadAssignPopup={isLeadAssignPopup} 
+            isLeadAssignPopup={isLeadAssignPopup}
             setIsLeadAssignPopup={setIsLeadAssignPopup}
             setSelectedPOAId={setSelectedPOAId}
             selectedPOAId={selectedPOAId}
             fetchCustomerHistory={fetchCustomerHistory}
-            setViewCustomerHistoryCardModalOpen={setViewCustomerHistoryCardModalOpen}
+            setViewCustomerHistoryCardModalOpen={
+              setViewCustomerHistoryCardModalOpen
+            }
+            dealCreationOpenForm={dealCreationOpenForm}
+            setDealCreationOpenForm={setDealCreationOpenForm}
+            setDealData={setDealData}
           />
           {/*------- Table Data End -------*/}
         </div>
@@ -646,34 +768,53 @@ const MarketingManageData = () => {
         />
       )}
 
-{isLeadAssignPopup && (
-          <ParticularLeadAssign
+      {isLeadAssignPopup && (
+        <ParticularLeadAssign
           setIsLeadAssignPopup={setIsLeadAssignPopup}
-            selectedLead={selectedLead}
-            setSelectedLead={setSelectedLead}
-            userDataWithRole={userDataWithRole}
-            handleAssignSalesPerson={handleAssignSalesPerson}
-            poaUpdateData={poaUpdateData} setPoaUpdateData={setPoaUpdateData}
-            handlePoaUpdateChange={handlePoaUpdateChange}
-            validatePoaUpdateForm={validatePoaUpdateForm}
-            updateLeadFormErrors={updateLeadFormErrors}
-            setUpdateLeadFormErrors={setUpdateLeadFormErrors}
-            updateLeadFlashMessage={updateLeadFlashMessage}
-            setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
-            updateLeadFlashMsgType={updateLeadFlashMsgType}
-            setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
-            handleUpdateLeadChange={handleUpdateLeadChange}
-            handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
-          />
-        )}
+          selectedLead={selectedLead}
+          setSelectedLead={setSelectedLead}
+          userDataWithRole={userDataWithRole}
+          handleAssignSalesPerson={handleAssignSalesPerson}
+          poaUpdateData={poaUpdateData}
+          setPoaUpdateData={setPoaUpdateData}
+          handlePoaUpdateChange={handlePoaUpdateChange}
+          validatePoaUpdateForm={validatePoaUpdateForm}
+          updateLeadFormErrors={updateLeadFormErrors}
+          setUpdateLeadFormErrors={setUpdateLeadFormErrors}
+          updateLeadFlashMessage={updateLeadFlashMessage}
+          setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
+          updateLeadFlashMsgType={updateLeadFlashMsgType}
+          setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
+          handleUpdateLeadChange={handleUpdateLeadChange}
+          handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+        />
+      )}
 
-         {/* View User Modal */}
-         {isViewCustomerHistoryCardModalOpen && (
-          <ViewCustomerHistoryCardReport
-            setViewCustomerHistoryCardModalOpen={setViewCustomerHistoryCardModalOpen}
-            selectedCustomer={selectedCustomer}
-          />
-        )}
+      {/* View User Modal */}
+      {isViewCustomerHistoryCardModalOpen && (
+        <ViewCustomerHistoryCardReport
+          setViewCustomerHistoryCardModalOpen={
+            setViewCustomerHistoryCardModalOpen
+          }
+          selectedCustomer={selectedCustomer}
+        />
+      )}
+
+      {dealCreationOpenForm && (
+        <DealCreationForm
+          dealCreationOpenForm={dealCreationOpenForm}
+          setDealCreationOpenForm={setDealCreationOpenForm}
+          selectedLead={selectedLead}
+          dealData={dealData}
+          setDealData={setDealData}
+          handleDealInputChange={handleDealInputChange}
+          handleSubmitDeal={handleSubmitDeal}
+          addDealFlashMessage={addDealFlashMessage}
+          addDealFlashMsgType={addDealFlashMsgType}
+          dealFormErrors={dealFormErrors}
+          setDealFormErrors={setDealFormErrors}
+        />
+      )}
     </div>
   );
 };

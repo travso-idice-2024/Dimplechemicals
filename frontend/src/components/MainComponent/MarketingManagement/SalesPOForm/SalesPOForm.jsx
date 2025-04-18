@@ -11,12 +11,12 @@ import AddRoleModal from "./AddRoleModal";
 import ContentTop from "../../../ContentTop/ContentTop";
 
 import {
-  finalizeDeals,
+  finalizeDealsList,
 } from "../../../../redux/leadSlice";
 
 const SalePOForm = () => {
    const dispatch = useDispatch();
-    const { finalizeDealsData, totalPages, departmentloading, departmenterror } = useSelector(
+    const { finalizeDealsListData, totalPages, departmentloading, departmenterror } = useSelector(
       (state) => state.lead
     );
  
@@ -32,7 +32,7 @@ const SalePOForm = () => {
 
    useEffect(() => {
       dispatch(
-        finalizeDeals({
+        finalizeDealsList({
           page: currentPage,
           limit: leadPerPage,
           search: searchTerm,
@@ -92,7 +92,7 @@ const SalePOForm = () => {
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
-              finalizeDealsData={finalizeDealsData?.data || []}
+              finalizeDealsListData={finalizeDealsListData?.data || []}
               setViewModalOpen={setViewModalOpen}
             />
             {/*------- Table Data End -------*/}
