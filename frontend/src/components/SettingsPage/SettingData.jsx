@@ -19,7 +19,7 @@ const SettingData = () => {
         </div>
         <div className="w-full flex gap-[20px]">
           {/* Left Sidebar for Settings List */}
-          <div className="w-[350px] bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+          <div className="w-[350px] bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             <nav className="navigationData">
               <ul className="space-y-4 nav-list">
                 {settingsList.map((setting) => (
@@ -46,7 +46,7 @@ const SettingData = () => {
             </nav>
           </div>
           {/* Right Content Section */}
-          <div className="w-full bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+          <div className="w-full bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {activeSetting.title === "Edit Profile" && <EditProfile />}
             {activeSetting.title === "Notifications" && <Notification />}
           </div>

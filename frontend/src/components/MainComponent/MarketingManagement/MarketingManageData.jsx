@@ -632,40 +632,40 @@ const MarketingManageData = () => {
   ////end deal
 
   return (
-    <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-      <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-[20px]">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-white text-textdata font-semibold">
+            Lead Management
+          </h1>
+        </div>
+        <div className="flex items-center gap-[5px]">
           <div>
-            <h1 className="text-white text-textdata font-semibold">
-              Lead Management
-            </h1>
+            <input
+              type="search"
+              className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <div className="flex items-center gap-[5px]">
-            <div>
-              <input
-                type="search"
-                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div>
-              <button
-                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={() => setIsAssignModalOpen(true)}
-              >
-                <img
-                  src={iconsImgs.plus}
-                  alt="plus icon"
-                  className="w-[18px] mr-1"
-                />{" "}
-                Add New Lead
-              </button>
-            </div>
+          <div>
+            <button
+              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              onClick={() => setIsAssignModalOpen(true)}
+            >
+              <img
+                src={iconsImgs.plus}
+                alt="plus icon"
+                className="w-[18px] mr-1"
+              />{" "}
+              Add New Lead
+            </button>
           </div>
         </div>
-        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+      </div>
+      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/*------- Table Data Start -------*/}
           <DepartmentTable
             setEditUserModalOpen={setEditUserModalOpen}
@@ -693,80 +693,73 @@ const MarketingManageData = () => {
           />
           {/*------- Table Data End -------*/}
         </div>
-        {/* Pagination Controls with Number */}
-        <Pagination
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-          totalPages={totalPages}
-        />
-      </div>
 
-      {/* Add User Modal */}
-      {/* {isAddUserModalOpen && (
+        {/* Add User Modal */}
+        {/* {isAddUserModalOpen && (
         <AddRoleModal setAddUserModalOpen={setAddUserModalOpen} />
       )} */}
 
-      {/* Edit User Modal */}
-      {isEditUserModalOpen && (
-        <EditUserModal
-          setEditUserModalOpen={setEditUserModalOpen}
-          showBudgetPS={showBudgetPS}
-          setShowBudgetPS={setShowBudgetPS}
-          showQuantityPS={showQuantityPS}
-          setShowQuantityPS={setShowQuantityPS}
-          showTextareaPS={showTextareaPS}
-          setShowTextareaPS={setShowTextareaPS}
-          selectedLead={selectedLead}
-          setSelectedLead={setSelectedLead}
-          allCustomers={allCustomers}
-          updateLeadData={updateLeadData}
-          setUpdateLeadData={setUpdateLeadData}
-          updateLeadFormErrors={updateLeadFormErrors}
-          setUpdateLeadFormErrors={setUpdateLeadFormErrors}
-          updateLeadFlashMessage={updateLeadFlashMessage}
-          setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
-          updateLeadFlashMsgType={updateLeadFlashMsgType}
-          setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
-          handleUpdateLeadChange={handleUpdateLeadChange}
-          handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
-          updateLeadValidateForm={updateLeadValidateForm}
-          handleSubmitUpdateLead={handleSubmitUpdateLead}
-          userDataWithRole={userDataWithRole}
-          handleLeadUpdateCustomerChange={handleLeadUpdateCustomerChange}
-          customerAddress={customerAddress}
-        />
-      )}
+        {/* Edit User Modal */}
+        {isEditUserModalOpen && (
+          <EditUserModal
+            setEditUserModalOpen={setEditUserModalOpen}
+            showBudgetPS={showBudgetPS}
+            setShowBudgetPS={setShowBudgetPS}
+            showQuantityPS={showQuantityPS}
+            setShowQuantityPS={setShowQuantityPS}
+            showTextareaPS={showTextareaPS}
+            setShowTextareaPS={setShowTextareaPS}
+            selectedLead={selectedLead}
+            setSelectedLead={setSelectedLead}
+            allCustomers={allCustomers}
+            updateLeadData={updateLeadData}
+            setUpdateLeadData={setUpdateLeadData}
+            updateLeadFormErrors={updateLeadFormErrors}
+            setUpdateLeadFormErrors={setUpdateLeadFormErrors}
+            updateLeadFlashMessage={updateLeadFlashMessage}
+            setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
+            updateLeadFlashMsgType={updateLeadFlashMsgType}
+            setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
+            handleUpdateLeadChange={handleUpdateLeadChange}
+            handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+            updateLeadValidateForm={updateLeadValidateForm}
+            handleSubmitUpdateLead={handleSubmitUpdateLead}
+            userDataWithRole={userDataWithRole}
+            handleLeadUpdateCustomerChange={handleLeadUpdateCustomerChange}
+            customerAddress={customerAddress}
+          />
+        )}
 
-      {/* View User Modal */}
-      {isViewModalOpen && (
-        <ViewUserModal
-          setViewModalOpen={setViewModalOpen}
-          selectedLead={selectedLead}
-        />
-      )}
+        {/* View User Modal */}
+        {isViewModalOpen && (
+          <ViewUserModal
+            setViewModalOpen={setViewModalOpen}
+            selectedLead={selectedLead}
+          />
+        )}
 
-      {/* Assign Customer Modal */}
-      {isAssignModalOpen && (
-        <AssignLeadModal setIsAssignModalOpen={setIsAssignModalOpen} />
-      )}
+        {/* Assign Customer Modal */}
+        {isAssignModalOpen && (
+          <AssignLeadModal setIsAssignModalOpen={setIsAssignModalOpen} />
+        )}
 
-      {isAssignModalOpen && (
-        <AssignLeadModal
-          setIsAssignModalOpen={setIsAssignModalOpen}
-          userDataWithRole={userDataWithRole}
-          leadData={leadData}
-          setLeadData={setLeadData}
-          addLeadFormErrors={addLeadFormErrors}
-          setAddLeadFormErrors={setaddLeadFormErrors}
-          addLeadFlashMessage={addLeadFlashMessage}
-          addLeadFlashMsgType={addLeadFlashMsgType}
-          handleLeadChange={handleLeadChange}
-          handleSubmitAddLead={handleSubmitAddLead}
-          allCustomers={allCustomers}
-          handleLeadCustomerChange={handleLeadCustomerChange}
-          customerAddress={customerAddress}
-        />
-      )}
+        {isAssignModalOpen && (
+          <AssignLeadModal
+            setIsAssignModalOpen={setIsAssignModalOpen}
+            userDataWithRole={userDataWithRole}
+            leadData={leadData}
+            setLeadData={setLeadData}
+            addLeadFormErrors={addLeadFormErrors}
+            setAddLeadFormErrors={setaddLeadFormErrors}
+            addLeadFlashMessage={addLeadFlashMessage}
+            addLeadFlashMsgType={addLeadFlashMsgType}
+            handleLeadChange={handleLeadChange}
+            handleSubmitAddLead={handleSubmitAddLead}
+            allCustomers={allCustomers}
+            handleLeadCustomerChange={handleLeadCustomerChange}
+            customerAddress={customerAddress}
+          />
+        )}
 
       {isLeadAssignPopup && (
         <ParticularLeadAssign
@@ -815,6 +808,44 @@ const MarketingManageData = () => {
           setDealFormErrors={setDealFormErrors}
         />
       )}
+        {isLeadAssignPopup && (
+          <ParticularLeadAssign
+            setIsLeadAssignPopup={setIsLeadAssignPopup}
+            selectedLead={selectedLead}
+            setSelectedLead={setSelectedLead}
+            userDataWithRole={userDataWithRole}
+            handleAssignSalesPerson={handleAssignSalesPerson}
+            poaUpdateData={poaUpdateData}
+            setPoaUpdateData={setPoaUpdateData}
+            handlePoaUpdateChange={handlePoaUpdateChange}
+            validatePoaUpdateForm={validatePoaUpdateForm}
+            updateLeadFormErrors={updateLeadFormErrors}
+            setUpdateLeadFormErrors={setUpdateLeadFormErrors}
+            updateLeadFlashMessage={updateLeadFlashMessage}
+            setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
+            updateLeadFlashMsgType={updateLeadFlashMsgType}
+            setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
+            handleUpdateLeadChange={handleUpdateLeadChange}
+            handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+          />
+        )}
+
+        {/* View User Modal */}
+        {isViewCustomerHistoryCardModalOpen && (
+          <ViewCustomerHistoryCardReport
+            setViewCustomerHistoryCardModalOpen={
+              setViewCustomerHistoryCardModalOpen
+            }
+            selectedCustomer={selectedCustomer}
+          />
+        )}
+        {/* Pagination Controls with Number */}
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   );
 };

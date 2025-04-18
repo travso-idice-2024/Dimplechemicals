@@ -277,52 +277,51 @@ const SalesPersonFollowUp = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-        <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex items-center justify-between"> 
+          <div>
+            <h1 className="text-white text-[14px] font-semibold">
+              Plan of action for a day
+            </h1>
+          </div>
+          <div className="flex items-center gap-[5px]">
             <div>
-              <h1 className="text-white text-[14px] font-semibold">
-                Plan of action for a day
-              </h1>
+              <input
+                type="search"
+                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-            <div className="flex items-center gap-[5px]">
-              
-              <div>
-                <input
-                  type="search"
-                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div>
-                <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                  onClick={() => {
-                    allsetSelectedPOA(poaList?.data);
-                    setAllEmpPlanOfActionReport(true);
-                  }}
-                >
-                  All Employee POA
-                </button>
-              </div>
-              <div>
-                <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                  onClick={() => setAddUserModalOpen(true)}
-                >
-                  <img
-                    src={iconsImgs.plus}
-                    alt="plus icon"
-                    className="w-[18px] mr-1"
-                  />{" "}
-                  POA for Day
-                </button>
-              </div>
+            <div>
+              <button
+                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => {
+                  allsetSelectedPOA(poaList?.data);
+                  setAllEmpPlanOfActionReport(true);
+                }}
+              >
+                All Employee POA
+              </button>
+            </div>
+            <div>
+              <button
+                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => setAddUserModalOpen(true)}
+              >
+                <img
+                  src={iconsImgs.plus}
+                  alt="plus icon"
+                  className="w-[18px] mr-1"
+                />{" "}
+                POA for Day
+              </button>
             </div>
           </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        </div>
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
@@ -338,74 +337,74 @@ const SalesPersonFollowUp = () => {
               setpoaReportOpen={setpoaReportOpen}
             />
           </div>
-          {/* Pagination Controls with Number */}
-          <Pagination
-            currentPage={currentPage}
-            handlePageChange={handlePageChange}
-            totalPages={totalPages}
-          />
-        </div>
 
-        {/* Add User Modal */}
-        {isAddUserModalOpen && (
-          <AddRoleModal
-            setAddUserModalOpen={setAddUserModalOpen}
-            poaData={poaData}
-            handlePoaChange={handlePoaChange}
-            handleSubmitPoa={handleSubmitPoa}
-            poaFormErrors={poaFormErrors}
-            poaFlashMessage={poaFlashMessage}
-            poaFlashMsgType={poaFlashMsgType}
-            allCustomers={allCustomers}
-            handlePoaCustomerChange={handlePoaCustomerChange}
-            customerAddress={customerAddress}
-            userDataWithRole={userDataWithRole}
-          />
-        )}
+          {/* Add User Modal */}
+          {isAddUserModalOpen && (
+            <AddRoleModal
+              setAddUserModalOpen={setAddUserModalOpen}
+              poaData={poaData}
+              handlePoaChange={handlePoaChange}
+              handleSubmitPoa={handleSubmitPoa}
+              poaFormErrors={poaFormErrors}
+              poaFlashMessage={poaFlashMessage}
+              poaFlashMsgType={poaFlashMsgType}
+              allCustomers={allCustomers}
+              handlePoaCustomerChange={handlePoaCustomerChange}
+              customerAddress={customerAddress}
+              userDataWithRole={userDataWithRole}
+            />
+          )}
 
-        {/* Edit User Modal */}
-        {/* {isEditUserModalOpen && (
+          {/* Edit User Modal */}
+          {/* {isEditUserModalOpen && (
           <EditUserModal setEditUserModalOpen={setEditUserModalOpen} />
         )} */}
 
-        {/* View User Modal */}
-        {isViewModalOpen && (
-          <ViewUserModal
-            setpoaReportOpen={setpoaReportOpen}
-            selectedUser={selectedUser}
-          />
-        )}
+          {/* View User Modal */}
+          {isViewModalOpen && (
+            <ViewUserModal
+              setpoaReportOpen={setpoaReportOpen}
+              selectedUser={selectedUser}
+            />
+          )}
 
-        {poaReportOpen && (
-          <PoaReportOfUser
-            setpoaReportOpen={setpoaReportOpen}
-            selectedPOA={selectedPOA}
-          />
-        )}
+          {poaReportOpen && (
+            <PoaReportOfUser
+              setpoaReportOpen={setpoaReportOpen}
+              selectedPOA={selectedPOA}
+            />
+          )}
 
-        {allEmpPlanOfActionReport && (
-          <AllEmpPlanOfActionReport
-            setAllEmpPlanOfActionReport={setAllEmpPlanOfActionReport}
-            allselectedPOA={allselectedPOA}
-          />
-        )}
+          {allEmpPlanOfActionReport && (
+            <AllEmpPlanOfActionReport
+              setAllEmpPlanOfActionReport={setAllEmpPlanOfActionReport}
+              allselectedPOA={allselectedPOA}
+            />
+          )}
 
-        {isLeadAssignPopup && (
-          <ParticularLeadAssign
-            setIsLeadAssignPopup={setIsLeadAssignPopup}
-            setSelectedPOAId={setSelectedPOAId}
-            selectedPOA={selectedPOA}
-            userDataWithRole={userDataWithRole}
-            handleAssignSalesPerson={handleAssignSalesPerson}
-            poaUpdateData={poaUpdateData}
-            setPoaUpdateData={setPoaUpdateData}
-            handlePoaUpdateChange={handlePoaUpdateChange}
-            validatePoaUpdateForm={validatePoaUpdateForm}
-            poaFlashMessage={poaFlashMessage}
-            poaFlashMsgType={poaFlashMsgType}
-            poaFormErrors={poaFormErrors}
-          />
-        )}
+          {isLeadAssignPopup && (
+            <ParticularLeadAssign
+              setIsLeadAssignPopup={setIsLeadAssignPopup}
+              setSelectedPOAId={setSelectedPOAId}
+              selectedPOA={selectedPOA}
+              userDataWithRole={userDataWithRole}
+              handleAssignSalesPerson={handleAssignSalesPerson}
+              poaUpdateData={poaUpdateData}
+              setPoaUpdateData={setPoaUpdateData}
+              handlePoaUpdateChange={handlePoaUpdateChange}
+              validatePoaUpdateForm={validatePoaUpdateForm}
+              poaFlashMessage={poaFlashMessage}
+              poaFlashMsgType={poaFlashMsgType}
+              poaFormErrors={poaFormErrors}
+            />
+          )}
+        </div>
+        {/* Pagination Controls with Number */}
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );

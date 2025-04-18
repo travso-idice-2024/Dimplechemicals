@@ -4,7 +4,8 @@ import { iconsImgs } from "../../utils/images";
 import { budget } from "../../data/data";
 import ReactApexChart from "react-apexcharts";
 
-const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d', '#e57373'];
+const colors = ['#fe6c00a3', '#e74c3c', '#e74c3c', '#e74c3c', '#e74c3c', '#e74c3c'];
+const colordata = ['#fff', '#fff']
 
 const Budget = () => {
   const [state, setState] = useState({
@@ -50,7 +51,7 @@ const Budget = () => {
       title: {
         align: "left",
         style: {
-          color: colors[0], // Dynamic title color
+          color: colordata[0], // Dynamic title color
         },
       },
       grid: {
@@ -70,12 +71,12 @@ const Budget = () => {
         title: {
           text: "",
           style: {
-            color: colors[0], // Dynamic x-axis title color
+            color: colordata[0], // Dynamic x-axis title color
           },
         },
         labels: {
           style: {
-            colors: colors[0], // Dynamic x-axis label color
+            colors: colordata[0], // Dynamic x-axis label color
           },
         },
       },

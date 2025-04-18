@@ -26,7 +26,7 @@ const Cards = () => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   const lead = [20, 30, 45, 50,65, 95];
   const conversion = ["30%", "50%", "60%", "50%", "10%", "30%"];
-  const colors = ['#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61']
+  const colors = ['#fe6c00a3', '#fe6c00a3', '#fe6c00a3', '#fe6c00a3', '#fe6c00a3', '#fe6c00a3']
 
 
   const barData = {

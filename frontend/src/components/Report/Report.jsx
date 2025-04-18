@@ -3,8 +3,10 @@ import ReactApexChart from "react-apexcharts";
 import { iconsImgs } from "../../utils/images";
 import "./Report.css";
 
-const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d']; // Define your color combination
+const colors = ['#fff', '#fff', '#fff', '#fff', '#fff']; // Define your color combination
 
+
+const colordata = ['#fe6c00a3', '#e74c3c']
 const Report = () => {
   const [chartData, setChartData] = useState({
     series: [
@@ -13,7 +15,7 @@ const Report = () => {
     ],
     options: {
       chart: { type: "bar", height: 430 },
-      colors: [colors[0], colors[1]], // Red for Marketing, Green for Sales
+      colors: [colordata[0], colordata[1]], // Red for Marketing, Green for Sales
       plotOptions: {
         bar: { horizontal: true, dataLabels: { position: "top" } },
       },

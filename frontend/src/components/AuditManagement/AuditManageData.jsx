@@ -204,7 +204,7 @@ const AuditManageData = () => {
             </div> */}
           </div>
         </div>
-        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/*------- Show the Audit Management Data -------*/}
 
           <div className="grid grid-row-1 md:grid-cols-2 gap-4">

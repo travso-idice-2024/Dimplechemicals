@@ -34,7 +34,7 @@ const CustomerTable = ({
         <table className="table-auto w-full text-left border-collapse">
       <thead>
         <tr className="bg-[#473b33] rounded-[8px]">
-          <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"><input type="checkbox" disabled className="w-4 h-4 accent-orange-500" /></th>
           <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Id</th>
           <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Cust Id</th>
           <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Company Name</th>

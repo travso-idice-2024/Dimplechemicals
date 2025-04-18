@@ -125,7 +125,7 @@ button {
 .content{
   background-color: var(--clr-secondary);
   min-height: 100vh;
-  width: calc(100% - 260px); /* <-- Fixed width minus sidebar */
+  width: calc(100% - 260px); 
 }
 
 .contentData{

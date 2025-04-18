@@ -40,7 +40,7 @@ const QuotationDetails = () => {
             </h1>
           </div>
         </div>
-        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/*------- Quotation Data Start -------*/}
           <div className="grid grid-row-2 md:grid-cols-2 gap-4">
             {quotationData.map((quotation, index) => (

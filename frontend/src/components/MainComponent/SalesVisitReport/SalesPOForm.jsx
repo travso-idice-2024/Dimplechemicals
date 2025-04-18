@@ -10,9 +10,7 @@ import ContentTop from "../../ContentTop/ContentTop";
 import AllEmpSARReport from "./AllEmpSARReport";
 import SarReportOfUser from "./SarReportOfUser";
 
-import {
-  finalizeDeals,
-} from "../../../redux/leadSlice";
+import { finalizeDeals } from "../../../redux/leadSlice";
 
 const SalePOForm = () => {
    const dispatch = useDispatch();
@@ -36,18 +34,17 @@ const SalePOForm = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const leadPerPage = 4;
 
+  useEffect(() => {
+    dispatch(
+      finalizeDeals({
+        page: currentPage,
+        limit: leadPerPage,
+        search: searchTerm,
+      })
+    );
+  }, [dispatch, currentPage, searchTerm]);
 
-   useEffect(() => {
-      dispatch(
-        finalizeDeals({
-          page: currentPage,
-          limit: leadPerPage,
-          search: searchTerm,
-        })
-      );
-    }, [dispatch, currentPage, searchTerm]);
- 
-     // Handle search input change
+  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page when searching
@@ -58,42 +55,41 @@ const SalePOForm = () => {
     setCurrentPage(newPage);
   };
 
-
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-        <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-white text-textdata font-semibold">
+              Sales Activity Report
+            </h1>
+          </div>
+          <div className="flex items-center gap-[5px]">
             <div>
-              <h1 className="text-white text-textdata font-semibold">
-                Sales Activity Report
-              </h1>
+              <input
+                type="search"
+                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-            <div className="flex items-center gap-[5px]">
-              <div>
-                <input
-                  type="search"
-                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div>
-                <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                  onClick={() => {
-                    allsetSelectedSAR(finalizeDealsData?.data);
-                    setAllEmpSARReport(true);
-                  }}
-                >
-                  All Employee SAR
-                </button>
-              </div>
+            <div>
+              <button
+                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => {
+                  allsetSelectedSAR(finalizeDealsData?.data);
+                  setAllEmpSARReport(true);
+                }}
+              >
+                All Employee SAR
+              </button>
             </div>
           </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        </div>
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
@@ -104,27 +100,27 @@ const SalePOForm = () => {
             />
             {/*------- Table Data End -------*/}
           </div>
-          {/* Pagination Controls with Number */}
-          <Pagination
-            currentPage={currentPage}
-            handlePageChange={handlePageChange}
-            totalPages={totalPages}
-          />
-        </div>
 
-        {sarReportOpen && (
-        <SarReportOfUser
-        setsarReportOpen={setsarReportOpen}
-          selectedSAR={selectedSAR}
+          {sarReportOpen && (
+            <SarReportOfUser
+              setsarReportOpen={setsarReportOpen}
+              selectedSAR={selectedSAR}
+            />
+          )}
+
+          {allEmpSARReport && (
+            <AllEmpSARReport
+              setAllEmpSARReport={setAllEmpSARReport}
+              allselectedSAR={allselectedSAR}
+            />
+          )}
+        </div>
+        {/* Pagination Controls with Number */}
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
         />
-      )}
-       
-      {allEmpSARReport && (
-        <AllEmpSARReport
-        setAllEmpSARReport={setAllEmpSARReport}
-        allselectedSAR={allselectedSAR}
-        />
-      )}
       </div>
     </div>
   );

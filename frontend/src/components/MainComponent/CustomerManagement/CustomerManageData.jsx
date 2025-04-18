@@ -15,7 +15,7 @@ import {
   updateCustomer,
   removeCustomer,
 } from "../../../redux/customerSlice";
-import {fetchCurrentUser} from "../../../redux/authSlice";
+import { fetchCurrentUser } from "../../../redux/authSlice";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -27,8 +27,8 @@ const CustomerManageData = () => {
   const { customers, totalPages, customerLoading, customerError } = useSelector(
     (state) => state.customer
   );
- 
-  const {user:userDeatail}  = useSelector((state) => state.auth);
+
+  const { user: userDeatail } = useSelector((state) => state.auth);
 
   //console.log("login user", userDataWithRole);
 
@@ -48,7 +48,7 @@ const CustomerManageData = () => {
   // Fetch customers whenever searchTerm or currentPage changes
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-   
+
     dispatch(
       listCustomers({
         page: currentPage,
@@ -81,9 +81,9 @@ const CustomerManageData = () => {
     location: "",
     pincode: "",
     pan_no: "",
-    address_2:"",
-    address_3:"",
-    address_4:""
+    address_2: "",
+    address_3: "",
+    address_4: "",
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -175,9 +175,9 @@ const CustomerManageData = () => {
     location: "",
     pincode: "",
     pan_no: "",
-    address_2:"",
-    address_3:"",
-    address_4:""
+    address_2: "",
+    address_3: "",
+    address_4: "",
   });
 
   const [editFormErrors, setEditFormErrors] = useState({});
@@ -198,9 +198,9 @@ const CustomerManageData = () => {
         location: selectedCustomer.location || "",
         pincode: selectedCustomer.pincode || "",
         pan_no: selectedCustomer.pan_no || "",
-        address_2:selectedCustomer.address_2 || "",
-        address_3:selectedCustomer.address_3 || "",
-        address_4:selectedCustomer.address_4 || ""
+        address_2: selectedCustomer.address_2 || "",
+        address_3: selectedCustomer.address_3 || "",
+        address_4: selectedCustomer.address_4 || "",
       });
     }
   }, [selectedCustomer]);
@@ -321,18 +321,15 @@ const CustomerManageData = () => {
       const token = getAuthToken();
 
       // ✅ Correct API call with query parameters
-      const response = await axios.get(
-        `${API_URL}/auth/export-customers`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            search:searchTerm
-          },
-          responseType: "blob", // ✅ Important to keep it here
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/export-customers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          search: searchTerm,
+        },
+        responseType: "blob", // ✅ Important to keep it here
+      });
 
       // ✅ Create a URL for the blob
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -351,9 +348,7 @@ const CustomerManageData = () => {
       console.error("Error exporting data:", error);
     }
   };
-//end export customer data in excel file
-
- 
+  //end export customer data in excel file
 
   //if (customerLoading) return <p>Loading...</p>;
   //if (customerError) return <p>{customerError}</p>;
@@ -361,38 +356,37 @@ const CustomerManageData = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-        <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-white text-textdata font-semibold">
+              Customer Management
+            </h1>
+          </div>
+          <div className="flex items-center gap-[5px]">
             <div>
-              <h1 className="text-white text-textdata font-semibold">
-                Customer Management
-              </h1>
+              <input
+                type="search"
+                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
             </div>
-            <div className="flex items-center gap-[5px]">
-              <div>
-                <input
-                  type="search"
-                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </div>
-              <div>
-                <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                  onClick={() => setAddCustomerModalOpen(true)}
-                >
-                  <img
-                    src={iconsImgs.plus}
-                    alt="plus icon"
-                    className="w-[18px] mr-1"
-                  />{" "}
-                  Add Customer
-                </button>
-              </div>
-              <div>
+            <div>
+              <button
+                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => setAddCustomerModalOpen(true)}
+              >
+                <img
+                  src={iconsImgs.plus}
+                  alt="plus icon"
+                  className="w-[18px] mr-1"
+                />{" "}
+                Add Customer
+              </button>
+            </div>
+            <div>
               <button
                 className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                 onClick={handleExportData}
@@ -400,9 +394,10 @@ const CustomerManageData = () => {
                 Export Data
               </button>
             </div>
-            </div>
           </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        </div>
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <CustomerTable
               customers={customers?.data}
@@ -419,6 +414,52 @@ const CustomerManageData = () => {
 
             {/*------- Table Data End -------*/}
           </div>
+
+          {/* Add User Modal */}
+          {isAddCustomerModalOpen && (
+            <AddCustomerModal
+              setAddCustomerModalOpen={setAddCustomerModalOpen}
+              handleSubmitAddCustomer={handleSubmitAddCustomer}
+              formData={formData}
+              setFormData={setFormData}
+              handleChange={handleChange}
+              setFormErrors={setFormErrors}
+              formErrors={formErrors}
+              flashMessage={flashMessage}
+              setFlashMessage={setFlashMessage}
+              setFlashMsgType={setFlashMsgType}
+              flashMsgType={flashMsgType}
+            />
+          )}
+
+          {/* Edit User Modal */}
+          {isEditCustomerModalOpen && (
+            <EditCustomerModal
+              setEditCustomerModalOpen={setEditCustomerModalOpen}
+              selectedCustomer={selectedCustomer}
+              setSelectedCustomer={setSelectedCustomer}
+              editFormData={editFormData}
+              setEditFormData={setEditFormData}
+              editFormErrors={editFormErrors}
+              setEditFormErrors={setEditFormErrors}
+              editFlashMessage={editFlashMessage}
+              setEditFlashMessage={setEditFlashMessage}
+              editFlashMsgType={editFlashMsgType}
+              setEditFlashMsgType={setEditFlashMsgType}
+              handleEditChange={handleEditChange}
+              handleEditSubmit={handleEditSubmit}
+            />
+          )}
+
+          {/* View User Modal */}
+          {isViewModalOpen && (
+            <ViewCustomerModal
+              setViewModalOpen={setViewModalOpen}
+              selectedCustomer={selectedCustomer}
+            />
+          )}
+
+          {/* Assign Customer Modal */}
           {/* Pagination Controls with Number */}
           <Pagination
             currentPage={currentPage}
@@ -426,53 +467,6 @@ const CustomerManageData = () => {
             totalPages={totalPages}
           />
         </div>
-
-        {/* Add User Modal */}
-        {isAddCustomerModalOpen && (
-          <AddCustomerModal
-            setAddCustomerModalOpen={setAddCustomerModalOpen}
-            handleSubmitAddCustomer={handleSubmitAddCustomer}
-            formData={formData}
-            setFormData={setFormData}
-            handleChange={handleChange}
-            setFormErrors={setFormErrors}
-            formErrors={formErrors}
-            flashMessage={flashMessage}
-            setFlashMessage={setFlashMessage}
-            setFlashMsgType={setFlashMsgType}
-            flashMsgType={flashMsgType}
-          />
-        )}
-
-        {/* Edit User Modal */}
-        {isEditCustomerModalOpen && (
-          <EditCustomerModal
-            setEditCustomerModalOpen={setEditCustomerModalOpen}
-            selectedCustomer={selectedCustomer}
-            setSelectedCustomer={setSelectedCustomer}
-            editFormData={editFormData}
-            setEditFormData={setEditFormData}
-            editFormErrors={editFormErrors}
-            setEditFormErrors={setEditFormErrors}
-            editFlashMessage={editFlashMessage}
-            setEditFlashMessage={setEditFlashMessage}
-            editFlashMsgType={editFlashMsgType}
-            setEditFlashMsgType={setEditFlashMsgType}
-            handleEditChange={handleEditChange}
-            handleEditSubmit={handleEditSubmit}
-          />
-        )}
-
-        {/* View User Modal */}
-        {isViewModalOpen && (
-          <ViewCustomerModal
-            setViewModalOpen={setViewModalOpen}
-            selectedCustomer={selectedCustomer}
-          />
-        )}
-
-        {/* Assign Customer Modal */}
-       
       </div>
     </div>
   );
