@@ -23,8 +23,15 @@ const DepartmentTable = ({
   deleteFlashMsgType,
   handleDeleteFlashMessage,
   handleDelete,
-  updateDealFinalize
+  updateDealFinalize,
+  isLeadAssignPopup,
+  setIsLeadAssignPopup,
+  setSelectedPOAId,
+  selectedPOAId,
+  fetchCustomerHistory,
+  setViewCustomerHistoryCardModalOpen
 }) => {
+  console.log("Leads",Leads);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
@@ -79,13 +86,22 @@ const DepartmentTable = ({
                   <input
                     type="checkbox"
                     className="w-4 h-4 accent-orange-500"
+                    checked={selectedPOAId === user.id}
+                    onChange={() => {
+                      setSelectedPOAId(user.id);
+                      setSelectedLead(user);
+                      setIsLeadAssignPopup(true);
+                    }}
                   />
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.assign_date.split("T")[0]}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata cursor-pointer" onClick={() => {
+                              fetchCustomerHistory(user?.customer?.id);
+                              setViewCustomerHistoryCardModalOpen(true);
+                            }}>
                   {user?.customer?.company_name}
                 </td>
                 {/* <td className="px-4 py-2 text-newtextdata">
@@ -112,12 +128,12 @@ const DepartmentTable = ({
               >
                 Assign Lead
               </button> */}
-               <button
-                className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
-                onClick={() => updateDealFinalize(user?.id)}
-              >
-                Deal
-              </button>
+                  <button
+                    className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
+                    onClick={() => updateDealFinalize(user?.id)}
+                  >
+                    Deal
+                  </button>
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                     onClick={() => {

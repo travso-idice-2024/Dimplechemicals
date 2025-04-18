@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "customer_id",
         onDelete: "CASCADE",
       });
+
+      Lead.hasMany(models.LeadAssignedHistory, {
+        foreignKey: 'lead_id',
+        as: 'assignmentHistory'
+      });
       
       // Nested relationships using models object only
       models.CostWorking.hasMany(models.CostWorkingProduct, {

@@ -36,7 +36,8 @@ const {
   removeCustomer,
   getCustomerAddresses,
   exportCustomersToExcel,
-  customerInfo
+  customerInfo,
+  customerHistory
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -91,6 +92,10 @@ const{
   getPlanOfActions,
   updateSalesPerson
 }= require("../controllers/planofaction.controller");
+
+const{
+  createLeadAssignedHistory
+}= require("../controllers/leadAssignedHistoryController");
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -198,7 +203,9 @@ router.get("/getplanofaction", authMiddleware, getPlanOfActions);
 router.put("/update-planofaction/:id", authMiddleware, updateSalesPerson);
 router.get("/export-employee-details", authMiddleware, exportEmployeesListToExcel);
 router.get("/export-customers", authMiddleware, exportCustomersToExcel);
-//router.get("/employee-history/:id", authMiddleware, employeeHistoryCards);
+router.get("/customer-history/:id", authMiddleware, customerHistory);
 router.get("/customer-info/:id", authMiddleware, customerInfo);
+
+router.post("/add-lead-assigned-history", authMiddleware, createLeadAssignedHistory);
 
 module.exports = router;

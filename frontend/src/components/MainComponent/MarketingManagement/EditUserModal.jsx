@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import { useLocation } from "react-router-dom";
 
 const EditUserModal = ({
   setEditUserModalOpen,
@@ -30,8 +31,11 @@ const EditUserModal = ({
   handleLeadUpdateCustomerChange,
   customerAddress,
 }) => {
-  console.log("customerAddress", customerAddress);
-  console.log("updateLeadData", updateLeadData);
+  const location = useLocation();
+  console.log(location.pathname);
+
+  // console.log("customerAddress", customerAddress);
+  // console.log("updateLeadData", updateLeadData);
   const [showTextareaCompany, setShowTextareaCompany] = useState(false);
 
   const handleSelectChange = (e) => {
@@ -50,12 +54,12 @@ const EditUserModal = ({
         )}
       </div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[1400px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Lead
           </h2>
 
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-fit">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-fit">
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
                 Client Name :
@@ -82,6 +86,7 @@ const EditUserModal = ({
                 placeholder="Select Date"
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 min={new Date().toISOString().split("T")[0]}
+                disabled
               />
               {updateLeadFormErrors?.assign_date && (
                 <p className="text-red-500">
@@ -89,41 +94,45 @@ const EditUserModal = ({
                 </p>
               )}
             </div>
+            {location.pathname === "/sale-management/lead-management" && (
+              <>
+                <div>
+                  <label className="font-poppins font-medium text-textdata text-bgData">
+                    Last Contact date :
+                  </label>
+                  <input
+                    type="date"
+                    name="last_contact"
+                    value={updateLeadData?.last_contact}
+                    onChange={handleUpdateLeadChange}
+                    placeholder="Select Date"
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                    min={new Date().toISOString().split("T")[0]}
+                    disabled
+                  />
+                  {updateLeadFormErrors?.last_contact && (
+                    <p className="text-red-500">
+                      {updateLeadFormErrors?.last_contact}
+                    </p>
+                  )}
+                </div>
 
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
-                Last Contact date :
-              </label>
-              <input
-                type="date"
-                name="last_contact"
-                value={updateLeadData?.last_contact}
-                onChange={handleUpdateLeadChange}
-                placeholder="Select Date"
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                min={new Date().toISOString().split("T")[0]}
-              />
-              {updateLeadFormErrors?.last_contact && (
-                <p className="text-red-500">
-                  {updateLeadFormErrors?.last_contact}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
-                Next FollowUp date :
-              </label>
-              <input
-                type="date"
-                name="next_followup"
-                value={updateLeadData?.next_followup}
-                onChange={handleUpdateLeadChange}
-                placeholder="Select Date"
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                min={new Date().toISOString().split("T")[0]}
-              />
-            </div>
+                <div>
+                  <label className="font-poppins font-medium text-textdata text-bgData">
+                    Next FollowUp date :
+                  </label>
+                  <input
+                    type="date"
+                    name="next_followup"
+                    value={updateLeadData?.next_followup}
+                    onChange={handleUpdateLeadChange}
+                    placeholder="Select Date"
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                    min={new Date().toISOString().split("T")[0]}
+                  />
+                </div>
+              </>
+            )}
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
@@ -137,9 +146,9 @@ const EditUserModal = ({
               >
                 <option>Select the lead source</option>
                 <option value="Marketing">Marketing</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Reference">Reference</option>
-                  <option value="Direct">Direct</option>
+                <option value="Sales">Sales</option>
+                <option value="Reference">Reference</option>
+                <option value="Direct">Direct</option>
               </select>
               {updateLeadFormErrors?.lead_source && (
                 <p className="text-red-500">
