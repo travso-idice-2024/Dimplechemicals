@@ -44,20 +44,21 @@ const MeetingPage = () => {
   const [viewLeadReportOpen, setViewLeadReportOpen] = useState(false);
   const [selectedLeadData, setSelectedLeadData] = useState(false);
 
-  const [todayLeadCount, setTodayLeadCount] = useState([]);
+  const [todayPOACount, settodayPOACount] = useState([]);
+  console.log("todayPOACount",todayPOACount);
   const fetchPlanOfActionReport = async () => {
     try {
       // ✅ Get token
       const token = getAuthToken();
 
       // ✅ Correct API call with query parameters
-      const response = await axios.get(`${API_URL}/auth/todayleads-count`, {
+      const response = await axios.get(`${API_URL}/auth/poa-for-day`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setTodayLeadCount(response.data.data);
-      console.log("response", response.data.data);
+      settodayPOACount(response.data.data);
+      console.log("poa data", response.data.data);
       //return response.data; // Return data if needed
     } catch (error) {
       console.error("Error in fetching data:", error);
@@ -91,7 +92,7 @@ const MeetingPage = () => {
             </tr>
           </thead>
           <tbody>
-            {todayLeadCount?.map((metting, index) => (
+            {todayPOACount?.map((metting, index) => (
               <tr
                 key={index+1}
                 className="text-center hover:bg-[#1e1e2d78] cursor-pointer"
@@ -99,18 +100,18 @@ const MeetingPage = () => {
                 <td className="px-4 py-2 text-textdata">{index + 1}</td>
                 <td
                   className="px-4 py-2 text-textdata"
-                  onClick={() => {
-                    setSelectedLeadData(metting);
-                    setViewLeadReportOpen(true);
-                  }}
+                  // onClick={() => {
+                  //   setSelectedLeadData(metting);
+                  //   setViewLeadReportOpen(true);
+                  // }}
                 >
-                  {metting.assigned_person?.fullname}
+                  {metting?.fullname}
                 </td>
                 <td className="px-4 py-2 text-textdata">
-                  {metting.assigned_person?.email}
+                  {metting?.email}
                 </td>
                 <td className="px-4 py-2 text-textdata">
-                  {metting.lead_count}
+                  {metting?.total_meetings}
                 </td>
               </tr>
             ))}

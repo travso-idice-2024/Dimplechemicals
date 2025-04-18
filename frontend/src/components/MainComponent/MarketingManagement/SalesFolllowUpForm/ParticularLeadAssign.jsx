@@ -31,9 +31,12 @@ const ParticularLeadAssign = ({
         )}
       </div>
 
-      <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded-xl w-[400px]">
-          <h2 className="text-lg font-semibold mb-4">Assign Sales Person</h2>
+      <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+        <div className="bg-white w-[400px] pt-0 pb-4 rounded-[6px] flex flex-col">
+          <h2 className="text-white text-[18px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+            Assign Sales Person
+          </h2>
+          <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto h-fit">
 
           {/* Sales Person */}
           <div>
@@ -55,24 +58,26 @@ const ParticularLeadAssign = ({
               <p className="text-red-500">{poaFormErrors?.sales_persion_id}</p>
             )}
           </div>
+          </div>
 
-          <div className="mt-4 flex justify-end gap-2">
+          <div className="flex items-end justify-end gap-2 px-4">
+          <button
+              className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+              onClick={handleAssignSalesPerson}
+            >
+              Assign
+            </button>
             <button
-              className="px-4 py-2 bg-gray-300 rounded"
+              className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => {
                 setIsLeadAssignPopup(false);
                 setSelectedPOAId(null);
               }}
             >
-              Cancel
+              Close
             </button>
 
-            <button
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-              onClick={handleAssignSalesPerson}
-            >
-              Assign
-            </button>
+            
           </div>
         </div>
       </div>

@@ -63,7 +63,7 @@ const DepartmentTable = ({
       <td className="px-4 py-2 text-newtextdata">
         {deal.assign_date ? new Date(deal.assign_date).toLocaleDateString() : "-"}
       </td>
-      <td className="px-4 py-2 text-newtextdata">{deal.follow_up_record ?? "-"}</td>
+      <td className="px-4 py-2 text-newtextdata">{deal.VisitCount ?? "-"}</td>
       <td className="px-4 py-2 text-newtextdata">-</td> {/* Total Hours Spend - not available */}
       <td className="px-4 py-2 text-newtextdata">-</td> {/* Approx Area SqM - not available */}
       <td className="px-4 py-2 text-newtextdata">-</td> {/* Approx Area Cub Mtr - not available */}
