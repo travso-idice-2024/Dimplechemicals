@@ -13,11 +13,6 @@ import SarReportOfUser from "./SarReportOfUser";
 import { finalizeDeals } from "../../../redux/leadSlice";
 
 const SalePOForm = () => {
-<<<<<<< HEAD
-  const dispatch = useDispatch();
-  const { finalizeDealsData, totalPages, departmentloading, departmenterror } =
-    useSelector((state) => state.lead);
-=======
    const dispatch = useDispatch();
     const { finalizeDealsData, totalPages, departmentloading, departmenterror } = useSelector(
       (state) => state.lead
@@ -25,18 +20,12 @@ const SalePOForm = () => {
 
     console.log("finalizeDealsData",finalizeDealsData);
  
->>>>>>> d09492627b5f2c176ee026c1930a502fecf708fb
 
   const [selectedSAR, setSelectedSAR] = useState({});
   const [allselectedSAR, allsetSelectedSAR] = useState([]);
   const [sarReportOpen, setsarReportOpen] = useState(false);
-<<<<<<< HEAD
-  const [allEmpSARReport, setAllEmpSARReport] = useState(false);
-  //console.log("finalizeDealsData",finalizeDealsData);
-=======
   const [allEmpSARReport, setAllEmpSARReport]  = useState(false);
 
->>>>>>> d09492627b5f2c176ee026c1930a502fecf708fb
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
