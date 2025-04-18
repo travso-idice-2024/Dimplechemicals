@@ -47,7 +47,7 @@ export const navigationLinks = [
       },
       {
         id: 5.2,
-        title: "Leads ManageMent",
+        title: "Leads Management",
         image: iconsImgs.lead,
         path: "/sale-management/leads",
         submenu: [

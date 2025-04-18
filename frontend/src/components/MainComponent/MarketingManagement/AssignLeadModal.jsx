@@ -27,11 +27,11 @@ const AssignLeadModal = ({
         )}
       </div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-        <div className="bg-white w-[850px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Lead
           </h2>
-          <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-fit">
+          <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
                 Select Customer:
@@ -167,7 +167,7 @@ const AssignLeadModal = ({
               )}
             </div>
 
-            <div className="md:col-span-2">
+            <div className="">
               <label className="font-poppins font-medium text-textdata text-bgData">
                  Description :
               </label>
