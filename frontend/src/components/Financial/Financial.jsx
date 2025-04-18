@@ -4,7 +4,7 @@ import { iconsImgs } from "../../utils/images";
 import "./Financial.css"
 
 const Financial = () => {
-  const colors = ['#ff6f61', '#4dd0e1', '#9575cd', '#81c784', '#fbc02d', '#e57373']
+  const colors = ['#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61']
 
 
   const [chartData] = useState({
@@ -68,6 +68,9 @@ const Financial = () => {
             colors: "#ffffff", // Makes Y-axis labels white
             fontSize: "12px",
           },
+        },
+         grid: {
+          borderColor: "#434350", // Sets the grid line color behind the graph
         },
       },
       tooltip: {

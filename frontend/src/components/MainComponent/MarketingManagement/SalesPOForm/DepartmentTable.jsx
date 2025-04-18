@@ -5,77 +5,70 @@ import { useDispatch, useSelector } from "react-redux";
 const DepartmentTable = ({
   setEditUserModalOpen,
   finalizeDealsData,
-  setViewModalOpen
+  setViewModalOpen,
 }) => {
   //console.log("finalizeDealsData",finalizeDealsData);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
   return (
-    <div
-      className={`overflow-x-auto`}
-    >
+    <div className={`overflow-x-auto`}>
       <table className="table-auto w-full text-left border-collapse">
-      <thead>
-    <tr className="bg-[#473b33] border-t border-x border-[#844c22]">
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Id</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Employee Name</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Company Name</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Date of Visits</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">No. of Visits</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Total Hrs Spend</th>
-      <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap" colSpan={2}>Approx Area</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Total Product Qty. in Kg</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Total Potential Amount</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Types of Documents sent</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Last Visit Date</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Last Visit Remark</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Next Visit Plan</th>
-    </tr>
-    <tr className="bg-[#473b33] border-x border-b border-[#844c22]">
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">SqM</th>
-      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">Cub. Mtr</th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-      <th className="px-4 py-2 border border-[#844c22]"></th>
-    </tr>
-  </thead>
-  <tbody>
-  {finalizeDealsData.map((deal, index) => (
-    <tr key={deal.id || index}>
-      <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
-      <td className="px-4 py-2 text-newtextdata">{deal.assignedPerson?.fullname || "-"}</td>
-      <td className="px-4 py-2 text-newtextdata">{deal.customer?.company_name || "-"}</td>
-      <td className="px-4 py-2 text-newtextdata">
-        {deal.assign_date ? new Date(deal.assign_date).toLocaleDateString() : "-"}
-      </td>
-      <td className="px-4 py-2 text-newtextdata">{deal.follow_up_record ?? "-"}</td>
-      <td className="px-4 py-2 text-newtextdata">-</td> {/* Total Hours Spend - not available */}
-      <td className="px-4 py-2 text-newtextdata">-</td> {/* Approx Area SqM - not available */}
-      <td className="px-4 py-2 text-newtextdata">-</td> {/* Approx Area Cub Mtr - not available */}
-      <td className="px-4 py-2 text-newtextdata">{deal.quantity_no ?? "-"}</td>
-      <td className="px-4 py-2 text-newtextdata">{deal.budget ?? "-"}</td>
-      <td className="px-4 py-2 text-newtextdata">-</td> {/* Types of documents - not available */}
-      <td className="px-4 py-2 text-newtextdata">
-        {deal.last_contact ? new Date(deal.last_contact).toLocaleDateString() : "-"}
-      </td>
-      <td className="px-4 py-2 text-newtextdata">{deal.last_communication || "-"}</td>
-      <td className="px-4 py-2 text-newtextdata">
-        {deal.next_followup ? new Date(deal.next_followup).toLocaleDateString() : "-"}
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+        <thead>
+          <tr className="bg-[#473b33] border-t border-x border-[#844c22]">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Id
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Date
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Product Name
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Area - Sq mtr / Cub Mtr
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Quantity
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Rate
+            </th>
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Amount
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Advance amount
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+              Deal amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="text-center">
+            <td className="px-4 py-2 text-newtextdata">1</td>
+            <td className="px-4 py-2 text-newtextdata">2025-04-18</td>
+            <td className="px-4 py-2 text-newtextdata">Marble Slab</td>
+            <td className="px-4 py-2 text-newtextdata">15 Sq mtr/ 18 cub mtr</td>
+            <td className="px-4 py-2 text-newtextdata">10</td>
+            <td className="px-4 py-2 text-newtextdata">₹1500</td>
+            <td className="px-4 py-2 text-newtextdata text-center">₹15,000</td>
+            <td className="px-4 py-2 text-newtextdata">₹5,000</td>
+            <td className="px-4 py-2 text-newtextdata">₹20,000</td>
+          </tr>
+          <tr className="text-center">
+            <td className="px-4 py-2 text-newtextdata">2</td>
+            <td className="px-4 py-2 text-newtextdata">2025-04-17</td>
+            <td className="px-4 py-2 text-newtextdata">Granite Block</td>
+            <td className="px-4 py-2 text-newtextdata">8 Cub Mtr / 10 sq mtr</td>
+            <td className="px-4 py-2 text-newtextdata">5</td>
+            <td className="px-4 py-2 text-newtextdata">₹2500</td>
+            <td className="px-4 py-2 text-newtextdata text-center">₹12,500</td>
+            <td className="px-4 py-2 text-newtextdata">₹3,000</td>
+            <td className="px-4 py-2 text-newtextdata">₹18,000</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );
