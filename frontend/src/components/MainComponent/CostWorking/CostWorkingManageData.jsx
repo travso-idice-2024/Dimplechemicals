@@ -510,7 +510,8 @@ useEffect(() => {
             </div>
           </div>
         </div>
-        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/*------- Table Data Start -------*/}
           <CostWorkingTable
             setEditCostWorkingModalOpen={setEditCostWorkingModalOpen}
@@ -525,13 +526,8 @@ useEffect(() => {
           />
           {/*------- Table Data End -------*/}
         </div>
-        {/* Pagination Controls with Number */}
-        <Pagination
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-          totalPages={totalPages}
-        />
-      </div>
+        </div>
+       
 
       {/* Add User Modal */}
       {/* {isAddUserModalOpen && (
@@ -590,7 +586,13 @@ useEffect(() => {
     handleCostWorkingCustomerChange={handleCostWorkingCustomerChange}
   />
 )}
-
+ {/* Pagination Controls with Number */}
+ <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   );
 };

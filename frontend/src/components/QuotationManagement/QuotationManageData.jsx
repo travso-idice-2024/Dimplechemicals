@@ -87,7 +87,7 @@ const QuotationManageData = () => {
             </div>
           </div>
         </div>
-        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/*------- Show the Quotation -------*/}
           <div className="grid grid-row-1 md:grid-cols-2 gap-6 px-6">
             <QuotationShow

@@ -6,10 +6,8 @@ import CustomerTable from "./CustomerTable";
 import Pagination from "./Pagination";
 import ViewCustomerInfoReport from "./ViewCustomerInfoReport";
 import ContentTop from "../../ContentTop/ContentTop";
-import {
-  listCustomers,
-} from "../../../redux/customerSlice";
-import {fetchCurrentUser} from "../../../redux/authSlice";
+import { listCustomers } from "../../../redux/customerSlice";
+import { fetchCurrentUser } from "../../../redux/authSlice";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -21,8 +19,8 @@ const CustomerManageData = () => {
   const { customers, totalPages, customerLoading, customerError } = useSelector(
     (state) => state.customer
   );
- 
-  const {user:userDeatail}  = useSelector((state) => state.auth);
+
+  const { user: userDeatail } = useSelector((state) => state.auth);
 
   const [selectedCustomer, setSelectedCustomer] = useState({});
 
@@ -36,7 +34,7 @@ const CustomerManageData = () => {
   // Fetch customers whenever searchTerm or currentPage changes
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-   
+
     dispatch(
       listCustomers({
         page: currentPage,
@@ -80,27 +78,27 @@ const CustomerManageData = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-        <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-white text-textdata font-semibold">
+              Customer Information Form
+            </h1>
+          </div>
+          <div className="flex items-center gap-[5px]">
             <div>
-              <h1 className="text-white text-textdata font-semibold">
-                Customer Information Form
-              </h1>
-            </div>
-            <div className="flex items-center gap-[5px]">
-              <div>
-                <input
-                  type="search"
-                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </div>
+              <input
+                type="search"
+                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
             </div>
           </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+        </div>
+        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <CustomerTable
               customers={customers?.data}
@@ -112,24 +110,23 @@ const CustomerManageData = () => {
 
             {/*------- Table Data End -------*/}
           </div>
-          {/* Pagination Controls with Number */}
-          <Pagination
-            currentPage={currentPage}
-            handlePageChange={handlePageChange}
-            totalPages={totalPages}
-          />
+
+          {/* View User Modal */}
+          {isViewModalOpen && (
+            <ViewCustomerInfoReport
+              setViewModalOpen={setViewModalOpen}
+              selectedCustomer={selectedCustomer}
+            />
+          )}
+
+          {/* Assign Customer Modal */}
         </div>
-
-        {/* View User Modal */}
-        {isViewModalOpen && (
-          <ViewCustomerInfoReport
-            setViewModalOpen={setViewModalOpen}
-            selectedCustomer={selectedCustomer}
-          />
-        )}
-
-        {/* Assign Customer Modal */}
-       
+        {/* Pagination Controls with Number */}
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );

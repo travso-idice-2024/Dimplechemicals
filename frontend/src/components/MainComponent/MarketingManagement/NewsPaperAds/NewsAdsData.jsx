@@ -40,7 +40,7 @@ const NewsAdsData = () => {
               </div> */}
             </div>
           </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
            
           <h3 className="text-center my-8 text-white">No Data Available</h3>

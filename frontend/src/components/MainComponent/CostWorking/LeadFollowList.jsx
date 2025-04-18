@@ -62,7 +62,7 @@ export const LeadFollowList = () => {
                      
                    </div>
                  </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* <div className="w-full mt-8 overflow-x-auto"> */}
               {/* <div className="flex items-center gap-[5px]">
                 <div>

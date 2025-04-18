@@ -434,7 +434,7 @@ const SalesProgressMange = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+            <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
               {/*------- Table Data Start -------*/}
               <DepartmentTable
                 setEditUserModalOpen={setEditUserModalOpen}

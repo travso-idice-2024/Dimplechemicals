@@ -4,7 +4,7 @@ import { iconsImgs } from "../../utils/images";
 import "./Financial.css"
 
 const Financial = () => {
-  const colors = ['#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61', '#ff6f61']
+  const colors = ['#fe6c00a3', '#fe6c00a3', '#fe6c00a3', '#fe6c00a3', '#fe6c00a3', '#fe6c00a3']
 
 
   const [chartData] = useState({

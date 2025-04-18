@@ -37,30 +37,30 @@ const CostWorkingTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Comapny Name
               </th>
-              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Location</th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">Location</th> */}
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Nature of Work{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Technology used
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Estimate no
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Estimate date
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Revision no
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Revision date
               </th>
 
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
                 Action
               </th>
             </tr>

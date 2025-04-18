@@ -29,9 +29,9 @@ const DepartmentTable = ({
   setSelectedPOAId,
   selectedPOAId,
   fetchCustomerHistory,
-  setViewCustomerHistoryCardModalOpen
+  setViewCustomerHistoryCardModalOpen,
 }) => {
-  console.log("Leads",Leads);
+  console.log("Leads", Leads);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
@@ -45,13 +45,13 @@ const DepartmentTable = ({
           <ErrorMessage message={deleteFlashMessage} />
         )}
       </div>
-      <div
-        className="overflow-x-auto"
-      >
+      <div className="overflow-x-auto">
         <table className="table-auto w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
+            <tr className="bg-[#473b33] rounded-[8px] ">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                <input type="checkbox" className="w-4 h-4 accent-orange-500" disabled />
+              </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
@@ -61,7 +61,7 @@ const DepartmentTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Company Name{" "}
               </th>
-             
+
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Lead Owner
               </th>
@@ -81,7 +81,7 @@ const DepartmentTable = ({
           </thead>
           <tbody>
             {Leads?.map((user, index) => (
-              <tr key={index} className="text-center">
+              <tr key={index} className="">
                 <td className="px-4 py-2 text-newtextdata">
                   <input
                     type="checkbox"
@@ -98,10 +98,13 @@ const DepartmentTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.assign_date.split("T")[0]}
                 </td>
-                <td className="px-4 py-2 text-newtextdata cursor-pointer" onClick={() => {
-                              fetchCustomerHistory(user?.customer?.id);
-                              setViewCustomerHistoryCardModalOpen(true);
-                            }}>
+                <td
+                  className="px-4 py-2 text-newtextdata cursor-pointer"
+                  onClick={() => {
+                    fetchCustomerHistory(user?.customer?.id);
+                    setViewCustomerHistoryCardModalOpen(true);
+                  }}
+                >
                   {user?.customer?.company_name}
                 </td>
                 {/* <td className="px-4 py-2 text-newtextdata">

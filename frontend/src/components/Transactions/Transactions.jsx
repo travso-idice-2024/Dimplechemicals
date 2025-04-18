@@ -5,7 +5,7 @@ import "./Transactions.css";
 
 const Transactions = () => {
   const series = [30, 10, 5, 65]; // Absolute values
-  const colors = ["#e74c3c", "#1abc9c", "#9b59b6", "#e57373"]; // New vibrant colors
+  const colors = ["#e74c3c", "#1abc9c", "#9b59b6", "#fe6c00a3"]; // New vibrant colors
 
   const [chartData, setChartData] = useState({
     series: series,

@@ -92,7 +92,7 @@ const DepartmentTable = ({
               <td className="px-4 py-2 text-newtextdata">
                 {user.meeting_type || "N/A"}
               </td>
-              <td className="px-4 py-2 text-newtextdata w-[450px] text-justify">
+              <td className="px-4 py-2 text-newtextdata w-[450px] ">
                 {user.meeting_summary || "N/A"}
               </td>
               <td className="px-4 py-2 text-newtextdata">

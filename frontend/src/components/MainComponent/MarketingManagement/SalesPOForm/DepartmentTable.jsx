@@ -15,32 +15,32 @@ const DepartmentTable = ({
     <div className={`overflow-x-auto`}>
       <table className="table-auto w-full text-left border-collapse">
         <thead>
-          <tr className="bg-[#473b33] border-t border-x border-[#844c22]">
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+          <tr className="bg-[#473b33] rounded-[8px]">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Id
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Date
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Product Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Area - Sq mtr / Cub Mtr
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Quantity
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Rate
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
               Amount
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Advance amount
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-[#844c22] whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
               Deal amount
             </th>
           </tr>

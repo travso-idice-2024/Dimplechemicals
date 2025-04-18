@@ -74,7 +74,7 @@ const EmployeeTable = ({
           </thead>
           <tbody>
             {Employees?.map((user, index) => (
-              <tr key={index} className="text-center">
+              <tr key={index} className="">
                 <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
                 <td className="px-4 py-2 text-newtextdata">{user?.emp_id}</td>
                 <td

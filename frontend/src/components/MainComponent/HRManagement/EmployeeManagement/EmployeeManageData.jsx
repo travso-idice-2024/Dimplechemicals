@@ -672,92 +672,91 @@ const EmployeeManageData = () => {
 
   //end update employee code
 
-
   //export employee data in excel file
   const handleExportData = async () => {
-      try {
-        // ✅ Get token
-        const token = getAuthToken();
-  
-        // ✅ Correct API call with query parameters
-        const response = await axios.get(
-          `${API_URL}/auth/export-employee-details`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              search:searchTerm
-            },
-            responseType: "blob", // ✅ Important to keep it here
-          }
-        );
-  
-        // ✅ Create a URL for the blob
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-  
-        // ✅ Create a temporary <a> tag to download the file
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "Employee_Report.xlsx"); // File name
-        document.body.appendChild(link);
-        link.click();
-  
-        // ✅ Cleanup after download
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error exporting data:", error);
-      }
-    };
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        `${API_URL}/auth/export-employee-details`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            search: searchTerm,
+          },
+          responseType: "blob", // ✅ Important to keep it here
+        }
+      );
+
+      // ✅ Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // ✅ Create a temporary <a> tag to download the file
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Employee_Report.xlsx"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // ✅ Cleanup after download
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
+  };
   //end export employee data in excel file
 
   //if (userLoading) return <p>Loading...</p>;
   //if (userError) return <p>{userError}</p>;
 
   return (
-    <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-      <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-[20px]">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-white text-textdata font-semibold">
+            Employee Management
+          </h1>
+        </div>
+        <div className="flex items-center gap-[5px]">
           <div>
-            <h1 className="text-white text-textdata font-semibold">
-              Employee Management
-            </h1>
+            <input
+              type="search"
+              className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <div className="flex items-center gap-[5px]">
-            <div>
-              <input
-                type="search"
-                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div>
-              <button
-                className="flex items-center text-white text-textdata bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={() => setAddEmployeeModalOpen(true)}
-              >
-                <img
-                  src={iconsImgs.plus}
-                  alt="plus icon"
-                  className="w-[18px] mr-1"
-                />{" "}
-                Add Employee
-              </button>
-            </div>
-            <div>
-              <button
-                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={handleExportData}
-              >
-                Export Data
-              </button>
-            </div>
+          <div>
+            <button
+              className="flex items-center text-white text-textdata bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              onClick={() => setAddEmployeeModalOpen(true)}
+            >
+              <img
+                src={iconsImgs.plus}
+                alt="plus icon"
+                className="w-[18px] mr-1"
+              />{" "}
+              Add Employee
+            </button>
+          </div>
+          <div>
+            <button
+              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              onClick={handleExportData}
+            >
+              Export Data
+            </button>
           </div>
         </div>
-        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6">
+      </div>
+      <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/*------- Table Data Start -------*/}
           <EmployeeTable
             Employees={users?.data}
@@ -771,6 +770,71 @@ const EmployeeManageData = () => {
           />
           {/*------- Table Data End -------*/}
         </div>
+
+        {/* Add User Modal */}
+        {isAddEmployeeModalOpen && (
+          <AddEmployeeModal
+            setAddEmployeeModalOpen={setAddEmployeeModalOpen}
+            formData={formData}
+            setFormData={setFormData}
+            formErrors={formErrors}
+            setFormErrors={setFormErrors}
+            flashMessage={flashMessage}
+            setFlashMessage={setFlashMessage}
+            flashMsgType={flashMsgType}
+            setFlashMsgType={setFlashMsgType}
+            handleFlashMessage={handleFlashMessage}
+            handleChange={handleChange}
+            handleFileChange={handleFileChange}
+            handleMultipleFileChange={handleMultipleFileChange}
+            clearauditSignature={clearauditSignature}
+            saveauditSignature={saveauditSignature}
+            handleSubmit={handleSubmit}
+            validateInputs={validateInputs}
+            sigauditCanvas={sigauditCanvas}
+            isSignatureauditEmpty={isSignatureauditEmpty}
+            setIsSignatureauditEmpty={setIsSignatureauditEmpty}
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )}
+
+        {/* Edit User Modal */}
+        {isEditUserModalOpen && (
+          <EditUserModal
+            setEditUserModalOpen={setEditUserModalOpen}
+            selectedEmployee={selectedEmployee}
+            setSelectedEmployee={setSelectedEmployee}
+            updateFormData={updateFormData}
+            setUpdateFormData={setUpdateFormData}
+            updateFormErrors={updateFormErrors}
+            setUpdateFormErrors={setUpdateFormErrors}
+            updateFlashMessage={updateFlashMessage}
+            setUpdateFlashMessage={setUpdateFlashMessage}
+            updateFlashMsgType={updateFlashMsgType}
+            setUpdateFlashMsgType={setUpdateFlashMsgType}
+            handleUpdateChange={handleUpdateChange}
+            handleUpdateFileChange={handleUpdateFileChange}
+            handleUpdateMultipleFileChange={handleUpdateMultipleFileChange}
+            validateUpdateInputs={validateUpdateInputs}
+            handleUpdateSubmit={handleUpdateSubmit}
+            handleUpdateFlashMessage={handleUpdateFlashMessage}
+            nextUpdateStep={nextUpdateStep}
+            prevUpdateStep={prevUpdateStep}
+            currentUpdateStep={currentUpdateStep}
+          />
+        )}
+
+        {/* View User Modal */}
+        {isViewModalOpen && (
+          <ViewUserModal
+            setViewModalOpen={setViewModalOpen}
+            selectedEmployee={selectedEmployee}
+            setEditUserModalOpen={setEditUserModalOpen}
+          />
+        )}
         {/* Pagination Controls with Number */}
         <Pagination
           currentPage={currentPage}
@@ -778,71 +842,6 @@ const EmployeeManageData = () => {
           totalPages={totalPages}
         />
       </div>
-
-      {/* Add User Modal */}
-      {isAddEmployeeModalOpen && (
-        <AddEmployeeModal
-          setAddEmployeeModalOpen={setAddEmployeeModalOpen}
-          formData={formData}
-          setFormData={setFormData}
-          formErrors={formErrors}
-          setFormErrors={setFormErrors}
-          flashMessage={flashMessage}
-          setFlashMessage={setFlashMessage}
-          flashMsgType={flashMsgType}
-          setFlashMsgType={setFlashMsgType}
-          handleFlashMessage={handleFlashMessage}
-          handleChange={handleChange}
-          handleFileChange={handleFileChange}
-          handleMultipleFileChange={handleMultipleFileChange}
-          clearauditSignature={clearauditSignature}
-          saveauditSignature={saveauditSignature}
-          handleSubmit={handleSubmit}
-          validateInputs={validateInputs}
-          sigauditCanvas={sigauditCanvas}
-          isSignatureauditEmpty={isSignatureauditEmpty}
-          setIsSignatureauditEmpty={setIsSignatureauditEmpty}
-          currentStep={currentStep}
-          setCurrentStep={setCurrentStep}
-          nextStep={nextStep}
-          prevStep={prevStep}
-        />
-      )}
-
-      {/* Edit User Modal */}
-      {isEditUserModalOpen && (
-        <EditUserModal
-          setEditUserModalOpen={setEditUserModalOpen}
-          selectedEmployee={selectedEmployee}
-          setSelectedEmployee={setSelectedEmployee}
-          updateFormData={updateFormData}
-          setUpdateFormData={setUpdateFormData}
-          updateFormErrors={updateFormErrors}
-          setUpdateFormErrors={setUpdateFormErrors}
-          updateFlashMessage={updateFlashMessage}
-          setUpdateFlashMessage={setUpdateFlashMessage}
-          updateFlashMsgType={updateFlashMsgType}
-          setUpdateFlashMsgType={setUpdateFlashMsgType}
-          handleUpdateChange={handleUpdateChange}
-          handleUpdateFileChange={handleUpdateFileChange}
-          handleUpdateMultipleFileChange={handleUpdateMultipleFileChange}
-          validateUpdateInputs={validateUpdateInputs}
-          handleUpdateSubmit={handleUpdateSubmit}
-          handleUpdateFlashMessage={handleUpdateFlashMessage}
-          nextUpdateStep={nextUpdateStep}
-          prevUpdateStep={prevUpdateStep}
-          currentUpdateStep={currentUpdateStep}
-        />
-      )}
-
-      {/* View User Modal */}
-      {isViewModalOpen && (
-        <ViewUserModal
-          setViewModalOpen={setViewModalOpen}
-          selectedEmployee={selectedEmployee}
-          setEditUserModalOpen={setEditUserModalOpen}
-        />
-      )}
     </div>
   );
 };

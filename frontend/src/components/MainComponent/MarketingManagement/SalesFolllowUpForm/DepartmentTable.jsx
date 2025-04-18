@@ -21,12 +21,12 @@ const DepartmentTable = ({
   const { isSidebarOpen } = useContext(SidebarContext);
   return (
     <div
-      className={`overflow-x-auto`}
+      className={`overflow-x-auto w-full`}
     >
-      <table className="table-auto w-full text-left border-collapse">
+      <table className="table-auto min-w-[1200px] w-full text-left border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-          <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"></th>
+          <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata"><input type="checkbox" disabled className="w-4 h-4 accent-orange-500" /></th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
               Id
             </th>
@@ -106,7 +106,7 @@ const DepartmentTable = ({
               <td className="px-4 py-2 text-newtextdata">
                 {user.meeting_type || "N/A"}
               </td>
-              <td className="px-4 py-2 text-newtextdata w-[450px] text-justify">
+              <td className="px-4 py-2 text-newtextdata w-[450px] ">
                 {user.meeting_summary || "N/A"}
               </td>
               <td className="px-4 py-2 text-newtextdata">
