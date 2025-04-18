@@ -1,5 +1,6 @@
 const {PlanOfAction, Customer, User}= require("../models");
 const { Op } = require("sequelize");
+const moment = require("moment");
 
 const createPlan = async (req, res) => {
   try {
@@ -147,6 +148,60 @@ const updateSalesPerson = async (req, res) => {
   }
 };
 
+const planOfActionForaDay = async (req, res) => {
+  try {
+    const today = moment().format("YYYY-MM-DD"); // today's date
+
+    const meetings = await PlanOfAction.findAll({
+      where: {
+        meeting_date: today,
+        sales_persion_id: {
+          [Op.ne]: null 
+        }
+      },
+      include: [
+        {
+          model: User,
+          as: "salesPerson",
+          attributes: ["id", "fullname", "email"]
+        }
+      ]
+    });
+
+    const grouped = {};
+
+    meetings.forEach(meeting => {
+      const sp = meeting.salesPerson;
+      if (sp) {
+        if (!grouped[sp.id]) {
+          grouped[sp.id] = {
+            id: sp.id,
+            fullname: sp.fullname,
+            email: sp.email,
+            total_meetings: 0
+          };
+        }
+        grouped[sp.id].total_meetings++;
+      }
+    });
+
+    const result = Object.values(grouped);
+
+    return res.status(200).json({
+      success: true,
+      message: "Plan of Action for today", 
+      data: result
+    });
+  } catch (error) {
+    console.error("Error fetching today's meeting counts:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
-    createPlan, getPlanOfActions, updateSalesPerson
+    createPlan, getPlanOfActions, updateSalesPerson,planOfActionForaDay
   };

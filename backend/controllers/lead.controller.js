@@ -1,4 +1,4 @@
-const { Op, Sequelize, fn ,col} = require("sequelize");
+const { Op, Sequelize, fn ,col,literal} = require("sequelize");
 const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
@@ -992,7 +992,7 @@ const getFinalisedDeals = async (req, res) => {
     // Apply search if provided
     if (search) {
       whereClause[Op.or] = [
-        { '$customer.name$': { [Op.like]:`%${search}%` } },
+        { '$customer.name$': { [Op.like]: `%${search}%` } },
         { '$assignedPerson.fullname$': { [Op.like]: `%${search}%` } },
         { '$leadOwner.fullname$': { [Op.like]: `%${search}%` } }
       ];
@@ -1000,6 +1000,19 @@ const getFinalisedDeals = async (req, res) => {
 
     const { rows: leads, count: total } = await Lead.findAndCountAll({
       where: whereClause,
+      attributes: {
+        include: [
+          [
+            literal(`(
+              SELECT COUNT(*)
+ 
+              FROM leadcommunications AS lc 
+              WHERE lc.lead_id = Lead.id
+            )`),
+            'VisitCount'
+          ]
+        ]
+      },
       include: [
         {
           model: User,
@@ -1026,13 +1039,14 @@ const getFinalisedDeals = async (req, res) => {
       data: leads,
       pagination: {
         total,
-        page: parseInt(page),
+        page: parseInt(page)
+,
         totalPages: Math.ceil(total / limit),
       },
     });
   } catch (error) {
     console.error("Error fetching finalised deals:", error);
-    res.status(500).json({ success: false, message: "Server Error"});
+    res.status(500).json({ success: false, message: "Server Error" });
   }
 };
 

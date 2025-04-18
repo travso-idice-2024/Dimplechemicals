@@ -19,13 +19,15 @@ const SalePOForm = () => {
     const { finalizeDealsData, totalPages, departmentloading, departmenterror } = useSelector(
       (state) => state.lead
     );
+
+    console.log("finalizeDealsData",finalizeDealsData);
  
 
   const [selectedSAR, setSelectedSAR] = useState({});
   const [allselectedSAR, allsetSelectedSAR] = useState([]);
   const [sarReportOpen, setsarReportOpen] = useState(false);
   const [allEmpSARReport, setAllEmpSARReport]  = useState(false);
-  //console.log("finalizeDealsData",finalizeDealsData);
+
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);

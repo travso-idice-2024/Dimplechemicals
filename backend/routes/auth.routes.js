@@ -90,7 +90,8 @@ const {
 const{
   createPlan,
   getPlanOfActions,
-  updateSalesPerson
+  updateSalesPerson,
+  planOfActionForaDay
 }= require("../controllers/planofaction.controller");
 
 const{
@@ -184,7 +185,7 @@ router.get("/export-checkin-checkout",authMiddleware ,exportCheckinCheckoutRepor
 router.get("/calculate-workhours",authMiddleware ,getDailyWorkingHours);
 
 
-router.get("/todayleads-count", authMiddleware, getTodayAssignedLeads);
+//router.get("/todayleads-count", authMiddleware, getTodayAssignedLeads);
 
 //product routes
 router.get("/allProducts",authMiddleware, getAllProducts);
@@ -207,5 +208,6 @@ router.get("/customer-history/:id", authMiddleware, customerHistory);
 router.get("/customer-info/:id", authMiddleware, customerInfo);
 
 router.post("/add-lead-assigned-history", authMiddleware, createLeadAssignedHistory);
+router.get("/poa-for-day", authMiddleware, planOfActionForaDay);
 
 module.exports = router;
