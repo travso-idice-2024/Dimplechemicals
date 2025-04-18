@@ -10,13 +10,16 @@ import AddRoleModal from "./AddRoleModal";
 // import EditUserModal from "./EditUserModal";
 import ContentTop from "../../../ContentTop/ContentTop";
 
-import { finalizeDeals } from "../../../../redux/leadSlice";
+import {
+  finalizeDealsList,
+} from "../../../../redux/leadSlice";
 
 const SalePOForm = () => {
-  const dispatch = useDispatch();
-  const { finalizeDealsData, totalPages, departmentloading, departmenterror } =
-    useSelector((state) => state.lead);
-
+   const dispatch = useDispatch();
+    const { finalizeDealsListData, totalPages, departmentloading, departmenterror } = useSelector(
+      (state) => state.lead
+    );
+ 
   //console.log("finalizeDealsData",finalizeDealsData);
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
@@ -36,7 +39,17 @@ const SalePOForm = () => {
     );
   }, [dispatch, currentPage, searchTerm]);
 
-  // Handle search input change
+   useEffect(() => {
+      dispatch(
+        finalizeDealsList({
+          page: currentPage,
+          limit: leadPerPage,
+          search: searchTerm,
+        })
+      );
+    }, [dispatch, currentPage, searchTerm]);
+ 
+     // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page when searching
@@ -87,7 +100,7 @@ const SalePOForm = () => {
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
-              finalizeDealsData={finalizeDealsData?.data || []}
+              finalizeDealsListData={finalizeDealsListData?.data || []}
               setViewModalOpen={setViewModalOpen}
             />
             {/*------- Table Data End -------*/}

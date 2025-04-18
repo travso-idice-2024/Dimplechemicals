@@ -9,6 +9,7 @@ import ViewUserModal from "./ViewUserModal";
 import EditUserModal from "./EditUserModal";
 import AssignLeadModal from "./AssignLeadModal";
 import ParticularLeadAssign from "./ParticularLeadAssign";
+import DealCreationForm from "./DealCreationForm";
 import ViewCustomerHistoryCardReport from "./ViewCustomerHistoryCardReport";
 import {
   addLead,
@@ -16,6 +17,7 @@ import {
   listLeads,
   removeLead,
   updateSalesPersionAssignment,
+  addDeal
 } from "../../../redux/leadSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { fetchUserWithRole } from "../../../redux/userSlice";
@@ -45,6 +47,7 @@ const MarketingManageData = () => {
   );
   //console.log("allCustomers", allCustomers?.data);
   //console.log("customerAddress", customerAddress);
+  const [dealCreationOpenForm, setDealCreationOpenForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState({});
   const [selectedLead, setSelectedLead] = useState({});
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
@@ -524,6 +527,110 @@ const MarketingManageData = () => {
     }
   };
 
+  ////add deal
+  const [dealData, setDealData] = useState({
+    date: "",
+    product_id : "",
+    area: "",
+    quantity: "",
+    rate: "",
+    amount: "",
+    advance_amount: "",
+    deal_amount: "",
+    lead_id:""
+  });
+
+  const handleDealInputChange = (e) => {
+    const { name, value } = e.target;
+    setDealData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const [dealFormErrors, setDealFormErrors] = useState({});
+  const [addDealFlashMessage, setAddDealFlashMessage] = useState("");
+  const [addDealFlashMsgType, setAddDealFlashMsgType] = useState("");
+
+  const handleAddDealFlashMessage = (message, type) => {
+    setAddDealFlashMessage(message);
+    setAddDealFlashMsgType(type);
+    setTimeout(() => {
+      setAddDealFlashMessage("");
+      setAddDealFlashMsgType("");
+    }, 3000);
+  };
+
+  const validateDealForm = () => {
+    const newErrors = {};
+
+    if (!dealData.date) newErrors.date = "Date is required.";
+    if (!dealData.product_id)
+      newErrors.product_id  = "Product Name is required.";
+    if (!dealData.area)
+      newErrors.area = "Area Name is required.";
+    
+    if (!dealData.quantity) newErrors.quantity = "Quantity is required.";
+    if (!dealData.rate) newErrors.rate = "Rate is required.";
+    if (!dealData.amount) newErrors.amount = "Amount is required.";
+    if (!dealData.advance_amount) newErrors.advance_amount = "Advance amount is required.";
+    if (!dealData.deal_amount) newErrors.deal_amount = "Deal amount is required.";
+
+    setDealFormErrors(newErrors); // Create a new state if not exists: 
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmitDeal = async (e) => {
+    console.log("dealDataform",dealData);
+    e.preventDefault();
+    if (validateDealForm()) {
+      try {
+        const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
+
+        if (response?.success) {
+          handleAddDealFlashMessage(response?.message, "success");
+
+          dispatch(
+            listLeads({
+              page: currentPage,
+              limit: leadPerPage,
+              search: searchTerm,
+            })
+          );
+
+          setDealData({
+            date: "",
+            product_id : "",
+            area: "",
+            quantity: "",
+            rate: "",
+            amount: "",
+            advance_amount: "",
+            deal_amount: "",
+            lead_id:""
+          });
+
+          setTimeout(() => {
+            setDealCreationOpenForm(false);
+          }, 3000);
+        } else {
+          handleAddDealFlashMessage(
+            response?.message || "Something went wrong",
+            "error"
+          );
+        }
+      } catch (error) {
+        console.error("Error adding deal:", error);
+        handleAddDealFlashMessage(
+          error?.message || "An error occurred",
+          "error"
+        );
+      }
+    }
+  };
+
+  ////end deal
+
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex items-center justify-between">
@@ -580,6 +687,9 @@ const MarketingManageData = () => {
             setViewCustomerHistoryCardModalOpen={
               setViewCustomerHistoryCardModalOpen
             }
+            dealCreationOpenForm={dealCreationOpenForm}
+            setDealCreationOpenForm={setDealCreationOpenForm}
+            setDealData={setDealData}
           />
           {/*------- Table Data End -------*/}
         </div>
@@ -651,6 +761,53 @@ const MarketingManageData = () => {
           />
         )}
 
+      {isLeadAssignPopup && (
+        <ParticularLeadAssign
+          setIsLeadAssignPopup={setIsLeadAssignPopup}
+          selectedLead={selectedLead}
+          setSelectedLead={setSelectedLead}
+          userDataWithRole={userDataWithRole}
+          handleAssignSalesPerson={handleAssignSalesPerson}
+          poaUpdateData={poaUpdateData}
+          setPoaUpdateData={setPoaUpdateData}
+          handlePoaUpdateChange={handlePoaUpdateChange}
+          validatePoaUpdateForm={validatePoaUpdateForm}
+          updateLeadFormErrors={updateLeadFormErrors}
+          setUpdateLeadFormErrors={setUpdateLeadFormErrors}
+          updateLeadFlashMessage={updateLeadFlashMessage}
+          setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
+          updateLeadFlashMsgType={updateLeadFlashMsgType}
+          setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
+          handleUpdateLeadChange={handleUpdateLeadChange}
+          handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+        />
+      )}
+
+      {/* View User Modal */}
+      {isViewCustomerHistoryCardModalOpen && (
+        <ViewCustomerHistoryCardReport
+          setViewCustomerHistoryCardModalOpen={
+            setViewCustomerHistoryCardModalOpen
+          }
+          selectedCustomer={selectedCustomer}
+        />
+      )}
+
+      {dealCreationOpenForm && (
+        <DealCreationForm
+          dealCreationOpenForm={dealCreationOpenForm}
+          setDealCreationOpenForm={setDealCreationOpenForm}
+          selectedLead={selectedLead}
+          dealData={dealData}
+          setDealData={setDealData}
+          handleDealInputChange={handleDealInputChange}
+          handleSubmitDeal={handleSubmitDeal}
+          addDealFlashMessage={addDealFlashMessage}
+          addDealFlashMsgType={addDealFlashMsgType}
+          dealFormErrors={dealFormErrors}
+          setDealFormErrors={setDealFormErrors}
+        />
+      )}
         {isLeadAssignPopup && (
           <ParticularLeadAssign
             setIsLeadAssignPopup={setIsLeadAssignPopup}

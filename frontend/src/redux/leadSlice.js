@@ -77,6 +77,23 @@ export const addLead = createAsyncThunk(
   }
 );
 
+//addDeal
+export const addDeal = createAsyncThunk(
+  "auth/addDeal",
+  async (dealData, { rejectWithValue }) => {
+    console.log("reduxdealData", dealData);
+    try {
+      const token = getAuthToken();
+      const response = await axios.post(`${API_URL}/auth/addDeal`, dealData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(leadError.response?.data || "Failed to add lead");
+    }
+  }
+);
+
 //Lead communication for sales person
 export const addLeadCommunication = createAsyncThunk(
   "auth/lead-communication",
@@ -323,6 +340,24 @@ export const updateSalesPersionAssignment = createAsyncThunk(
   }
 );
 
+export const finalizeDealsList = createAsyncThunk(
+  "auth/get-Deal-data",
+  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/get-Deal-data`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, limit, search },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch leads"
+      );
+    }
+  }
+);
+
 // 🔹 LEAD SLICE
 const leadSlice = createSlice({
   name: "lead",
@@ -332,6 +367,7 @@ const leadSlice = createSlice({
     communicationleads: [],
     communicationleadsList: [],
     finalizeDealsData: [],
+    finalizeDealsListData:[],
     lead: null,
     salesPersonleads: [],
     allLeads: [],
@@ -384,6 +420,21 @@ const leadSlice = createSlice({
         state.leadLoading = false;
         state.leadError = action.payload;
       })
+
+      .addCase(finalizeDealsList.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(finalizeDealsList.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.finalizeDealsListData = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(finalizeDealsList.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
       .addCase(ConvertedLeadData.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -486,6 +537,19 @@ const leadSlice = createSlice({
         state.leadLoading = false;
         state.leadError = action.payload;
       })
+
+      .addCase(addDeal.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(addDeal.fulfilled, (state, action) => {
+        state.leads.data = [action.payload.data, ...state.leads.data];
+      })
+      .addCase(addDeal.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+      
       .addCase(addLeadCommunication.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
