@@ -29,16 +29,6 @@ const SalePOForm = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const leadPerPage = 4;
 
-  useEffect(() => {
-    dispatch(
-      finalizeDeals({
-        page: currentPage,
-        limit: leadPerPage,
-        search: searchTerm,
-      })
-    );
-  }, [dispatch, currentPage, searchTerm]);
-
    useEffect(() => {
       dispatch(
         finalizeDealsList({

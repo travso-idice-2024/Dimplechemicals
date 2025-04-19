@@ -262,9 +262,41 @@ const exportWonLeadCommunications = async (req, res) => {
   }
 };
 
+const visistsOfMonth = async (req, res) => {
+  try {
+    const today = new Date();
+    const month = today.getMonth(); // 0-indexed
+    const year = today.getFullYear();
+
+    const startDate = new Date(year, month, 1);
+    const endDate = new Date(year, month + 1, 0); // Last day of current month
+
+    const totalVisits = await LeadCommunication.count({
+      where: {
+        lead_date: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Total visits of the current month fetched successfully",
+      totalVisits,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching total visits of the month",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createLeadCommunication,
   getLeadCommunicationsByLeadId,
   getWonLeadCommunications,
   exportWonLeadCommunications,
+  visistsOfMonth
 };

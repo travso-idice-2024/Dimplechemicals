@@ -62,7 +62,8 @@ const {
   createLeadCommunication,
   getLeadCommunicationsByLeadId,
   getWonLeadCommunications,
-  exportWonLeadCommunications
+  exportWonLeadCommunications,
+  visistsOfMonth
 } = require("../controllers/leadCommunicationController");
 
 const {
@@ -215,5 +216,6 @@ router.get("/poa-for-day", authMiddleware, planOfActionForaDay);
 router.post("/addDeal", authMiddleware, addDealData);
 router.get("/get-Deal-data", authMiddleware, getDealData);
 router.get("/total-lead-count", authMiddleware, countTotalLeads);
+router.get("/total-months-visits", authMiddleware, visistsOfMonth);
 
 module.exports = router;
