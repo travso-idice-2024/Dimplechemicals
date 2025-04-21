@@ -7,6 +7,7 @@ import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
 import PoaReportOfUser from "./PoaReportOfUser";
+import EmpSARReport from "./EmpSARReport";
 import AllEmpPlanOfActionReport from "./AllEmpPlanOfActionReport";
 import ParticularLeadAssign from "./ParticularLeadAssign";
 import ContentTop from "../../../ContentTop/ContentTop";
@@ -148,14 +149,14 @@ const SalesPersonFollowUp = () => {
       errors.meeting_type = "Meeting Type is required.";
     if (!poaData.meeting_summary)
       errors.meeting_summary = "Meeting Summary is required.";
-    if (!poaData.product_sale)
-      errors.product_sale = "Product Sale is required.";
-    if (!poaData.total_material_qty)
-      errors.total_material_qty = "Total Material Qty is required.";
-    if (!poaData.approx_business)
-      errors.approx_business = "Approx Business is required.";
-    if (!poaData.project_name)
-      errors.project_name = "Project Name is required.";
+    // if (!poaData.product_sale)
+    //   errors.product_sale = "Product Sale is required.";
+    // if (!poaData.total_material_qty)
+    //   errors.total_material_qty = "Total Material Qty is required.";
+    // if (!poaData.approx_business)
+    //   errors.approx_business = "Approx Business is required.";
+    // if (!poaData.project_name)
+    //   errors.project_name = "Project Name is required.";
 
     setPoaFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -281,7 +282,7 @@ const SalesPersonFollowUp = () => {
         <div className="flex items-center justify-between"> 
           <div>
             <h1 className="text-white text-[14px] font-semibold">
-              Plan of action for a day
+            Visit Plan (POA)
             </h1>
           </div>
           <div className="flex items-center gap-[5px]">
@@ -368,8 +369,15 @@ const SalesPersonFollowUp = () => {
             />
           )}
 
-          {poaReportOpen && (
+          {/* {poaReportOpen && (
             <PoaReportOfUser
+              setpoaReportOpen={setpoaReportOpen}
+              selectedPOA={selectedPOA}
+            />
+          )} */}
+
+          {poaReportOpen && (
+            <EmpSARReport
               setpoaReportOpen={setpoaReportOpen}
               selectedPOA={selectedPOA}
             />

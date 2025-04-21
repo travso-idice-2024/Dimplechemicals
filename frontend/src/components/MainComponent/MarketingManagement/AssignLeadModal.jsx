@@ -14,7 +14,7 @@ const AssignLeadModal = ({
   handleSubmitAddLead,
   allCustomers,
   handleLeadCustomerChange,
-  customerAddress
+  customerAddress,
 }) => {
   return (
     <>
@@ -56,34 +56,32 @@ const AssignLeadModal = ({
                 <p className="text-red-500">{addLeadFormErrors?.customer_id}</p>
               )}
             </div>
-            {leadData?.customer_id &&(
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
-                Select address:
-              </label>
-              <select
-                name="lead_address"
-                value={leadData?.lead_address || ""}
-                onChange={handleLeadChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-              >
-                <option value="">Select the Address</option>
+            {leadData?.customer_id && (
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Select address:
+                </label>
+                <select
+                  name="lead_address"
+                  value={leadData?.lead_address || ""}
+                  onChange={handleLeadChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                >
+                  <option value="">Select the Address</option>
 
-                {/* Dynamic customer options */}
-                {customerAddress?.data?.addresses?.map((address,index) => (
-                  <option key={index} value={address}>
-                    {address}
-                  </option>
-                ))}
-              </select>
-
-
-            </div>
+                  {/* Dynamic customer options */}
+                  {customerAddress?.data?.addresses?.map((address, index) => (
+                    <option key={index} value={address}>
+                      {address}
+                    </option>
+                  ))}
+                </select>
+              </div>
             )}
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Lead Source :
+                Lead Source :
               </label>
               <select
                 name="lead_source"
@@ -91,20 +89,43 @@ const AssignLeadModal = ({
                 onChange={handleLeadChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               >
-                <option>Select the lead source</option>
+                <option value="" disabled>
+                  Select the lead source
+                </option>
                 <option value="Marketing">Marketing</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Reference">Reference</option>
-                  <option value="Direct">Direct</option>
+                <option value="Sales">Sales</option>
+                <option value="Reference">Reference</option>
+                <option value="Direct">Direct</option>
               </select>
               {addLeadFormErrors?.lead_source && (
-                <p className="text-red-500">{addLeadFormErrors?.lead_source}</p>
+                <p className="text-red-500">{addLeadFormErrors.lead_source}</p>
               )}
             </div>
 
+            {leadData?.lead_source === "Reference" && (
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reference Name :
+                </label>
+                <input
+                  type="text"
+                  name="reference_name"
+                  value={leadData?.reference_name}
+                  onChange={handleLeadChange}
+                  placeholder="Enter reference name"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {addLeadFormErrors?.reference_name && (
+                  <p className="text-red-500">
+                    {addLeadFormErrors.reference_name}
+                  </p>
+                )}
+              </div>
+            )}
+
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Lead Status :
+                Lead Status :
               </label>
               <select
                 name="lead_status"
@@ -169,7 +190,7 @@ const AssignLeadModal = ({
 
             <div className="">
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Description :
+                Description :
               </label>
               <textarea
                 type="text"
@@ -186,7 +207,7 @@ const AssignLeadModal = ({
               )}
             </div>
           </div>
-          
+
           <div className="flex items-end justify-end gap-2 px-4">
             <button
               className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"

@@ -41,7 +41,7 @@ export const navigationLinks = [
     submenu: [
       {
         id: 5.1,
-        title: "Plan of Action for Day",
+        title: "Visit Plan (POA)",
         image: iconsImgs.followupform,
         path: "/sale-management/plan-of-action-for-day",
       },

@@ -108,6 +108,7 @@ const MarketingManageData = () => {
     assign_date: "",
     lead_summary: "",
     lead_address: "",
+    reference_name:""
   });
 
   const [addLeadFormErrors, setaddLeadFormErrors] = useState({});

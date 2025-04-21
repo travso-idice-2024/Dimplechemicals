@@ -14,9 +14,11 @@ import {
   addCustomer,
   updateCustomer,
   removeCustomer,
+  fetchAllBussinessAssociateList
 } from "../../../redux/customerSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import axios from "axios";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -24,13 +26,13 @@ const getAuthToken = () => localStorage.getItem("token");
 
 const CustomerManageData = () => {
   const dispatch = useDispatch();
-  const { customers, totalPages, customerLoading, customerError } = useSelector(
+  const { customers,allBAdata, totalPages, customerLoading, customerError } = useSelector(
     (state) => state.customer
   );
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  //console.log("login user", userDataWithRole);
+  console.log("allBAdata", allBAdata);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
@@ -46,9 +48,10 @@ const CustomerManageData = () => {
   const customersPerPage = 10;
 
   // Fetch customers whenever searchTerm or currentPage changes
+  //console.log("selectedCustomer",selectedCustomer?.id);
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-
+    dispatch(fetchAllBussinessAssociateList({cust_id:selectedCustomer?.id}));
     dispatch(
       listCustomers({
         page: currentPage,
@@ -56,7 +59,7 @@ const CustomerManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm]);
+  }, [dispatch, currentPage, searchTerm,selectedCustomer]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -84,7 +87,42 @@ const CustomerManageData = () => {
     address_2: "",
     address_3: "",
     address_4: "",
+    business_associate:"",
+    associate_name:"",
+    gst_no:"",
+    client_name_1:"",
+    client_name_2:""
   });
+
+  useEffect(() => {
+    const fetchCityFromAPI = async () => {
+      if (formData.pincode.length === 6) {
+        try {
+          // Fetch from India Post API
+          const res = await fetch(`https://api.postalpincode.in/pincode/${formData.pincode}`);
+          const data = await res.json();
+  
+          if (data[0].Status === 'Success') {
+            const postOffice = data[0].PostOffice?.[0];
+            if (postOffice) {
+              setFormData((prev) => ({ ...prev, location: postOffice.District }));
+              return;
+            }
+          }
+  
+        } catch (error) {
+          console.error("Error fetching city:", error);
+          setFormData((prev) => ({ ...prev, location: '' }));
+        }
+      } else {
+        setFormData((prev) => ({ ...prev, location: '' }));
+      }
+    };
+  
+    fetchCityFromAPI();
+  }, [formData.pincode]);
+  
+// When pincode changes, fetch location
 
   const [formErrors, setFormErrors] = useState({});
   const [flashMessage, setFlashMessage] = useState("");
@@ -103,6 +141,8 @@ const CustomerManageData = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    setLastUpdatedField(name);
 
     // Clear error when user types
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
@@ -178,7 +218,40 @@ const CustomerManageData = () => {
     address_2: "",
     address_3: "",
     address_4: "",
+    business_associate:"",
+    associate_name:"",
+    gst_no:"",
+    client_name_1:"",
+    client_name_2:""
   });
+
+  useEffect(() => {
+    const fetchCityFromAPI = async () => {
+      if (editFormData.pincode.length === 6) {
+        try {
+          // Fetch from India Post API
+          const res = await fetch(`https://api.postalpincode.in/pincode/${editFormData.pincode}`);
+          const data = await res.json();
+  
+          if (data[0].Status === 'Success') {
+            const postOffice = data[0].PostOffice?.[0];
+            if (postOffice) {
+              setEditFormData((prev) => ({ ...prev, location: postOffice.District }));
+              return;
+            }
+          }
+  
+        } catch (error) {
+          console.error("Error fetching city:", error);
+          setEditFormData((prev) => ({ ...prev, location: '' }));
+        }
+      } else {
+        setEditFormData((prev) => ({ ...prev, location: '' }));
+      }
+    };
+  
+    fetchCityFromAPI();
+  }, [editFormData.pincode]);
 
   const [editFormErrors, setEditFormErrors] = useState({});
   const [editFlashMessage, setEditFlashMessage] = useState("");
@@ -201,6 +274,7 @@ const CustomerManageData = () => {
         address_2: selectedCustomer.address_2 || "",
         address_3: selectedCustomer.address_3 || "",
         address_4: selectedCustomer.address_4 || "",
+
       });
     }
   }, [selectedCustomer]);
@@ -429,6 +503,7 @@ const CustomerManageData = () => {
               setFlashMessage={setFlashMessage}
               setFlashMsgType={setFlashMsgType}
               flashMsgType={flashMsgType}
+              bussinesasociatedata = {allBAdata?.data?.associates}
             />
           )}
 
@@ -448,6 +523,7 @@ const CustomerManageData = () => {
               setEditFlashMsgType={setEditFlashMsgType}
               handleEditChange={handleEditChange}
               handleEditSubmit={handleEditSubmit}
+              bussinesasociatedata = {allBAdata?.data?.associates}
             />
           )}
 

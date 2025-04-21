@@ -1,7 +1,7 @@
 import React from "react";
 
 const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
-  console.log(selectedCustomer);
+  //console.log(selectedCustomer);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-[550px] pt-0 pb-4 rounded-[6px] flex flex-col">
@@ -16,7 +16,7 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
             />
           </div>
           <div className="flex items-center gap-3">
-            <Detail label="Company Name" value={selectedCustomer.client_name} />
+            <Detail label="Contact person Name" value={selectedCustomer.client_name} />
           </div>
           <div className="flex items-center gap-3">
             <Detail label="Designation" value={selectedCustomer.designation} />
@@ -34,7 +34,7 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
             <Detail label="Address" value={selectedCustomer.address} />
           </div>
           <div className="flex items-center gap-3">
-            <Detail label="Location" value={selectedCustomer.location} />
+            <Detail label="City" value={selectedCustomer.location} />
           </div>
           <div className="flex items-center gap-3">
             <Detail label="Pincode" value={selectedCustomer.pincode} />

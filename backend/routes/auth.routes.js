@@ -37,7 +37,8 @@ const {
   getCustomerAddresses,
   exportCustomersToExcel,
   customerInfo,
-  customerHistory
+  customerHistory,
+  getBuisnessAssociates
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -217,5 +218,9 @@ router.post("/addDeal", authMiddleware, addDealData);
 router.get("/get-Deal-data", authMiddleware, getDealData);
 router.get("/total-lead-count", authMiddleware, countTotalLeads);
 router.get("/total-months-visits", authMiddleware, visistsOfMonth);
+router.get("/buisness-asssociates/:id", authMiddleware, getBuisnessAssociates);
+
+
+
 
 module.exports = router;

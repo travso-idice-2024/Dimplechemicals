@@ -124,12 +124,30 @@ export const removeCustomer = createAsyncThunk(
   }
 );
 
+export const fetchAllBussinessAssociateList = createAsyncThunk(
+  "auth//buisness-asssociates",
+  async ({cust_id}, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/buisness-asssociates/${cust_id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data;
+    } catch (customerError) {
+      return rejectWithValue(
+        customerError.response?.data || "Failed to fetchAllBussinessAssociateList"
+      );
+    }
+  }
+);
+
 // 🔹 CUSTOMER SLICE
 const customerSlice = createSlice({
   name: "customer",
   initialState: {
     customers: [],
     allCustomers: [],
+    allBAdata:[],
     customerAddress:[],
     customerLoading: false,
     customerError: null,
@@ -150,6 +168,20 @@ const customerSlice = createSlice({
         state.customerLoading = false;
         state.customerError = action.payload;
       })
+      
+      .addCase(fetchAllBussinessAssociateList.pending, (state) => {
+        state.customerLoading = true;
+        state.customerError = null;
+      })
+      .addCase(fetchAllBussinessAssociateList.fulfilled, (state, action) => {
+        state.customerLoading = false;
+        state.allBAdata = action.payload;
+      })
+      .addCase(fetchAllBussinessAssociateList.rejected, (state, action) => {
+        state.customerLoading = false;
+        state.customerError = action.payload;
+      })
+
       .addCase(getAllAddressByCustomerId.pending, (state) => {
         state.customerLoading = true;
         state.customerError = null;

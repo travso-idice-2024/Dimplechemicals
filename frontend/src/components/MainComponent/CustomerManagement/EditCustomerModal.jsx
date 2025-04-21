@@ -17,103 +17,31 @@ const EditUserModal = ({
   editFlashMsgType,
   setEditFlashMsgType,
   handleEditChange,
-  handleEditSubmit }) => {
+  handleEditSubmit,
+  bussinesasociatedata }) => {
+     const [associatePopup, setAssociatePopup] = useState(false);
+      const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
+    
+      const handleAddAssociate = () => {
+        // Save associate_name to business_associate field (if needed)
+        setEditFormData((prev) => ({
+          ...prev,
+          associate_name: prev.associate_name, // Clear input field
+        }));
+    
+        // ✅ Show success message
+        setSuccessMessage("Business Associate added successfully!");
+    
+        // ✅ Clear message after 3 seconds
+        setTimeout(() => {setSuccessMessage("");
+          handleAssociatePopup();
+        }, 3000);
+      };
+    
+      const handleAssociatePopup = () => {
+        setAssociatePopup(true);
+      };
   
-  //const dispatch = useDispatch();
-
-  // const [editFormData, seteditFormData] = useState({
-  //   company_name: "",
-  //   client_name: "",
-  //   designation: "",
-  //   primary_contact: "",
-  //   secondary_contact: "",
-  //   email_id: "",
-  //   address: "",
-  //   location: "",
-  //   pincode: "",
-  //   pan_no: "",
-  // });
-  // const [editFormErrors, seteditFormErrors] = useState({});
-  // const [flashMessage, setFlashMessage] = useState("");
-  // const [flashMsgType, setFlashMsgType] = useState("");
-
-  // useEffect(() => {
-  //   if (selectedCustomer) {
-  //     seteditFormData({
-  //       company_name: selectedCustomer.company_name || "",
-  //       client_name: selectedCustomer.client_name || "",
-  //       designation: selectedCustomer.designation || "",
-  //       primary_contact: selectedCustomer.primary_contact || "",
-  //       secondary_contact: selectedCustomer.secondary_contact || "",
-  //       email_id: selectedCustomer.email_id || "",
-  //       address: selectedCustomer.address || "",
-  //       location: selectedCustomer.location || "",
-  //       pincode: selectedCustomer.pincode || "",
-  //       pan_no: selectedCustomer.pan_no || "",
-  //     });
-  //   }
-  // }, [selectedCustomer]);
-
-  // const handleFlashMessage = (message, type) => {
-  //   setFlashMessage(message);
-  //   setFlashMsgType(type);
-  //   setTimeout(() => {
-  //     setFlashMessage("");
-  //     setFlashMsgType("");
-  //   }, 3000);
-  // };
-  // const handleEditChange = (e) => {
-  //   const { name, value } = e.target;
-  //   seteditFormData((prevData) => ({ ...prevData, [name]: value }));
-  //   seteditFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  // };
-
-  // const validateInputs = () => {
-  //   let errors = {};
-  //   if (!editFormData.company_name.trim())
-  //     errors.company_name = "*Company name is required";
-  //   if (!editFormData.client_name.trim())
-  //     errors.client_name = "*Client name is required";
-  //   if (!editFormData.designation.trim())
-  //     errors.designation = "*Designation is required";
-  //   if (!editFormData.primary_contact.trim())
-  //     errors.primary_contact = "*Primary contact is required";
-  //   if (!editFormData.email_id.trim()) errors.email_id = "*Email is required";
-  //   if (!editFormData.address.trim()) errors.address = "*Address is required";
-  //   if (!editFormData.location.trim()) errors.location = "*Location is required";
-  //   if (!editFormData.pincode.trim()) errors.pincode = "*Pincode is required";
-  //   if (!editFormData.pan_no.trim()) errors.pan_no = "*PAN No is required";
-
-  //   seteditFormErrors(errors);
-  //   return Object.keys(errors).length === 0;
-  // };
-
-  // const handleEditSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (validateInputs()) {
-  //     try {
-  //       const response = await dispatch(
-  //         updateCustomer({ id: selectedCustomer.id, customerData: editFormData })
-  //       ).unwrap();
-
-  //       if (response.success) {
-  //         handleFlashMessage(response.message, "success");
-  //         await dispatch(listCustomers());
-  //         setTimeout(() => {
-  //           setEditCustomerModalOpen(false);
-  //         }, 3000);
-  //       } else {
-  //         handleFlashMessage(
-  //           response?.message || "Something went wrong",
-  //           "error"
-  //         );
-  //       }
-  //     } catch (error) {
-  //       handleFlashMessage(error.message || "An error occurred", "error");
-  //     }
-  //   }
-  // };
-
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -130,16 +58,6 @@ const EditUserModal = ({
             Edit Customer
           </h2>
           <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-fit">
-            {/* <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
-               Date :
-            </label>
-            <input
-              type="date"
-              placeholder="Date"
-              className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-            />
-          </div> */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
                  Company Name :
@@ -160,7 +78,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Client Name :
+              Contact person Name :
               </label>
               <input
                 type="text"
@@ -175,44 +93,139 @@ const EditUserModal = ({
               )}
             </div>
 
-            {/* <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
-               Name of Lead Owner :
-            </label>
-            <input
-              type="text"
-              placeholder="Client Name"
-              className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-            />
-          </div> */}
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+              Contact person Name 1 :
+              </label>
+              <input
+                type="text"
+                name="client_name_1"
+                placeholder="Client Name 1"
+                value={editFormData.client_name_1}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.client_name_1 && (
+                <p className="text-red-500 text-sm">{editFormErrors.client_name_1}</p>
+              )}
+            </div>
 
-            {/* <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
-              Select the Lead Source :
-            </label>
-            <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]">
-              <option>Select the Source</option>
-              <option value="">Marketing</option>
-              <option value="">Sales</option>
-              <option value="">Reference</option>
-              <option value="">Direct</option>
-            </select>
-          </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+              Contact person Name 2 :
+              </label>
+              <input
+                type="text"
+                name="client_name_2"
+                placeholder="Client Name 2"
+                value={editFormData.client_name_2}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.client_name_2 && (
+                <p className="text-red-500 text-sm">{editFormErrors.client_name_2}</p>
+              )}
+            </div>
 
-          <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
-              Select the Status :
-            </label>
-            <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]">
-              <option>Select the Status</option>
-              <option value="New">Hot</option>
-              <option value="InProgress">Warm</option>
-              <option value="Completed">Cold</option>
-              <option value="">In Discussion</option>
-              <option value="">On Hold</option>
-              <option value="">Lost</option>
-            </select>
-          </div> */}
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Business Associate Name :
+              </label>
+              <select
+                name="business_associate"
+                value={editFormData.business_associate}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select Business Associate</option>
+                {bussinesasociatedata &&
+                  bussinesasociatedata.length > 0 &&
+                  bussinesasociatedata.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.associate_name}
+                    </option>
+                  ))}
+              </select>
+
+              {editFormErrors.business_associate && (
+                <p className="text-red-500 text-sm">
+                  {editFormErrors.business_associate}
+                </p>
+              )}
+            </div>
+
+            <div onClick={handleAssociatePopup}>
+              <label className="font-poppins font-medium text-textdata text-bgData "></label>
+              <input
+                type="text"
+                value="Add Associate"
+                className="block w-full mt-[22px] mb-2  text-center bg-green-500 cursor-pointer text-white rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+            </div>
+            {/* Associate Popup Design */}
+            {associatePopup && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-white w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+                  <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+                    Add New Associate
+                  </h2>
+                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
+                    <div>
+                      <label className="font-poppins font-medium text-textdata text-bgData">
+                        Associate Name :
+                      </label>
+                      <input
+                        type="text"
+                        name="associate_name"
+                        value={editFormData.associate_name}
+                        onChange={handleEditChange}
+                        placeholder="associate name"
+                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                      />
+                    </div>
+                    {/* ✅ Success message */}
+                    {successMessage && (
+                      <div className="text-green-600 text-sm font-medium">
+                        {successMessage}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-end justify-end gap-2 px-4">
+                    <button
+                      className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                      onClick={handleAddAssociate}
+                    >
+                      Add 
+                    </button>
+                    <button
+                      className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                      onClick={() => setAssociatePopup(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+              Company GST no :
+              </label>
+              <input
+                type="text"
+                name="gst_no"
+                placeholder="Company GST no"
+                value={editFormData.gst_no}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.gst_no && (
+                <p className="text-red-500 text-sm">{editFormErrors.gst_no}</p>
+              )}
+            </div>
+
+
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
@@ -335,7 +348,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Location:
+                 City :
               </label>
               <input
                 type="text"
@@ -351,7 +364,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Address 1 :
+                 Address  :
               </label>
               <textarea
                 type="text"
@@ -367,7 +380,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Address 2 :
+              Reg Office Add :
               </label>
               <textarea
                 type="text"
@@ -383,7 +396,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Address 3 :
+              Factory Add :
               </label>
               <textarea
                 type="text"
@@ -399,7 +412,7 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                 Address 4 :
+              Plant / Unit Add :
               </label>
               <textarea
                 type="text"

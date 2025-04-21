@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "customer_id",
         as: "leads",
       });
+      Customer.hasMany(models.BusinessAssociate, {
+        foreignKey: 'customer_id',
+        as: 'businessAssociates',
+      });
     }
   }
   Customer.init({
@@ -72,6 +76,10 @@ module.exports = (sequelize, DataTypes) => {
     cust_id: {
       type: DataTypes.STRING,
       unique:true,
+    },
+    business_associate: {
+      type: DataTypes.STRING,
+      allowNull: true, 
     },
   }, {
     sequelize,
