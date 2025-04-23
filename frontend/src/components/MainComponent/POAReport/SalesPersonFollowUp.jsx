@@ -6,6 +6,7 @@ import { iconsImgs } from "../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import PoaReportOfUser from "./PoaReportOfUser";
+import EmpSARReport from "./EmpSARReport";
 import AllEmpPlanOfActionReport from "./AllEmpPlanOfActionReport";
 import ContentTop from "../../ContentTop/ContentTop";
 import { fetchUserWithRole } from "../../../redux/userSlice";
@@ -21,7 +22,7 @@ import {
 } from "../../../redux/poaSlice";
 
 const SalesPersonFollowUp = () => {
-  console.log("SalesPersonFollowUp component mounted");
+  //console.log("SalesPersonFollowUp component mounted");
 
   const dispatch = useDispatch();
 
@@ -336,8 +337,15 @@ const SalesPersonFollowUp = () => {
             />
           )}
 
-          {poaReportOpen && (
+          {/* {poaReportOpen && (
             <PoaReportOfUser
+              setpoaReportOpen={setpoaReportOpen}
+              selectedPOA={selectedPOA}
+            />
+          )} */}
+
+          {poaReportOpen && (
+            <EmpSARReport
               setpoaReportOpen={setpoaReportOpen}
               selectedPOA={selectedPOA}
             />

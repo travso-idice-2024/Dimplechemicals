@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
   Customer.init({
     company_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     client_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     designation: {
       type: DataTypes.STRING,
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     email_id: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     address: {
@@ -80,6 +80,22 @@ module.exports = (sequelize, DataTypes) => {
     business_associate: {
       type: DataTypes.STRING,
       allowNull: true, 
+    },
+    contact_persion1: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    contact_persion2: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    contact_persion3: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    gst_number: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   }, {
     sequelize,

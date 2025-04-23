@@ -18,25 +18,29 @@ const EditUserModal = ({
   setEditFlashMsgType,
   handleEditChange,
   handleEditSubmit,
-  bussinesasociatedata }) => {
+  bussinesasociatedata,
+  handleUpdateAssociate }) => {
+     
      const [associatePopup, setAssociatePopup] = useState(false);
       const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
     
-      const handleAddAssociate = () => {
-        // Save associate_name to business_associate field (if needed)
-        setEditFormData((prev) => ({
-          ...prev,
-          associate_name: prev.associate_name, // Clear input field
-        }));
+      // const handleAddAssociate = () => {
+
+
+      //   // Save associate_name to business_associate field (if needed)
+      //   // setEditFormData((prev) => ({
+      //   //   ...prev,
+      //   //   associate_name: prev.associate_name, // Clear input field
+      //   // }));
     
-        // ✅ Show success message
-        setSuccessMessage("Business Associate added successfully!");
+      //   // ✅ Show success message
+      //   setSuccessMessage("Business Associate added successfully!");
     
-        // ✅ Clear message after 3 seconds
-        setTimeout(() => {setSuccessMessage("");
-          handleAssociatePopup();
-        }, 3000);
-      };
+      //   // ✅ Clear message after 3 seconds
+      //   setTimeout(() => {setSuccessMessage("");
+      //     handleAssociatePopup();
+      //   }, 3000);
+      // };
     
       const handleAssociatePopup = () => {
         setAssociatePopup(true);
@@ -78,35 +82,18 @@ const EditUserModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-              Contact person Name :
-              </label>
-              <input
-                type="text"
-                name="client_name"
-                placeholder="Client Name"
-                value={editFormData.client_name}
-                onChange={handleEditChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-              />
-              {editFormErrors.client_name && (
-                <p className="text-red-500 text-sm">{editFormErrors.client_name}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
               Contact person Name 1 :
               </label>
               <input
                 type="text"
-                name="client_name_1"
-                placeholder="Client Name 1"
-                value={editFormData.client_name_1}
+                name="contact_persion1"
+                placeholder="Contact Persion 1"
+                value={editFormData.contact_persion1}
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.client_name_1 && (
-                <p className="text-red-500 text-sm">{editFormErrors.client_name_1}</p>
+              {editFormErrors.contact_persion1 && (
+                <p className="text-red-500 text-sm">{editFormErrors.contact_persion1}</p>
               )}
             </div>
 
@@ -116,14 +103,31 @@ const EditUserModal = ({
               </label>
               <input
                 type="text"
-                name="client_name_2"
-                placeholder="Client Name 2"
-                value={editFormData.client_name_2}
+                name="contact_persion2"
+                placeholder="Contact Persion 2"
+                value={editFormData.contact_persion2}
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.client_name_2 && (
-                <p className="text-red-500 text-sm">{editFormErrors.client_name_2}</p>
+              {editFormErrors.contact_persion2 && (
+                <p className="text-red-500 text-sm">{editFormErrors.contact_persion2}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+              Contact person Name 3 :
+              </label>
+              <input
+                type="text"
+                name="contact_persion3"
+                placeholder="Contact Persio n3"
+                value={editFormData.contact_persion3}
+                onChange={handleEditChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {editFormErrors.contact_persion3 && (
+                <p className="text-red-500 text-sm">{editFormErrors.contact_persion3}</p>
               )}
             </div>
 
@@ -133,14 +137,14 @@ const EditUserModal = ({
               </label>
               <select
                 name="business_associate"
-                value={editFormData.business_associate}
+                value={editFormData?.business_associate || " "}
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               >
                 <option value="">Select Business Associate</option>
                 {bussinesasociatedata &&
-                  bussinesasociatedata.length > 0 &&
-                  bussinesasociatedata.map((item) => (
+                  bussinesasociatedata?.length > 0 &&
+                  bussinesasociatedata?.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.associate_name}
                     </option>
@@ -162,51 +166,7 @@ const EditUserModal = ({
                 className="block w-full mt-[22px] mb-2  text-center bg-green-500 cursor-pointer text-white rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
             </div>
-            {/* Associate Popup Design */}
-            {associatePopup && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                <div className="bg-white w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
-                  <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
-                    Add New Associate
-                  </h2>
-                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
-                    <div>
-                      <label className="font-poppins font-medium text-textdata text-bgData">
-                        Associate Name :
-                      </label>
-                      <input
-                        type="text"
-                        name="associate_name"
-                        value={editFormData.associate_name}
-                        onChange={handleEditChange}
-                        placeholder="associate name"
-                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                      />
-                    </div>
-                    {/* ✅ Success message */}
-                    {successMessage && (
-                      <div className="text-green-600 text-sm font-medium">
-                        {successMessage}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-end justify-end gap-2 px-4">
-                    <button
-                      className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                      onClick={handleAddAssociate}
-                    >
-                      Add 
-                    </button>
-                    <button
-                      className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                      onClick={() => setAssociatePopup(false)}
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+          
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
@@ -214,14 +174,14 @@ const EditUserModal = ({
               </label>
               <input
                 type="text"
-                name="gst_no"
+                name="gst_number"
                 placeholder="Company GST no"
-                value={editFormData.gst_no}
+                value={editFormData.gst_number}
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.gst_no && (
-                <p className="text-red-500 text-sm">{editFormErrors.gst_no}</p>
+              {editFormErrors.gst_number && (
+                <p className="text-red-500 text-sm">{editFormErrors.gst_number}</p>
               )}
             </div>
 
@@ -443,6 +403,52 @@ const EditUserModal = ({
           </div>
         </div>
       </div>
+
+        {/* Associate Popup Design */}
+        {associatePopup && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-white w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+                  <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+                    Add New Associate
+                  </h2>
+                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
+                    <div>
+                      <label className="font-poppins font-medium text-textdata text-bgData">
+                        Associate Name :
+                      </label>
+                      <input
+                        type="text"
+                        name="associate_name"
+                        value={editFormData?.associate_name}
+                        onChange={handleEditChange}
+                        placeholder="associate name"
+                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                      />
+                    </div>
+                    {/* ✅ Success message */}
+                    {successMessage && (
+                      <div className="text-green-600 text-sm font-medium">
+                        {successMessage}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-end justify-end gap-2 px-4">
+                    <button
+                      className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                      onClick={handleUpdateAssociate}
+                    >
+                      Add 
+                    </button>
+                    <button
+                      className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                      onClick={() => setAssociatePopup(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
     </>
   );
 };

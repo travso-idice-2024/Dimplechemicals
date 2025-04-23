@@ -21,15 +21,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       bank_name: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: { msg: "Bank name is required" },
-          notEmpty: { msg: "Bank name cannot be empty" },
-        },
+        allowNull: true,
+        // validate: {
+        //   notNull: { msg: "Bank name is required" },
+        //   notEmpty: { msg: "Bank name cannot be empty" },
+        // },
       },
       account_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
         // validate: {
         //   notNull: { msg: "Account number is required" },
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       ifsc_code: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         // validate: {
         //   notNull: { msg: "IFSC code is required" },
         //   notEmpty: { msg: "IFSC code cannot be empty" },
@@ -48,15 +48,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       branch_name: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: { msg: "Branch name is required" },
-          notEmpty: { msg: "Branch name cannot be empty" },
-        },
+        allowNull: true,
+        // validate: {
+        //   notNull: { msg: "Branch name is required" },
+        //   notEmpty: { msg: "Branch name cannot be empty" },
+        // },
       },
       account_type: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         // validate: {
         //   notNull: { msg: "Account type is required" },
         //   isIn: {

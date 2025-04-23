@@ -19,7 +19,7 @@ const ViewUserModal = ({
           <div className="px-5 py-4">
             <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
-                <img
+                {/* <img
                   src={
                     selectedEmployee.profile_image
                       ? `${API_URL.replace("api", "")}${
@@ -29,7 +29,7 @@ const ViewUserModal = ({
                   }
                   alt="Profile"
                   className="w-16 h-16 rounded-full border"
-                />
+                /> */}
                 <div>
                   <h3 className="text-[15px] font-semibold">
                     {selectedEmployee.fullname}
@@ -54,11 +54,6 @@ const ViewUserModal = ({
           <div className="py-3 px-7">
             <div className="grid grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
               <Detail label="Status" value={selectedEmployee.status} />
-              <Detail
-                label="Role"
-                value={selectedEmployee.employeeRole.role.role_name}
-              />
-              <Detail label="Gender" value={selectedEmployee.gender} />
               <Detail label="Phone" value={selectedEmployee.phone} />
               <Detail label="Aadhar No." value={selectedEmployee.aadhar_no} />
               <Detail label="PAN No." value={selectedEmployee.pan_no} />
@@ -74,33 +69,12 @@ const ViewUserModal = ({
                 label="Work Location"
                 value={selectedEmployee.jobDetail.work_location}
               />
-              <Detail
-                label="Department"
-                value={selectedEmployee.jobDetail.department.department_name}
-              />
-              <Detail label="Basic Salary" value={selectedEmployee.salary} />
-              <Detail
-                label="Bank Account"
-                value={selectedEmployee.bankDetail.account_number}
-              />
-              <Detail
-                label="IFSC Code"
-                value={selectedEmployee.bankDetail.ifsc_code}
-              />
               <Detail label="Address" value={selectedEmployee.address} />
-
-              <Detail
-                label="Offer Letter"
-                value={selectedEmployee.jobDetail.offer_letter_date}
-              />
               <Detail
                 label="Joining Date"
                 value={selectedEmployee.jobDetail.date_of_joining}
               />
-              <Detail
-                label="Exit Date"
-                value={selectedEmployee.jobDetail.date_of_exit}
-              />
+             
             </div>
           </div>
         </div>

@@ -88,6 +88,7 @@ export const addCustomer = createAsyncThunk(
 export const updateCustomer = createAsyncThunk(
   "auth/updateCustomer",
   async ({ id, customerData }, { rejectWithValue }) => {
+    console.log("redux update function is calling");
     try {
       const token = getAuthToken();
       const response = await axios.put(

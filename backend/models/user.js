@@ -30,40 +30,40 @@ module.exports = (sequelize, DataTypes) => {
       },
       username: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          notNull: { msg: 'Username is required' },
-          notEmpty: { msg: 'Username cannot be empty' },
-          len: { args: [3, 20], msg: 'Username must be between 3 and 20 characters' },
-        },
+        allowNull: true,
+        //unique: true,
+        // validate: {
+        //   notNull: { msg: 'Username is required' },
+        //   notEmpty: { msg: 'Username cannot be empty' },
+        //   len: { args: [3, 20], msg: 'Username must be between 3 and 20 characters' },
+        // },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
-        validate: {
-          notNull: { msg: 'Email is required' },
-          notEmpty: { msg: 'Email cannot be empty' },
-          isEmail: { msg: 'Must be a valid email address' },
-        },
+        // unique: true,
+        // validate: {
+        //   notNull: { msg: 'Email is required' },
+        //   notEmpty: { msg: 'Email cannot be empty' },
+        //   isEmail: { msg: 'Must be a valid email address' },
+        // },
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: { msg: 'Password is required' },
-          notEmpty: { msg: 'Password cannot be empty' },
-          len: { args: [6, 100], msg: 'Password must be at least 6 characters' },
-          isStrongPassword(value) {
-            const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
-            if (!regex.test(value)) {
-              throw new Error(
-                'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character'
-              );
-            }
-          },
-        },
+        allowNull: true,
+        // validate: {
+        //   notNull: { msg: 'Password is required' },
+        //   notEmpty: { msg: 'Password cannot be empty' },
+        //   len: { args: [6, 100], msg: 'Password must be at least 6 characters' },
+        //   isStrongPassword(value) {
+        //     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+        //     if (!regex.test(value)) {
+        //       throw new Error(
+        //         'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character'
+        //       );
+        //     }
+        //   },
+        // },
       },
       phone: {
         type: DataTypes.STRING,
@@ -120,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.ENUM('active', 'inactive', 'suspended'),
-        allowNull: false,
+        allowNull: true,
         defaultValue: 'active'
       },
       aadhar_no: {

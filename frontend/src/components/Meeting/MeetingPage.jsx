@@ -7,6 +7,7 @@ import SuccessMessage from "../AlertMessage/SuccessMessage";
 import ErrorMessage from "../AlertMessage/ErrorMessage";
 import axios from "axios";
 import TodaysLeadReport from "./TodaysLeadReport";
+import EmpSARReport from "./EmpSARReport";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -46,7 +47,7 @@ const MeetingPage = () => {
 
   const [todayPOACount, settodayPOACount] = useState([]);
   //console.log("todayPOACount",todayPOACount);
-  
+
   const fetchPlanOfActionReport = async () => {
     try {
       // ✅ Get token
@@ -74,7 +75,7 @@ const MeetingPage = () => {
   return (
     <div className="grid-two-item grid-common heightfitdata grid-c4 flex flex-col gap-3">
       <div className="grid-c-title">
-        <h3 className="grid-c-title-text">Plan of Action</h3>
+        <h3 className="grid-c-title-text">Visit Plan</h3>
         <button className="grid-c-title-icon">
           <img src={iconsImgs.plus} />
         </button>
@@ -95,22 +96,20 @@ const MeetingPage = () => {
           <tbody>
             {todayPOACount?.map((metting, index) => (
               <tr
-                key={index+1}
+                key={index + 1}
                 className="text-center hover:bg-[#1e1e2d78] cursor-pointer"
               >
                 <td className="px-4 py-2 text-textdata">{index + 1}</td>
                 <td
                   className="px-4 py-2 text-textdata"
-                  // onClick={() => {
-                  //   setSelectedLeadData(metting);
-                  //   setViewLeadReportOpen(true);
-                  // }}
+                  onClick={() => {
+                    setSelectedLeadData(metting);
+                    setViewLeadReportOpen(true);
+                  }}
                 >
                   {metting?.fullname}
                 </td>
-                <td className="px-4 py-2 text-textdata">
-                  {metting?.email}
-                </td>
+                <td className="px-4 py-2 text-textdata">{metting?.email}</td>
                 <td className="px-4 py-2 text-textdata">
                   {metting?.total_meetings}
                 </td>
@@ -120,10 +119,17 @@ const MeetingPage = () => {
         </table>
       </div>
       {/* View User Modal */}
-      {viewLeadReportOpen && (
+      {/* {viewLeadReportOpen && (
         <TodaysLeadReport
           setViewLeadReportOpen={setViewLeadReportOpen}
           selectedLeadData={selectedLeadData}
+        />
+      )} */}
+
+      {viewLeadReportOpen && (
+        <EmpSARReport
+        setpoaReportOpen={setViewLeadReportOpen}
+        selectedPOA={selectedLeadData}
         />
       )}
     </div>

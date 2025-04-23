@@ -14,7 +14,19 @@ const addLead = async (req, res) => {
       lead_status,
       assign_date,
       lead_summary,
+      last_contact,
+      next_followup,
+      product_service,
+      product_detail,
+      quantity,
+      quantity_no,
+      special_requirement,
+      who_contact_before,
+      last_communication,
+      follow_up_record,
+      budget,
       lead_address,
+      reference_name,
     } = req.body;
 
     // Check if required fields are provided
@@ -79,7 +91,19 @@ const addLead = async (req, res) => {
       lead_status,
       assign_date: assign_date || new Date(),
       lead_summary,
+      last_contact,
+      next_followup,
+      product_service,
+      product_detail,
+      quantity,
+      quantity_no,
+      special_requirement,
+      who_contact_before,
+      last_communication,
+      follow_up_record,
+      budget,
       lead_address,
+      reference_name
     });
 
     res.status(201).json({
@@ -119,10 +143,12 @@ const updateLead = async (req, res) => {
       budget_status,
       lead_address,
       lead_custom_address,
+      reference_name,
     } = req.body;
 
     // ✅ Find the existing lead
-    const lead = await Lead.findByPk(id);
+    const lead = await Lead.findByPk(id)
+;
     if (!lead) {
       return res
         .status(404)
@@ -177,6 +203,7 @@ const updateLead = async (req, res) => {
       active_status,
       lead_address,
       lead_custom_address,
+      reference_name,
     });
 
     res.status(200).json({

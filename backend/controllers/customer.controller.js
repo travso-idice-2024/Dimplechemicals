@@ -6,7 +6,7 @@ const path = require("path");
 const { ValidationError } = require("sequelize");
 
 const listCustomers = async (req, res) => {
-  console.log("check data", req.query);
+  
   try {
     const { page = 1, limit = 10, search = "", all } = req.query;
 
@@ -38,7 +38,19 @@ const listCustomers = async (req, res) => {
       limit: pageSize,
       offset,
       order: [["company_name", "ASC"]],
+      include: [
+        {
+          model: BusinessAssociate,
+          as: 'businessAssociates',
+          where: {
+            status: 1, // or is_active: true, depending on your schema
+          },
+          required: false, // this ensures customers without active associates are still returned
+        },
+      ],
     });
+
+    //console.log("rows",rows);
 
     res.status(200).json({
       success: true,
@@ -53,6 +65,7 @@ const listCustomers = async (req, res) => {
 };
 
 const addCustomer = async (req, res) => {
+  //console.log("addcustomer backend", req.body);
   try {
     const {
       company_name,
@@ -68,29 +81,29 @@ const addCustomer = async (req, res) => {
       location,
       pincode,
       pan_no,
-      business_associate,
       associate_name,
+      business_associate,
+      contact_persion1,
+      contact_persion2,
+      contact_persion3,
+      gst_number,
     } = req.body;
 
     // Validation
-    if (!company_name || !client_name || !email_id) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Company name, client name, and email are required.",
-        });
+    if (!company_name || !email_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Company name, client name, and email are required.",
+      });
     }
 
     // Check if customer already exists
     const existingCustomer = await Customer.findOne({ where: { email_id } });
     if (existingCustomer) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Customer with this email already exists.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Customer with this email already exists.",
+      });
     }
 
     // Create new customer
@@ -108,14 +121,19 @@ const addCustomer = async (req, res) => {
       location,
       pincode,
       pan_no,
+      associate_name,
       business_associate,
+      contact_persion1,
+      contact_persion2,
+      contact_persion3,
+      gst_number,
     });
 
     // Create new business associate entry (with foreign key customer_id)
     if (associate_name) {
       await BusinessAssociate.create({
         associate_name: associate_name,
-        code: `BA${newCustomer.id}`,
+        //code: `BA${newCustomer.id}`,
         status: true,
         customer_id: newCustomer.id, // <-- This fixes the foreign key issue
       });
@@ -142,7 +160,6 @@ const addCustomer = async (req, res) => {
   }
 };
 
-// ✅ Update a customer
 const updateCustomer = async (req, res) => {
   try {
     const { id } = req.params;
@@ -160,8 +177,13 @@ const updateCustomer = async (req, res) => {
       address_2,
       address_3,
       address_4,
+      contact_persion1,
+      contact_persion2,
+      contact_persion3,
+      gst_number,
+      business_associate
     } = req.body;
-
+   //console.log("req.body",req.body);
     if (!id)
       return res
         .status(400)
@@ -187,14 +209,37 @@ const updateCustomer = async (req, res) => {
       address_2,
       address_3,
       address_4,
+      contact_persion1,
+      contact_persion2,
+      contact_persion3,
+      gst_number,
     });
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Customer updated successfully",
-        data: customer,
-      });
+
+    if(business_associate){
+      console.log("business_associate",business_associate);
+      await BusinessAssociate.update(
+        { status: 0 },
+        {
+          where: {
+            customer_id: id,
+          },
+        }
+      );
+      await BusinessAssociate.update(
+        { status: 1 },
+        {
+          where: {
+            id: business_associate,
+          },
+        }
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Customer updated successfully",
+      data: customer,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -276,13 +321,11 @@ const getCustomerAddresses = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching customer addresses:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error retrieving addresses",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving addresses",
+      error: error.message,
+    });
   }
 };
 
@@ -543,50 +586,115 @@ const customerHistory = async (req, res) => {
 
 const getBuisnessAssociates = async (req, res) => {
   try {
-    const { id } = req.params; // Get customer_id from request parameters
-    console.log("req.params", req.params);
-    // Find customer by ID
-    //   console.log("customer_id", customer_id);
-    const customer = await Customer.findOne({
-      where: { id: id },
-      include: [
-        {
-          model: BusinessAssociate,
-          as: "businessAssociates",
-        },
-      ],
+    const { id } = req.params;
+
+    // Fetch business associates where customer_id matches the given parameter
+    const businessAssociates = await BusinessAssociate.findAll({
+      where: { customer_id:id }, // Apply the filter based on customer_id
+      order: [["createdAt", "DESC"]], // Optional: Change the order as needed
     });
-    // If customer not found
-    if (!customer) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Customer not found." });
+
+    // If no business associates are found for the given customer_id
+    if (!businessAssociates.length) {
+      return res.status(404).json({ message: "No business associates found for this customer." });
     }
-    // Return customer address details
-    console.log("customer", customer);
-    res.status(200).json({
+
+    return res.status(200).json({
       success: true,
-      message: "Customer addresses retrieved successfully",
-      data: {
-        // id: id,
-        // company_name: customer.company_name,
-        associates: customer.businessAssociates.map((associate) => ({
-          associate_name: associate.associate_name,
-          code: associate.code,
-          status: associate.status,
-          id: associate.id,
-        })),
-      },
+      data: businessAssociates,
     });
   } catch (error) {
-    console.error("Error fetching customer addresses:", error);
-    res
-      .status(500)
+    console.error("Error fetching business associates:", error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+
+const updateBusinessAssociate = async (req, res) => {
+  try {
+    const { customer_id } = req.params;
+    const { associate_name } = req.body;
+    //console.log("updatebussiness" ,customer_id,associate_name );
+
+    if (!customer_id) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Customer ID is required in params.",
+        });
+    }
+
+    // CASE 1: Update status by ID
+    // if (id && !associate_name) {
+    //   const associate = await BusinessAssociate.findByPk(id);
+    //   if (!associate || associate.customer_id != parseInt(customer_id)) {
+    //     return res
+    //       .status(404)
+    //       .json({
+    //         success: false,
+    //         message: "Business Associate not found for this customer.",
+    //       });
+    //   }
+
+    //   // Set status 1 for current
+    //   await associate.update({ status: 1 });
+
+    //   // Set status 0 for others
+    //   await BusinessAssociate.update(
+    //     { status: 0 },
+    //     {
+    //       where: {
+    //         customer_id: customer_id,
+    //         id: { [Op.ne]: id },
+    //       },
+    //     }
+    //   );
+
+    //   return res
+    //     .status(200)
+    //     .json({
+    //       success: true,
+    //       message: "Business Associate  updated.",
+    //       data: associate,
+    //     });
+    // }
+
+    // CASE 2: Create new associate
+    if (associate_name) {
+      // Step 1: Deactivate all old associates for this customer
+      await BusinessAssociate.update(
+        { status: 0 },
+        {
+          where: {
+            customer_id: customer_id,
+          },
+        }
+      );
+
+      // Step 2: Create new associate with status 1
+      const newAssociate = await BusinessAssociate.create({
+        associate_name,
+        customer_id: customer_id,
+        code: `BA${customer_id}`,
+        status: 1,
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "New Business Associate created.",
+        data: newAssociate,
+      });
+    }
+
+    return res
+      .status(400)
       .json({
         success: false,
-        message: "Error retrieving addresses",
-        error: error.message,
+        message: "Invalid request. Send either 'id' or 'associate_name'.",
       });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -599,5 +707,6 @@ module.exports = {
   exportCustomersToExcel,
   customerInfo,
   customerHistory,
-  getBuisnessAssociates
+  getBuisnessAssociates,
+  updateBusinessAssociate,
 };

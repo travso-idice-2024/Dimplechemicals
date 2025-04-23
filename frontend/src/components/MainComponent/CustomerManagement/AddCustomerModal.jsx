@@ -30,13 +30,13 @@ const AddCustomerModal = ({
     }));
 
     // ✅ Show success message
-    setSuccessMessage("Business Associate added successfully!");
+    // setSuccessMessage("Business Associate added successfully!");
 
-    // ✅ Clear message after 3 seconds
-    setTimeout(() => {
-      setSuccessMessage("");
-      handleAssociatePopup();
-    }, 3000);
+    // // ✅ Clear message after 3 seconds
+    // setTimeout(() => {
+    //   setSuccessMessage("");
+    //   handleAssociatePopup();
+    // }, 3000);
   };
 
   const handleAssociatePopup = () => {
@@ -90,55 +90,55 @@ const AddCustomerModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                Contact person Name :
+                Contact person Name 1:
               </label>
               <input
                 type="text"
-                name="client_name"
-                placeholder="Client Name"
-                value={formData.client_name}
+                name="contact_persion1"
+                placeholder="Contact Person 1"
+                value={formData.contact_persion1}
                 onChange={handleChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {formErrors.client_name && (
-                <p className="text-red-500 text-sm">{formErrors.client_name}</p>
+              {formErrors.contact_persion1 && (
+                <p className="text-red-500 text-sm">{formErrors.contact_persion1}</p>
               )}
             </div>
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                Contact person Name 1 :
+                Contact person Name 2 :
               </label>
               <input
                 type="text"
-                name="client_name_1"
-                placeholder="Client Name 1"
-                value={formData.client_name_1}
+                name="contact_persion2"
+                placeholder="Contact Persion 2"
+                value={formData.contact_persion2}
                 onChange={handleChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {formErrors.client_name_1 && (
+              {formErrors.contact_persion2 && (
                 <p className="text-red-500 text-sm">
-                  {formErrors.client_name_1}
+                  {formErrors.contact_persion2}
                 </p>
               )}
             </div>
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                Contact person Name 2:
+                Contact person Name 3:
               </label>
               <input
                 type="text"
-                name="client_name_2"
-                placeholder="Client Name 2"
-                value={formData.client_name_2}
+                name="contact_persion3"
+                placeholder="Contact Persion 3"
+                value={formData.contact_persion3}
                 onChange={handleChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {formErrors.client_name_2 && (
+              {formErrors.contact_persion3 && (
                 <p className="text-red-500 text-sm">
-                  {formErrors.client_name_2}
+                  {formErrors.contact_persion3}
                 </p>
               )}
             </div>
@@ -230,14 +230,14 @@ const AddCustomerModal = ({
               </label>
               <input
                 type="text"
-                name="gst_no"
+                name="gst_number"
                 placeholder="Company GST no"
-                value={formData.gst_no}
+                value={formData.gst_number}
                 onChange={handleChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
               />
-              {formErrors.gst_no && (
-                <p className="text-red-500 text-sm">{formErrors.gst_no}</p>
+              {formErrors.gst_number && (
+                <p className="text-red-500 text-sm">{formErrors.gst_number}</p>
               )}
             </div>
 

@@ -166,6 +166,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
      },
+     reference_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     },
     {
       sequelize,

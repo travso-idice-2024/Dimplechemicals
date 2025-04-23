@@ -106,9 +106,9 @@ exports.listEmployees = async (req, res) => {
       : {};
 
      // 🔹 Apply role filter dynamically
-     if (roleId) {
-      whereCondition["$employeeRole.role_id$"] = roleId;
-    }
+    //  if (roleId) {
+    //   whereCondition["$employeeRole.role_id$"] = roleId;
+    // }
 
 
     // Common query options
@@ -116,20 +116,20 @@ exports.listEmployees = async (req, res) => {
       where: whereCondition,
       order: [["id", "DESC"]], // Sorting by ID (latest first)
       include: [
-        {
-          model: EmployeeRole,
-          as: "employeeRole",
-          include: [{ model: Role, as: "role", attributes: ["role_name"] }],
-        },
+        // {
+        //   model: EmployeeRole,
+        //   as: "employeeRole",
+        //   include: [{ model: Role, as: "role", attributes: ["role_name"] }],
+        // },
         {
           model: JobDetail,
           as: "jobDetail",
           include: [
-            {
-              model: Department,
-              as: "department",
-              attributes: ["department_name"],
-            },
+            // {
+            //   model: Department,
+            //   as: "department",
+            //   attributes: ["department_name"],
+            // },
             {
               model: User, // Fetch reporting manager
               as: "reportingManager",
@@ -137,11 +137,11 @@ exports.listEmployees = async (req, res) => {
             },
           ],
         },
-        {
-          model: BankDetail, // Fetch bank details
-          as: "bankDetail",
-          attributes: ["bank_name", "account_number", "ifsc_code", "branch_name", "account_type"], // Select necessary fields
-        },
+        // {
+        //   model: BankDetail, // Fetch bank details
+        //   as: "bankDetail",
+        //   attributes: ["bank_name", "account_number", "ifsc_code", "branch_name", "account_type"], // Select necessary fields
+        // },
       ],
       //attributes: ["id", "fullname", "email", "phone", "status", "emp_id"], // Select necessary fields
       attributes: { exclude: [] }, // Fetch all fields
@@ -519,98 +519,98 @@ exports.listEmployees = async (req, res) => {
 exports.addEmployee = async (req, res) => {
   try {
     const {
-      username,
+      //username,
       email,
-      password,
+      //password,
       phone,
       emergency_contact,
-      date_of_birth,
-      gender,
+      //date_of_birth,
+      //gender,
       fullname,
       address,
-      status,
-      role_id,
-      department_id,
-      job_title,
+      //status,
+      //role_id,
+      //department_id,
+      //job_title,
       employment_type,
       date_of_joining,
-      currently_working,
-      salary,
+      //currently_working,
+      //salary,
       work_location,
       reporting_manager_id,
-      offer_letter_date,
+      //offer_letter_date,
       //date_of_exit,
-      bank_name,
-      account_number,
-      ifsc_code,
-      branch_name,
-      account_type,
+      // bank_name,
+      // account_number,
+      // ifsc_code,
+      // branch_name,
+      // account_type,
       aadhar_no,
       pan_no,
-      remarks,
-      digital_signature,
+      // remarks,
+      // digital_signature,
     } = req.body;
 
-    const profile_image = req.files?.profile_image?.[0]?.path
-      ? req.files.profile_image[0].path.replace(/\\/g, "/")
-      : null;
+    // const profile_image = req.files?.profile_image?.[0]?.path
+    //   ? req.files.profile_image[0].path.replace(/\\/g, "/")
+    //   : null;
 
     // ✅ Insert user with related tables in one query
     const user = await User.create(
       {
-        username,
+        //username,
         email,
-        password: await bcrypt.hash(password, 10),
+        //password: await bcrypt.hash(password, 10),
         phone,
-        emergency_contact,
-        date_of_birth,
-        gender,
-        profile_image,
+        //emergency_contact,
+        //date_of_birth,
+        //gender,
+        //profile_image,
         fullname,
         address,
-        status,
+        //status,
         aadhar_no,
         pan_no,
-        remarks,
-        digital_signature,
-        employeeRole: { role_id }, // Relation
+        //remarks,
+        //digital_signature,
+        //employeeRole: { role_id }, // Relation
         jobDetail: {
-          department_id,
-          job_title,
+          //department_id,
+          //job_title,
           employment_type,
           date_of_joining,
-          currently_working,
-          salary,
+          //currently_working,
+          //salary,
           work_location,
           reporting_manager_id,
-          offer_letter_date,
+          //offer_letter_date,
          // date_of_exit,
         }, // Relation
-        bankDetail: {
-          bank_name,
-          account_number,
-          ifsc_code,
-          branch_name,
-          account_type,
-        }, // Relation
+        // bankDetail: {
+        //   bank_name,
+        //   account_number,
+        //   ifsc_code,
+        //   branch_name,
+        //   account_type,
+        // }, // Relation
       },
       {
         include: [
           { model: EmployeeRole, as: "employeeRole" }, // ✅ Use correct alias
           { model: JobDetail, as: "jobDetail" }, // ✅ Use correct alias
-          { model: BankDetail, as: "bankDetail" }, // ✅ Use correct alias
+          //{ model: BankDetail, as: "bankDetail" }, // ✅ Use correct alias
         ],
       }
     );
 
     // ✅ Bulk insert documents separately if uploaded
-    if (req.files?.documents) {
-      const documentRecords = req.files.documents.map((file) => ({
-        employee_id: user.id,
-        documents: file.path.replace(/\\/g, "/"),
-      }));
-      await Document.bulkCreate(documentRecords);
-    }
+    // if (req.files?.documents) {
+    //   const documentRecords = req.files.documents.map((file) => ({
+    //     employee_id: user.id,
+    //     documents: file.path.replace(/\\/g, "/"),
+    //   }));
+    //   await Document.bulkCreate(documentRecords);
+    // }
 
     return res
       .status(201)
@@ -655,47 +655,47 @@ exports.updateEmployee = async (req, res) => {
     const { id } = req.params; // Employee ID to update
     
     const {
-      username,
+      //username,
       email,
       phone,
-      emergency_contact,
-      date_of_birth,
-      gender,
+      //emergency_contact,
+      //date_of_birth,
+      //gender,
       fullname,
       address,
-      status,
-      role_id,
-      department_id,
-      job_title,
+      //status,
+      //role_id,
+      //department_id,
+      //job_title,
       employment_type,
       date_of_joining,
-      currently_working,
-      salary,
+      //currently_working,
+      //salary,
       work_location,
       reporting_manager_id,
-      offer_letter_date,
-      date_of_exit,
-      bank_name,
-      account_number,
-      ifsc_code,
-      branch_name,
-      account_type,
+      //offer_letter_date,
+      //date_of_exit,
+      // bank_name,
+      // account_number,
+      // ifsc_code,
+      // branch_name,
+      // account_type,
       aadhar_no,
       pan_no,
-      remarks,
-      digital_signature,
+      // remarks,
+      // digital_signature,
     } = req.body;
 
-    const profile_image = req.files?.profile_image?.[0]?.path
-      ? req.files.profile_image[0].path.replace(/\\/g, "/")
-      : null;
+    // const profile_image = req.files?.profile_image?.[0]?.path
+    //   ? req.files.profile_image[0].path.replace(/\\/g, "/")
+    //   : null;
     
     // Check if user exists
     const user = await User.findByPk(id, {
       include: [
         { model: EmployeeRole, as: "employeeRole" },
         { model: JobDetail, as: "jobDetail" },
-        { model: BankDetail, as: "bankDetail" },
+        //{ model: BankDetail, as: "bankDetail" },
       ],
     });
 
@@ -705,57 +705,57 @@ exports.updateEmployee = async (req, res) => {
 
     // Update user details
     await user.update({
-      username,
+      //username,
       email,
       phone,
-      emergency_contact,
-      date_of_birth,
-      gender,
+      //emergency_contact,
+      //date_of_birth,
+      //gender,
       fullname,
       address,
-      status,
+      //status,
       aadhar_no,
       pan_no,
-      remarks,
-      digital_signature,
-      profile_image: profile_image || user.profile_image,
+      //remarks,
+      //digital_signature,
+      //profile_image: profile_image || user.profile_image,
     });
 
     // Update related tables
-    if (role_id) await user.employeeRole.update({ role_id });
-    if (department_id || job_title || employment_type) {
+    //if (role_id) await user.employeeRole.update({ role_id });
+    if (employment_type) {
       await user.jobDetail.update({
-        department_id,
-        job_title,
+        //department_id,
+        //job_title,
         employment_type,
         date_of_joining,
-        currently_working,
-        salary,
+        //currently_working,
+        //salary,
         work_location,
         reporting_manager_id,
-        offer_letter_date,
-        date_of_exit,
+        //offer_letter_date,
+        //date_of_exit,
       });
     }
-    if (bank_name || account_number || ifsc_code) {
-      await user.bankDetail.update({
-        bank_name,
-        account_number,
-        ifsc_code,
-        branch_name,
-        account_type,
-      });
-    }
+    // if (bank_name || account_number || ifsc_code) {
+    //   await user.bankDetail.update({
+    //     bank_name,
+    //     account_number,
+    //     ifsc_code,
+    //     branch_name,
+    //     account_type,
+    //   });
+    // }
 
     // Update documents if uploaded
-    if (req.files?.documents) {
-      await Document.destroy({ where: { employee_id: id } }); // Delete old records
-      const documentRecords = req.files.documents.map((file) => ({
-        employee_id: id,
-        documents: file.path.replace(/\\/g, "/"),
-      }));
-      await Document.bulkCreate(documentRecords);
-    }
+    // if (req.files?.documents) {
+    //   await Document.destroy({ where: { employee_id: id } }); // Delete old records
+    //   const documentRecords = req.files.documents.map((file) => ({
+    //     employee_id: id,
+    //     documents: file.path.replace(/\\/g, "/"),
+    //   }));
+    //   await Document.bulkCreate(documentRecords);
+    // }
 
     return res.status(200).json({ success: true, message: "Employee updated successfully", user });
   } catch (error) {
@@ -851,7 +851,7 @@ exports.getAllEmployees = async (req, res) => {
       include: [
         { model: EmployeeRole, as: "employeeRole" },
         { model: JobDetail, as: "jobDetail" },
-        { model: BankDetail, as: "bankDetail" },
+        //{ model: BankDetail, as: "bankDetail" },
       ],
     });
 

@@ -66,47 +66,47 @@ const EmployeeManageData = () => {
 
   const [formData, setFormData] = useState({
     // User Table Fields
-    username: "",
+    //username: "",
     email: "",
-    password: "",
-    confirm_password: "",
+    //password: "",
+    //confirm_password: "",
     phone: "",
-    emergency_contact: "",
-    date_of_birth: "",
-    gender: "",
-    profile_image: "",
+    //emergency_contact: "",
+    //date_of_birth: "",
+    //gender: "",
+    //profile_image: "",
     fullname: "",
     address: "",
-    status: "",
+    //status: "",
     aadhar_no: "",
     pan_no: "",
-    remarks: "",
-    digital_signature: "",
+    //remarks: "",
+    //digital_signature: "",
 
     // Employee Roles Table Fields
-    role_id: "",
+    //role_id: "",
 
     // Job Details Table Fields
-    department_id: "",
-    job_title: "",
+    //department_id: "",
+    //job_title: "",
     employment_type: "",
     date_of_joining: "",
-    currently_working: "",
-    salary: "",
+    //currently_working: "",
+    //salary: "",
     work_location: "",
     reporting_manager_id: "",
-    offer_letter_date: "",
+    //offer_letter_date: "",
     //date_of_exit: "",
 
     // Bank Details Table Fields
-    bank_name: "",
-    account_number: "",
-    ifsc_code: "",
-    branch_name: "",
-    account_type: "",
+    //bank_name: "",
+    //account_number: "",
+    //ifsc_code: "",
+    //branch_name: "",
+    //account_type: "",
 
     // Documents Table Fields
-    documents: [],
+    //documents: [],
   });
 
   const [flashMessage, setFlashMessage] = useState("");
@@ -201,11 +201,11 @@ const EmployeeManageData = () => {
       if (!formData.fullname.trim()) {
         errors.fullname = "*Full name is required";
       }
-      if (!formData.username.trim()) {
-        errors.username = "*Username is required";
-      } else if (formData.username.length < 6) {
-        errors.username = "*Username must be at least 6 characters";
-      }
+      // if (!formData.username.trim()) {
+      //   errors.username = "*Username is required";
+      // } else if (formData.username.length < 6) {
+      //   errors.username = "*Username must be at least 6 characters";
+      // }
       if (!formData.email.trim()) {
         errors.email = "*Email is required";
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -216,39 +216,39 @@ const EmployeeManageData = () => {
       } else if (!/^\d{10}$/.test(formData.phone)) {
         errors.phone = "*Phone number must be 10 digits";
       }
-      if (!formData.password.trim()) {
-        errors.password = "*Password is required";
-      } else if (formData.password.length < 6) {
-        errors.password = "*Password must be at least 6 characters";
-      }
-      if (!formData.confirm_password.trim()) {
-        errors.confirm_password = "*Confirm Password is required";
-      } else if (formData.password !== formData.confirm_password) {
-        errors.confirm_password = "*Passwords do not match";
-      }
-      if (!formData.gender.trim()) {
-        errors.gender = "*Gender is required";
-      }
-      if (!formData.status.trim()) {
-        errors.status = "*Status is required";
-      }
-      if (!formData.role_id.trim()) {
-        errors.role_id = "*Role is required";
-      }
-      if (!formData.profile_image) {
-        errors.profile_image = "Profile picture is required.";
-      } else if (!formData.profile_image.type.startsWith("image/")) {
-        errors.profile_image = "Only image files are allowed.";
-      }
+      // if (!formData.password.trim()) {
+      //   errors.password = "*Password is required";
+      // } else if (formData.password.length < 6) {
+      //   errors.password = "*Password must be at least 6 characters";
+      // }
+      // if (!formData.confirm_password.trim()) {
+      //   errors.confirm_password = "*Confirm Password is required";
+      // } else if (formData.password !== formData.confirm_password) {
+      //   errors.confirm_password = "*Passwords do not match";
+      // }
+      // if (!formData.gender.trim()) {
+      //   errors.gender = "*Gender is required";
+      // }
+      // if (!formData.status.trim()) {
+      //   errors.status = "*Status is required";
+      // }
+      // if (!formData.role_id.trim()) {
+      //   errors.role_id = "*Role is required";
+      // }
+      // if (!formData.profile_image) {
+      //   errors.profile_image = "Profile picture is required.";
+      // } else if (!formData.profile_image.type.startsWith("image/")) {
+      //   errors.profile_image = "Only image files are allowed.";
+      // }
       if (!formData.pan_no.trim()) {
         errors.pan_no = "*Pan Card is required";
       }
       if (!formData.aadhar_no.trim()) {
         errors.aadhar_no = "*Aadhar Card is required";
       }
-      if (!formData.date_of_birth.trim()) {
-        errors.date_of_birth = "*DOB is required";
-      }
+      // if (!formData.date_of_birth.trim()) {
+      //   errors.date_of_birth = "*DOB is required";
+      // }
       if (!formData.address.trim()) {
         errors.address = "*Address is required";
       }
@@ -256,57 +256,57 @@ const EmployeeManageData = () => {
     if (currentStep === 2) {
       // ✅ Required fields validation (only necessary fields)
 
-      if (!formData.department_id.trim()) {
-        errors.department_id = "*Department is required";
-      }
+      // if (!formData.department_id.trim()) {
+      //   errors.department_id = "*Department is required";
+      // }
 
-      if (!formData.job_title.trim()) {
-        errors.job_title = "*Job title is required";
-      }
+      // if (!formData.job_title.trim()) {
+      //   errors.job_title = "*Job title is required";
+      // }
       if (!formData.employment_type.trim()) {
         errors.employment_type = "*Employment type is required";
       }
       if (!formData.date_of_joining.trim()) {
         errors.date_of_joining = "*Date of joining is required";
       }
-      if (!formData.salary.trim()) {
-        errors.salary = "*Salary is required";
-      }
+      // if (!formData.salary.trim()) {
+      //   errors.salary = "*Salary is required";
+      // }
       if (!formData.work_location.trim()) {
         errors.work_location = "*Work location is required";
       }
 
-      if (!formData.offer_letter_date.trim()) {
-        errors.offer_letter_date = "*offer letter is required";
-      }
+      // if (!formData.offer_letter_date.trim()) {
+      //   errors.offer_letter_date = "*offer letter is required";
+      // }
       // if (!formData.date_of_exit.trim()) {
       //   errors.date_of_exit = "*Exit Date is required";
       // }
       if (!formData.reporting_manager_id) {
         errors.reporting_manager_id = "*Reporting Manager is required";
       }
-      if (!formData.remarks.trim()) {
-        errors.remarks = "*Summary is required";
-      }
+      // if (!formData.remarks.trim()) {
+      //   errors.remarks = "*Summary is required";
+      // }
     }
     if (currentStep === 3) {
       // ✅ Required fields validation (only necessary fields)
 
-      if (!formData.bank_name.trim()) {
-        errors.bank_name = "*Bank name is required";
-      }
-      if (!formData.account_number.trim()) {
-        errors.account_number = "*Account number is required";
-      }
-      if (!formData.ifsc_code.trim()) {
-        errors.ifsc_code = "*IFSC code is required";
-      }
-      if (!formData.account_type.trim()) {
-        errors.account_type = "*Account type is required";
-      }
-      if (!formData.branch_name.trim()) {
-        errors.branch_name = "*Branch Name is required";
-      }
+      // if (!formData.bank_name.trim()) {
+      //   errors.bank_name = "*Bank name is required";
+      // }
+      // if (!formData.account_number.trim()) {
+      //   errors.account_number = "*Account number is required";
+      // }
+      // if (!formData.ifsc_code.trim()) {
+      //   errors.ifsc_code = "*IFSC code is required";
+      // }
+      // if (!formData.account_type.trim()) {
+      //   errors.account_type = "*Account type is required";
+      // }
+      // if (!formData.branch_name.trim()) {
+      //   errors.branch_name = "*Branch Name is required";
+      // }
     }
     // ✅ Update state and return validation result
     setFormErrors(errors);
@@ -402,47 +402,47 @@ const EmployeeManageData = () => {
   //update employee code
   const [updateFormData, setUpdateFormData] = useState({
     // User Table Fields
-    username: "",
+    //username: "",
     email: "",
-    password: "",
-    confirm_password: "",
+    //password: "",
+    //confirm_password: "",
     phone: "",
-    emergency_contact: "",
-    date_of_birth: "",
-    gender: "",
-    profile_image: "",
+    //emergency_contact: "",
+    //date_of_birth: "",
+    //gender: "",
+    //profile_image: "",
     fullname: "",
     address: "",
-    status: "",
+    //status: "",
     aadhar_no: "",
     pan_no: "",
-    remarks: "",
-    digital_signature: "",
+    //remarks: "",
+    //digital_signature: "",
 
     // Employee Roles Table Fields
-    role_id: "",
+    //role_id: "",
 
     // Job Details Table Fields
-    department_id: "",
-    job_title: "",
+    //department_id: "",
+    //job_title: "",
     employment_type: "",
     date_of_joining: "",
-    currently_working: "",
-    salary: "",
+    //currently_working: "",
+    //salary: "",
     work_location: "",
     reporting_manager_id: "",
-    offer_letter_date: "",
-    date_of_exit: "",
+    //offer_letter_date: "",
+    //date_of_exit: "",
 
     // Bank Details Table Fields
-    bank_name: "",
-    account_number: "",
-    ifsc_code: "",
-    branch_name: "",
-    account_type: "",
+    // bank_name: "",
+    // account_number: "",
+    // ifsc_code: "",
+    // branch_name: "",
+    // account_type: "",
 
     // Documents Table Fields
-    documents: [],
+    //documents: [],
   });
 
   const [updateFormErrors, setUpdateFormErrors] = useState({});
@@ -452,49 +452,49 @@ const EmployeeManageData = () => {
   useEffect(() => {
     if (selectedEmployee) {
       setUpdateFormData({
-        username: selectedEmployee.username || "",
+        //username: selectedEmployee.username || "",
         email: selectedEmployee.email || "",
-        password: "",
-        confirm_password: "",
+        //password: "",
+        //confirm_password: "",
         phone: selectedEmployee.phone || "",
-        emergency_contact: selectedEmployee.emergency_contact || "",
-        date_of_birth: selectedEmployee.date_of_birth
-          ? selectedEmployee.date_of_birth.split("T")[0]
-          : "",
-        gender: selectedEmployee.gender || "",
-        profile_image: selectedEmployee.profile_image || "",
+       // emergency_contact: selectedEmployee.emergency_contact || "",
+        // date_of_birth: selectedEmployee.date_of_birth
+        //   ? selectedEmployee.date_of_birth.split("T")[0]
+        //   : "",
+        // gender: selectedEmployee.gender || "",
+        // profile_image: selectedEmployee.profile_image || "",
         fullname: selectedEmployee.fullname || "",
         address: selectedEmployee.address || "",
-        status: selectedEmployee.status || "",
+        //status: selectedEmployee.status || "",
         aadhar_no: selectedEmployee.aadhar_no || "",
         pan_no: selectedEmployee.pan_no || "",
-        remarks: selectedEmployee.remarks || "",
-        digital_signature: selectedEmployee.digital_signature || "",
-        role_id: selectedEmployee?.employeeRole?.role_id || "",
-        department_id: selectedEmployee?.jobDetail?.department_id || "",
-        job_title: selectedEmployee?.jobDetail?.job_title || "",
+        //remarks: selectedEmployee.remarks || "",
+        //digital_signature: selectedEmployee.digital_signature || "",
+        //role_id: selectedEmployee?.employeeRole?.role_id || "",
+        //department_id: selectedEmployee?.jobDetail?.department_id || "",
+        //job_title: selectedEmployee?.jobDetail?.job_title || "",
         employment_type: selectedEmployee?.jobDetail?.employment_type || "",
         date_of_joining: selectedEmployee?.jobDetail?.date_of_joining
           ? selectedEmployee?.jobDetail?.date_of_joining.split("T")[0]
           : "",
-        currently_working:
-          selectedEmployee?.jobDetail?.currently_working || false,
-        salary: selectedEmployee?.jobDetail?.salary || "",
+        // currently_working:
+        //   selectedEmployee?.jobDetail?.currently_working || false,
+        //salary: selectedEmployee?.jobDetail?.salary || "",
         work_location: selectedEmployee?.jobDetail?.work_location || "",
         reporting_manager_id:
           selectedEmployee?.jobDetail?.reporting_manager_id || "",
-        offer_letter_date: selectedEmployee?.jobDetail?.offer_letter_date
-          ? selectedEmployee?.jobDetail?.offer_letter_date.split("T")[0]
-          : "",
-        date_of_exit: selectedEmployee?.jobDetail?.date_of_exit
-          ? selectedEmployee?.jobDetail?.date_of_exit.split("T")[0]
-          : "",
-        bank_name: selectedEmployee?.bankDetail?.bank_name || "",
-        account_number: selectedEmployee?.bankDetail?.account_number || "",
-        ifsc_code: selectedEmployee?.bankDetail?.ifsc_code || "",
-        branch_name: selectedEmployee?.bankDetail?.branch_name || "",
-        account_type: selectedEmployee?.bankDetail?.account_type || "",
-        documents: selectedEmployee?.documents || [],
+        // offer_letter_date: selectedEmployee?.jobDetail?.offer_letter_date
+        //   ? selectedEmployee?.jobDetail?.offer_letter_date.split("T")[0]
+        //   : "",
+        // date_of_exit: selectedEmployee?.jobDetail?.date_of_exit
+        //   ? selectedEmployee?.jobDetail?.date_of_exit.split("T")[0]
+        //   : "",
+        // bank_name: selectedEmployee?.bankDetail?.bank_name || "",
+        // account_number: selectedEmployee?.bankDetail?.account_number || "",
+        // ifsc_code: selectedEmployee?.bankDetail?.ifsc_code || "",
+        // branch_name: selectedEmployee?.bankDetail?.branch_name || "",
+        // account_type: selectedEmployee?.bankDetail?.account_type || "",
+        // documents: selectedEmployee?.documents || [],
       });
     }
   }, [selectedEmployee]);
@@ -549,11 +549,11 @@ const EmployeeManageData = () => {
     if (!updateFormData.fullname.trim()) {
       errors.fullname = "*Full name is required";
     }
-    if (!updateFormData.username.trim()) {
-      errors.username = "*Username is required";
-    } else if (updateFormData.username.length < 6) {
-      errors.username = "*Username must be at least 6 characters";
-    }
+    // if (!updateFormData.username.trim()) {
+    //   errors.username = "*Username is required";
+    // } else if (updateFormData.username.length < 6) {
+    //   errors.username = "*Username must be at least 6 characters";
+    // }
     if (!updateFormData.email.trim()) {
       errors.email = "*Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updateFormData.email)) {
@@ -564,66 +564,66 @@ const EmployeeManageData = () => {
     } else if (!/^\d{10}$/.test(updateFormData.phone)) {
       errors.phone = "*Phone number must be 10 digits";
     }
-    if (!updateFormData.gender.trim()) {
-      errors.gender = "*Gender is required";
-    }
-    if (!updateFormData.status.trim()) {
-      errors.status = "*Status is required";
-    }
-    if (!updateFormData.job_title.trim()) {
-      errors.job_title = "*Job title is required";
-    }
+    // if (!updateFormData.gender.trim()) {
+    //   errors.gender = "*Gender is required";
+    // }
+    // if (!updateFormData.status.trim()) {
+    //   errors.status = "*Status is required";
+    // }
+    // if (!updateFormData.job_title.trim()) {
+    //   errors.job_title = "*Job title is required";
+    // }
     if (!updateFormData.employment_type.trim()) {
       errors.employment_type = "*Employment type is required";
     }
     if (!updateFormData.date_of_joining.trim()) {
       errors.date_of_joining = "*Date of joining is required";
     }
-    if (!updateFormData.salary.trim()) {
-      errors.salary = "*Salary is required";
-    }
+    // if (!updateFormData.salary.trim()) {
+    //   errors.salary = "*Salary is required";
+    // }
     if (!updateFormData.work_location.trim()) {
       errors.work_location = "*Work location is required";
     }
-    if (!updateFormData.bank_name.trim()) {
-      errors.bank_name = "*Bank name is required";
-    }
-    if (!updateFormData.account_number.trim()) {
-      errors.account_number = "*Account number is required";
-    }
-    if (!updateFormData.ifsc_code.trim()) {
-      errors.ifsc_code = "*IFSC code is required";
-    }
-    if (!updateFormData.account_type.trim()) {
-      errors.account_type = "*Account type is required";
-    }
+    // if (!updateFormData.bank_name.trim()) {
+    //   errors.bank_name = "*Bank name is required";
+    // }
+    // if (!updateFormData.account_number.trim()) {
+    //   errors.account_number = "*Account number is required";
+    // }
+    // if (!updateFormData.ifsc_code.trim()) {
+    //   errors.ifsc_code = "*IFSC code is required";
+    // }
+    // if (!updateFormData.account_type.trim()) {
+    //   errors.account_type = "*Account type is required";
+    // }
     if (!updateFormData.pan_no.trim()) {
       errors.pan_no = "*Pan Card is required";
     }
     if (!updateFormData.aadhar_no.trim()) {
       errors.aadhar_no = "*Aadhar Card is required";
     }
-    if (!updateFormData.date_of_birth.trim()) {
-      errors.date_of_birth = "*DOB is required";
-    }
+    // if (!updateFormData.date_of_birth.trim()) {
+    //   errors.date_of_birth = "*DOB is required";
+    // }
     if (!updateFormData.address.trim()) {
       errors.address = "*Address is required";
     }
-    if (!updateFormData.offer_letter_date.trim()) {
-      errors.offer_letter_date = "*offer letter is required";
-    }
+    // if (!updateFormData.offer_letter_date.trim()) {
+    //   errors.offer_letter_date = "*offer letter is required";
+    // }
     // if (!updateFormData.date_of_exit.trim()) {
     //   errors.date_of_exit = "*Exit Date is required";
     // }
     if (!updateFormData.reporting_manager_id) {
       errors.reporting_manager_id = "*Reporting Manager is required";
     }
-    if (!updateFormData.remarks.trim()) {
-      errors.remarks = "*Summary is required";
-    }
-    if (!updateFormData.branch_name.trim()) {
-      errors.branch_name = "*Branch Name is required";
-    }
+    // if (!updateFormData.remarks.trim()) {
+    //   errors.remarks = "*Summary is required";
+    // }
+    // if (!updateFormData.branch_name.trim()) {
+    //   errors.branch_name = "*Branch Name is required";
+    // }
 
     // ✅ Update state and return validation result
     setUpdateFormErrors(errors);

@@ -22,6 +22,8 @@ const ProductTable = ({
 }) => {
   const dispatch = useDispatch();
 
+  console.log("Products",Products);
+
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -41,7 +43,10 @@ const ProductTable = ({
                 Id
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                Product Name
+                Product 
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                Category 
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                 HSN Code{" "}
@@ -78,6 +83,9 @@ const ProductTable = ({
                 <td className="px-4 py-2 text-textdata">{index + 1}</td>
                 <td className="px-4 py-2 text-textdata">
                   {product.product_name}
+                </td>
+                <td className="px-4 py-2 text-textdata">
+                  {product?.category?.category_name || "-"}
                 </td>
                 <td className="px-4 py-2 text-textdata">{product.HSN_code}</td>
                 <td className="px-4 py-2 text-textdata">{product.stock}</td>

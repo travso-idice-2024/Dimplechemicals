@@ -72,7 +72,8 @@ const AddEmployeeModal = ({
 
           {/* New Code */}
           <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
-            {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
+            {/* {["Personal", "Job", "Bank", "Documents"].map((step, index) => ( */}
+              {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">
                 {index > 0 && (
                   <div
@@ -90,7 +91,7 @@ const AddEmployeeModal = ({
                   {step}
                 </div>
 
-                {index < 3 && (
+                {index < 1 && (
                   <div
                     className={`h-1 w-full ${
                       currentStep > index + 1 ? "bg-bgDataNew" : "bg-gray-300"
@@ -103,7 +104,7 @@ const AddEmployeeModal = ({
 
           {/* Step 1: Personal Details */}
           {currentStep === 1 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[400px]">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-fit">
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Name :
@@ -120,7 +121,7 @@ const AddEmployeeModal = ({
                   <p className="text-red-500 text-sm">{formErrors.fullname}</p>
                 )}
               </div>
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Username :
                 </label>
@@ -135,7 +136,7 @@ const AddEmployeeModal = ({
                 {formErrors.username && (
                   <p className="text-red-500 text-sm">{formErrors.username}</p>
                 )}
-              </div>
+              </div> */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Email :
@@ -153,7 +154,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Enter Date of Birth:
                 </label>
@@ -175,7 +176,7 @@ const AddEmployeeModal = ({
                     {formErrors.date_of_birth}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -194,7 +195,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Emergency Contact :
                 </label>
@@ -211,9 +212,9 @@ const AddEmployeeModal = ({
                     {formErrors.emergency_contact}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div className="relative">
+              {/* <div className="relative">
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Password :
                 </label>
@@ -259,7 +260,7 @@ const AddEmployeeModal = ({
                     {formErrors.confirm_password}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -295,7 +296,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Role :
                 </label>
@@ -315,9 +316,9 @@ const AddEmployeeModal = ({
                 {formErrors.role_id && (
                   <p className="text-red-500 text-sm">{formErrors.role_id}</p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Gender:
                 </label>
@@ -354,9 +355,9 @@ const AddEmployeeModal = ({
                 {formErrors.status && (
                   <p className="text-red-500 text-sm">{formErrors.status}</p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Upload Profile Picture:
                 </label>
@@ -372,7 +373,7 @@ const AddEmployeeModal = ({
                     {formErrors.profile_image}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -396,7 +397,7 @@ const AddEmployeeModal = ({
           {/* Step 2: Job Details */}
           {currentStep === 2 && (
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Basic Salary:
                 </label>
@@ -411,9 +412,9 @@ const AddEmployeeModal = ({
                 {formErrors.salary && (
                   <p className="text-red-500 text-sm">{formErrors.salary}</p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Designantion:
                 </label>
@@ -428,7 +429,7 @@ const AddEmployeeModal = ({
                 {formErrors.job_title && (
                   <p className="text-red-500 text-sm">{formErrors.job_title}</p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -449,7 +450,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Offer Letter Date:
                 </label>
@@ -465,7 +466,7 @@ const AddEmployeeModal = ({
                     {formErrors.offer_letter_date}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -503,7 +504,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Department:
                 </label>
@@ -525,7 +526,7 @@ const AddEmployeeModal = ({
                     {formErrors.department_id}
                   </p>
                 )}
-              </div>
+              </div> */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Employment Type:
@@ -574,7 +575,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Summary for Remarks:
                 </label>
@@ -589,9 +590,9 @@ const AddEmployeeModal = ({
                 {formErrors.remarks && (
                   <p className="text-red-500 text-sm">{formErrors.remarks}</p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Currently Working:
                 </label>
@@ -620,12 +621,12 @@ const AddEmployeeModal = ({
                     {formErrors.currently_working}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
           )}
 
           {/* Step 3: Bank Details */}
-          {currentStep === 3 && (
+          {/* {currentStep === 3 && (
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -644,7 +645,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              {/* Branch Name */}
+            
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Branch Name:
@@ -664,7 +665,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              {/* Account Type */}
+            
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Account Type:
@@ -720,12 +721,12 @@ const AddEmployeeModal = ({
                 )}
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Step 4: Document Upload */}
-          {currentStep === 4 && (
+          {/* {currentStep === 4 && (
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-              {/* File Path */}
+             
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Documents Upload:
@@ -742,7 +743,6 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              {/* digital signature */}
               <div className="">
                 <label className="font-poppins font-medium text-[16px] text-bgData">
                   Upload Written Signature :
@@ -775,8 +775,8 @@ const AddEmployeeModal = ({
                       disabled={isSignatureauditEmpty}
                       className={`${
                         isSignatureauditEmpty
-                          ? "bg-gray-400 cursor-not-allowed" // Disabled state style
-                          : "bg-green-700 hover:bg-green-600 cursor-pointer" // Enabled state style
+                          ? "bg-gray-400 cursor-not-allowed" 
+                          : "bg-green-700 hover:bg-green-600 cursor-pointer" 
                       } text-[15px] text-white px-3 py-1 rounded`}
                     >
                       Save Signature
@@ -785,7 +785,7 @@ const AddEmployeeModal = ({
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="flex items-end justify-end gap-2 px-4">
             {currentStep === 1 && (
@@ -814,9 +814,10 @@ const AddEmployeeModal = ({
                 </button>
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                  onClick={nextStep}
+                  //onClick={nextStep}
+                  onClick={handleSubmit}
                 >
-                  Next
+                  Add Employee
                 </button>
                 <button
                   className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
@@ -827,7 +828,7 @@ const AddEmployeeModal = ({
               </>
             )}
 
-            {currentStep === 3 && (
+            {/* {currentStep === 3 && (
               <>
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
@@ -871,7 +872,7 @@ const AddEmployeeModal = ({
                   Close
                 </button>
               </>
-            )}
+            )} */}
           </div>
         </div>
       </div>

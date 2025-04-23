@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { updateProduct, listProducts } from "../../../redux/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllCategories } from "../../../redux/categorySlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
@@ -17,7 +17,15 @@ const EditProductModal = ({
   editFlashMsgType,
   setEditFlashMsgType,
   handleEditChange,
-  handleEditSubmit }) => {
+  handleEditSubmit,
+}) => {
+  const dispatch = useDispatch();
+  const { allCategories, categoryLoading, categoryError } = useSelector(
+    (state) => state.category
+  );
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -34,8 +42,10 @@ const EditProductModal = ({
             Edit Product
           </h2>
           <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-          <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Product Name :</label>
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Product Name :
+              </label>
               <input
                 type="text"
                 name="product_name"
@@ -44,12 +54,42 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.product_name && <p className="text-red-500 text-sm">{editFormErrors.product_name}</p>}
+              {editFormErrors.product_name && (
+                <p className="text-red-500 text-sm">
+                  {editFormErrors.product_name}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Select Category :
+              </label>
+              <select
+                name="category_id"
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                value={editFormData.category_id} // Controlled state
+                onChange={handleEditChange} // Update state
+              >
+                <option value="">Select Category</option>
+                {allCategories?.data?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.category_name}
+                  </option>
+                ))}
+              </select>
+              {editFormErrors.category_id && (
+                <p className="text-red-500 text-sm">
+                  {editFormErrors.category_id}
+                </p>
+              )}
             </div>
 
             {/* HSN Code */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">HSN Code :</label>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                HSN Code :
+              </label>
               <input
                 type="text"
                 name="HSN_code"
@@ -58,12 +98,18 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.HSN_code && <p className="text-red-500 text-sm">{editFormErrors.HSN_code}</p>}
+              {editFormErrors.HSN_code && (
+                <p className="text-red-500 text-sm">
+                  {editFormErrors.HSN_code}
+                </p>
+              )}
             </div>
 
             {/* Stock */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Stock :</label>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Stock :
+              </label>
               <input
                 type="number"
                 name="stock"
@@ -72,12 +118,16 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.stock && <p className="text-red-500 text-sm">{editFormErrors.stock}</p>}
+              {editFormErrors.stock && (
+                <p className="text-red-500 text-sm">{editFormErrors.stock}</p>
+              )}
             </div>
 
             {/* Unit */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Unit :</label>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Unit :
+              </label>
               <input
                 type="text"
                 name="unit"
@@ -86,12 +136,16 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.unit && <p className="text-red-500 text-sm">{editFormErrors.unit}</p>}
+              {editFormErrors.unit && (
+                <p className="text-red-500 text-sm">{editFormErrors.unit}</p>
+              )}
             </div>
 
             {/* Rate */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Rate :</label>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Rate :
+              </label>
               <input
                 type="number"
                 name="rate"
@@ -100,12 +154,16 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
-              {editFormErrors.rate && <p className="text-red-500 text-sm">{editFormErrors.rate}</p>}
+              {editFormErrors.rate && (
+                <p className="text-red-500 text-sm">{editFormErrors.rate}</p>
+              )}
             </div>
 
- {/* Status */}
- <div className="">
-              <label className="font-poppins font-medium text-textdata text-bgData">Status :</label>
+            {/* Status */}
+            <div className="">
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Status :
+              </label>
               <select
                 name="status"
                 value={editFormData.status}
@@ -116,12 +174,16 @@ const EditProductModal = ({
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
               </select>
-              {editFormErrors.status && <p className="text-red-500 text-sm">{editFormErrors.status}</p>}
+              {editFormErrors.status && (
+                <p className="text-red-500 text-sm">{editFormErrors.status}</p>
+              )}
             </div>
 
             {/* Product Description */}
             <div className="col-span-3">
-              <label className="font-poppins font-medium text-textdata text-bgData">Product Description :</label>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Product Description :
+              </label>
               <textarea
                 name="product_description"
                 placeholder="Product Description"
@@ -129,10 +191,12 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2 h-[80px]"
               ></textarea>
-              {editFormErrors.product_description && <p className="text-red-500 text-sm">{editFormErrors.product_description}</p>}
+              {editFormErrors.product_description && (
+                <p className="text-red-500 text-sm">
+                  {editFormErrors.product_description}
+                </p>
+              )}
             </div>
-
-           
           </div>
           <div className="flex items-end justify-end gap-2 px-4">
             <button

@@ -17,6 +17,13 @@ const ViewProductModal = ({ setViewModalOpen, selectedProduct }) => {
           </div>
           <div className="flex items-center gap-3">
             <label className="font-poppins font-semibold text-textdata text-bgData">
+              Category
+            </label>
+            <p className="font-poppins font-semibold text-textdata">:</p>
+            <p className="text-textdata">{selectedProduct?.category?.category_name || "N/A"}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="font-poppins font-semibold text-textdata text-bgData">
               HSN Code
             </label>
             <p className="font-poppins font-semibold text-textdata">:</p>

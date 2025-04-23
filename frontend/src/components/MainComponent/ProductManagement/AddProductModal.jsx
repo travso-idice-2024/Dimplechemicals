@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addProduct, listProducts } from "../../../redux/productSlice";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllCategories } from "../../../redux/categorySlice";
+
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
@@ -18,7 +19,14 @@ const AddProductModal = ({
   flashMsgType,
 }) => {
   const dispatch = useDispatch();
+  const { allCategories, categoryLoading, categoryError } = useSelector(
+    (state) => state.category
+  );
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
 
+  //console.log("allCategories", allCategories);
   return (
     <>
       {/* Flash Messages */}
@@ -52,6 +60,28 @@ const AddProductModal = ({
                 <p className="text-red-500 text-sm">
                   {formErrors.product_name}
                 </p>
+              )}
+            </div>
+
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Select the Category :
+              </label>
+              <select
+                name="category_id"
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
+                value={formData.category_id} // Controlled state
+                onChange={handleChange} // Update state
+              >
+                <option value="">Select the Category</option>
+                {allCategories?.data?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.category_name}
+                  </option>
+                ))}
+              </select>
+              {formErrors.category_id && (
+                <p className="text-red-500 text-sm">{formErrors.category_id}</p>
               )}
             </div>
 
@@ -127,8 +157,8 @@ const AddProductModal = ({
               )}
             </div>
 
-             {/* Status */}
-             <div className="">
+            {/* Status */}
+            <div className="">
               <label className="font-poppins font-medium text-textdata text-bgData">
                 Status :
               </label>
@@ -165,8 +195,6 @@ const AddProductModal = ({
                 </p>
               )}
             </div>
-
-           
           </div>
           <div className="flex items-end justify-end gap-2 px-4">
             <button

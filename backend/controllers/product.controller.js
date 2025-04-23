@@ -1,5 +1,5 @@
 
-const { Product } = require("../models");
+const { Product, Category} = require("../models");
 const { Op } = require("sequelize");
 
 const getAllProducts = async (req, res) => {
@@ -17,12 +17,27 @@ const getAllProducts = async (req, res) => {
     }
 
     //Fetch products with pagination and search
+    // const { count, rows: products } = await Product.findAndCountAll({
+    //   where: whereCondition,
+    //   limit: parseInt(limit), 
+    //   offset: parseInt(offset), 
+    //   order: [["id", "DESC"]], 
+    // });
+
     const { count, rows: products } = await Product.findAndCountAll({
       where: whereCondition,
-      limit: parseInt(limit), 
-      offset: parseInt(offset), 
-      order: [["id", "DESC"]], 
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+      order: [["id", "DESC"]],
+      include: [
+        {
+          model: Category,
+          as: "category",
+          attributes: ["id", "category_name"], // Only select what you need
+        },
+      ],
     });
+    
 
     if (all === "true") {
       const customers = await Product.findAll({
@@ -30,7 +45,7 @@ const getAllProducts = async (req, res) => {
           order: [["id", "DESC"]],
       });
       return res.status(200).json({ success: true, data: customers });
-  }
+    }
 
     res.status(200).json({
       success: true,

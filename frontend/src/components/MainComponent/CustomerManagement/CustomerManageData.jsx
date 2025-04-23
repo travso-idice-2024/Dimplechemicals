@@ -32,11 +32,12 @@ const CustomerManageData = () => {
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  console.log("allBAdata", allBAdata);
+  //console.log("allBAdata", allBAdata);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
   const [selectedCustomer, setSelectedCustomer] = useState({});
+  //console.log("selectedCustomer",selectedCustomer);
 
   const [isAddCustomerModalOpen, setAddCustomerModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
@@ -59,7 +60,7 @@ const CustomerManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm,selectedCustomer]);
+  }, [dispatch, currentPage, searchTerm,selectedCustomer?.id]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -89,9 +90,10 @@ const CustomerManageData = () => {
     address_4: "",
     business_associate:"",
     associate_name:"",
-    gst_no:"",
-    client_name_1:"",
-    client_name_2:""
+    gst_number:"",
+    contact_persion1:"",
+    contact_persion2:"",
+    contact_persion3:""
   });
 
   useEffect(() => {
@@ -152,8 +154,8 @@ const CustomerManageData = () => {
     let errors = {};
     if (!formData.company_name.trim())
       errors.company_name = "*Company name is required";
-    if (!formData.client_name.trim())
-      errors.client_name = "*Client name is required";
+    // if (!formData.client_name.trim())
+    //   errors.client_name = "*Client name is required";
     if (!formData.designation.trim())
       errors.designation = "*Designation is required";
     if (!formData.primary_contact.trim())
@@ -220,9 +222,10 @@ const CustomerManageData = () => {
     address_4: "",
     business_associate:"",
     associate_name:"",
-    gst_no:"",
-    client_name_1:"",
-    client_name_2:""
+    gst_number:"",
+    contact_persion1:"",
+    contact_persion2:"",
+    contact_persion3:""
   });
 
   useEffect(() => {
@@ -274,10 +277,16 @@ const CustomerManageData = () => {
         address_2: selectedCustomer.address_2 || "",
         address_3: selectedCustomer.address_3 || "",
         address_4: selectedCustomer.address_4 || "",
+        contact_persion1:selectedCustomer.contact_persion1 || "",
+        contact_persion2:selectedCustomer.contact_persion2 || "",
+        contact_persion3:selectedCustomer.contact_persion3 || "",
+        gst_number:selectedCustomer.gst_number || "",
+        business_associate: selectedCustomer?.businessAssociates?.[0]?.id || ''
 
       });
     }
   }, [selectedCustomer]);
+ 
 
   const handleEditFlashMessage = (message, type) => {
     setEditFlashMessage(message);
@@ -298,8 +307,8 @@ const CustomerManageData = () => {
     let errors = {};
     if (!editFormData.company_name.trim())
       errors.company_name = "*Company name is required";
-    if (!editFormData.client_name.trim())
-      errors.client_name = "*Client name is required";
+    // if (!editFormData.client_name.trim())
+    //   errors.client_name = "*Client name is required";
     if (!editFormData.designation.trim())
       errors.designation = "*Designation is required";
     if (!editFormData.primary_contact.trim())
@@ -316,17 +325,23 @@ const CustomerManageData = () => {
   };
 
   const handleEditSubmit = async (e) => {
+    //console.log("update function is calling.",selectedCustomer?.id, editFormData);
     e.preventDefault();
     if (validateEditInputs()) {
       try {
         //console.log("editFormData",editFormData);
+        console.log("Dispatching updateCustomer", {
+          id: selectedCustomer?.id,
+          customerData: editFormData,
+        });
         const response = await dispatch(
           updateCustomer({
-            id: selectedCustomer.id,
+            id: selectedCustomer?.id,
             customerData: editFormData,
           })
         ).unwrap();
 
+        console.log("response",response);
         if (response.success) {
           handleEditFlashMessage(response.message, "success");
           dispatch(
@@ -426,7 +441,40 @@ const CustomerManageData = () => {
 
   //if (customerLoading) return <p>Loading...</p>;
   //if (customerError) return <p>{customerError}</p>;
-
+ // console.log("editFormData?.associate_name",editFormData?.associate_name);
+  const handleUpdateAssociate = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+      
+      // Send the updated associate_name in the body (not in params)
+      const response = await axios.put(
+        `${API_URL}/auth/update-asssociates/${selectedCustomer?.id}`, // Use PUT or PATCH for updates
+        {
+          associate_name: editFormData?.associate_name, // Send data in the request body
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.data.success) { // Ensure you're checking response.data for success
+        handleEditFlashMessage(response.data.message, "success");
+        dispatch(fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id }));
+      } else {
+        handleEditFlashMessage(
+          response.data.message || "Something went wrong",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Error updating associate:", error);
+      handleEditFlashMessage("An error occurred while updating the associate.", "error");
+    }
+  };
+  
   return (
     <div className="main-content">
       <ContentTop />
@@ -523,7 +571,8 @@ const CustomerManageData = () => {
               setEditFlashMsgType={setEditFlashMsgType}
               handleEditChange={handleEditChange}
               handleEditSubmit={handleEditSubmit}
-              bussinesasociatedata = {allBAdata?.data?.associates}
+              bussinesasociatedata = {allBAdata?.data}
+              handleUpdateAssociate={handleUpdateAssociate}
             />
           )}
 

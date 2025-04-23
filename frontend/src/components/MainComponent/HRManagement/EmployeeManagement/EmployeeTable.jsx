@@ -48,14 +48,14 @@ const EmployeeTable = ({
                 Name
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Department
+                email
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Reporting Manager
               </th>
              
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Designation
+                Phone
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Status
@@ -87,14 +87,14 @@ const EmployeeTable = ({
                   {user?.fullname}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.jobDetail?.department?.department_name}
+                  {user?.email}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.jobDetail?.reportingManager?.fullname}
                 </td>
                
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.jobDetail?.job_title}
+                  {user?.phone}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{user?.status}</td>
                 <td className="px-4 py-2 text-newtextdata">5</td>

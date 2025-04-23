@@ -21,17 +21,31 @@ export const navigationLinks = [
     image: iconsImgs.employee,
     path: "/employee-management",
   },
-  {
-    id: 3,
-    title: "Lead Management",
-    image: iconsImgs.lead,
-    path: "/lead-management",
-  },
+  // {
+  //   id: 3,
+  //   title: "Lead Management",
+  //   image: iconsImgs.lead,
+  //   path: "/lead-management",
+  // },
   {
     id: 4,
     title: "Customer Management",
     image: iconsImgs.department,
     path: "/customer-management",
+    submenu: [
+      {
+        id: 4.1,
+        title: "Customer Management",
+        image: iconsImgs.lead,
+        path: "/customer-management",
+      },
+      {
+        id: 4.2,
+        title: "Lead Management",
+        image: iconsImgs.lead,
+        path: "/lead-management",
+      },
+    ],
   },
   {
     id: 5,
@@ -112,7 +126,7 @@ export const navigationLinks = [
       //     },
       //   ]
       // },
-    ]
+    ],
   },
   {
     id: 7,
@@ -257,7 +271,7 @@ export const navigationLinks = [
         image: iconsImgs.followupform,
         path: "/report-management/customer-info-form",
       },
-    ]
+    ],
   },
 
   {

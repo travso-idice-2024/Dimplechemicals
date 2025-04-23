@@ -74,6 +74,7 @@ const ProductManageData = () => {
     rate: "",
     product_description: "",
     status: "",
+    category_id:""
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -164,6 +165,7 @@ const ProductManageData = () => {
     rate: "",
     product_description: "",
     status: "",
+    category_id:""
   });
 
   const [editFormErrors, setEditFormErrors] = useState({});
@@ -181,6 +183,7 @@ const ProductManageData = () => {
         rate: selectedProduct.rate || "",
         product_description: selectedProduct.product_description || "",
         status: selectedProduct.status || "",
+        category_id:selectedProduct.category_id || ""
       });
     }
   }, [selectedProduct]);

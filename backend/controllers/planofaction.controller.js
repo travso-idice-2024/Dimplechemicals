@@ -150,22 +150,30 @@ const updateSalesPerson = async (req, res) => {
 
 const planOfActionForaDay = async (req, res) => {
   try {
-    const today = moment().format("YYYY-MM-DD"); // today's date
+    const today = moment().format("YYYY-MM-DD");
+
+    // Include Customer and SalesPerson
+    const includeRelations = [
+      {
+        model: Customer,
+        as: "customer",
+        attributes: ["id", "company_name"],
+      },
+      {
+        model: User,
+        as: "salesPerson",
+        attributes: ["id", "fullname", "email"],
+      },
+    ];
 
     const meetings = await PlanOfAction.findAll({
       where: {
         meeting_date: today,
         sales_persion_id: {
-          [Op.ne]: null 
+          [Op.ne]: null
         }
       },
-      include: [
-        {
-          model: User,
-          as: "salesPerson",
-          attributes: ["id", "fullname", "email"]
-        }
-      ]
+      include: includeRelations,
     });
 
     const grouped = {};
@@ -178,10 +186,16 @@ const planOfActionForaDay = async (req, res) => {
             id: sp.id,
             fullname: sp.fullname,
             email: sp.email,
-            total_meetings: 0
+            total_meetings: 0,
+            meetings: []
           };
         }
+
         grouped[sp.id].total_meetings++;
+
+        grouped[sp.id].meetings.push({
+          ...meeting.dataValues,
+        });
       }
     });
 
@@ -189,11 +203,12 @@ const planOfActionForaDay = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Plan of Action for today", 
+      message: "Plan of Action for today",
       data: result
     });
+
   } catch (error) {
-    console.error("Error fetching today's meeting counts:", error);
+    console.error("Error fetching today's meeting details:", error);
     return res.status(500).json({
       success: false,
       message: "Server Error",

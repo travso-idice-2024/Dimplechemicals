@@ -38,7 +38,8 @@ const {
   exportCustomersToExcel,
   customerInfo,
   customerHistory,
-  getBuisnessAssociates
+  getBuisnessAssociates,
+  updateBusinessAssociate
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -102,6 +103,8 @@ const{
 const{
   createLeadAssignedHistory
 }= require("../controllers/leadAssignedHistoryController");
+
+const { listCategories } = require('../controllers/category.controller');
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -219,6 +222,12 @@ router.get("/get-Deal-data", authMiddleware, getDealData);
 router.get("/total-lead-count", authMiddleware, countTotalLeads);
 router.get("/total-months-visits", authMiddleware, visistsOfMonth);
 router.get("/buisness-asssociates/:id", authMiddleware, getBuisnessAssociates);
+router.get('/categories', authMiddleware, listCategories);
+router.put(
+  "/update-asssociates/:customer_id",
+  authMiddleware,
+  updateBusinessAssociate
+);
 
 
 

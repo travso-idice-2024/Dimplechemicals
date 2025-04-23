@@ -26,11 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       department_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       job_title: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       employment_type: {
         type: DataTypes.STRING,
@@ -48,12 +48,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       currently_working: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
         defaultValue: true, // Default to true when an employee is first added
       },
       salary: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
+        allowNull: true,
         validate: {
           isDecimal: { msg: 'Salary must be a valid decimal number' },
         },

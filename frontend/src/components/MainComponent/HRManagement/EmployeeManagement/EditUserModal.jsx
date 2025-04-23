@@ -117,7 +117,8 @@ const EditUserModal = ({
 
           {/* New Code */}
           <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
-            {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
+            {/* {["Personal", "Job", "Bank", "Documents"].map((step, index) => ( */}
+            {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">
                 {index > 0 && (
                   <div
@@ -137,7 +138,7 @@ const EditUserModal = ({
                   {step}
                 </div>
 
-                {index < 3 && (
+                {index < 1 && (
                   <div
                     className={`h-1 w-full ${
                       currentUpdateStep > index + 1
@@ -171,7 +172,7 @@ const EditUserModal = ({
                   </p>
                 )}
               </div>
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Username :
                 </label>
@@ -188,7 +189,7 @@ const EditUserModal = ({
                     {updateFormErrors.username}
                   </p>
                 )}
-              </div>
+              </div> */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Email :
@@ -208,7 +209,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Enter Date of Birth:
                 </label>
@@ -230,7 +231,7 @@ const EditUserModal = ({
                     {updateFormErrors.date_of_birth}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -251,7 +252,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Emergency Contact :
                 </label>
@@ -268,9 +269,9 @@ const EditUserModal = ({
                     {updateFormErrors.emergency_contact}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div className="relative">
+              {/* <div className="relative">
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Password :
                 </label>
@@ -293,9 +294,9 @@ const EditUserModal = ({
                     {updateFormErrors.password}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div className="relative">
+              {/* <div className="relative">
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Confirm Password :
                 </label>
@@ -318,7 +319,7 @@ const EditUserModal = ({
                     {updateFormErrors.confirm_password}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -358,7 +359,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Role :
                 </label>
@@ -384,9 +385,9 @@ const EditUserModal = ({
                     {updateFormErrors.role_id}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Gender:
                 </label>
@@ -406,9 +407,9 @@ const EditUserModal = ({
                     {updateFormErrors.gender}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Status:
                 </label>
@@ -439,7 +440,7 @@ const EditUserModal = ({
                     {updateFormErrors.status}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -470,14 +471,14 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label className="block font-poppins font-medium text-textdata text-bgData mb-1">
                   Upload Profile Picture:
                 </label>
 
-                {/* Preview box with border */}
+                
                 <div className="flex items-center gap-7 border border-[#473b33] rounded-md px-3 py-[5px] w-fit bg-white shadow-sm">
-                  {/* Profile Image */}
+                  
                   <img
                     src={
                       updateFormData.profile_image
@@ -490,7 +491,7 @@ const EditUserModal = ({
                     className="w-10 h-10 object-cover rounded-[5px]"
                   />
 
-                  {/* Upload Icon Trigger */}
+                  
                   <label
                     htmlFor="profileUpload"
                     className="flex items-center gap-1 cursor-pointer text-[#473b33] hover:text-[#5a453a]"
@@ -501,10 +502,10 @@ const EditUserModal = ({
                       className="w-12 h-10 object-cover"
                     />{" "}
                     Upload
-                    {/* Bootstrap icon */}
+                   
                   </label>
 
-                  {/* Hidden File Input */}
+                 
                   <input
                     type="file"
                     id="profileUpload"
@@ -516,13 +517,13 @@ const EditUserModal = ({
                   />
                 </div>
 
-                {/* Error Message */}
+               
                 {updateFormErrors.profile_image && (
                   <p className="text-red-500 text-sm mt-1">
                     {updateFormErrors.profile_image}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -548,7 +549,7 @@ const EditUserModal = ({
           {/* Step 2: Job Details */}
           {currentUpdateStep === 2 && (
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Basic Salary:
                 </label>
@@ -584,7 +585,7 @@ const EditUserModal = ({
                     {updateFormErrors.job_title}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -605,7 +606,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Offer Letter Date:
                 </label>
@@ -621,7 +622,7 @@ const EditUserModal = ({
                     {updateFormErrors.offer_letter_date}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -641,7 +642,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Exit Date:
                 </label>
@@ -657,9 +658,9 @@ const EditUserModal = ({
                     {updateFormErrors.date_of_exit}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Department:
                 </label>
@@ -685,7 +686,7 @@ const EditUserModal = ({
                     {updateFormErrors.department_id}
                   </p>
                 )}
-              </div>
+              </div> */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Employment Type:
@@ -734,7 +735,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Summary for Remarks:
                 </label>
@@ -751,9 +752,9 @@ const EditUserModal = ({
                     {updateFormErrors.remarks}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Currently Working:
                 </label>
@@ -782,12 +783,12 @@ const EditUserModal = ({
                     {updateFormErrors.currently_working}
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
           )}
 
           {/* Step 3: Bank Details */}
-          {currentUpdateStep === 3 && (
+          {/* {currentUpdateStep === 3 && (
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -808,7 +809,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              {/* Branch Name */}
+              
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Branch Name:
@@ -828,7 +829,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              {/* Account Type */}
+              
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Account Type:
@@ -886,12 +887,12 @@ const EditUserModal = ({
                 )}
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Step 4: Document Upload */}
-          {currentUpdateStep === 4 && (
+          {/* {currentUpdateStep === 4 && (
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-              {/* File Path */}
+             
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Documents Upload:
@@ -910,7 +911,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              {/* digital signature */}
+             
               <div className="">
                 <label className="font-poppins font-medium text-[16px] text-bgData">
                   Upload Written Signature :
@@ -943,15 +944,15 @@ const EditUserModal = ({
                       disabled={isSignatureauditEmpty}
                       className={`${
                         isSignatureauditEmpty
-                          ? "bg-gray-400 cursor-not-allowed" // Disabled state style
-                          : "bg-green-700 hover:bg-green-600 cursor-pointer" // Enabled state style
+                          ? "bg-gray-400 cursor-not-allowed" 
+                          : "bg-green-700 hover:bg-green-600 cursor-pointer" 
                       } text-[15px] text-white px-3 py-1 rounded`}
                     >
                       Save Signature
                     </div>
                   </div>
                   <img
-                    src={updateFormData.digital_signature} // Assuming   updateFormData.digital_signature contains the base64 data
+                    src={updateFormData.digital_signature} 
                     alt="Digital Signature"
                     className="absolute rounded-[5px] bottom-[53px] right-[26px]"
                     style={{
@@ -959,12 +960,12 @@ const EditUserModal = ({
                       height: "67px",
                       background: "rgb(212 32 32 / 68%)",
                       padding: "5px",
-                    }} // Adjust size if needed
+                    }} 
                   />
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="flex items-end justify-end gap-2 px-4">
             {currentUpdateStep === 1 && (
@@ -993,9 +994,10 @@ const EditUserModal = ({
                 </button>
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                  onClick={nextUpdateStep}
+                  //onClick={nextUpdateStep}
+                  onClick={handleUpdateSubmit}
                 >
-                  Next
+                  Update Employee
                 </button>
                 <button
                   className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
@@ -1006,7 +1008,7 @@ const EditUserModal = ({
               </>
             )}
 
-            {currentUpdateStep === 3 && (
+            {/* {currentUpdateStep === 3 && (
               <>
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
@@ -1050,7 +1052,7 @@ const EditUserModal = ({
                   Close
                 </button>
               </>
-            )}
+            )} */}
           </div>
         </div>
       </div>
