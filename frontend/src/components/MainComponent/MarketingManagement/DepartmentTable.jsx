@@ -32,7 +32,11 @@ const DepartmentTable = ({
   setViewCustomerHistoryCardModalOpen,
   dealCreationOpenForm,
   setDealCreationOpenForm,
-  setDealData 
+  setDealData,
+  isViewCustomerModalOpen,
+  setViewCustomerModalOpen,
+  selectedPOAIds,
+  setSelectedPOAIds
 }) => {
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
@@ -52,7 +56,7 @@ const DepartmentTable = ({
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] ">
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                <input type="checkbox" className="w-4 h-4 accent-orange-500" disabled />
+                {/* <input type="checkbox" className="w-4 h-4 accent-orange-500" disabled /> */}
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
@@ -88,11 +92,21 @@ const DepartmentTable = ({
                   <input
                     type="checkbox"
                     className="w-4 h-4 accent-orange-500"
-                    checked={selectedPOAId === user.id}
+                    //checked={selectedPOAId === user.id}
+                    // onChange={() => {
+                    //   setSelectedPOAId(user.id);
+                    //   setSelectedLead(user);
+                    //   //setIsLeadAssignPopup(true);
+                    // }}
+                    checked={selectedPOAIds.includes(user.id)}
                     onChange={() => {
-                      setSelectedPOAId(user.id);
-                      setSelectedLead(user);
-                      setIsLeadAssignPopup(true);
+                      if (selectedPOAIds.includes(user.id)) {
+                        // remove if already selected
+                        setSelectedPOAIds(selectedPOAIds.filter(id => id !== user.id));
+                      } else {
+                        // add if not selected
+                        setSelectedPOAIds([...selectedPOAIds, user.id]);
+                      }
                     }}
                   />
                 </td>
@@ -103,8 +117,10 @@ const DepartmentTable = ({
                 <td
                   className="px-4 py-2 text-newtextdata cursor-pointer"
                   onClick={() => {
-                    fetchCustomerHistory(user?.customer?.id);
-                    setViewCustomerHistoryCardModalOpen(true);
+                    //fetchCustomerHistory(user?.customer?.id);
+                    setSelectedLead(user);
+                    setViewCustomerModalOpen(true);
+                    //setViewCustomerHistoryCardModalOpen(true);
                   }}
                 >
                   {user?.customer?.company_name}

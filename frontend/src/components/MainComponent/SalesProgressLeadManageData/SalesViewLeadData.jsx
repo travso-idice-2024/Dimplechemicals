@@ -52,6 +52,9 @@ const SalesViewLeadData = () => {
     lead_text: "",
     lead_status: "",
     lead_date: "",
+    start_meeting_time: "",
+    end_meeting_time: "",
+    next_meeting_time: "",
   });
 
   // Update formData when lead data is available
@@ -65,6 +68,9 @@ const SalesViewLeadData = () => {
         lead_text: formData.lead_text, // Keep existing lead_text if already typed
         lead_status: formData.lead_status, // Keep existing lead_status
         lead_date: formData.lead_date, // Keep existing lead_date
+        start_meeting_time: formData.start_meeting_time,
+        end_meeting_time: formData.end_meeting_time,
+        next_meeting_time: formData.next_meeting_time,
       });
     }
   }, [lead]);
@@ -99,6 +105,13 @@ const SalesViewLeadData = () => {
     if (!formData.lead_status.trim())
       errors.lead_status = "*Lead status is required";
     if (!formData.lead_date.trim()) errors.lead_date = "*Lead date is required";
+    // New validations for meeting times
+    if (!formData.start_meeting_time.trim())
+      errors.start_meeting_time = "*Start meeting time is required";
+    if (!formData.end_meeting_time.trim())
+      errors.end_meeting_time = "*End meeting time is required";
+    if (!formData.next_meeting_time.trim())
+      errors.next_meeting_time = "*Next meeting time is required";
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -119,6 +132,15 @@ const SalesViewLeadData = () => {
           handleFlashMessage(
             response?.message || "Lead Communication added successfully!",
             "success"
+          );
+
+          dispatch(
+            leadCommunicationById({
+              leadId: leadId,
+              page: currentPage,
+              limit: leadCumPerPage,
+              search: searchTerm,
+            })
           );
 
           // Reload lead list after adding lead
@@ -214,7 +236,7 @@ const SalesViewLeadData = () => {
                   <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
                     <div>
                       <label className="font-poppins font-medium text-black text-[16px]">
-                         Note :
+                        Description :
                       </label>
                       <textarea
                         type="text"
@@ -232,6 +254,9 @@ const SalesViewLeadData = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                       <div>
+                        <label className="font-poppins font-medium text-black text-[16px]">
+                          Lead Status :
+                        </label>
                         <select
                           name="lead_status"
                           value={formData.lead_status}
@@ -252,7 +277,49 @@ const SalesViewLeadData = () => {
                           </p>
                         )}
                       </div>
+
                       <div>
+                        <label className="font-poppins font-medium text-black text-[16px]">
+                          Meeting Start time :
+                        </label>
+                        <input
+                          type="time"
+                          name="start_meeting_time"
+                          value={formData.start_meeting_time}
+                          onChange={handleChange}
+                          placeholder="Start Meeting Time"
+                          className="block w-full mb-2 h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                        />
+                        {formErrors.start_meeting_time && (
+                          <p className="text-red-500 text-sm">
+                            {formErrors.start_meeting_time}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="font-poppins font-medium text-black text-[16px]">
+                          Meeting End Time :
+                        </label>
+                        <input
+                          type="time"
+                          name="end_meeting_time"
+                          value={formData.end_meeting_time}
+                          onChange={handleChange}
+                          placeholder="End Meeting Time"
+                          className="block w-full mb-2 h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                        />
+                        {formErrors.end_meeting_time && (
+                          <p className="text-red-500 text-sm">
+                            {formErrors.end_meeting_time}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="font-poppins font-medium text-black text-[16px]">
+                          Next Metting Date :
+                        </label>
                         <input
                           type="date"
                           name="lead_date"
@@ -267,6 +334,26 @@ const SalesViewLeadData = () => {
                           </p>
                         )}
                       </div>
+
+                      <div>
+                        <label className="font-poppins font-medium text-black text-[16px]">
+                          Next Meeting Start Time :
+                        </label>
+                        <input
+                          type="time"
+                          name="next_meeting_time"
+                          value={formData.next_meeting_time}
+                          onChange={handleChange}
+                          placeholder="Next Meeting Time"
+                          className="block w-full mb-2 h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                        />
+                        {formErrors.next_meeting_time && (
+                          <p className="text-red-500 text-sm">
+                            {formErrors.next_meeting_time}
+                          </p>
+                        )}
+                      </div>
+
                       <div>
                         <button
                           className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
@@ -303,7 +390,8 @@ const SalesViewLeadData = () => {
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
                     <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">Date</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Time</th>
                     <th className="px-4 py-2 text-left text-bgDataNew">
                       Company Name
                     </th>
@@ -335,6 +423,9 @@ const SalesViewLeadData = () => {
                           )}
                         </td>
                         <td className="px-4 py-2">
+                         {user?.next_meeting_time}
+                        </td>
+                        <td className="px-4 py-2">
                           {user?.Customer?.company_name}
                         </td>
                         <td className="px-4 py-2">{user?.client_name}</td>
@@ -347,8 +438,8 @@ const SalesViewLeadData = () => {
                 </tbody>
               </table>
             </div>
-             {/* Pagination Controls with Number */}
-             <Pagination
+            {/* Pagination Controls with Number */}
+            <Pagination
               currentPage={currentPage}
               handlePageChange={handlePageChange}
               totalPages={totalPages}

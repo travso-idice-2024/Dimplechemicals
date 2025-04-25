@@ -116,8 +116,8 @@ const EditUserModal = ({
           </h2>
 
           {/* New Code */}
-          <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
-            {/* {["Personal", "Job", "Bank", "Documents"].map((step, index) => ( */}
+          {/* <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
+            {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
             {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">
                 {index > 0 && (
@@ -149,10 +149,10 @@ const EditUserModal = ({
                 )}
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* Step 1: Personal Details */}
-          {currentUpdateStep === 1 && (
+          {/* {currentUpdateStep === 1 && ( */}
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto h-fit">
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -543,11 +543,93 @@ const EditUserModal = ({
                   </p>
                 )}
               </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reporting Location:
+                </label>
+                <input
+                  type="text"
+                  name="work_location"
+                  placeholder="Enter Work Location"
+                  value={updateFormData.work_location}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.work_location && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.work_location}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Joining Date:
+                </label>
+                <input
+                  type="date"
+                  name="date_of_joining"
+                  value={updateFormData.date_of_joining}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {updateFormErrors.date_of_joining && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.date_of_joining}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Employment Type:
+                </label>
+                <select
+                  name="employment_type"
+                  value={updateFormData.employment_type}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                >
+                  <option value="">Select Employment Type</option>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Intern">Intern</option>
+                </select>
+                {updateFormErrors.employment_type && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.employment_type}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reporting Manager:
+                </label>
+                <select
+                  name="reporting_manager_id"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                  value={updateFormData.reporting_manager_id} // Controlled state
+                  onChange={handleUpdateChange} // Update state
+                >
+                  <option value="">Select Reporting Manager</option>
+                  {allusers?.data?.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.fullname}{" "}
+                      {/* Assuming user object has "name" property */}
+                    </option>
+                  ))}
+                </select>
+                {updateFormErrors.reporting_manager_id && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.reporting_manager_id}
+                  </p>
+                )}
+              </div>
+
             </div>
-          )}
+          {/* )} */}
 
           {/* Step 2: Job Details */}
-          {currentUpdateStep === 2 && (
+          {/* {currentUpdateStep === 2 && ( */}
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -587,7 +669,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Reporting Location:
                 </label>
@@ -604,7 +686,7 @@ const EditUserModal = ({
                     {updateFormErrors.work_location}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -624,7 +706,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Joining Date:
                 </label>
@@ -640,7 +722,7 @@ const EditUserModal = ({
                     {updateFormErrors.date_of_joining}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -687,7 +769,7 @@ const EditUserModal = ({
                   </p>
                 )}
               </div> */}
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Employment Type:
                 </label>
@@ -708,9 +790,9 @@ const EditUserModal = ({
                     {updateFormErrors.employment_type}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Reporting Manager:
                 </label>
@@ -724,7 +806,6 @@ const EditUserModal = ({
                   {allusers?.data?.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.fullname}{" "}
-                      {/* Assuming user object has "name" property */}
                     </option>
                   ))}
                 </select>
@@ -733,7 +814,7 @@ const EditUserModal = ({
                     {updateFormErrors.reporting_manager_id}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -785,7 +866,7 @@ const EditUserModal = ({
                 )}
               </div> */}
             </div>
-          )}
+          {/* )} */}
 
           {/* Step 3: Bank Details */}
           {/* {currentUpdateStep === 3 && (
@@ -968,7 +1049,7 @@ const EditUserModal = ({
           )} */}
 
           <div className="flex items-end justify-end gap-2 px-4">
-            {currentUpdateStep === 1 && (
+            {/* {currentUpdateStep === 1 && (
               <>
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
@@ -983,15 +1064,15 @@ const EditUserModal = ({
                   Close
                 </button>
               </>
-            )}
-            {currentUpdateStep === 2 && (
+            )} */}
+            {/* {currentUpdateStep === 2 && ( */}
               <>
-                <button
+                {/* <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
                   onClick={prevUpdateStep}
                 >
                   Previous
-                </button>
+                </button> */}
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
                   //onClick={nextUpdateStep}
@@ -1006,7 +1087,7 @@ const EditUserModal = ({
                   Close
                 </button>
               </>
-            )}
+            {/* )} */}
 
             {/* {currentUpdateStep === 3 && (
               <>

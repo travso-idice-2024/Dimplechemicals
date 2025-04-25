@@ -247,7 +247,7 @@ const getLeadList = async (req, res) => {
           {
             model: Customer,
             as: "customer",
-            attributes: ["id", "company_name", "client_name"],
+           // attributes: ["id", "company_name", "client_name"],
           },
           { model: User, as: "leadOwner", attributes: ["fullname"] },
           { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
@@ -284,7 +284,7 @@ const getLeadList = async (req, res) => {
         {
           model: Customer,
           as: "customer",
-          attributes: ["id", "company_name", "client_name"],
+          //attributes: ["id", "company_name", "client_name"],
         },
         { model: User, as: "leadOwner", attributes: ["fullname"] },
         { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },

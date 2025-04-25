@@ -21,7 +21,7 @@ const ContentTop = () => {
   const navigate = useNavigate();
 
   const { user: userDeatail } = useSelector((state) => state.auth);
-  console.log("userDeatail", userDeatail);
+  //console.log("userDeatail", userDeatail);
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);

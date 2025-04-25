@@ -15,6 +15,9 @@ const createLeadCommunication = async (req, res) => {
       lead_status,
       lead_date,
       lead_id,
+      start_meeting_time,
+      end_meeting_time,
+      next_meeting_time,
     } = req.body;
 
     // Ensure user is authenticated
@@ -35,9 +38,7 @@ const createLeadCommunication = async (req, res) => {
       !lead_date ||
       !lead_id
     ) {
-      return res
-        .status(400)
-        .json({ success: false, message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     // Insert record
@@ -50,13 +51,19 @@ const createLeadCommunication = async (req, res) => {
       lead_status,
       lead_date,
       lead_id,
+      start_meeting_time,
+      end_meeting_time,
+      start_meeting_time,
+      next_meeting_time,
     });
 
-    res.status(201).json({
-      success: true,
-      message: "Lead communication created successfully",
-      data: newLead,
-    });
+    res
+      .status(201)
+      .json({
+        success: true,
+        message: "Lead communication created successfully",
+        data: newLead,
+      });
   } catch (error) {
     console.error("Error inserting lead communication:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -128,6 +135,7 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
         "lead_text",
         "lead_status",
         "lead_date",
+        "next_meeting_time",
         "createdAt",
       ],
       include: [
@@ -292,6 +300,7 @@ const visistsOfMonth = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   createLeadCommunication,

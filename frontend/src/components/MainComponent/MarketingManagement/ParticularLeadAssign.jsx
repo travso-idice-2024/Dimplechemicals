@@ -21,6 +21,7 @@ const ParticularLeadAssign = ({
   setUpdateLeadFlashMsgType,
   handleUpdateLeadChange,
   handleUpdateLeadFlashMessage,
+  selectedPOAIds
 }) => {
   const dispatch = useDispatch();
   return (

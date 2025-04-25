@@ -80,9 +80,8 @@ export const LeadFollowList = () => {
                   <thead>
                     <tr className="bg-[#473b33] rounded-[8px]">
                       <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">
-                        Date
-                      </th>
+                      <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
+                      <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Time</th>
                       <th className="px-4 py-2 text-left text-bgDataNew">
                         Company Name
                       </th>
@@ -113,6 +112,9 @@ export const LeadFollowList = () => {
                               }
                             )}
                           </td>
+                          <td className="px-4 py-2">
+                         {user?.next_meeting_time}
+                        </td>
                           <td className="px-4 py-2">
                             {user?.Customer?.company_name}
                           </td>

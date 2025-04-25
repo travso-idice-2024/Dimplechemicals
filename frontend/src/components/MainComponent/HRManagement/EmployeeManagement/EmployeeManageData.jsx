@@ -196,7 +196,7 @@ const EmployeeManageData = () => {
   const validateInputs = () => {
     let errors = {};
 
-    if (currentStep === 1) {
+    //if (currentStep === 1) {
       // ✅ Required fields validation (only necessary fields)
       if (!formData.fullname.trim()) {
         errors.fullname = "*Full name is required";
@@ -252,8 +252,8 @@ const EmployeeManageData = () => {
       if (!formData.address.trim()) {
         errors.address = "*Address is required";
       }
-    }
-    if (currentStep === 2) {
+    //}
+    //if (currentStep === 2) {
       // ✅ Required fields validation (only necessary fields)
 
       // if (!formData.department_id.trim()) {
@@ -288,8 +288,8 @@ const EmployeeManageData = () => {
       // if (!formData.remarks.trim()) {
       //   errors.remarks = "*Summary is required";
       // }
-    }
-    if (currentStep === 3) {
+    //}
+   // if (currentStep === 3) {
       // ✅ Required fields validation (only necessary fields)
 
       // if (!formData.bank_name.trim()) {
@@ -307,7 +307,7 @@ const EmployeeManageData = () => {
       // if (!formData.branch_name.trim()) {
       //   errors.branch_name = "*Branch Name is required";
       // }
-    }
+    //}
     // ✅ Update state and return validation result
     setFormErrors(errors);
     return Object.keys(errors).length === 0;

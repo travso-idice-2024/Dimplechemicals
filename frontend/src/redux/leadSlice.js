@@ -323,14 +323,14 @@ export const ConvertedLeadData = createAsyncThunk(
 
 export const updateSalesPersionAssignment = createAsyncThunk(
   "auth/add-lead-assigned-history",
-  async ({ lead_id, new_assigned_person_id }, { rejectWithValue }) => {
+  async ({ lead_ids, new_assigned_person_id }, { rejectWithValue }) => {
     try {
       // console.log("redux caling");
       // console.log(lead_id , new_assigned_person_id);
       const token = getAuthToken();
       const response = await axios.post(
         `${API_URL}/auth/add-lead-assigned-history`,
-        { new_assigned_person_id, lead_id }, // send only the field to update
+        { new_assigned_person_id, lead_ids }, // send only the field to update
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return response.data;

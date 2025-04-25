@@ -46,6 +46,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    start_meeting_time: {
+      type: DataTypes.TIME,
+      allowNull: true,
+    },
+    end_meeting_time: {
+      type: DataTypes.TIME,
+      allowNull: true,
+    },
+    next_meeting_time: {
+      type: DataTypes.TIME,
+      allowNull: true,
+    },
     lead_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

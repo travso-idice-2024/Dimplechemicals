@@ -2,7 +2,14 @@ import { iconsImgs } from "../utils/images";
 import { personsImgs } from "../utils/images";
 
 export const navigationLinks = [
-  { id: 1, title: "DashBoard", image: iconsImgs.home, path: "/dashboard" },
+  { id: 1, title: "DashBoard", image: iconsImgs.home, path: "/dashboard",allowedRoles: [1, 2] },
+  {
+    id: 9,
+    title: "sales DashBoard",
+    image: iconsImgs.assignment,
+    path: "/lead-sales",
+    allowedRoles: [3],
+  },
   // {
   //   id: 2,
   //   title: "Department Management",
@@ -17,9 +24,10 @@ export const navigationLinks = [
   // },
   {
     id: 2,
-    title: "Employee Management",
+    title: "Employee Master",
     image: iconsImgs.employee,
     path: "/employee-management",
+    allowedRoles: [1, 2]
   },
   // {
   //   id: 3,
@@ -29,41 +37,45 @@ export const navigationLinks = [
   // },
   {
     id: 4,
-    title: "Customer Management",
+    title: "Customer Master",
     image: iconsImgs.department,
     path: "/customer-management",
-    submenu: [
-      {
-        id: 4.1,
-        title: "Customer Management",
-        image: iconsImgs.lead,
-        path: "/customer-management",
-      },
-      {
-        id: 4.2,
-        title: "Lead Management",
-        image: iconsImgs.lead,
-        path: "/lead-management",
-      },
-    ],
+    allowedRoles: [1, 2, 3],
+    // submenu: [
+    //   {
+    //     id: 4.1,
+    //     title: "Customer Management",
+    //     image: iconsImgs.lead,
+    //     path: "/customer-management",
+    //   },
+    //   // {
+    //   //   id: 4.2,
+    //   //   title: "Lead Management",
+    //   //   image: iconsImgs.lead,
+    //   //   path: "/lead-management",
+    //   // },
+    // ],
   },
   {
     id: 5,
     title: "Sales Management",
     image: iconsImgs.assignment,
     path: "/sale-management",
+    allowedRoles: [1, 3],
     submenu: [
       {
         id: 5.1,
         title: "Visit Plan (POA)",
         image: iconsImgs.followupform,
         path: "/sale-management/plan-of-action-for-day",
+        allowedRoles: [1, 3],
       },
       {
         id: 5.2,
         title: "Leads Management",
         image: iconsImgs.lead,
         path: "/sale-management/leads",
+        allowedRoles: [1, 3],
         submenu: [
           {
             id: "5.2.1",
@@ -71,12 +83,14 @@ export const navigationLinks = [
             image: iconsImgs.assignment,
             //path: "/sale-management/leads/assignment",
             path: "/sale-management/lead-management",
+            allowedRoles: [1, 3],
           },
           {
             id: "5.2.2",
             title: "Finalize Deal",
             image: iconsImgs.poform,
             path: "/sale-management/leads/po-form",
+            allowedRoles: [1, 3],
           },
         ],
       },
@@ -87,18 +101,21 @@ export const navigationLinks = [
     title: "Marketing Management",
     image: iconsImgs.marketing,
     path: "/marketing-management",
+    allowedRoles: [1],
     submenu: [
       {
         id: 6.1,
         title: "Lead Assignment",
         image: iconsImgs.followupform,
         path: "/marketing-management/lead-management",
+        allowedRoles: [1],
       },
       {
         id: 6.2,
         title: "Leads via Sources",
         image: iconsImgs.followupform,
         path: "/marketing-management/lead-via-source",
+        allowedRoles: [1],
       },
       // {
       //   id: 6.3,
@@ -133,18 +150,21 @@ export const navigationLinks = [
     title: "HR Management",
     image: iconsImgs.hr,
     path: "/hr",
+    allowedRoles: [1, 2],
     submenu: [
       {
         id: 7.1,
         title: "Employee Details",
         image: iconsImgs.employee,
         path: "/hr/employee-details",
+        allowedRoles: [1, 2],
       },
       {
         id: 7.2,
         title: "Attendance Sheet",
         image: iconsImgs.assignment,
         path: "/hr/attandance-sheet",
+        allowedRoles: [1, 2],
       },
       // {
       //   id: 7.2,
@@ -234,52 +254,54 @@ export const navigationLinks = [
     title: "Report Management",
     image: iconsImgs.dmanage,
     path: "/report-management",
+    allowedRoles: [1],
     submenu: [
       {
         id: 8.1,
         title: "Sales Report",
         image: iconsImgs.followupform,
         path: "/report-management/lead-report",
+        allowedRoles: [1],
       },
       {
         id: 8.1,
         title: "Employee Report",
         image: iconsImgs.followupform,
         path: "/report-management/employee-report",
+        allowedRoles: [1],
       },
       {
         id: 8.3,
         title: "POA Report",
         image: iconsImgs.followupform,
         path: "/report-management/plan-of-action-for-day",
+        allowedRoles: [1],
       },
       {
         id: 8.4,
         title: "Sales Activity Report",
         image: iconsImgs.followupform,
         path: "/report-management/sales-activity-report",
+        allowedRoles: [1],
       },
       {
         id: 8.5,
         title: "Customer History Card",
         image: iconsImgs.followupform,
         path: "/report-management/customer-history-card",
+        allowedRoles: [1],
       },
       {
         id: 8.6,
         title: "Customer Info Form",
         image: iconsImgs.followupform,
         path: "/report-management/customer-info-form",
+        allowedRoles: [1],
       },
     ],
   },
 
-  {
-    id: 9,
-    title: "Sales Lead Updation",
-    image: iconsImgs.assignment,
-    path: "/lead-sales",
-  },
+  
   // {
   //   id: 9,
   //   title: "Document Management",
@@ -309,17 +331,19 @@ export const navigationLinks = [
   // { id: 9, title: 'Account', image: iconsImgs.user, path: '/account' },
   {
     id: 10,
-    title: "Product Management",
+    title: "Product Master",
     image: iconsImgs.department,
     path: "/product-management",
+    allowedRoles: [1]
   },
   {
     id: 11,
     title: "Costworking Management",
     image: iconsImgs.department,
     path: "/cost-management",
+    allowedRoles: [1]
   },
-  { id: 12, title: "Settings", image: iconsImgs.gears, path: "/settings" },
+  { id: 12, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: [1,2,3]},
 ];
 
 //------------ Own Data --------------//

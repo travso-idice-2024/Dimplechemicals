@@ -61,7 +61,7 @@ const SalesPersonFollowUp = () => {
     dispatch(fetchAllCustomers());
     dispatch(
       fetchUserWithRole({
-        roleId: 4,
+        roleId: 3,
       })
     );
     dispatch(

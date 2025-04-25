@@ -76,7 +76,7 @@ const EditUserModal = ({
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
-                Select assign date :
+                Select Meeting date :
               </label>
               <input
                 type="date"

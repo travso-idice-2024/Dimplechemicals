@@ -113,8 +113,15 @@ const handleSubmit = async(e) => {
         localStorage.setItem("token", response.token);
        
         //handleFlashMessage(response.message, 'success');
-        console.log("login successful");
-        navigate("/dashboard");
+        //console.log("login successful",response?.user?.employeeRole?.role_id);
+        const userRoleID = response?.user?.employeeRole?.role_id || "";
+        if(userRoleID == 3) {
+          navigate("/lead-sales");
+        }else{
+          navigate("/dashboard");
+        }
+        
+        
       }
     } catch (error) {
       console.log("error at login page catch block", error);

@@ -65,7 +65,7 @@ function App() {
   const location = useLocation(); // ✅ Get current route
   const hideSidebarRoutes = ["/"]; // ✅ Sidebar will be hidden on Login Page
   const shouldShowSidebar = !hideSidebarRoutes.includes(location.pathname);
-  const { isSidebarOpen } = useContext(SidebarContext);
+  const { isSidebarOpen } = useContext(SidebarContext); 
 
   return (
     <div className='app'>

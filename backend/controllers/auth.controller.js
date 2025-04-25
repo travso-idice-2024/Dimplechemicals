@@ -64,7 +64,13 @@ exports.login = async (req, res) => {
     const { username, password } = req.body;
 
     // Find user by email
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({ where: { username },include: [
+      {
+        model: EmployeeRole,
+        as: "employeeRole",
+        attributes: ["role_id"] // Only fetch role_id
+      }
+    ] });
     if (!user) {
       return res.status(401).json({ message: "Invalid username." });
     }
@@ -78,7 +84,7 @@ exports.login = async (req, res) => {
     // Generate JWT token
     const token = generateToken(user);
 
-    res.json({ message: "Login successful", token });
+    res.json({ message: "Login successful", token, user:user});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -814,6 +820,13 @@ exports.getCurrentUser = async (req, res) => {
     // Fetch user details (excluding password)
     const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ["password"] },
+      include: [
+        {
+          model: EmployeeRole,
+          as: "employeeRole",
+          attributes: ["role_id"] // only fetch role_id
+        }
+      ]
     });
 
     if (!user) {

@@ -6,6 +6,7 @@ import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
 import ViewUserModal from "./ViewUserModal";
+import ViewCustomerModal from "./ViewCustomerModal";
 import EditUserModal from "./EditUserModal";
 import AssignLeadModal from "./AssignLeadModal";
 import ParticularLeadAssign from "./ParticularLeadAssign";
@@ -52,6 +53,7 @@ const MarketingManageData = () => {
   const [selectedLead, setSelectedLead] = useState({});
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
+  const [isViewCustomerModalOpen, setViewCustomerModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [showTextareaPS, setShowTextareaPS] = useState(false);
@@ -64,6 +66,7 @@ const MarketingManageData = () => {
 
   const [selectedPOAId, setSelectedPOAId] = useState(null);
   const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
+  const [selectedPOAIds, setSelectedPOAIds] = useState([]);
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,7 +78,7 @@ const MarketingManageData = () => {
     dispatch(fetchAllCustomers());
     dispatch(
       fetchUserWithRole({
-        roleId: 4,
+        roleId: 3,
       })
     );
     dispatch(
@@ -467,7 +470,8 @@ const MarketingManageData = () => {
     try {
       const response = await dispatch(
         updateSalesPersionAssignment({
-          lead_id: selectedLead.id,
+          //lead_id: selectedLead.id,
+          lead_ids:selectedPOAIds,
           new_assigned_person_id: poaUpdateData.new_assigned_person_id,
         })
       ).unwrap();
@@ -631,7 +635,7 @@ const MarketingManageData = () => {
   };
 
   ////end deal
-
+  console.log("selectedPOAIds455",selectedPOAIds);
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex items-center justify-between">
@@ -641,6 +645,19 @@ const MarketingManageData = () => {
           </h1>
         </div>
         <div className="flex items-center gap-[5px]">
+        <div>
+            <button
+              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              onClick={() => setIsLeadAssignPopup(true)}
+            >
+              <img
+                src={iconsImgs.plus}
+                alt="plus icon"
+                className="w-[18px] mr-1"
+              />{" "}
+              Assign Lead To
+            </button>
+          </div>
           <div>
             <input
               type="search"
@@ -691,6 +708,11 @@ const MarketingManageData = () => {
             dealCreationOpenForm={dealCreationOpenForm}
             setDealCreationOpenForm={setDealCreationOpenForm}
             setDealData={setDealData}
+            isViewCustomerModalOpen={isViewCustomerModalOpen}
+            setViewCustomerModalOpen={setViewCustomerModalOpen}
+            selectedPOAIds={selectedPOAIds} 
+            setSelectedPOAIds={setSelectedPOAIds}
+            
           />
           {/*------- Table Data End -------*/}
         </div>
@@ -739,6 +761,14 @@ const MarketingManageData = () => {
           />
         )}
 
+        {/** view customer model */}
+        {isViewCustomerModalOpen && (
+          <ViewCustomerModal
+          setViewCustomerModalOpen={setViewCustomerModalOpen}
+          selectedCustomer={selectedLead}
+          />
+        )}
+
         {/* Assign Customer Modal */}
         {isAssignModalOpen && (
           <AssignLeadModal setIsAssignModalOpen={setIsAssignModalOpen} />
@@ -781,6 +811,7 @@ const MarketingManageData = () => {
           setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
           handleUpdateLeadChange={handleUpdateLeadChange}
           handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+          selectedPOAIds={selectedPOAIds}
         />
       )}
 

@@ -71,8 +71,8 @@ const AddEmployeeModal = ({
           </h2>
 
           {/* New Code */}
-          <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
-            {/* {["Personal", "Job", "Bank", "Documents"].map((step, index) => ( */}
+          {/* <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
+            {["Personal", "Job", "Bank", "Documents"].map((step, index) => ( 
               {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">
                 {index > 0 && (
@@ -100,10 +100,10 @@ const AddEmployeeModal = ({
                 )}
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* Step 1: Personal Details */}
-          {currentStep === 1 && (
+          {/* {currentStep === 1 && ( */}
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-fit">
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -391,11 +391,92 @@ const AddEmployeeModal = ({
                   <p className="text-red-500 text-sm">{formErrors.address}</p>
                 )}
               </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reporting Location:
+                </label>
+                <input
+                  type="text"
+                  name="work_location"
+                  placeholder="Enter Work Location"
+                  value={formData.work_location}
+                  onChange={handleChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {formErrors.work_location && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.work_location}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Joining Date:
+                </label>
+                <input
+                  type="date"
+                  name="date_of_joining"
+                  value={formData.date_of_joining}
+                  onChange={handleChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {formErrors.date_of_joining && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.date_of_joining}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Employment Type:
+                </label>
+                <select
+                  name="employment_type"
+                  value={formData.employment_type}
+                  onChange={handleChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                >
+                  <option value="">Select Employment Type</option>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Intern">Intern</option>
+                </select>
+                {formErrors.employment_type && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.employment_type}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Reporting Manager:
+                </label>
+                <select
+                  name="reporting_manager_id"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                  value={formData.reporting_manager_id} // Controlled state
+                  onChange={handleChange} // Update state
+                >
+                  <option value="">Select Reporting Manager</option>
+                  {allusers?.data?.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.fullname}{" "}
+                      {/* Assuming user object has "name" property */}
+                    </option>
+                  ))}
+                </select>
+                {formErrors.reporting_manager_id && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.reporting_manager_id}
+                  </p>
+                )}
+              </div>
             </div>
-          )}
+          {/* )} */}
 
           {/* Step 2: Job Details */}
-          {currentStep === 2 && (
+          {/* {currentStep === 2 && ( */}
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -431,7 +512,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Reporting Location:
                 </label>
@@ -448,7 +529,7 @@ const AddEmployeeModal = ({
                     {formErrors.work_location}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -468,7 +549,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Joining Date:
                 </label>
@@ -484,7 +565,7 @@ const AddEmployeeModal = ({
                     {formErrors.date_of_joining}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -527,7 +608,7 @@ const AddEmployeeModal = ({
                   </p>
                 )}
               </div> */}
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Employment Type:
                 </label>
@@ -548,9 +629,9 @@ const AddEmployeeModal = ({
                     {formErrors.employment_type}
                   </p>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Reporting Manager:
                 </label>
@@ -564,7 +645,7 @@ const AddEmployeeModal = ({
                   {allusers?.data?.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.fullname}{" "}
-                      {/* Assuming user object has "name" property */}
+                      
                     </option>
                   ))}
                 </select>
@@ -573,7 +654,7 @@ const AddEmployeeModal = ({
                     {formErrors.reporting_manager_id}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -623,7 +704,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
             </div>
-          )}
+          {/* )} */}
 
           {/* Step 3: Bank Details */}
           {/* {currentStep === 3 && (
@@ -788,7 +869,7 @@ const AddEmployeeModal = ({
           )} */}
 
           <div className="flex items-end justify-end gap-2 px-4">
-            {currentStep === 1 && (
+            {/* {currentStep === 1 && (
               <>
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
@@ -803,15 +884,15 @@ const AddEmployeeModal = ({
                   Close
                 </button>
               </>
-            )}
-            {currentStep === 2 && (
+            )} */}
+            {/* {currentStep === 2 && ( */}
               <>
-                <button
+                {/* <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
                   onClick={prevStep}
                 >
                   Previous
-                </button>
+                </button> */}
                 <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
                   //onClick={nextStep}
@@ -826,7 +907,7 @@ const AddEmployeeModal = ({
                   Close
                 </button>
               </>
-            )}
+            {/* )} */}
 
             {/* {currentStep === 3 && (
               <>
