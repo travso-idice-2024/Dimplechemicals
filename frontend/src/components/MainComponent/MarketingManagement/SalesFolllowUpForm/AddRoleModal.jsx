@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../../AlertMessage/ErrorMessage";
+import { fetchAllProducts } from "../../../../redux/productSlice";
+import ProductMultiSelect from "./ProductMultiSelect";
 
 const AddRoleModal = ({
   setAddUserModalOpen,
   poaData,
+  setPoaData,
   handlePoaChange,
   handleSubmitPoa,
   poaFormErrors,
@@ -13,8 +17,19 @@ const AddRoleModal = ({
   allCustomers,
   userDataWithRole,
   handlePoaCustomerChange,
-  customerAddress
+  customerAddress,
+  userDeatail,
 }) => {
+  const dispatch = useDispatch();
+  const { allProducts, totalPages, productLoading, productError } = useSelector(
+    (state) => state.product
+  );
+  console.log("poaData",poaData);
+  console.log("allProducts", allProducts);
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -56,40 +71,48 @@ const AddRoleModal = ({
                   <p className="text-red-500">{poaFormErrors?.customer_id}</p>
                 )}
               </div>
-              {poaData?.customer_id &&(
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
-                Select Location:
-              </label>
-              <select
-                name="location"
-                value={poaData?.location || ""}
-                onChange={handlePoaChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-              >
-                <option value="">Select the Address</option>
+              {poaData?.customer_id && (
+                <div>
+                  <label className="font-poppins font-medium text-textdata text-bgData">
+                    Select Location:
+                  </label>
+                  <select
+                    name="lead_address"
+                    value={poaData?.lead_address || ""}
+                    onChange={handlePoaChange}
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                  >
+                    <option value="">Select the Address</option>
 
-                {/* Dynamic customer options */}
-                {customerAddress?.data?.addresses?.map((address,index) => (
-                  <option key={index} value={address}>
-                    {address}
-                  </option>
-                ))}
-              </select>
-
-
-            </div>
-            )}
+                    {/* Dynamic customer options */}
+                    {customerAddress?.data?.addresses?.map((address, index) => (
+                      <option key={index} value={address}>
+                        {address}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               {/* Contact Person Name */}
               <div>
                 <label>Contact Person Name</label>
-                <input
-                  type="text"
-                  name="contact_persion_name"
-                  value={poaData.contact_persion_name}
+                <select
+                  name="contact_person_name"
+                  value={poaData?.contact_person_name || ""}
                   onChange={handlePoaChange}
-                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                />
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                >
+                  <option value="">Select Contact Person</option>
+
+                  {/* Dynamic customer options */}
+                  {customerAddress?.data?.contact_persons?.map(
+                    (contact_person, index) => (
+                      <option key={index} value={contact_person}>
+                        {contact_person}
+                      </option>
+                    )
+                  )}
+                </select>
                 {poaFormErrors?.contact_persion_name && (
                   <p className="text-red-500">
                     {poaFormErrors?.contact_persion_name}
@@ -101,8 +124,8 @@ const AddRoleModal = ({
               <div>
                 <label>Select Sales Person</label>
                 <select
-                  name="sales_persion_id"
-                  value={poaData?.sales_persion_id}
+                  name="assigned_person_id"
+                  value={poaData?.assigned_person_id}
                   onChange={handlePoaChange}
                   className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                 >
@@ -113,10 +136,25 @@ const AddRoleModal = ({
                     </option>
                   ))}
                 </select>
-                {poaFormErrors?.sales_persion_id && (
+                {poaFormErrors?.assigned_person_id && (
                   <p className="text-red-500">
-                    {poaFormErrors?.sales_persion_id}
+                    {poaFormErrors?.assigned_person_id}
                   </p>
+                )}
+              </div>
+
+
+               {/* Product Sale */}
+               <div>
+                <label>Product Sale</label>
+
+               <ProductMultiSelect
+                allProducts={allProducts}
+                poaData={poaData}
+                setPoaData={setPoaData}
+                />
+                {poaFormErrors?.product_sale && (
+                  <p className="text-red-500">{poaFormErrors?.product_sale}</p>
                 )}
               </div>
 
@@ -125,13 +163,34 @@ const AddRoleModal = ({
                 <label>Meeting Date</label>
                 <input
                   type="date"
-                  name="meeting_date"
-                  value={poaData.meeting_date}
+                  name="assign_date"
+                  value={poaData.assign_date}
                   onChange={handlePoaChange}
                   className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                  min={new Date().toISOString().split("T")[0]}
                 />
-                {poaFormErrors?.meeting_date && (
-                  <p className="text-red-500">{poaFormErrors?.meeting_date}</p>
+
+                {poaFormErrors?.assign_date && (
+                  <p className="text-red-500">{poaFormErrors?.assign_date}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-black text-[16px]">
+                  Meeting Time :
+                </label>
+                <input
+                  type="time"
+                  name="meeting_time"
+                  value={poaData.meeting_time}
+                  onChange={handlePoaChange}
+                  placeholder="Meeting Time"
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                />
+                {poaFormErrors.meeting_time && (
+                  <p className="text-red-500 text-sm">
+                    {poaFormErrors.meeting_time}
+                  </p>
                 )}
               </div>
 
@@ -160,33 +219,19 @@ const AddRoleModal = ({
               <div>
                 <label>Meeting Summary</label>
                 <textarea
-                  name="meeting_summary"
-                  value={poaData.meeting_summary}
+                  name="lead_summary"
+                  value={poaData.lead_summary}
                   onChange={handlePoaChange}
                   className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                 />
-                {poaFormErrors?.meeting_summary && (
+                {poaFormErrors?.lead_summary && (
                   <p className="text-red-500">
-                    {poaFormErrors?.meeting_summary}
+                    {poaFormErrors?.lead_summary}
                   </p>
-                )}
+                )}  
               </div>
 
-              {/* Product Sale */}
-              <div>
-                <label>Product Sale</label>
-                <input
-                  type="text"
-                  name="product_sale"
-                  value={poaData.product_sale}
-                  onChange={handlePoaChange}
-                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                />
-                {poaFormErrors?.product_sale && (
-                  <p className="text-red-500">{poaFormErrors?.product_sale}</p>
-                )}
-              </div>
-
+             
               {/* Total Material Quantity */}
               <div>
                 <label>Total Material Quantity (in Kg)</label>

@@ -281,18 +281,20 @@ const removeCustomer = async (req, res) => {
 
 const getCustomerAddresses = async (req, res) => {
   try {
-    const { id } = req.params; // Get customer_id from request parameters
-    console.log("req.params", req.params);
+    const { id } = req.params;
 
     // Find customer by ID
     const customer = await Customer.findOne({
       where: { id: id },
       attributes: [
-        "company_name", // ✅ Include company_name
+        "company_name",
         "address",
         "address_2",
         "address_3",
         "address_4",
+        "contact_persion1",
+        "contact_persion2",
+        "contact_persion3",
       ],
     });
 
@@ -303,27 +305,31 @@ const getCustomerAddresses = async (req, res) => {
         .json({ success: false, message: "Customer not found." });
     }
 
-    // Return customer address details
-    console.log("customer", customer);
+    // Prepare response
     res.status(200).json({
       success: true,
-      message: "Customer addresses retrieved successfully",
+      message: "Customer details retrieved successfully",
       data: {
-        id: id,
-        company_name: customer.company_name, // ✅ Ensured it's defined
+        id,
+        company_name: customer.company_name,
         addresses: [
           customer.address,
           customer.address_2,
           customer.address_3,
           customer.address_4,
-        ].filter((address) => address !== undefined && address !== ""), // Filter out empty/undefined addresses
+        ],
+        contact_persons: [
+          customer.contact_persion1,
+          customer.contact_persion2,
+          customer.contact_persion3,
+        ],
       },
     });
   } catch (error) {
-    console.error("Error fetching customer addresses:", error);
+    console.error("Error fetching customer details:", error);
     res.status(500).json({
       success: false,
-      message: "Error retrieving addresses",
+      message: "Error retrieving customer details",
       error: error.message,
     });
   }

@@ -36,15 +36,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     lead_text: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     lead_status: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     lead_date: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     start_meeting_time: {
       type: DataTypes.TIME,
@@ -56,6 +56,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     next_meeting_time: {
       type: DataTypes.TIME,
+      allowNull: true,
+    },
+    start_location: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    end_location: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
     lead_id: {

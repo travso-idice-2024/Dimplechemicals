@@ -5,19 +5,79 @@ const fs = require("fs");
 const path = require("path");
 
 // Insert a new lead communication record
+// const createLeadCommunication = async (req, res) => {
+//   try {
+//     const {
+//       customer_id,
+//       lead_owner_id,
+//       client_name,
+//       lead_text,
+//       lead_status,
+//       lead_date,
+//       lead_id,
+//       start_meeting_time,
+//       end_meeting_time,
+//       next_meeting_time,
+//     } = req.body;
+
+//     // Ensure user is authenticated
+//     if (!req.user || !req.user.id) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+
+//     // Assign logged-in user ID to sales_persion_id
+//     const sales_persion_id = req.user.id;
+
+//     // Validate required fields
+//     if (
+//       !customer_id ||
+//       !lead_owner_id ||
+//       !client_name ||
+//       !lead_text ||
+//       !lead_status ||
+//       !lead_date ||
+//       !lead_id
+//     ) {
+//       return res.status(400).json({ message: "All fields are required" });
+//     }
+
+//     // Insert record
+//     const newLead = await LeadCommunication.create({
+//       customer_id,
+//       lead_owner_id,
+//       sales_persion_id, // Automatically set from logged-in user
+//       client_name,
+//       lead_text,
+//       lead_status,
+//       lead_date,
+//       lead_id,
+//       start_meeting_time,
+//       end_meeting_time,
+//       start_meeting_time,
+//       next_meeting_time,
+//     });
+
+//     res
+//       .status(201)
+//       .json({
+//         success: true,
+//         message: "Lead communication created successfully",
+//         data: newLead,
+//       });
+//   } catch (error) {
+//     console.error("Error inserting lead communication:", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+
 const createLeadCommunication = async (req, res) => {
   try {
     const {
       customer_id,
-      lead_owner_id,
-      client_name,
-      lead_text,
-      lead_status,
       lead_date,
       lead_id,
       start_meeting_time,
-      end_meeting_time,
-      next_meeting_time,
+      start_location 
     } = req.body;
 
     // Ensure user is authenticated
@@ -31,10 +91,6 @@ const createLeadCommunication = async (req, res) => {
     // Validate required fields
     if (
       !customer_id ||
-      !lead_owner_id ||
-      !client_name ||
-      !lead_text ||
-      !lead_status ||
       !lead_date ||
       !lead_id
     ) {
@@ -44,24 +100,66 @@ const createLeadCommunication = async (req, res) => {
     // Insert record
     const newLead = await LeadCommunication.create({
       customer_id,
-      lead_owner_id,
       sales_persion_id, // Automatically set from logged-in user
-      client_name,
-      lead_text,
-      lead_status,
       lead_date,
       lead_id,
       start_meeting_time,
-      end_meeting_time,
-      start_meeting_time,
-      next_meeting_time,
+      start_location,
     });
 
     res
       .status(201)
       .json({
-        success: true,
-        message: "Lead communication created successfully",
+        message: "Meeting Started successfully",
+        data: newLead,
+      });
+  } catch (error) {
+    console.error("Error inserting lead communication:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const endMeeting = async (req, res) => {
+  try {
+    const {
+      customer_id,
+      lead_date,
+      lead_id,
+      end_meeting_time,
+      end_location 
+    } = req.body;
+
+    // Ensure user is authenticated
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Assign logged-in user ID to sales_persion_id
+    const sales_persion_id = req.user.id;
+
+    // Validate required fields
+    if (
+      !customer_id ||
+      !lead_date ||
+      !lead_id
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Insert record
+    const newLead = await LeadCommunication.create({
+      customer_id,
+      sales_persion_id, // Automatically set from logged-in user
+      lead_date,
+      lead_id,
+      end_meeting_time,
+      end_location,
+    });
+
+    res
+      .status(201)
+      .json({
+        message: "Meeting End Successfully",
         data: newLead,
       });
   } catch (error) {
@@ -307,5 +405,6 @@ module.exports = {
   getLeadCommunicationsByLeadId,
   getWonLeadCommunications,
   exportWonLeadCommunications,
-  visistsOfMonth
+  visistsOfMonth,
+  endMeeting
 };

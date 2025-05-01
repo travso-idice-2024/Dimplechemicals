@@ -68,7 +68,7 @@ export const navigationLinks = [
         title: "Visit Plan (POA)",
         image: iconsImgs.followupform,
         path: "/sale-management/plan-of-action-for-day",
-        allowedRoles: [1, 3],
+        allowedRoles: [3],
       },
       {
         id: 5.2,

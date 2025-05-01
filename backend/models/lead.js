@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Relationship with Customers table
+      Lead.hasMany(models.LeadCommunication, {
+        foreignKey: 'lead_id',
+        as: 'communications'
+      });
+      
       Lead.belongsTo(models.Customer, {
         as: "customer",
         foreignKey: "customer_id",
@@ -84,11 +89,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       lead_source: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       lead_status: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       assign_date: {
         type: DataTypes.DATE,
@@ -167,6 +172,18 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
      },
      reference_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    meeting_type: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    meeting_time: {
+      type: DataTypes.TIME,
+      allowNull: true,
+    },
+    contact_person_name: {
       type: DataTypes.STRING,
       allowNull: true,
     },

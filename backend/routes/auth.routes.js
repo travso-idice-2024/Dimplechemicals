@@ -58,14 +58,16 @@ const {
   getFinalisedDeals,
   addDealData,
   getDealData,
-  countTotalLeads
+  countTotalLeads,
+  getleadaftermeeting
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
   getLeadCommunicationsByLeadId,
   getWonLeadCommunications,
   exportWonLeadCommunications,
-  visistsOfMonth
+  visistsOfMonth,
+  endMeeting
 } = require("../controllers/leadCommunicationController");
 
 const {
@@ -105,6 +107,7 @@ const{
 }= require("../controllers/leadAssignedHistoryController");
 
 const { listCategories } = require('../controllers/category.controller');
+const {getLeadProducts} = require('../controllers/dealDataController');
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -229,7 +232,9 @@ router.put(
   updateBusinessAssociate
 );
 
-
+router.post("/end-meeting", authMiddleware, endMeeting);
+router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
+router.get('/get-lead-products/:lead_id', authMiddleware, getLeadProducts);
 
 
 module.exports = router;

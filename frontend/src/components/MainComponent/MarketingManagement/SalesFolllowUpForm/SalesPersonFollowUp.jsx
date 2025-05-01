@@ -17,27 +17,35 @@ import {
   getAllAddressByCustomerId,
 } from "../../../../redux/customerSlice";
 import {
-  listPOA,
   addPOA,
   updatePOA,
   fetchAllPoaReports,
 } from "../../../../redux/poaSlice";
 
-const SalesPersonFollowUp = () => {
-  console.log("SalesPersonFollowUp component mounted");
+import {addLead , listLeads} from "../../../../redux/leadSlice";
+import {fetchCurrentUser } from "../../../../redux/authSlice";
 
+const SalesPersonFollowUp = () => {
+  //console.log("SalesPersonFollowUp component mounted");
   const dispatch = useDispatch();
 
-  const { poaList, totalPages, poaLoading, poaError } = useSelector(
-    (state) => state.poa
+  const { user: userDeatail } = useSelector((state) => state.auth);
+
+  // const { poaList, totalPages, poaLoading, poaError } = useSelector(
+  //   (state) => state.poa
+  // );
+  const { leads, totalPages, departmentloading, departmenterror } = useSelector(
+    (state) => state.lead
   );
+  console.log("leads",leads);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
-  console.log("allCustomers", allCustomers);
+  console.log("customerAddress", customerAddress);
+  
   const [selectedPOA, setSelectedPOA] = useState({});
 
   const [allselectedPOA, allsetSelectedPOA] = useState([]);
@@ -60,6 +68,7 @@ const SalesPersonFollowUp = () => {
     useState(false);
 
   useEffect(() => {
+    dispatch(fetchCurrentUser());
     dispatch(fetchAllCustomers());
     dispatch(
       fetchUserWithRole({
@@ -67,7 +76,7 @@ const SalesPersonFollowUp = () => {
       })
     );
     dispatch(
-      listPOA({
+      listLeads({
         page: currentPage,
         limit: poaPerPage,
         search: searchTerm,
@@ -86,20 +95,32 @@ const SalesPersonFollowUp = () => {
     setCurrentPage(newPage);
   };
 
+  //console.log("userDeatail123", userDeatail?.id);
   //add POA
   const [poaData, setPoaData] = useState({
     customer_id: "",
-    location: "",
-    contact_persion_name: "",
-    sales_persion_id: "",
-    meeting_date: "",
+    lead_address: "",
+    contact_person_name: "",
+    assigned_person_id:"",
+    assign_date: new Date().toISOString().split("T")[0],
     meeting_type: "",
-    meeting_summary: "",
-    product_sale: "",
+    lead_summary: "",
+    //product_sale: "",
     total_material_qty: "",
     approx_business: "",
     project_name: "",
+    meeting_time:"",
+    product_ids:[]
   });
+
+  useEffect(() => {
+    if (userDeatail?.id) {
+      setPoaData(prev => ({
+        ...prev,
+        assigned_person_id: userDeatail.id
+      }));
+    }
+  }, [userDeatail]);
 
   const [poaFormErrors, setPoaFormErrors] = useState({});
   const [poaFlashMessage, setPoaFlashMessage] = useState("");
@@ -139,16 +160,16 @@ const SalesPersonFollowUp = () => {
   const validatePoaForm = () => {
     let errors = {};
     if (!poaData.customer_id) errors.customer_id = "Customer is required.";
-    if (!poaData.contact_persion_name)
-      errors.contact_persion_name = "Contact Person Name is required.";
-    if (!poaData.sales_persion_id)
-      errors.sales_persion_id = "Sales Person is required.";
-    if (!poaData.meeting_date)
-      errors.meeting_date = "Meeting Date is required.";
+    if (!poaData.contact_person_name)
+      errors.contact_person_name = "Contact Person Name is required.";
+    if (!poaData.assigned_person_id)
+      errors.assigned_person_id = "Sales Person is required.";
+    if (!poaData.assign_date)
+      errors.assign_date = "Meeting Date is required.";
     if (!poaData.meeting_type)
       errors.meeting_type = "Meeting Type is required.";
-    if (!poaData.meeting_summary)
-      errors.meeting_summary = "Meeting Summary is required.";
+    if (!poaData.lead_summary)
+      errors.lead_summary = "Meeting Summary is required.";
     // if (!poaData.product_sale)
     //   errors.product_sale = "Product Sale is required.";
     // if (!poaData.total_material_qty)
@@ -167,31 +188,22 @@ const SalesPersonFollowUp = () => {
     e.preventDefault();
     if (validatePoaForm()) {
       try {
-        const response = await dispatch(addPOA(poaData)).unwrap(); // Make sure your action is named `addPoa`
-
+         console.log("poaData", poaData);
+        //const response = await dispatch(addPOA(poaData)).unwrap(); // Make sure your action is named `addPoa`
+        const response = await dispatch(addLead(poaData)).unwrap();
+        console.log("response",response);
         if (response?.success) {
           handlePoaFlashMessage(response?.message, "success");
 
           dispatch(
-            listPOA({
+            listLeads({
               page: currentPage,
               limit: poaPerPage,
               search: searchTerm,
             })
           );
 
-          setPoaData({
-            customer_id: "",
-            contact_persion_name: "",
-            sales_persion_id: "",
-            meeting_date: "",
-            meeting_type: "",
-            meeting_summary: "",
-            product_sale: "",
-            total_material_qty: "",
-            approx_business: "",
-            project_name: "",
-          });
+          setPoaData({});
 
           setTimeout(() => {
             setAddUserModalOpen(false); // Make sure modal state name matches
@@ -259,7 +271,7 @@ const SalesPersonFollowUp = () => {
 
         // Refresh list
         dispatch(
-          listPOA({
+          listLeads({
             page: currentPage,
             limit: poaPerPage,
             search: searchTerm,
@@ -326,7 +338,7 @@ const SalesPersonFollowUp = () => {
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
-              poaList={poaList?.data || []}
+              poaList={leads?.data || []}
               setViewModalOpen={setViewModalOpen}
               selectedPOA={selectedPOA}
               setSelectedPOA={setSelectedPOA}
@@ -344,6 +356,7 @@ const SalesPersonFollowUp = () => {
             <AddRoleModal
               setAddUserModalOpen={setAddUserModalOpen}
               poaData={poaData}
+              setPoaData={setPoaData}
               handlePoaChange={handlePoaChange}
               handleSubmitPoa={handleSubmitPoa}
               poaFormErrors={poaFormErrors}
@@ -353,6 +366,7 @@ const SalesPersonFollowUp = () => {
               handlePoaCustomerChange={handlePoaCustomerChange}
               customerAddress={customerAddress}
               userDataWithRole={userDataWithRole}
+              userDeatail={userDeatail}
             />
           )}
 

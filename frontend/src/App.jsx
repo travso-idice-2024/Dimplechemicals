@@ -59,6 +59,7 @@ import SalesVisitReport from './components/MainComponent/SalesVisitReport/SalesP
 import CustomerHistoryCard from './components/MainComponent/CustomerHistoryCard/CustomerManageData';
 import CustomerInfoForm from './components/MainComponent/CustomerInfoForm/CustomerManageData';
 import { SidebarContext } from './context/sidebarContext';
+import Calender from "./components/calender/Calender";
 
 
 function App() {
@@ -135,6 +136,7 @@ function App() {
           <Route path='/report-management/sales-activity-report' element={<SalesVisitReport/>}/>
           <Route path='/report-management/customer-history-card' element={<CustomerHistoryCard/>}/>
           <Route path='/report-management/customer-info-form' element={<CustomerInfoForm/>}/>
+          <Route path="/calender" element={<Calender/>} />
 
           {/* Add more protected routes here */}
         </Route>

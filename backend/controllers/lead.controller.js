@@ -1,8 +1,121 @@
 const { Op, Sequelize, fn ,col,literal} = require("sequelize");
-const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData } = require("../models");
+const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData,LeadCommunication } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
+
+// const addLead = async (req, res) => {
+//   try {
+//     const lead_owner_id = req.user.id;
+//     const {
+//       customer_id,
+//       assigned_person_id,
+//       lead_source,
+//       lead_status,
+//       assign_date,
+//       lead_summary,
+//       last_contact,
+//       next_followup,
+//       product_service,
+//       product_detail,
+//       quantity,
+//       quantity_no,
+//       special_requirement,
+//       who_contact_before,
+//       last_communication,
+//       follow_up_record,
+//       budget,
+//       lead_address,
+//       reference_name,
+//     } = req.body;
+
+//     // Check if required fields are provided
+//     if (
+//       !customer_id ||
+//       !lead_owner_id ||
+//       !lead_source ||
+//       !lead_status ||
+//       !assigned_person_id
+//     ) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Missing required fields." });
+//     }
+
+//     // Validate customer
+//     const customer = await Customer.findByPk(customer_id);
+//     if (!customer) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Customer not found." });
+//     }
+
+//     // Validate lead owner
+//     const leadOwner = await User.findByPk(lead_owner_id);
+//     if (!leadOwner) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Lead owner not found." });
+//     }
+
+//     // Validate assigned person
+//     const assignedPerson = await User.findByPk(assigned_person_id);
+//     if (!assignedPerson) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Assigned person not found." });
+//     }
+
+//     // ✅ Check if a lead is already assigned to the same salesperson for this customer
+//     const existingLead = await Lead.findOne({
+//       where: {
+//         customer_id,
+//         assigned_person_id,
+//       },
+//     });
+
+//     if (existingLead) {
+//       return res.status(409).json({
+//         success: false,
+//         message:
+//           "This customer is already assigned to the selected salesperson.",
+//       });
+//     }
+
+//     // Create the lead entry
+//     const newLead = await Lead.create({
+//       customer_id,
+//       lead_owner_id,
+//       assigned_person_id,
+//       lead_source,
+//       lead_status,
+//       assign_date: assign_date || new Date(),
+//       lead_summary,
+//       last_contact,
+//       next_followup,
+//       product_service,
+//       product_detail,
+//       quantity,
+//       quantity_no,
+//       special_requirement,
+//       who_contact_before,
+//       last_communication,
+//       follow_up_record,
+//       budget,
+//       lead_address,
+//       reference_name
+//     });
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Lead added successfully",
+//       data: newLead,
+//     });
+//   } catch (error) {
+//     console.error("Error adding lead:", error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
 const addLead = async (req, res) => {
   try {
@@ -10,36 +123,24 @@ const addLead = async (req, res) => {
     const {
       customer_id,
       assigned_person_id,
-      lead_source,
-      lead_status,
       assign_date,
       lead_summary,
-      last_contact,
-      next_followup,
-      product_service,
-      product_detail,
-      quantity,
-      quantity_no,
-      special_requirement,
-      who_contact_before,
-      last_communication,
-      follow_up_record,
-      budget,
-      lead_address,
+      lead_source,
+      lead_status,
       reference_name,
+      meeting_type,
+      meeting_time,
+      lead_address,
+      contact_person_name,
+      product_ids,
     } = req.body;
 
-    // Check if required fields are provided
-    if (
-      !customer_id ||
-      !lead_owner_id ||
-      !lead_source ||
-      !lead_status ||
-      !assigned_person_id
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing required fields." });
+    // Validate required fields
+    if (!customer_id || !assigned_person_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields.",
+      });
     }
 
     // Validate customer
@@ -50,14 +151,6 @@ const addLead = async (req, res) => {
         .json({ success: false, message: "Customer not found." });
     }
 
-    // Validate lead owner
-    const leadOwner = await User.findByPk(lead_owner_id);
-    if (!leadOwner) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Lead owner not found." });
-    }
-
     // Validate assigned person
     const assignedPerson = await User.findByPk(assigned_person_id);
     if (!assignedPerson) {
@@ -66,49 +159,43 @@ const addLead = async (req, res) => {
         .json({ success: false, message: "Assigned person not found." });
     }
 
-    // ✅ Check if a lead is already assigned to the same salesperson for this customer
-    const existingLead = await Lead.findOne({
-      where: {
-        customer_id,
-        assigned_person_id,
-      },
-    });
+    // Optional: Prevent duplicate leads
+    // const existingLead = await Lead.findOne({
+    //   where: { customer_id, assigned_person_id },
+    // });
+    // if (existingLead) {
+    //   return res.status(409).json({
+    //     success: false,
+    //     message: "This customer is already assigned to the selected salesperson.",
+    //   });
+    // }
 
-    if (existingLead) {
-      return res.status(409).json({
-        success: false,
-        message:
-          "This customer is already assigned to the selected salesperson.",
-      });
-    }
-
-    // Create the lead entry
     const newLead = await Lead.create({
       customer_id,
-      lead_owner_id,
       assigned_person_id,
+      lead_owner_id,
+      assign_date: assign_date || new Date(),
       lead_source,
       lead_status,
-      assign_date: assign_date || new Date(),
+      reference_name,
       lead_summary,
-      last_contact,
-      next_followup,
-      product_service,
-      product_detail,
-      quantity,
-      quantity_no,
-      special_requirement,
-      who_contact_before,
-      last_communication,
-      follow_up_record,
-      budget,
+      meeting_type,
+      meeting_time,
       lead_address,
-      reference_name
+      contact_person_name,
     });
+
+    if (Array.isArray(product_ids) && product_ids.length > 0) {
+      const dealDataPayload = product_ids.map((product_id) => ({
+        lead_id: newLead.id,
+        product_id,
+      }));
+      await dealData.bulkCreate(dealDataPayload);
+    }
 
     res.status(201).json({
       success: true,
-      message: "Lead added successfully",
+      message: "Record added successfully",
       data: newLead,
     });
   } catch (error) {
@@ -116,6 +203,7 @@ const addLead = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 const updateLead = async (req, res) => {
   try {
@@ -312,6 +400,78 @@ const getLeadList = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getleadaftermeeting = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized: User not found" });
+    }
+
+    const assigned_person_id = req.user.id;
+    const { page = 1, limit = 10, search = "" } = req.query;
+    const offset = (page - 1) * limit;
+
+    const leads = await Lead.findAndCountAll({
+      where: {
+        assigned_person_id,
+        ...(search && {
+          [Op.or]: [
+            { assign_date: { [Op.like]: `%${search}%` } },
+            { lead_status: { [Op.like]: `%${search}%` } },
+          ],
+        }),
+      },
+      include: [
+        {
+          model: Customer,
+          as: "customer",
+        },
+        { model: User, as: "assignedPerson", attributes: ["fullname"] },
+        {
+          model: LeadAssignedHistory,
+          as: "assignmentHistory",
+          include: [
+            {
+              model: User,
+              as: "assignedPerson",
+              attributes: ["fullname"],
+            },
+          ],
+        },
+        {
+          model: LeadCommunication,
+          as: "communications",
+          where: {
+            end_meeting_time: { [Op.ne]: null },
+          },
+          required: true,
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Leads retrieved successfully",
+      data: leads.rows,
+      total: leads.count,
+      currentPage: parseInt(page)
+,
+      totalPages: Math.ceil(leads.count / limit),
+    });
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving leads",
+      error: error.message,
+    });
   }
 };
 
@@ -1079,48 +1239,65 @@ const getFinalisedDeals = async (req, res) => {
 
 const addDealData = async (req, res) => {
   try {
-    const {
-      lead_id,
-      date,
-      product_id,
-      area,
-      quantity,
-      rate,
-      amount,
-      advance_amount,
-      deal_amount,
-    } = req.body;
+    const { lead_id, advance_amount, deal_amount, deals } = req.body;
+    
+    if (!lead_id || !Array.isArray(deals) || deals.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "lead_id and at least one deal item are required.",
+      });
+    }
 
     const leadExists = await Lead.findByPk(lead_id);
     if (!leadExists) {
       return res.status(404).json({
         success: false,
-        message: 'Invalid lead_id: Lead not found',
+        message: "Invalid lead_id: Lead not found",
       });
     }
-    const newDeal = await dealData.create({
-      lead_id,
-      date,
-      product_id,
-      area,
-      quantity,
-      rate,
-      amount,
-      advance_amount,
-      deal_amount,
-    });
 
-    res.status(201).json({
+    const updatedDeals = [];
+
+    for (const deal of deals) {
+      const [existingDeal, created] = await dealData.findOrCreate({
+        where: { lead_id, product_id: deal.product_id },
+        defaults: {
+          date: deal.date,
+          area: deal.area,
+          quantity: deal.quantity,
+          rate: deal.rate,
+          amount: deal.amount,
+          advance_amount,
+          deal_amount,
+        },
+      });
+
+      if (!created) {
+        // If deal already exists, update it
+        await existingDeal.update({
+          date: deal.date,
+          area: deal.area,
+          quantity: deal.quantity,
+          rate: deal.rate,
+          amount: deal.amount,
+          advance_amount,
+          deal_amount,
+        });
+      }
+
+      updatedDeals.push(existingDeal);
+    }
+
+    res.status(200).json({
       success: true,
-      message: 'Deal Created successfully',
-      data: newDeal,
+      message: "Deal data updated successfully",
+      data: updatedDeals,
     });
-
   } catch (error) {
-    console.error('Error inserting deal data:', error);
+    console.error("Error updating deal data:", error);
     res.status(500).json({
       success: false,
-      message: 'Server Error',
+      message: "Server Error",
     });
   }
 };
@@ -1211,5 +1388,6 @@ module.exports = {
   getFinalisedDeals,
   addDealData,
   getDealData,
-  countTotalLeads
+  countTotalLeads,
+  getleadaftermeeting
 };

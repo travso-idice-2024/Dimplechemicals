@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import { fetchAllProducts } from "../../../redux/productSlice";
+import ProductMultiSelect from "./ProductMultiSelect";
 
 const AssignLeadModal = ({
   setIsAssignModalOpen,
@@ -16,6 +19,16 @@ const AssignLeadModal = ({
   handleLeadCustomerChange,
   customerAddress,
 }) => {
+  const dispatch = useDispatch();
+  const { allProducts, totalPages, productLoading, productError } = useSelector(
+    (state) => state.product
+  );
+  console.log("leadData", leadData);
+  console.log("allProducts", allProducts);
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -78,6 +91,195 @@ const AssignLeadModal = ({
                 </select>
               </div>
             )}
+
+            {/* Contact Person Name */}
+            <div>
+              <label>Contact Person Name</label>
+              <select
+                name="contact_person_name"
+                value={leadData?.contact_person_name || ""}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select Contact Person</option>
+                {customerAddress?.data?.contact_persons?.map(
+                  (contact_person, index) => (
+                    <option key={index} value={contact_person}>
+                      {contact_person}
+                    </option>
+                  )
+                )}
+              </select>
+              {addLeadFormErrors?.contact_persion_name && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.contact_persion_name}
+                </p>
+              )}
+            </div>
+
+            {/* Sales Person */}
+            <div>
+              <label>Select Sales Person</label>
+              <select
+                name="assigned_person_id"
+                value={leadData?.assigned_person_id}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select the Person</option>
+                {userDataWithRole?.data?.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.fullname}
+                  </option>
+                ))}
+              </select>
+              {addLeadFormErrors?.assigned_person_id && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.assigned_person_id}
+                </p>
+              )}
+            </div>
+
+            {/* Product Sale */}
+            <div>
+              <label>Product Sale</label>
+              <ProductMultiSelect
+                allProducts={allProducts}
+                leadData={leadData}
+                setLeadData={setLeadData}
+              />
+              {addLeadFormErrors?.product_sale && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.product_sale}
+                </p>
+              )}
+            </div>
+
+            {/* Meeting Date */}
+            <div>
+              <label>Meeting Date</label>
+              <input
+                type="date"
+                name="assign_date"
+                value={leadData?.assign_date}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                min={new Date().toISOString().split("T")[0]}
+              />
+              {addLeadFormErrors?.assign_date && (
+                <p className="text-red-500">{addLeadFormErrors?.assign_date}</p>
+              )}
+            </div>
+
+            {/* Meeting Time */}
+            <div>
+              <label className="font-poppins font-medium text-black text-[16px]">
+                Meeting Time :
+              </label>
+              <input
+                type="time"
+                name="meeting_time"
+                value={leadData?.meeting_time}
+                onChange={handleLeadChange}
+                placeholder="Meeting Time"
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.meeting_time && (
+                <p className="text-red-500 text-sm">
+                  {addLeadFormErrors?.meeting_time}
+                </p>
+              )}
+            </div>
+
+            {/* Meeting Type */}
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Meeting Type
+              </label>
+              <select
+                name="meeting_type"
+                value={leadData?.meeting_type}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select the Meeting Type</option>
+                <option value="In-Person">In-Person</option>
+                <option value="Phone Call">Phone Call</option>
+                <option value="Video Call">Video Call</option>
+              </select>
+              {addLeadFormErrors?.meeting_type && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.meeting_type}
+                </p>
+              )}
+            </div>
+
+            {/* Meeting Summary */}
+            <div>
+              <label>Meeting Summary</label>
+              <textarea
+                name="lead_summary"
+                value={leadData?.lead_summary}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.lead_summary && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.lead_summary}
+                </p>
+              )}
+            </div>
+
+            {/* Total Material Quantity */}
+            <div>
+              <label>Total Material Quantity (in Kg)</label>
+              <input
+                type="number"
+                name="total_material_qty"
+                value={leadData?.total_material_qty}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.total_material_qty && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.total_material_qty}
+                </p>
+              )}
+            </div>
+
+            {/* Approx Business */}
+            <div>
+              <label>Approx Business (₹)</label>
+              <input
+                type="number"
+                name="approx_business"
+                value={leadData?.approx_business}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.approx_business && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.approx_business}
+                </p>
+              )}
+            </div>
+
+            {/* Project Name */}
+            <div>
+              <label>Project Name</label>
+              <input
+                type="text"
+                name="project_name"
+                value={leadData?.project_name}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.project_name && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.project_name}
+                </p>
+              )}
+            </div>
 
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
@@ -146,7 +348,7 @@ const AssignLeadModal = ({
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label className="font-poppins font-medium text-textdata text-bgData">
                 Select Sales Person :
               </label>
@@ -186,9 +388,9 @@ const AssignLeadModal = ({
               {addLeadFormErrors?.assign_date && (
                 <p className="text-red-500">{addLeadFormErrors?.assign_date}</p>
               )}
-            </div>
+            </div> */}
 
-            <div className="">
+            {/* <div className="">
               <label className="font-poppins font-medium text-textdata text-bgData">
                 Description :
               </label>
@@ -205,7 +407,7 @@ const AssignLeadModal = ({
                   {addLeadFormErrors?.lead_summary}
                 </p>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-end justify-end gap-2 px-4">

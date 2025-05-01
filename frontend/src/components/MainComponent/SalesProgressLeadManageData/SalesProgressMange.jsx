@@ -15,7 +15,7 @@ import {
   faDollarSign,
   faPhone,
   faHandshake,
-  faClock 
+  faClock,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchCurrentUser } from "../../../redux/authSlice";
@@ -144,7 +144,7 @@ const SalesProgressMange = () => {
   // useEffect(() => {
   //   // Retrieve stored value from localStorage
   //   const storedCheckIn = JSON.parse(localStorage.getItem("isCheckedIn"));
-  
+
   //   // If no value exists, initialize it with `false`
   //   if (storedCheckIn === null) {
   //     localStorage.setItem("isCheckedIn", JSON.stringify(false));
@@ -152,7 +152,6 @@ const SalesProgressMange = () => {
   //     setIsCheckedIn(storedCheckIn);
   //   }
   // }, []);
- 
 
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
@@ -176,26 +175,47 @@ const SalesProgressMange = () => {
   };
 
   const getLocationName = async (latitude, longitude) => {
+    //console.log("Lat/Lng sent to API: ", latitude, longitude);
+    //latitude="22.7563797", longitude="75.5086203";
+    //22.7563797,75.5086203
+    // try {
+    //   const response = await fetch(
+    //     `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
+    //   );
+    //   const data = await response.json();
+    //   // Ensure you get a detailed address
+    //   return data.address
+    //     ? `${data.address.city}, ${data.address.state}, ${data.address.country}`
+    //     : "Unknown Location";
+    // } catch (error) {
+    //   console.error("Error fetching location name:", error);
+    //   return "Unknown Location";
+    // }
+    const apiKey = "AIzaSyCcgE3RDiMx5qZrPt8_R85Uq_gpNY9MI10";
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
-      );
+      const response = await fetch(url);
       const data = await response.json();
-      // Ensure you get a detailed address
-      return data.address
-        ? `${data.address.city}, ${data.address.state}, ${data.address.country}`
-        : "Unknown Location";
+      if (data.status === "OK") {
+        return data.results[0].formatted_address;
+      } else {
+        throw new Error("Failed to fetch address");
+      }
     } catch (error) {
-      console.error("Error fetching location name:", error);
-      return "Unknown Location";
+      console.error("Error getting address: ", error);
+      return "Address not available";
     }
   };
 
   const handleCheckIn = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
+        //console.log("Accuracy: ", position.coords.accuracy);
         const { latitude, longitude } = position.coords;
         const locationName = await getLocationName(latitude, longitude);
+
+        //console.log("locationName",locationName);
 
         const checkInData = {
           emp_id: userDeatail?.id,
@@ -231,7 +251,6 @@ const SalesProgressMange = () => {
           localStorage.setItem("checkInTime", formattedTime);
           localStorage.removeItem("checkOutTime"); // Ensure fresh data
 
-
           setIsCheckedIn(true);
           // localStorage.setItem("isCheckedIn", JSON.stringify(true));
 
@@ -252,7 +271,7 @@ const SalesProgressMange = () => {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords;
         const locationName = await getLocationName(latitude, longitude);
-
+        //console.log("locationName checkout",locationName);
         const checkOutData = {
           emp_id: userDeatail?.id,
           //checkInTime: new Date().toISOString().replace("T", " ").split(".")[0],
@@ -301,8 +320,11 @@ const SalesProgressMange = () => {
   };
   return (
     <div className="main-content">
-      <UserContentTop isCheckedIn={isCheckedIn} setIsCheckedIn={setIsCheckedIn} handleCheckOut={handleCheckOut} />
-
+      <UserContentTop
+        isCheckedIn={isCheckedIn}
+        setIsCheckedIn={setIsCheckedIn}
+        handleCheckOut={handleCheckOut}
+      />
 
       {!leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">

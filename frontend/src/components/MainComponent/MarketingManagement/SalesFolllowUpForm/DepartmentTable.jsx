@@ -95,19 +95,19 @@ const DepartmentTable = ({
                 {user.customer?.company_name || "N/A"}
               </td>
               <td className="px-4 py-2 text-newtextdata">
-                {user.contact_persion_name || "N/A"}
+                {user.contact_person_name || "N/A"}
               </td>
               <td className="px-4 py-2 text-newtextdata">
-                {user.salesPerson?.fullname || "N/A"}
+                {user.assignedPerson?.fullname || "N/A"}
               </td>
               <td className="px-4 py-2 text-newtextdata">
-                {user.meeting_date || "N/A"}
+              {user?.assign_date?.split("T")[0]}
               </td>
               <td className="px-4 py-2 text-newtextdata">
-                {user.meeting_type || "N/A"}
+              {user?.meeting_time}
               </td>
               <td className="px-4 py-2 text-newtextdata w-[450px] ">
-                {user.meeting_summary || "N/A"}
+              {user?.lead_summary}
               </td>
               <td className="px-4 py-2 text-newtextdata">
                 {user.project_name || "N/A"}

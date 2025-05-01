@@ -59,27 +59,26 @@ const DepartmentTable = ({
                 {/* <input type="checkbox" className="w-4 h-4 accent-orange-500" disabled /> */}
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Id
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Date
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Company Name{" "}
-              </th>
-
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Lead Owner
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Lead Source
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Lead status
-              </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                Enquiry For
-              </th>
+              Id
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              Company Name
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              Contact Person Name
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              Salse Person Name
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              Meeting Date
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              Meeting Type
+            </th>
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              Meeting Summary
+            </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Action
               </th>
@@ -111,9 +110,6 @@ const DepartmentTable = ({
                   />
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
-                <td className="px-4 py-2 text-newtextdata">
-                  {user?.assign_date?.split("T")[0]}
-                </td>
                 <td
                   className="px-4 py-2 text-newtextdata cursor-pointer"
                   onClick={() => {
@@ -125,20 +121,24 @@ const DepartmentTable = ({
                 >
                   {user?.customer?.company_name}
                 </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.contact_person_name}
+                </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.assignedPerson?.fullname}
+                </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.assign_date?.split("T")[0]}
+                </td>
+               
                 {/* <td className="px-4 py-2 text-newtextdata">
                   {user?.customer?.client_name}
                 </td> */}
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.leadOwner?.fullname}
+                  {user?.meeting_type}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.lead_source}
-                </td>
-                <td className="px-4 py-2 text-newtextdata">
-                  {user?.lead_status}
-                </td>
-                <td className="px-4 py-2 text-newtextdata">
-                  {user?.assignedPerson?.fullname}
+                  {user?.lead_summary}
                 </td>
                 <td className="px-4 py-2 text-newtextdata flex items-center space-x-2 text-center">
                   {/* <button
@@ -154,7 +154,7 @@ const DepartmentTable = ({
                     //onClick={() => updateDealFinalize(user?.id)}
                     onClick={() => {
                       // updateDealFinalize(user?.id)
-                      //setSelectedLead(user);
+                      setSelectedLead(user);
                       setDealData((prev) => ({
                         ...prev,
                         lead_id: user.id,

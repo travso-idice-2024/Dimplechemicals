@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
+// import { getProductByLeadId } from "../../../redux/leadSlice";
 
 const DealCreationForm = ({
   dealCreationOpenForm,
@@ -11,20 +12,53 @@ const DealCreationForm = ({
   dealData,
   setDealData,
   handleDealInputChange,
+  handleProductInputChange,
   handleSubmitDeal,
   addDealFlashMessage,
   addDealFlashMsgType,
   dealFormErrors,
   setDealFormErrors,
 }) => {
-   const dispatch = useDispatch();
-    const { allProducts, totalPages, productLoading, productError } = useSelector(
-      (state) => state.product
-    );
-  
-    useEffect(() => {
-      dispatch(fetchAllProducts());
-    }, [dispatch]);
+  console.log("dealData",dealData);
+  const dispatch = useDispatch();
+  const { allProducts, totalPages, productLoading, productError } = useSelector(
+    (state) => state.product
+  );
+
+  // const { pductByleadId } = useSelector((state) => state.lead);
+
+  //console.log("pductByleadId", pductByleadId?.data);
+
+  useEffect(() => {
+    // dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  // const [dealData, setDealData] = useState({
+  //   products:
+  //   pductByleadId?.data?.map((prod) => ({
+  //       product_id: prod.id,
+  //       product_name: prod.product_name,
+  //       date: "",
+  //       area: "",
+  //       quantity: "",
+  //       rate: "",
+  //       amount: "",
+  //     })) || [],
+  //   advance_amount: "",
+  //   deal_amount: "",
+  // });
+
+  // const handleProductInputChange = (index, field, value) => {
+  //   const updatedProducts = [...dealData.products];
+  //   updatedProducts[index][field] = value;
+
+  //   setDealData({
+  //     ...dealData,
+  //     products: updatedProducts,
+  //   });
+  // };
+
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -42,9 +76,7 @@ const DealCreationForm = ({
             Add Deal
           </h2>
 
-          <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-            {/* Date */}
-
+          {/* <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Date:</label>
               <input
@@ -59,17 +91,8 @@ const DealCreationForm = ({
               )}
             </div>
 
-            {/* Product Name */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Product Name:</label>
-              {/* <input
-                type="text"
-                name="product_name"
-                value={dealData.product_name || ""}
-                onChange={handleDealInputChange}
-                placeholder="Product Name"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              /> */}
                 <select
                       name="product_id"
                       value={dealData.product_id  || ""}
@@ -87,7 +110,7 @@ const DealCreationForm = ({
                 <p className="text-red-500 text-sm mt-1">{dealFormErrors.product_id }</p>
               )}
             </div>
-            {/* Area Cub Mtr */}
+            
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Area - Sq mtr / Cub Mtre</label>
               <input
@@ -103,7 +126,6 @@ const DealCreationForm = ({
               )}
             </div>
 
-            {/* Quantity */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Quantity:</label>
               <input
@@ -119,7 +141,6 @@ const DealCreationForm = ({
               )}
             </div>
 
-            {/* Rate */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Rate:</label>
               <input
@@ -135,7 +156,6 @@ const DealCreationForm = ({
               )}
             </div>
 
-            {/* Amount */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Amount:</label>
               <input
@@ -151,7 +171,6 @@ const DealCreationForm = ({
               )}
             </div>
 
-            {/* Advance Amount */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Advance Amount:</label>
               <input
@@ -167,7 +186,6 @@ const DealCreationForm = ({
               )}
             </div>
 
-            {/* Deal Amount */}
             <div>
               <label className="font-poppins font-medium text-textdata text-bgData">Deal Amount:</label>
               <input
@@ -181,6 +199,138 @@ const DealCreationForm = ({
               {dealFormErrors.deal_amount && (
                 <p className="text-red-500 text-sm mt-1">{dealFormErrors.deal_amount}</p>
               )}
+            </div>
+          </div> */}
+
+          <div className="mt-5 md:mt-6 px-4">
+            {/* Scrollable Products List */}
+            <div className="max-h-[350px] overflow-y-auto border border-gray-300 rounded p-2 space-y-3">
+              {dealData?.deals?.map((product, index) => (
+                <div
+                  key={product.product_id}
+                  className="border p-2 rounded bg-white"
+                >
+                  <h3 className="text-sm font-medium mb-2">
+                    <span className="font-semibold">{index + 1}. </span>
+                    {product.product_name}
+                  </h3>
+
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                    <div>
+                      <label className="text-xs block mb-1">Date</label>
+                      <input
+                        type="date"
+                        value={product.date}
+                        onChange={(e) =>
+                          handleProductInputChange(
+                            index,
+                            "date",
+                            e.target.value
+                          )
+                        }
+                        className="block w-full text-xs rounded border px-2 py-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs block mb-1">Area</label>
+                      <input
+                        type="number"
+                        value={product.area}
+                        onChange={(e) =>
+                          handleProductInputChange(
+                            index,
+                            "area",
+                            e.target.value
+                          )
+                        }
+                        className="block w-full text-xs rounded border px-2 py-1"
+                        placeholder="Area"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs block mb-1">Qty</label>
+                      <input
+                        type="number"
+                        value={product.quantity}
+                        onChange={(e) =>
+                          handleProductInputChange(
+                            index,
+                            "quantity",
+                            e.target.value
+                          )
+                        }
+                        className="block w-full text-xs rounded border px-2 py-1"
+                        placeholder="Qty"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs block mb-1">Rate</label>
+                      <input
+                        type="number"
+                        value={product.rate}
+                        onChange={(e) =>
+                          handleProductInputChange(
+                            index,
+                            "rate",
+                            e.target.value
+                          )
+                        }
+                        className="block w-full text-xs rounded border px-2 py-1"
+                        placeholder="Rate"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs block mb-1">Amount</label>
+                      <input
+                        type="number"
+                        value={product.amount}
+                        onChange={(e) =>
+                          handleProductInputChange(
+                            index,
+                            "amount",
+                            e.target.value
+                          )
+                        }
+                        className="block w-full text-xs rounded border px-2 py-1"
+                        placeholder="Amount"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Final Advance and Deal Amount */}
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mt-4">
+              <div>
+                <label className="text-sm block mb-1">Advance Amt</label>
+                <input
+                  type="number"
+                  value={dealData.advance_amount}
+                  onChange={(e) =>
+                    setDealData({ ...dealData, advance_amount: e.target.value })
+                  }
+                  className="block w-full text-xs rounded border px-2 py-1"
+                  placeholder="Advance"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm block mb-1">Deal Amt</label>
+                <input
+                  type="number"
+                  value={dealData.deal_amount}
+                  onChange={(e) =>
+                    setDealData({ ...dealData, deal_amount: e.target.value })
+                  }
+                  className="block w-full text-xs rounded border px-2 py-1"
+                  placeholder="Deal Amount"
+                />
+              </div>
             </div>
           </div>
 

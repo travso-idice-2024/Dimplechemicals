@@ -24,6 +24,24 @@ export const listLeads = createAsyncThunk(
   }
 );
 
+export const GenratedlistLeads = createAsyncThunk(
+  "auth/GenratedlistLeads",
+  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/get-lead-afterMeeting`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, limit, search },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch leads"
+      );
+    }
+  }
+);
+
 export const finalizeDeals = createAsyncThunk(
   "auth/finalised-deal",
   async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
@@ -81,7 +99,7 @@ export const addLead = createAsyncThunk(
 export const addDeal = createAsyncThunk(
   "auth/addDeal",
   async (dealData, { rejectWithValue }) => {
-    console.log("reduxdealData", dealData);
+    //console.log("reduxdealData", dealData);
     try {
       const token = getAuthToken();
       const response = await axios.post(`${API_URL}/auth/addDeal`, dealData, {
@@ -358,11 +376,32 @@ export const finalizeDealsList = createAsyncThunk(
   }
 );
 
+
+export const getProductByLeadId = createAsyncThunk(
+  "auth/get-lead-products",
+  async ({lead_id }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/get-lead-products/${lead_id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { lead_id },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch leads"
+      );
+    }
+  }
+);
+
 // 🔹 LEAD SLICE
 const leadSlice = createSlice({
   name: "lead",
   initialState: {
     leads: [],
+    genleads:[],
+    pductByleadId:[],
     allWonleads: [],
     communicationleads: [],
     communicationleadsList: [],
@@ -499,6 +538,20 @@ const leadSlice = createSlice({
         state.leadError = action.payload;
       })
 
+      .addCase(GenratedlistLeads.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(GenratedlistLeads.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.genleads = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(GenratedlistLeads.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
       .addCase(leadCommunicationById.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -530,9 +583,19 @@ const leadSlice = createSlice({
         state.leadLoading = true;
         state.leadError = null;
       })
+      // .addCase(addLead.fulfilled, (state, action) => {
+      //   state.leads.data = [action.payload.data, ...(state.leads.data || [])];
+      // })
       .addCase(addLead.fulfilled, (state, action) => {
-        state.leads.data = [action.payload.data, ...state.leads.data];
+        state.leadLoading = false;
+        state.leadError = null;
+      
+        state.leads = {
+          ...state.leads,
+          data: [action.payload.data, ...(state.leads.data || [])],
+        };
       })
+      
       .addCase(addLead.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
@@ -542,9 +605,20 @@ const leadSlice = createSlice({
         state.leadLoading = true;
         state.leadError = null;
       })
+      // .addCase(addDeal.fulfilled, (state, action) => {
+      //   state.leads.data = [action.payload.data, ...state.leads.data];
+      // })
+      
       .addCase(addDeal.fulfilled, (state, action) => {
-        state.leads.data = [action.payload.data, ...state.leads.data];
+        state.leadLoading = false;
+      
+        if (!state.leads.data) {
+          state.leads.data = [];
+        }
+      
+        state.leads.data.unshift(action.payload.data);
       })
+      
       .addCase(addDeal.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
@@ -626,6 +700,19 @@ const leadSlice = createSlice({
         state.lead = action.payload;
       })
       .addCase(getLeadById.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
+      .addCase(getProductByLeadId.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(getProductByLeadId.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.pductByleadId = action.payload;
+      })
+      .addCase(getProductByLeadId.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
       });

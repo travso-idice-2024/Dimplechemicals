@@ -15,11 +15,14 @@ import ViewCustomerHistoryCardReport from "./ViewCustomerHistoryCardReport";
 import {
   addLead,
   updateLead,
+  GenratedlistLeads,
   listLeads,
   removeLead,
   updateSalesPersionAssignment,
-  addDeal
+  addDeal,
+  getProductByLeadId
 } from "../../../redux/leadSlice";
+
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { fetchUserWithRole } from "../../../redux/userSlice";
 import {
@@ -33,11 +36,13 @@ const getAuthToken = () => localStorage.getItem("token");
 
 const MarketingManageData = () => {
   const dispatch = useDispatch();
-  const { leads, totalPages, departmentloading, departmenterror } = useSelector(
+  const { genleads, totalPages, departmentloading, departmenterror } = useSelector(
     (state) => state.lead
   );
 
-  //console.log("leads",leads);
+  const { pductByleadId } = useSelector((state) => state.lead);
+
+  console.log("pductByleadId",pductByleadId);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
@@ -74,7 +79,15 @@ const MarketingManageData = () => {
   const leadPerPage = 4;
 
   // Fetch departments whenever searchTerm or currentPage changes
+  //console.log("selectedLead?.id", selectedLead?.id);
+
+   useEffect(() => {
+      dispatch(getProductByLeadId({ lead_id: selectedLead?.id })); 
+    }, [dispatch,selectedLead?.id]);
+
+
   useEffect(() => {
+    dispatch(fetchCurrentUser());
     dispatch(fetchAllCustomers());
     dispatch(
       fetchUserWithRole({
@@ -82,7 +95,7 @@ const MarketingManageData = () => {
       })
     );
     dispatch(
-      listLeads({
+      GenratedlistLeads({
         page: currentPage,
         limit: leadPerPage,
         search: searchTerm,
@@ -104,15 +117,31 @@ const MarketingManageData = () => {
   //add lead====================================================================================
   const [leadData, setLeadData] = useState({
     customer_id: "",
-    //lead_owner_id: "",
+    contact_person_name: "",
     assigned_person_id: "",
     lead_source: "",
     lead_status: "",
-    assign_date: "",
+    assign_date: new Date().toISOString().split("T")[0],
+    meeting_type: "",
     lead_summary: "",
     lead_address: "",
-    reference_name:""
+    reference_name:"",
+    total_material_qty: "",
+    approx_business: "",
+    project_name: "",
+    meeting_time:"",
+    product_ids:[]
   });
+
+    useEffect(() => {
+      if (userDeatail?.id) {
+        setLeadData(prev => ({
+          ...prev,
+          assigned_person_id: userDeatail.id
+        }));
+      }
+    }, [userDeatail]);
+
 
   const [addLeadFormErrors, setaddLeadFormErrors] = useState({});
   const [addLeadFlashMessage, setAddLeadFlashMessage] = useState("");
@@ -176,7 +205,7 @@ const MarketingManageData = () => {
           handleAddLeadFlashMessage(response?.message, "success");
           //dispatch(listCustomers());
           dispatch(
-            listLeads({
+            GenratedlistLeads({
               page: currentPage,
               limit: leadPerPage,
               search: searchTerm,
@@ -340,7 +369,7 @@ const MarketingManageData = () => {
           handleUpdateLeadFlashMessage(response?.message, "success");
 
           dispatch(
-            listLeads({
+            GenratedlistLeads({
               page: currentPage,
               limit: leadPerPage,
               search: searchTerm,
@@ -394,7 +423,7 @@ const MarketingManageData = () => {
       await dispatch(removeLead(id)).unwrap();
       handleDeleteFlashMessage("Lead deleted successfully!", "success");
       dispatch(
-        listLeads({
+        GenratedlistLeads({
           page: currentPage,
           limit: leadPerPage,
           search: searchTerm,
@@ -429,7 +458,7 @@ const MarketingManageData = () => {
 
       // ✅ Refresh lead list
       dispatch(
-        listLeads({
+        GenratedlistLeads({
           page: currentPage,
           limit: leadPerPage,
           search: searchTerm,
@@ -492,7 +521,7 @@ const MarketingManageData = () => {
 
         // Refresh list
         dispatch(
-          listLeads({
+          GenratedlistLeads({
             page: currentPage,
             limit: leadPerPage,
             search: searchTerm,
@@ -533,25 +562,66 @@ const MarketingManageData = () => {
   };
 
   ////add deal
+  // const [dealData, setDealData] = useState({
+  //   date: "",
+  //   product_id : "",
+  //   area: "",
+  //   quantity: "",
+  //   rate: "",
+  //   amount: "",
+  //   advance_amount: "",
+  //   deal_amount: "",
+  //   lead_id:""
+  // });
   const [dealData, setDealData] = useState({
-    date: "",
-    product_id : "",
-    area: "",
-    quantity: "",
-    rate: "",
-    amount: "",
+    lead_id: selectedLead?.id || "",
     advance_amount: "",
     deal_amount: "",
-    lead_id:""
+    deals: [],
   });
+  
+  useEffect(() => {
+    if (pductByleadId?.data?.length > 0) {
+      const products = pductByleadId.data.map((prod) => ({
+        product_id: prod.product_id ,
+        product_name: prod.product_name,
+        date: "",
+        area: "",
+        quantity: "",
+        rate: "",
+        amount: "",
+      }));
+  
+      setDealData((prevState) => ({
+        ...prevState,
+        deals: products,
+      }));
+    }
+  }, [pductByleadId?.data]); 
 
-  const handleDealInputChange = (e) => {
-    const { name, value } = e.target;
-    setDealData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+  const handleProductInputChange = (index, field, value) => {
+    // Create a copy of the current deals array
+    const updatedDeals = [...dealData.deals];
+  
+    // Update the specific field in the corresponding product object inside the deals array
+    updatedDeals[index][field] = value;
+  
+    // Update the state with the modified deals array
+    setDealData({
+      ...dealData,
+      deals: updatedDeals,
+    });
   };
+  
+  console.log("dealData", dealData);
+  // const handleDealInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setDealData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
   const [dealFormErrors, setDealFormErrors] = useState({});
   const [addDealFlashMessage, setAddDealFlashMessage] = useState("");
@@ -586,34 +656,25 @@ const MarketingManageData = () => {
   };
 
   const handleSubmitDeal = async (e) => {
-    console.log("dealDataform",dealData);
+    
     e.preventDefault();
-    if (validateDealForm()) {
+    //if (validateDealForm()) {
       try {
+        console.log("dealData", dealData);
         const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
 
         if (response?.success) {
           handleAddDealFlashMessage(response?.message, "success");
 
           dispatch(
-            listLeads({
+            GenratedlistLeads({
               page: currentPage,
               limit: leadPerPage,
               search: searchTerm,
             })
           );
 
-          setDealData({
-            date: "",
-            product_id : "",
-            area: "",
-            quantity: "",
-            rate: "",
-            amount: "",
-            advance_amount: "",
-            deal_amount: "",
-            lead_id:""
-          });
+          setDealData({});
 
           setTimeout(() => {
             setDealCreationOpenForm(false);
@@ -631,7 +692,7 @@ const MarketingManageData = () => {
           "error"
         );
       }
-    }
+    //}
   };
 
   ////end deal
@@ -687,7 +748,7 @@ const MarketingManageData = () => {
           {/*------- Table Data Start -------*/}
           <DepartmentTable
             setEditUserModalOpen={setEditUserModalOpen}
-            Leads={leads?.data}
+            Leads={genleads?.data}
             setViewModalOpen={setViewModalOpen}
             setIsAssignModalOpen={setIsAssignModalOpen}
             selectedLead={selectedLead}
@@ -832,7 +893,8 @@ const MarketingManageData = () => {
           selectedLead={selectedLead}
           dealData={dealData}
           setDealData={setDealData}
-          handleDealInputChange={handleDealInputChange}
+          //handleDealInputChange={handleDealInputChange}
+          handleProductInputChange={handleProductInputChange}
           handleSubmitDeal={handleSubmitDeal}
           addDealFlashMessage={addDealFlashMessage}
           addDealFlashMsgType={addDealFlashMsgType}
