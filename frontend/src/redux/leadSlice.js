@@ -612,12 +612,14 @@ const leadSlice = createSlice({
       .addCase(addDeal.fulfilled, (state, action) => {
         state.leadLoading = false;
       
-        if (!state.leads.data) {
-          state.leads.data = [];
+        if (!Array.isArray(state.leads)) {
+          state.leads = [];  // Reset to array if somehow not
         }
       
-        state.leads.data.unshift(action.payload.data);
+        state.leads.unshift(action.payload.data);
       })
+      
+      
       
       .addCase(addDeal.rejected, (state, action) => {
         state.leadLoading = false;

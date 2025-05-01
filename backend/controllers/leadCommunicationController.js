@@ -77,7 +77,10 @@ const createLeadCommunication = async (req, res) => {
       lead_date,
       lead_id,
       start_meeting_time,
-      start_location 
+      start_location,
+      lead_text,
+      lead_status, 
+      client_name
     } = req.body;
 
     // Ensure user is authenticated
@@ -105,6 +108,9 @@ const createLeadCommunication = async (req, res) => {
       lead_id,
       start_meeting_time,
       start_location,
+      lead_text,
+      lead_status,
+      client_name 
     });
 
     res
@@ -235,6 +241,8 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
         "lead_date",
         "next_meeting_time",
         "createdAt",
+        "start_meeting_time",
+        "end_meeting_time",
       ],
       include: [
         {
@@ -242,7 +250,7 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
           attributes: ["company_name"], // Fetch only company_name
         },
       ],
-      order: [["id", "DESC"]], // Order by id in descending order
+      order: [["id", "ASC"]], // Order by id in descending order
     });
 
     res.status(200).json({

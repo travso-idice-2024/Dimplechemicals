@@ -155,12 +155,6 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
           </div>
           <div className="flex items-end justify-end gap-2">
             <button
-              className="mt-4 text-textdata bg-bgDataNew text-white px-3 py-2 rounded hover:bg-gray-600"
-              onClick={() => navigate(`/lead-followups/${selectedLead?.id}`)}
-            >
-              View Follow
-            </button>
-            <button
               className="mt-4 text-textdata bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => setViewModalOpen(false)}
             >

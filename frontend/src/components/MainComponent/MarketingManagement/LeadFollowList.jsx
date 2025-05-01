@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import { leadCommunicationById } from "../../../redux/leadSlice";
 import Pagination from "./Pagination";
 import ContentTop from "../../ContentTop/ContentTop";
+import { useNavigate } from "react-router-dom";
 
 export const LeadFollowList = () => {
+  const navigate = useNavigate();
   const { leadId } = useParams();
   const dispatch = useDispatch();
   const { communicationleadsList, totalPages, leadLoading, leadError } =
@@ -43,28 +45,33 @@ export const LeadFollowList = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-         <div className="flex items-center justify-between">
-                   <div>
-                     <h1 className="text-white text-textdata font-semibold">
-                       Lead Follow Up
-                     </h1>
-                   </div>
-                   <div className="flex items-center gap-[5px]">
-                     <div>
-                       <input
-                         type="search"
-                         className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                         placeholder="Search"
-                         value={searchTerm}
-                         onChange={handleSearchChange}
-                       />
-                     </div>
-                     
-                   </div>
-                 </div>
+          <div className="flex items-center justify-between">
+            
+            <div>
+            <button onClick={() => navigate(-1)} className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]">
+                ⬅ Back
+              </button>
+              <h1 className="text-white text-textdata font-semibold">
+                Lead Follow Up
+              </h1>
+              
+            </div>
+            <div className="flex items-center gap-[5px]">
+              <div>
+                <input
+                  type="search"
+                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              </div>
+
+            </div>
+          </div>
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* <div className="w-full mt-8 overflow-x-auto"> */}
-              {/* <div className="flex items-center gap-[5px]">
+            {/* <div className="flex items-center gap-[5px]">
                 <div>
                   <input
                     type="search"
@@ -75,65 +82,78 @@ export const LeadFollowList = () => {
                   />
                 </div>
               </div> */}
-              <div>
-                <table className="min-w-full table-auto">
-                  <thead>
-                    <tr className="bg-[#473b33] rounded-[8px]">
-                      <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Time</th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">
-                        Company Name
-                      </th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">
-                        Client Name
-                      </th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">
-                        Communication
-                      </th>
-                      <th className="px-4 py-2 text-left text-bgDataNew">
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {communicationleadsList?.data &&
-                      communicationleadsList?.data.map((user, index) => (
-                        <tr key={index}>
-                          <td className="px-4 py-2">{index + 1}</td>
-                          {/* <td className="px-4 py-2">{user?.lead_date?.split('T')[0]}</td> */}
-                          <td className="px-4 py-2">
-                            {new Date(user?.lead_date)?.toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              }
-                            )}
-                          </td>
-                          <td className="px-4 py-2">
-                         {user?.next_meeting_time}
+            <div>
+              <table className="min-w-full table-auto">
+                <thead>
+                  <tr className="bg-[#473b33] rounded-[8px]">
+                    <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">Meeting Date</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">Start Time</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">End Time</th>
+
+                    <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">
+                      Company Name
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">
+                      Client Name
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">
+                      Communication
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {communicationleadsList?.data &&
+                    communicationleadsList?.data.map((user, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-2">{index + 1}</td>
+                        {/* <td className="px-4 py-2">{user?.lead_date?.split('T')[0]}</td> */}
+                        <td className="px-4 py-2">
+                          {new Date(user?.createdAt)?.toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
                         </td>
-                          <td className="px-4 py-2">
-                            {user?.Customer?.company_name}
-                          </td>
-                          <td className="px-4 py-2">{user?.client_name}</td>
-                          <td className="px-4 py-2 w-[300px]">
-                            {user?.lead_text}
-                          </td>
-                          <td className="px-4 py-2">{user?.lead_status}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-              {/* Pagination Controls with Number */}
-              <Pagination
-                currentPage={currentPage}
-                handlePageChange={handlePageChange}
-                totalPages={totalPages}
-              />
+                        <td className="px-4 py-2">{user?.start_meeting_time}</td>
+                        <td className="px-4 py-2">{user?.end_meeting_time}</td>
+
+                        <td className="px-4 py-2">
+                          {new Date(user?.lead_date)?.toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
+                        </td>
+                        <td className="px-4 py-2">
+                          {user?.Customer?.company_name}
+                        </td>
+                        <td className="px-4 py-2">{user?.client_name}</td>
+                        <td className="px-4 py-2 w-[300px]">
+                          {user?.lead_text}
+                        </td>
+                        <td className="px-4 py-2">{user?.lead_status}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Pagination Controls with Number */}
+            <Pagination
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+              totalPages={totalPages}
+            />
             {/* </div> */}
           </div>
         </div>

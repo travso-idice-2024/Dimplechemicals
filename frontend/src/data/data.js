@@ -103,20 +103,20 @@ export const navigationLinks = [
     path: "/marketing-management",
     allowedRoles: [1],
     submenu: [
-      {
-        id: 6.1,
-        title: "Lead Assignment",
-        image: iconsImgs.followupform,
-        path: "/marketing-management/lead-management",
-        allowedRoles: [1],
-      },
-      {
-        id: 6.2,
-        title: "Leads via Sources",
-        image: iconsImgs.followupform,
-        path: "/marketing-management/lead-via-source",
-        allowedRoles: [1],
-      },
+      // {
+      //   id: 6.1,
+      //   title: "Lead Assignment",
+      //   image: iconsImgs.followupform,
+      //   path: "/marketing-management/lead-management",
+      //   allowedRoles: [1],
+      // },
+      // {
+      //   id: 6.2,
+      //   title: "Leads via Sources",
+      //   image: iconsImgs.followupform,
+      //   path: "/marketing-management/lead-via-source",
+      //   allowedRoles: [1],
+      // },
       // {
       //   id: 6.3,
       //   title: "Budget Analysis",
