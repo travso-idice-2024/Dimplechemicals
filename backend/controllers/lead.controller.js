@@ -1327,18 +1327,29 @@ const getDealData = async (req, res) => {
             'deal_code',
             'date',
           ],
+          include: [
+            {
+              model: Product,
+              as: 'product',
+              attributes: ['product_name'],
+            },
+          ],
         },
       ],
     });
 
-    const result = leads.map(lead => {
+    const result = leads.map((lead) => {
       const firstDeal = lead.deals[0] || {};
       return {
         lead_id: lead.id,
         company_name: lead.customer?.company_name || null,
         advance_amount: firstDeal.advance_amount || null,
         deal_amount: firstDeal.deal_amount || null,
-        deals: lead.deals || [],
+        product_name: firstDeal.product?.product_name || null,
+        deals: lead.deals.map((deal) => ({
+          ...deal.toJSON(),
+          product_name: deal.product?.product_name || null,
+        })),
       };
     });
 
@@ -1355,6 +1366,7 @@ const getDealData = async (req, res) => {
     });
   }
 };
+
 
 const countTotalLeads = async (req, res) => {
   try {
