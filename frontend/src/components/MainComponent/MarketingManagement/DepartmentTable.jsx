@@ -101,25 +101,26 @@ const DepartmentTable = ({
 
     if (validateInputs()) {
       try {
-        console.log("formData", formData);
+        //console.log("formData", formData);
         const response = await dispatch(
           addLeadCommunication(formData)
         ).unwrap();
 
+        //console.log("response", response);
         if (response?.success) {
           handleFlashMessage(
             response?.message || "Lead Communication added successfully!",
             "success"
           );
 
-          dispatch(
-            leadCommunicationById({
-              leadId: leadId,
-              page: currentPage,
-              limit: leadCumPerPage,
-              search: searchTerm,
-            })
-          );
+          // dispatch(
+          //   leadCommunicationById({
+          //     leadId: leadId,
+          //     page: currentPage,
+          //     limit: leadCumPerPage,
+          //     search: searchTerm,
+          //   })
+          // );
 
           // Reload lead list after adding lead
           // dispatch(

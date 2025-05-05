@@ -112,6 +112,23 @@ export const addDeal = createAsyncThunk(
   }
 );
 
+
+//add product to lead
+export const addProductToLead = createAsyncThunk(
+  "auth/addProductToLead",
+  async (leadData, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.post(`${API_URL}/auth/add-products-to-lead`, leadData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(leadError.response?.data || "Failed to add product to lead");
+    }
+  }
+);
+
 //Lead communication for sales person
 export const addLeadCommunication = createAsyncThunk(
   "auth/lead-communication",
@@ -605,10 +622,6 @@ const leadSlice = createSlice({
         state.leadLoading = true;
         state.leadError = null;
       })
-      // .addCase(addDeal.fulfilled, (state, action) => {
-      //   state.leads.data = [action.payload.data, ...state.leads.data];
-      // })
-      
       .addCase(addDeal.fulfilled, (state, action) => {
         state.leadLoading = false;
       
@@ -618,10 +631,23 @@ const leadSlice = createSlice({
       
         state.leads.unshift(action.payload.data);
       })
-      
-      
-      
       .addCase(addDeal.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
+      .addCase(addProductToLead.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(addProductToLead.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        if (!Array.isArray(state.leads)) {
+          state.leads = [];  // Reset to array if somehow not
+        }
+        state.leads.unshift(action.payload.data);
+      }) 
+      .addCase(addProductToLead.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
       })

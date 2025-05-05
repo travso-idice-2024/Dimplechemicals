@@ -47,7 +47,7 @@ export const fetchUserWithRole = createAsyncThunk(
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/employeeList`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: { roleId: roleId }, // Fetch all users
+        params: { roleId: roleId ,all: true}, // Fetch all users
       });
       return response.data;
     } catch (error) {

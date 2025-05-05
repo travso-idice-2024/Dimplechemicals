@@ -12,7 +12,7 @@ export const LeadFollowList = () => {
   const dispatch = useDispatch();
   const { communicationleadsList, totalPages, leadLoading, leadError } =
     useSelector((state) => state.lead);
-  console.log("communicationleadsList", communicationleadsList);
+  //console.log("communicationleadsList", communicationleadsList);
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

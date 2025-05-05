@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import { SidebarContext } from "../../../../context/sidebarContext";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const DepartmentTable = ({
   setEditUserModalOpen,
   finalizeDealsListData,
   setViewModalOpen,
+  setSelectedLead,
+  setShowFinlizeDealProduct
 }) => {
   console.log("finalizeDealsListData",finalizeDealsListData);
   const dispatch = useDispatch();
@@ -20,28 +24,16 @@ const DepartmentTable = ({
               Id
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Date
+              Company Name
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Product Name
+              Deal Amount
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Area - Sq mtr / Cub Mtr
+              Advance Amount
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Quantity
-            </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Rate
-            </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Amount
-            </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Advance amount
-            </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-              Deal amount
+              Action
             </th>
           </tr>
         </thead>
@@ -49,14 +41,18 @@ const DepartmentTable = ({
         {finalizeDealsListData?.map((user, index) => (
           <tr  key={index} className="text-center">
             <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
-            <td className="px-4 py-2 text-newtextdata">{user?.date}</td>
-            <td className="px-4 py-2 text-newtextdata">{user?.product?.product_name}</td>
-            <td className="px-4 py-2 text-newtextdata">{user?.area} Sq mtr/cub mtr</td>
-            <td className="px-4 py-2 text-newtextdata">{user?.quantity}</td>
-            <td className="px-4 py-2 text-newtextdata">₹{user?.rate}</td>
-            <td className="px-4 py-2 text-newtextdata text-center">₹{user?.amount}</td>
+            <td className="px-4 py-2 text-newtextdata">{user?.company_name}</td>
             <td className="px-4 py-2 text-newtextdata">₹{user?.deal_amount}</td>
             <td className="px-4 py-2 text-newtextdata">₹{user?.advance_amount}</td>
+            <td className="px-4 py-2 text-newtextdata"> <button
+                                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                onClick={() => {
+                                  setSelectedLead(user);
+                                  setShowFinlizeDealProduct(true);
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faEye} />
+                              </button></td>
           </tr>
            ))}
         </tbody>

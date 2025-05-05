@@ -1262,26 +1262,26 @@ const addDealData = async (req, res) => {
       const [existingDeal, created] = await dealData.findOrCreate({
         where: { lead_id, product_id: deal.product_id },
         defaults: {
-          date: deal.date,
+          date: deal?.date || null,
           area: deal.area,
-          quantity: deal.quantity,
-          rate: deal.rate,
-          amount: deal.amount,
-          advance_amount,
-          deal_amount,
+          quantity: deal?.quantity || null,
+          rate: deal?.rate || null,
+          amount: deal?.amount || null,
+          advance_amount:advance_amount || null,
+          deal_amount:deal_amount || null,
         },
       });
 
       if (!created) {
         // If deal already exists, update it
         await existingDeal.update({
-          date: deal.date,
+          date: deal?.date || null,
           area: deal.area,
-          quantity: deal.quantity,
-          rate: deal.rate,
-          amount: deal.amount,
-          advance_amount,
-          deal_amount,
+          quantity: deal?.quantity || null,
+          rate: deal.rate || null,
+          amount: deal.amount || null,
+          advance_amount:advance_amount || null,
+          deal_amount:deal_amount || null,
         });
       }
 
@@ -1304,52 +1304,51 @@ const addDealData = async (req, res) => {
 
 const getDealData = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = '' } = req.query;
-    const offset = (page - 1) * limit;
-
-    const whereClause = {};
-
-    // Search by product name or area (you can add more fields here)
-    if (search) {
-      whereClause[Op.or] = [
-        { area: { [Op.like]: `%${search}%` } },
-        {
-          '$product.product_name$': {
-            [Op.like]: `%${search}%`
-          }
-        }
-      ];
-    }
-
-    const { count, rows } = await dealData.findAndCountAll({
-      where: whereClause,
+    const leads = await Lead.findAll({
       include: [
         {
-          model: Product,
-          as: 'product',
-          attributes: ['product_name'],
+          model: Customer,
+          as: 'customer',
+          attributes: ['company_name'],
         },
         {
-          model: Lead,
-          as: 'lead',
-        }
+          model: dealData,
+          as: 'deals',
+          attributes: [
+            'id',
+            'lead_id',
+            'product_id',
+            'area',
+            'quantity',
+            'rate',
+            'amount',
+            'advance_amount',
+            'deal_amount',
+            'deal_code',
+            'date',
+          ],
+        },
       ],
-      offset: parseInt(offset),
-      limit: parseInt(limit),
+    });
+
+    const result = leads.map(lead => {
+      const firstDeal = lead.deals[0] || {};
+      return {
+        lead_id: lead.id,
+        company_name: lead.customer?.company_name || null,
+        advance_amount: firstDeal.advance_amount || null,
+        deal_amount: firstDeal.deal_amount || null,
+        deals: lead.deals || [],
+      };
     });
 
     res.status(200).json({
       success: true,
-      message: 'Deal data retrieved successfully',
-      data: rows,
-      currentPage: parseInt(page)
-,
-      totalPages: Math.ceil(count / limit),
-      totalRecords: count,
-      
+      message: 'Grouped deal data fetched successfully',
+      data: result,
     });
   } catch (error) {
-    console.error('Error fetching deal data:', error);
+    console.error('Error fetching grouped deal data:', error);
     res.status(500).json({
       success: false,
       message: 'Server Error',
@@ -1367,6 +1366,61 @@ const countTotalLeads = async (req, res) => {
   } catch (error) {
     console.error("Error counting total leads:", error);
     res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+
+const addProductsToLead = async (req, res) => {
+  try {
+    const { lead_id, product_ids } = req.body;
+
+    if (!lead_id || !Array.isArray(product_ids) || product_ids.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "lead_id and product_ids[] are required.",
+      });
+    }
+
+    const lead = await Lead.findByPk(lead_id);
+    if (!lead) {
+      return res.status(404).json({
+        success: false,
+        message: "Lead not found.",
+      });
+    }
+
+    const existing = await dealData.findAll({
+      where: { lead_id },
+      attributes: ['product_id'],
+    });
+
+    const existingProductIds = existing.map((item) => item.product_id);
+    const newProductIds = product_ids.filter(
+      (id) => !existingProductIds.includes(id)
+    );
+
+    if (newProductIds.length === 0) {
+      return res.status(409).json({
+        success: false,
+        message: "All provided products already exist for this lead.",
+      });
+    }
+
+    const dealDataPayload = newProductIds.map((product_id) => ({
+      lead_id,
+      product_id,
+    }));
+
+    await dealData.bulkCreate(dealDataPayload);
+
+    res.status(201).json({
+      success: true,
+      message: "Products added to lead successfully.",
+      data: dealDataPayload,
+    });
+  } catch (error) {
+    console.error("Error adding products to lead:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -1389,5 +1443,6 @@ module.exports = {
   addDealData,
   getDealData,
   countTotalLeads,
-  getleadaftermeeting
+  getleadaftermeeting,
+  addProductsToLead
 };

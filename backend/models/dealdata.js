@@ -62,6 +62,18 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'dealData',
+      tableName: 'dealData',
+      hooks: {
+        async afterCreate(dealData, options) {
+          const newCode = `DEAL${String(dealData.lead_id).padStart(2, '0')}`;
+          dealData.deal_code = newCode;
+          await dealData.save({ transaction: options.transaction });
+        }
+      }
+    },
+    {
+      sequelize,
+      modelName: 'dealData',
       tableName: 'dealdata',
     }
   );

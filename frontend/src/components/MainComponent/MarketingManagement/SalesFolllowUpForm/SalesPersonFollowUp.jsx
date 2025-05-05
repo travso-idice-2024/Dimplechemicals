@@ -37,16 +37,18 @@ const SalesPersonFollowUp = () => {
   const { leads, totalPages, departmentloading, departmenterror } = useSelector(
     (state) => state.lead
   );
-  console.log("leads",leads);
+  //console.log("leads",leads);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
-  console.log("customerAddress", customerAddress);
+  //console.log("customerAddress", customerAddress);
   
   const [selectedPOA, setSelectedPOA] = useState({});
+
+  //console.log("selectedPOA",selectedPOA);
 
   const [allselectedPOA, allsetSelectedPOA] = useState([]);
   // Pagination & Search States

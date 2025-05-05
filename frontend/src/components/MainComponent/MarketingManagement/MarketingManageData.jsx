@@ -20,7 +20,8 @@ import {
   removeLead,
   updateSalesPersionAssignment,
   addDeal,
-  getProductByLeadId
+  getProductByLeadId,
+  addProductToLead
 } from "../../../redux/leadSlice";
 
 import { fetchCurrentUser } from "../../../redux/authSlice";
@@ -580,16 +581,17 @@ const MarketingManageData = () => {
     deals: [],
   });
   
+
   useEffect(() => {
     if (pductByleadId?.data?.length > 0) {
       const products = pductByleadId.data.map((prod) => ({
         product_id: prod.product_id ,
         product_name: prod.product_name,
-        date: "",
-        area: "",
-        quantity: "",
-        rate: "",
-        amount: "",
+        date: prod.date,
+        area: prod.area,
+        quantity:prod.quantity,
+        rate: prod.rate,
+        amount:prod.amount,
       }));
   
       setDealData((prevState) => ({
@@ -598,6 +600,9 @@ const MarketingManageData = () => {
       }));
     }
   }, [pductByleadId?.data]); 
+
+ // console.log("pductByleadId.data", dealData);
+
 
 
   const handleProductInputChange = (index, field, value) => {
@@ -614,7 +619,7 @@ const MarketingManageData = () => {
     });
   };
   
-  console.log("dealData", dealData);
+  //console.log("dealData", dealData);
   // const handleDealInputChange = (e) => {
   //   const { name, value } = e.target;
   //   setDealData((prevData) => ({
@@ -660,11 +665,13 @@ const MarketingManageData = () => {
     e.preventDefault();
     //if (validateDealForm()) {
       try {
-        console.log("dealData", dealData);
+        //console.log("dealData", dealData);
         const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
 
         if (response?.success) {
           handleAddDealFlashMessage(response?.message, "success");
+
+          dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
 
           dispatch(
             GenratedlistLeads({
@@ -695,8 +702,46 @@ const MarketingManageData = () => {
     //}
   };
 
+
+
+  const [leadProductData, setLeadProductData] = useState({
+    lead_id: null,
+    product_ids: []
+  });
+  
+  useEffect(() => {
+    if (selectedLead?.id) {
+      setLeadProductData((prev) => ({
+        ...prev,
+        lead_id: selectedLead.id
+      }));
+    }
+  }, [selectedLead]);
+  
+  console.log("leadProductData", leadProductData);
+   const handleSubmitAddProduct = async (e) => {
+          e.preventDefault();
+          try {
+            const response = await dispatch(addProductToLead(leadProductData)).unwrap();
+            //console.log(response);
+            if (response?.success) {
+              //handleAddLeadFlashMessage(response?.message, "success");
+              //dispatch(listCustomers());
+              dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+    
+              setLeadProductData({});
+            } else {
+              console.log(
+                response?.message || "Something went wrong",
+                "error"
+              );
+            }
+          } catch (error) {
+            console.error("Error adding product:", error);
+          }
+    };
+
   ////end deal
-  console.log("selectedPOAIds455",selectedPOAIds);
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex items-center justify-between">
@@ -900,6 +945,9 @@ const MarketingManageData = () => {
           addDealFlashMsgType={addDealFlashMsgType}
           dealFormErrors={dealFormErrors}
           setDealFormErrors={setDealFormErrors}
+          leadProductData = {leadProductData}
+          setLeadProductData = {setLeadProductData}
+          handleSubmitAddProduct = {handleSubmitAddProduct}
         />
       )}
         {isLeadAssignPopup && (

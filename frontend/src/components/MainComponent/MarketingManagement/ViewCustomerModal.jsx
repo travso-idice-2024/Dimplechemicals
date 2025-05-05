@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { leadCommunicationById } from "../../../redux/leadSlice";
+
 
 const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
-  console.log("selectedCustomer", selectedCustomer);
+  const dispatch = useDispatch();
+  const { communicationleadsList, totalPages, leadLoading, leadError } =
+    useSelector((state) => state.lead);
+
+  //console.log("communicationleadsList", communicationleadsList?.data);
+
+  useEffect(() => {
+    if (selectedCustomer?.id) {
+      dispatch(
+        leadCommunicationById({
+          leadId: selectedCustomer?.id
+        })
+      );
+    }
+  }, [dispatch, selectedCustomer?.id]);
+
+  //console.log("selectedCustomer", selectedCustomer);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
@@ -81,9 +100,83 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 label="Pan No."
                 value={selectedCustomer?.customer?.pan_no}
               />
-               <Detail label="Address" value={selectedCustomer?.customer?.address} />
+              <Detail label="Address" value={selectedCustomer?.customer?.address} />
             </div>
           </div>
+
+
+
+          {/* follow up list */}
+          <div>
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="bg-[#473b33] rounded-[8px]">
+                  <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">Start Time</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">End Time</th>
+
+                  <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">
+                    Company Name
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">
+                    Client Name
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">
+                    Communication
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {communicationleadsList?.data &&
+                  communicationleadsList?.data.map((user, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-2">{index + 1}</td>
+                      {/* <td className="px-4 py-2">{user?.lead_date?.split('T')[0]}</td> */}
+                      <td className="px-4 py-2">
+                        {new Date(user?.createdAt)?.toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          }
+                        )}
+                      </td>
+                      <td className="px-4 py-2">{user?.start_meeting_time}</td>
+                      <td className="px-4 py-2">{user?.end_meeting_time}</td>
+
+                      <td className="px-4 py-2">
+                        {new Date(user?.lead_date)?.toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          }
+                        )}
+                      </td>
+                      <td className="px-4 py-2">
+                        {user?.Customer?.company_name}
+                      </td>
+                      <td className="px-4 py-2">{user?.client_name}</td>
+                      <td className="px-4 py-2 w-[300px]">
+                        {user?.lead_text}
+                      </td>
+                      <td className="px-4 py-2">{user?.lead_status}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* end follow up list */}
+
+
         </div>
         {/* Buttons */}
         <div className="flex justify-end gap-2 px-6">

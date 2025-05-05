@@ -198,12 +198,12 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
     }
   };
 
-   console.log("selectedPOA", selectedPOA);
+   //console.log("selectedPOA", selectedPOA);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto max-h-[90vh]">
         {/* Header */}
-        <div>
+        {/* <div>
           <button
             onClick={handleToggle}
             className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${
@@ -214,7 +214,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
           >
             {isCheckedIn ? "Meeting End" : "Meeting Start"}
           </button>
-        </div>
+        </div> */}
 
         <div className="text-center border-b border-gray-300 p-4">
           <h3 className="text-lg font-semibold mt-1">

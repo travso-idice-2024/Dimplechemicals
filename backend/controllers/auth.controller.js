@@ -93,6 +93,7 @@ exports.login = async (req, res) => {
 //userList
 exports.listEmployees = async (req, res) => {
   try {
+    console.log("req.query" , req.query);
     const { page = 1, limit = 10, search = "", all, roleId  } = req.query;
 
     // Convert page & limit to integers
@@ -112,9 +113,9 @@ exports.listEmployees = async (req, res) => {
       : {};
 
      // 🔹 Apply role filter dynamically
-    //  if (roleId) {
-    //   whereCondition["$employeeRole.role_id$"] = roleId;
-    // }
+     if (roleId) {
+      whereCondition["$employeeRole.role_id$"] = roleId;
+    }
 
 
     // Common query options
@@ -122,11 +123,11 @@ exports.listEmployees = async (req, res) => {
       where: whereCondition,
       order: [["id", "DESC"]], // Sorting by ID (latest first)
       include: [
-        // {
-        //   model: EmployeeRole,
-        //   as: "employeeRole",
-        //   include: [{ model: Role, as: "role", attributes: ["role_name"] }],
-        // },
+        {
+          model: EmployeeRole,
+          as: "employeeRole",
+          include: [{ model: Role, as: "role", attributes: ["role_name"] }],
+        },
         {
           model: JobDetail,
           as: "jobDetail",

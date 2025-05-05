@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
+import ProductMultiSelect from "./ProductMultiSelect";
+
 // import { getProductByLeadId } from "../../../redux/leadSlice";
 
 const DealCreationForm = ({
@@ -18,8 +20,10 @@ const DealCreationForm = ({
   addDealFlashMsgType,
   dealFormErrors,
   setDealFormErrors,
+  leadProductData,
+  setLeadProductData,
+  handleSubmitAddProduct
 }) => {
-  console.log("dealData",dealData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -58,6 +62,8 @@ const DealCreationForm = ({
   //     products: updatedProducts,
   //   });
   // };
+
+ 
 
   return (
     <>
@@ -203,6 +209,24 @@ const DealCreationForm = ({
           </div> */}
 
           <div className="mt-5 md:mt-6 px-4">
+
+            <div>
+              
+                <ProductMultiSelect
+                  allProducts={allProducts}
+                  leadData={leadProductData}
+                  setLeadData={setLeadProductData}
+                />
+              
+              <button
+              className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+              onClick={handleSubmitAddProduct}
+            >
+              Add Product
+            </button>
+
+
+            </div>
             {/* Scrollable Products List */}
             <div className="max-h-[350px] overflow-y-auto border border-gray-300 rounded p-2 space-y-3">
               {dealData?.deals?.map((product, index) => (

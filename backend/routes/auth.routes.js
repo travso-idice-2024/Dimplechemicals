@@ -59,7 +59,8 @@ const {
   addDealData,
   getDealData,
   countTotalLeads,
-  getleadaftermeeting
+  getleadaftermeeting,
+  addProductsToLead
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -235,6 +236,7 @@ router.put(
 router.post("/end-meeting", authMiddleware, endMeeting);
 router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
 router.get('/get-lead-products/:lead_id', authMiddleware, getLeadProducts);
+router.post("/add-products-to-lead", authMiddleware, addProductsToLead);
 
 
 module.exports = router;

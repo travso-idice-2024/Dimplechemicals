@@ -20,18 +20,16 @@ const getLeadProducts = async (req, res) => {
         {
           model: Product,
           as: 'product',
-          attributes: ['id', 'product_name'],
+          attributes: ['product_name'], // Only fetch product_name
         },
       ],
-      attributes: ['product_id'], // Only dealData fields you need
-      group: ['product_id', 'product.id'], // Group to avoid duplicates
+      // No need to specify attributes in dealData to get all columns
     });
 
     const productNames = products.map(item => ({
-      product_id: item.product_id,
-      product_name: item.product?.product_name || null,
+      ...item.toJSON(), // includes all dealData fields
+      product_name: item.product?.product_name || null, // append product_name
     }));
-
     res.status(200).json({
       success: true,
       message: 'Products fetched successfully',

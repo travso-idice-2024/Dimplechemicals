@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'lead_id',
         as: 'communications'
       });
+
+      Lead.hasMany(models.dealData, {
+        foreignKey: "lead_id",
+        as: "deals"
+      });
       
       Lead.belongsTo(models.Customer, {
         as: "customer",

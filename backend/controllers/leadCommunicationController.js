@@ -116,6 +116,7 @@ const createLeadCommunication = async (req, res) => {
     res
       .status(201)
       .json({
+        success:true,
         message: "Meeting Started successfully",
         data: newLead,
       });

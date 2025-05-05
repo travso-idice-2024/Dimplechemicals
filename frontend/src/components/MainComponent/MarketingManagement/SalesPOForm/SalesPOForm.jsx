@@ -6,9 +6,12 @@ import { iconsImgs } from "../../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
+import EmpSARReport from "./EmpSARReport";
 // import ViewUserModal from "./ViewUserModal";
 // import EditUserModal from "./EditUserModal";
 import ContentTop from "../../../ContentTop/ContentTop";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 import {
   finalizeDealsList,
@@ -20,10 +23,13 @@ const SalePOForm = () => {
       (state) => state.lead
     );
  
-  //console.log("finalizeDealsData",finalizeDealsData);
+  //console.log("finalizeDealsListData", finalizeDealsListData);
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
+
+  const [showFinlizeDealProduct, setShowFinlizeDealProduct] = useState(false);
+  const [selectedLead, setSelectedLead] = useState({});
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,6 +98,8 @@ const SalePOForm = () => {
               setEditUserModalOpen={setEditUserModalOpen}
               finalizeDealsListData={finalizeDealsListData?.data || []}
               setViewModalOpen={setViewModalOpen}
+              setSelectedLead={setSelectedLead}
+              setShowFinlizeDealProduct={setShowFinlizeDealProduct}
             />
             {/*------- Table Data End -------*/}
           </div>
@@ -110,6 +118,14 @@ const SalePOForm = () => {
           {/* {isViewModalOpen && (
           <ViewUserModal setViewModalOpen={setViewModalOpen} />
         )} */}
+
+          {showFinlizeDealProduct && (
+            <EmpSARReport
+            setShowFinlizeDealProduct={setShowFinlizeDealProduct}
+            selectedLead ={selectedLead}
+            setSelectedLead = {setSelectedLead}
+            />
+          )}
         </div>
         {/* Pagination Controls with Number */}
         <Pagination
