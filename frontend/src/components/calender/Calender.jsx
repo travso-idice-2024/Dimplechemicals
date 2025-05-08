@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import useGoogleCalendar from "../../components/hooks/useGoogleCalendar";
-
+import EventDetailModal from "./EventDetailModal";
 const Calender = () => {
     const {
         isAuthenticated,
@@ -19,78 +22,96 @@ const Calender = () => {
     
       const handleAddEvent = () => {
         const event = {
-           title: "Test Event",
-           location: "Zoom",
+           title: "Meeting Sheduled",
+           location: "Indore",
            description: "Test meeting via Zoom",
-           startDateTime: "2025-04-29T10:00:00", // ISO dateTime format
-           endDateTime: "2025-04-29T11:00:00",
+           startDateTime: "2025-05-01T06:30:00", // ISO dateTime format
+           endDateTime: "2025-05-01T06:45:00",
+           attendeesEmails: [
+                "nikhilpatankar74@gmail.com",
+                "umasharma0821@gmail.com",
+				"nikhil02.1998@gmail.com"
+             ],
         };
         createEvent(event);
       };
+
+
+  // Convert Google Calendar events to FullCalendar format
+const eventsData = events.map((event) => ({
+id: event.id,
+title: event.summary,
+start: event.start.dateTime,
+end: event.end.dateTime,
+extendedProps: {
+description: event.description,
+location: event.location,
+},
+}));
+
+
+const [selectedEvent, setSelectedEvent] = useState(null);
+const [isModalOpen, setIsModalOpen] = useState(false);
+
+const handleEventClick = (info) => {
+  setSelectedEvent(info.event);
+  setIsModalOpen(true);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
+
+
+
   return (
-    <div style={{ backgroundColor: 'black', color: 'white' }}>
-    {!isAuthenticated ? (
+ <>
+  {!isAuthenticated ? (
+    <div className="flex justify-center items-center min-h-screen bg-gray-900">
       <button
         onClick={handleLogin}
-        style={{
-          backgroundColor: '#4285F4', // Google Blue
-          color: 'white',
-          border: 'none',
-          padding: '10px 20px',
-          cursor: 'pointer',
-          borderRadius: '5px',
-          fontSize: '16px',
-        }}
+        className="bg-blue-600 text-white border-none px-5 py-2 cursor-pointer rounded text-lg"
       >
-        Login with Google
+        Sign In with Google
       </button>
-    ) : (
-      <div>
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#FF5B5B', // Red
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            cursor: 'pointer',
-            borderRadius: '5px',
-            fontSize: '16px',
-            marginRight: '10px',
-          }}
-        >
-          Logout
-        </button>
-        <button
-          onClick={handleAddEvent}
-          style={{
-            backgroundColor: '#34A853', // Green
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            cursor: 'pointer',
-            borderRadius: '5px',
-            fontSize: '16px',
-          }}
-        >
-          Add Event
-        </button>
-  
-        <h3 style={{ color: 'white' }}>Upcoming Events</h3>
-        {events?.length > 0 ? (
-          <ul>
-            {events?.map((event) => (
-              <li key={event.id} style={{ color: 'white' }}>
-                {event?.summary} - {new Date(event?.start.dateTime).toLocaleString()}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p style={{ color: 'white' }}>No events found.</p>
-        )}
-      </div>
-    )}
-  </div>
+    </div>
+  ) : (
+    <div className="bg-black text-white p-4 min-h-screen">
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 text-white border-none px-5 py-2 cursor-pointer rounded text-lg mb-5"
+      >
+        Logout
+      </button>
+
+      {events?.length > 0 ? (
+        <div className="w-full">
+          <h2 className="text-xl font-bold mb-4">📅 My Google Calendar Events</h2>
+          <div className="w-full">
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              events={eventsData}
+              dateClick={(info) => openModalForNewEvent(info.dateStr)}
+              eventClick={handleEventClick}
+              height="auto"
+            />
+          </div>
+        </div>
+      ) : (
+        <p>No events found.</p>
+      )}
+    </div>
+  )}
+
+  <EventDetailModal
+    isOpen={isModalOpen}
+    onClose={closeModal}
+    event={selectedEvent}
+  />
+</>
+
   
   )
 }

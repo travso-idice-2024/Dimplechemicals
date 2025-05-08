@@ -68,7 +68,8 @@ const {
   getWonLeadCommunications,
   exportWonLeadCommunications,
   visistsOfMonth,
-  endMeeting
+  endMeeting,
+  getTodayMeetingLocation
 } = require("../controllers/leadCommunicationController");
 
 const {
@@ -237,6 +238,7 @@ router.post("/end-meeting", authMiddleware, endMeeting);
 router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
 router.get('/get-lead-products/:lead_id', authMiddleware, getLeadProducts);
 router.post("/add-products-to-lead", authMiddleware, addProductsToLead);
+router.get("/get-todays-location", authMiddleware, getTodayMeetingLocation);
 
 
 module.exports = router;

@@ -30,12 +30,22 @@ import {
   fetchAllCustomers,
   getAllAddressByCustomerId,
 } from "../../../redux/customerSlice";
+import useGoogleCalendar from "../../../components/hooks/useGoogleCalendar";
+
+
+
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const getAuthToken = () => localStorage.getItem("token");
 
 const MarketingManageData = () => {
+
+  const {
+    isAuthenticated,
+    createEvent,
+  } = useGoogleCalendar();
+
   const dispatch = useDispatch();
   const { genleads, totalPages, departmentloading, departmenterror } = useSelector(
     (state) => state.lead
@@ -43,7 +53,7 @@ const MarketingManageData = () => {
 
   const { pductByleadId } = useSelector((state) => state.lead);
 
-  console.log("pductByleadId",pductByleadId);
+  //console.log("pductByleadId",pductByleadId);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
@@ -147,6 +157,7 @@ const MarketingManageData = () => {
   const [addLeadFormErrors, setaddLeadFormErrors] = useState({});
   const [addLeadFlashMessage, setAddLeadFlashMessage] = useState("");
   const [addLeadFlashMsgType, setAddLeadFlashMsgType] = useState("");
+   const [attendeesEmails, setAttendeesEmails] = useState([]);
 
   const handleLeadChange = (e) => {
     const { name, value } = e.target;
@@ -154,6 +165,18 @@ const MarketingManageData = () => {
       ...prevData,
       [name]: value,
     }));
+
+    if (name === "assigned_person_id") {
+      const selectedUser = userDataWithRole?.data.find(
+        (item) => item.id === parseInt(value)
+      );
+  
+      if (selectedUser) {
+        setAttendeesEmails([selectedUser.email,userDeatail.email]); // If you want an array of one email
+      } else {
+        setAttendeesEmails([]); // Clear if no match found
+      }
+    }
   };
 
   const handleLeadCustomerChange = (e) => {
@@ -213,14 +236,12 @@ const MarketingManageData = () => {
             })
           );
 
-          setLeadData((prevData) => ({
-            customer_id: "",
-            assigned_person_id: "",
-            lead_source: "",
-            lead_status: "",
-            assign_date: "",
-            lead_summary: "",
-          }));
+          setLeadData({});
+
+           //add google calender event 
+           if (isAuthenticated) {
+            handleAddEvent(leadData);
+          }
 
           setTimeout(() => {
             setIsAssignModalOpen(false);
@@ -741,7 +762,23 @@ const MarketingManageData = () => {
           }
     };
 
-  ////end deal
+  //end dea
+   //google calender (poa) event add 
+   const handleAddEvent = (leadData) => {
+    const event = {
+       title: "Meeting Sheduled",
+       location: leadData?.lead_address,
+       description: leadData?.lead_summary,
+       startDateTime: leadData?.assign_date,
+       endDateTime: leadData?.assign_date,
+       attendeesEmails: attendeesEmails,
+    };
+    console.log("event", event);
+    createEvent(event);
+  };
+
+  //end google calender (poa) event add
+
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex items-center justify-between">

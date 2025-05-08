@@ -70,15 +70,14 @@ const useGoogleCalendar = () => {
   // Get Google Calendar events
   const fetchEvents = async () => {
     try {
-      const timeMin = new Date("2025-04-29T00:00:00Z").toISOString();
-      const timeMax = new Date("2025-04-29T23:59:59Z").toISOString();
+      //const timeMin = new Date().toISOString(); // current time — fetch upcoming events
 
       const response = await gapi.client.calendar.events.list({
         calendarId: "primary",
-        timeMin,
-        timeMax,
+        //timeMin,
         singleEvents: true,
         orderBy: "startTime",
+        maxResults: 100, // optional, fetch up to 100 events — adjust as needed
       });
 
       console.log(response.result.items);
@@ -111,7 +110,7 @@ const useGoogleCalendar = () => {
       dateTime: new Date(event.endDateTime).toISOString(), // ensure proper ISO format
       timeZone: "UTC",
     },
-    attendees: [{ email: "attendee@example.com" }],
+    attendees: event.attendeesEmails.map(email => ({ email })),
     reminders: {
       useDefault: true,
     },
@@ -121,12 +120,47 @@ const useGoogleCalendar = () => {
     await gapi.client.calendar.events.insert({
       calendarId: "primary",
       resource: newEvent,
+      sendUpdates: "all"
     });
     fetchEvents(); // Refresh events after creating
   } catch (error) {
     console.error("Error creating event:", error);
   }
 };
+
+//update event
+const updateGoogleEvent = (eventId, event) => {
+  gapi.client.calendar.events.update({
+    calendarId: 'primary',
+    eventId: eventId,
+    resource: {
+      summary: event.title,
+      location: event.location,
+      description: event.description,
+      start: {
+        dateTime: event.start,
+        timeZone: 'UTC',
+      },
+      end: {
+        dateTime: event.end,
+        timeZone: 'UTC',
+      },
+    },
+  }).then(response => {
+    console.log('Event updated:', response);
+  });
+};
+
+
+const deleteGoogleEvent = (eventId) => {
+  gapi.client.calendar.events.delete({
+    calendarId: 'primary',
+    eventId: eventId,
+  }).then(response => {
+    console.log('Event deleted:', response);
+  });
+};
+
 
 
   return {

@@ -24,9 +24,17 @@ import {
 
 import {addLead , listLeads} from "../../../../redux/leadSlice";
 import {fetchCurrentUser } from "../../../../redux/authSlice";
+import useGoogleCalendar from "../../../../components/hooks/useGoogleCalendar";
+
+
 
 const SalesPersonFollowUp = () => {
   //console.log("SalesPersonFollowUp component mounted");
+  const {
+    isAuthenticated,
+    createEvent,
+  } = useGoogleCalendar();
+
   const dispatch = useDispatch();
 
   const { user: userDeatail } = useSelector((state) => state.auth);
@@ -37,9 +45,11 @@ const SalesPersonFollowUp = () => {
   const { leads, totalPages, departmentloading, departmenterror } = useSelector(
     (state) => state.lead
   );
-  //console.log("leads",leads);
+  //console.log("userDeatail",userDeatail.email);
 
   const { userDataWithRole } = useSelector((state) => state.user);
+
+  //console.log("userDataWithRole",userDataWithRole?.data);
 
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
@@ -127,15 +137,29 @@ const SalesPersonFollowUp = () => {
   const [poaFormErrors, setPoaFormErrors] = useState({});
   const [poaFlashMessage, setPoaFlashMessage] = useState("");
   const [poaFlashMsgType, setPoaFlashMsgType] = useState("");
+  const [attendeesEmails, setAttendeesEmails] = useState([]);
 
-  // Input change handler
   const handlePoaChange = (e) => {
     const { name, value } = e.target;
+  
     setPoaData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+  
+    if (name === "assigned_person_id") {
+      const selectedUser = userDataWithRole?.data.find(
+        (item) => item.id === parseInt(value)
+      );
+  
+      if (selectedUser) {
+        setAttendeesEmails([selectedUser.email,userDeatail.email]); // If you want an array of one email
+      } else {
+        setAttendeesEmails([]); // Clear if no match found
+      }
+    }
   };
+  
 
   // Customer change handler
   const handlePoaCustomerChange = (e) => {
@@ -190,8 +214,6 @@ const SalesPersonFollowUp = () => {
     e.preventDefault();
     if (validatePoaForm()) {
       try {
-         console.log("poaData", poaData);
-        //const response = await dispatch(addPOA(poaData)).unwrap(); // Make sure your action is named `addPoa`
         const response = await dispatch(addLead(poaData)).unwrap();
         console.log("response",response);
         if (response?.success) {
@@ -207,6 +229,10 @@ const SalesPersonFollowUp = () => {
 
           setPoaData({});
 
+          //add google calender event 
+          if (isAuthenticated) {
+            handleAddEvent(poaData);
+          }
           setTimeout(() => {
             setAddUserModalOpen(false); // Make sure modal state name matches
           }, 3000);
@@ -289,6 +315,23 @@ const SalesPersonFollowUp = () => {
   };
 
   //
+  //google calender (poa) event add 
+  const handleAddEvent = (poaData) => {
+    const event = {
+       title: "Meeting Sheduled",
+       location: poaData?.lead_address,
+       description: poaData?.lead_summary,
+       startDateTime: poaData?.assign_date,
+       endDateTime: poaData?.assign_date,
+       attendeesEmails: attendeesEmails,
+    };
+    console.log("event", event);
+    createEvent(event);
+  };
+
+  //end google calender (poa) event add
+
+
   return (
     <div className="main-content">
       <ContentTop />
