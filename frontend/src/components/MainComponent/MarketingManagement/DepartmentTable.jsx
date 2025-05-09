@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import useGoogleCalendar from "../../../components/hooks/useGoogleCalendar";
 
-
 const DepartmentTable = ({
   Leads,
   setEditUserModalOpen,
@@ -43,23 +42,19 @@ const DepartmentTable = ({
   selectedPOAIds,
   setSelectedPOAIds
 }) => {
-
-  const {
-    isAuthenticated,
-    createEvent,
-  } = useGoogleCalendar();
+  const { isAuthenticated, createEvent } = useGoogleCalendar();
 
   //console.log("selectedLead", selectedLead);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-   const { user: userDeatail } = useSelector((state) => state.auth);
+  const { user: userDeatail } = useSelector((state) => state.auth);
   const { isSidebarOpen } = useContext(SidebarContext);
 
   const [leadStatusProgress, setLeadStatusProgress] = useState(false);
 
-  useEffect(()=>{
-     dispatch(fetchCurrentUser());
-  },[]);
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, []);
 
   //add followup
   const [formData, setFormData] = useState({
@@ -127,8 +122,8 @@ const DepartmentTable = ({
             "success"
           );
 
-           //add google calender event 
-           if (isAuthenticated) {
+          //add google calender event
+          if (isAuthenticated) {
             handleAddEvent(formData);
           }
 
@@ -168,21 +163,20 @@ const DepartmentTable = ({
   };
   //end add followup
 
-
-   //google calender (poa) event add 
-   const handleAddEvent = (formData) => {
+  //google calender (poa) event add
+  const handleAddEvent = (formData) => {
     const event = {
-       title: "Meeting Sheduled",
-       location: selectedLead?.lead_address,
-       description: formData?.lead_text,
-       startDateTime: formData?.lead_date,
-       endDateTime: formData?.lead_date,
-       attendeesEmails: attendeesEmails,
+      title: "Meeting Sheduled",
+      location: selectedLead?.lead_address,
+      description: formData?.lead_text,
+      startDateTime: formData?.lead_date,
+      endDateTime: formData?.lead_date,
+      attendeesEmails: attendeesEmails,
     };
     console.log("event", event);
     createEvent(event);
   };
- //end google calender (poa) event add
+  //end google calender (poa) event add
 
   return (
     <>
@@ -244,7 +238,9 @@ const DepartmentTable = ({
                     onChange={() => {
                       if (selectedPOAIds.includes(user.id)) {
                         // remove if already selected
-                        setSelectedPOAIds(selectedPOAIds.filter(id => id !== user.id));
+                        setSelectedPOAIds(
+                          selectedPOAIds.filter((id) => id !== user.id)
+                        );
                       } else {
                         // add if not selected
                         setSelectedPOAIds([...selectedPOAIds, user.id]);
@@ -310,7 +306,6 @@ const DepartmentTable = ({
                       }));
                       setLeadStatusProgress(true);
                     }}
-
                   >
                     Followup
                   </button>
@@ -326,7 +321,6 @@ const DepartmentTable = ({
                       }));
                       setDealCreationOpenForm(true);
                     }}
-
                   >
                     Deal
                   </button>
@@ -339,15 +333,19 @@ const DepartmentTable = ({
                   >
                     <FontAwesomeIcon icon={faEye} />
                   </button>
-                  <button
-                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                    onClick={() => {
-                      setSelectedLead(user);
-                      setEditUserModalOpen(true);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                  </button>
+
+                  {userDeatail?.employeeRole?.role_id !== 3 && (
+                    <button
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                      onClick={() => {
+                        setSelectedLead(user);
+                        setEditUserModalOpen(true);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faPenToSquare} />
+                    </button>
+                  )}
+
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                     onClick={() => {
@@ -374,7 +372,6 @@ const DepartmentTable = ({
                 Follow Up Form
               </h2>
               <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
-
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                   <div>
                     <label className="font-poppins font-medium text-black text-[16px]">
@@ -420,7 +417,6 @@ const DepartmentTable = ({
                     )}
                   </div>
 
-
                   <div>
                     <label className="font-poppins font-medium text-black text-[16px]">
                       Description :
@@ -458,21 +454,19 @@ const DepartmentTable = ({
 
                     <button
                       className="mt-4 text-textdata bg-bgDataNew text-white px-3 py-2 rounded hover:bg-gray-600"
-                      onClick={() => navigate(`/lead-followups/${formData?.lead_id}`)}
+                      onClick={() =>
+                        navigate(`/lead-followups/${formData?.lead_id}`)
+                      }
                     >
                       View Follow
                     </button>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         )}
       </div>
-
-
-
     </>
   );
 };

@@ -42,6 +42,9 @@ const getAuthToken = () => localStorage.getItem("token");
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const SalesProgressMange = () => {
+
+  const prefix = 'saleperson_';
+
   const dispatch = useDispatch();
   const { user: userDeatail } = useSelector((state) => state.auth);
   const { allLeadsCount, salesPersonleads, totalPages } = useSelector(
@@ -76,69 +79,11 @@ const SalesProgressMange = () => {
 
   //const [searchTerm, setSearchTerm] = useState("");
   const [leadDataShowNew, setLeadDataShowNew] = useState(false);
-  // Load initial users from localStorage or use default list
-  // const [users, setUsers] = useState(() => {
-  //   const storedUsers = localStorage.getItem("salesManagementleads");
-  //   return storedUsers
-  //     ? JSON.parse(storedUsers)
-  //     : [
-  //         {
-  //           date: "22/03/2025",
-  //           leadowner: "Nikhil",
-  //           companyname: "Dimple Chemicals",
-  //           clientname: "Dimple Gupta",
-  //           leadsource: "Marketing",
-  //           leadstatus: "Warm",
-  //         },
-  //         {
-  //           date: "22/03/2025",
-  //           leadowner: "Prashant",
-  //           companyname: "Idice System",
-  //           clientname: "Komal Gupta",
-  //           leadsource: "Sales",
-  //           leadstatus: "Hot",
-  //         },
-  //       ];
-  // });
+  
 
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
-  // const usersPerPage = 8;
-  // const totalPages = Math.ceil(users.length / usersPerPage);
-
-  // Load currentPage from sessionStorage or default to page 1
-  // const [currentPage, setCurrentPage] = useState(() => {
-  //   return parseInt(sessionStorage.getItem("currentPage")) || 1;
-  // });
-
-  // Save currentPage to sessionStorage when it changes
-  // useEffect(() => {
-  //   sessionStorage.setItem("currentPage", currentPage);
-  // }, [currentPage]);
-
-  // // Save users to localStorage whenever users state updates
-  // useEffect(() => {
-  //   localStorage.setItem("salesManagementleads", JSON.stringify(users));
-  // }, [users]);
-
-  // Handle page change
-  // const handlePageChange = (newPage) => {
-  //   setCurrentPage(newPage);
-  // };
-
-  // Filtered user list based on search
-  // const filteredUsers = users
-  //   .sort((a, b) => b.companyname.localeCompare(a.companyname))
-  //   .filter(
-  //     (user) =>
-  //       user.companyname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       user.leadtype.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-
-  // Paginate user data
-  // const indexOfLastUser = currentPage * usersPerPage;
-  // const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  // const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+ 
   ///check in checkout button
   const [flashMessage, setFlashMessage] = useState("");
   const [flashMsgType, setFlashMsgType] = useState("");
@@ -152,23 +97,15 @@ const SalesProgressMange = () => {
     }, 3000);
   };
 
-  const [isCheckedIn, setIsCheckedIn] = useState(false);
-
-  // useEffect(() => {
-  //   // Retrieve stored value from localStorage
-  //   const storedCheckIn = JSON.parse(localStorage.getItem("isCheckedIn"));
-
-  //   // If no value exists, initialize it with `false`
-  //   if (storedCheckIn === null) {
-  //     localStorage.setItem("isCheckedIn", JSON.stringify(false));
-  //   } else {
-  //     setIsCheckedIn(storedCheckIn);
-  //   }
-  // }, []);
+  //const [isCheckedIn, setIsCheckedIn] = useState(false);
 
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
 
+ const [isCheckedIn, setIsCheckedIn] = useState(() => {
+  const stored = localStorage.getItem(`${prefix}isCheckedIn`);
+  return stored ? JSON.parse(stored) : false;
+});
   // ✅ Load data from localStorage on mount
   useEffect(() => {
     const storedCheckIn = localStorage.getItem("checkInTime");
@@ -178,32 +115,51 @@ const SalesProgressMange = () => {
     setCheckOutTime(storedCheckOut ? storedCheckOut : null);
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem(`${prefix}isCheckedIn`, JSON.stringify(isCheckedIn));
+  }, [isCheckedIn]);
+
   const handleToggle = async () => {
     if (isCheckedIn) {
       await handleCheckOut();
+      setIsCheckedIn(false);
     } else {
       await handleCheckIn();
+      setIsCheckedIn(true);
     }
-    setIsCheckedIn(!isCheckedIn);
   };
 
+//show timer
+const [elapsedTime, setElapsedTime] = useState("");
+
+useEffect(() => {
+  const storedCheckIn = localStorage.getItem("checkInTime");
+  if (storedCheckIn) {
+    setCheckInTime(new Date(storedCheckIn));
+  }
+}, []);
+
+useEffect(() => {
+  if (checkInTime) {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const diff = now - checkInTime;
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setElapsedTime(`${hours}h ${minutes}m ${seconds}s`);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }
+}, [checkInTime]);
+//show timer
+
+
+
   const getLocationName = async (latitude, longitude) => {
-    //console.log("Lat/Lng sent to API: ", latitude, longitude);
-    //latitude="22.7563797", longitude="75.5086203";
-    //22.7563797,75.5086203
-    // try {
-    //   const response = await fetch(
-    //     `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
-    //   );
-    //   const data = await response.json();
-    //   // Ensure you get a detailed address
-    //   return data.address
-    //     ? `${data.address.city}, ${data.address.state}, ${data.address.country}`
-    //     : "Unknown Location";
-    // } catch (error) {
-    //   console.error("Error fetching location name:", error);
-    //   return "Unknown Location";
-    // }
     const apiKey = `${API_KEY}`;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
@@ -259,9 +215,13 @@ const SalesProgressMange = () => {
             minute: "2-digit",
           });
 
-          setCheckInTime(formattedTime);
+          //setCheckInTime(formattedTime);
+          const now = new Date();
+          localStorage.setItem("checkInTime", now.toISOString());
+          setCheckInTime(now);
+
           setCheckOutTime(null); // Reset checkout on new check-in
-          localStorage.setItem("checkInTime", formattedTime);
+          //localStorage.setItem("checkInTime", formattedTime);
           localStorage.removeItem("checkOutTime"); // Ensure fresh data
 
           setIsCheckedIn(true);
@@ -312,16 +272,17 @@ const SalesProgressMange = () => {
             hour: "2-digit",
             minute: "2-digit",
           });
+
+          setIsCheckedIn(false);
+          localStorage.removeItem(`${prefix}isCheckedIn`);
+          
           setCheckOutTime(formattedTime);
           setCheckInTime(null);
           localStorage.setItem("checkOutTime", formattedTime);
           localStorage.removeItem("checkInTime");
-          //localStorage.setItem("checkInTime", formattedTime);
-          setIsCheckedIn(false);
-          // localStorage.setItem("isCheckedIn", JSON.stringify(false));
+ 
           handleFlashMessage(response?.data?.message, "success");
-          //console.log(response);
-          //return response.data;
+         
         } catch (error) {
           handleFlashMessage(error || "Failed to check out", "error");
           //return console.log(error.response?.data || "Failed to check out");
@@ -378,6 +339,10 @@ const SalesProgressMange = () => {
   const onUnmount = () => {
     setMap(null);
   };
+
+  const defaultCenter = { lat: 22.9734, lng: 78.6569 };
+  const center = checkinLocations.length > 0 ? checkinLocations[0] : defaultCenter;
+
   if (!isLoaded) {
     return <div>Loading Map...</div>;
   }
@@ -421,14 +386,14 @@ const SalesProgressMange = () => {
                 {/* ✅ Show check-in time if user has checked in */}
                 {checkInTime && !checkOutTime && (
                   <span className="text-bgDataNew text-[13px]">
-                    <b className="text-green-500">Check In :</b> {checkInTime}
+                    <b className="text-green-500">Hours:</b> {elapsedTime}
                   </span>
                 )}
                 {/* ✅ Show check-in and check-out times after user checks out */}
                 {!checkInTime && checkOutTime && (
                   <span className="text-bgDataNew text-[13px]">
-                    <b className="text-green-500">Check Out : </b>{" "}
-                    {checkOutTime}
+                    <b className="text-green-500">Hours: </b>{" "}
+                    0h 0m 0s
                   </span>
                 )}
               </p>
@@ -486,8 +451,8 @@ const SalesProgressMange = () => {
              <div className="col-span-3">
               <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={checkinLocations[0]}
-                zoom={12}
+                center={center}
+                zoom={15}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
               >

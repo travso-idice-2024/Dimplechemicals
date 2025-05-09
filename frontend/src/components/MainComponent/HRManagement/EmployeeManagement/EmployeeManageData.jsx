@@ -66,10 +66,10 @@ const EmployeeManageData = () => {
 
   const [formData, setFormData] = useState({
     // User Table Fields
-    //username: "",
+    username: "",
     email: "",
-    //password: "",
-    //confirm_password: "",
+    password: "",
+    confirm_password: "",
     phone: "",
     //emergency_contact: "",
     //date_of_birth: "",
@@ -84,7 +84,7 @@ const EmployeeManageData = () => {
     //digital_signature: "",
 
     // Employee Roles Table Fields
-    //role_id: "",
+    role_id: "",
 
     // Job Details Table Fields
     //department_id: "",
@@ -216,16 +216,16 @@ const EmployeeManageData = () => {
       } else if (!/^\d{10}$/.test(formData.phone)) {
         errors.phone = "*Phone number must be 10 digits";
       }
-      // if (!formData.password.trim()) {
-      //   errors.password = "*Password is required";
-      // } else if (formData.password.length < 6) {
-      //   errors.password = "*Password must be at least 6 characters";
-      // }
-      // if (!formData.confirm_password.trim()) {
-      //   errors.confirm_password = "*Confirm Password is required";
-      // } else if (formData.password !== formData.confirm_password) {
-      //   errors.confirm_password = "*Passwords do not match";
-      // }
+      if (!formData.password.trim()) {
+        errors.password = "*Password is required";
+      } else if (formData.password.length < 6) {
+        errors.password = "*Password must be at least 6 characters";
+      }
+      if (!formData.confirm_password.trim()) {
+        errors.confirm_password = "*Confirm Password is required";
+      } else if (formData.password !== formData.confirm_password) {
+        errors.confirm_password = "*Passwords do not match";
+      }
       // if (!formData.gender.trim()) {
       //   errors.gender = "*Gender is required";
       // }

@@ -526,9 +526,9 @@ exports.listEmployees = async (req, res) => {
 exports.addEmployee = async (req, res) => {
   try {
     const {
-      //username,
+      username,
       email,
-      //password,
+      password,
       phone,
       emergency_contact,
       //date_of_birth,
@@ -536,7 +536,7 @@ exports.addEmployee = async (req, res) => {
       fullname,
       address,
       //status,
-      //role_id,
+      role_id,
       //department_id,
       //job_title,
       employment_type,
@@ -565,9 +565,9 @@ exports.addEmployee = async (req, res) => {
     // ✅ Insert user with related tables in one query
     const user = await User.create(
       {
-        //username,
+        username,
         email,
-        //password: await bcrypt.hash(password, 10),
+        password: await bcrypt.hash(password, 10),
         phone,
         //emergency_contact,
         //date_of_birth,
@@ -580,7 +580,7 @@ exports.addEmployee = async (req, res) => {
         pan_no,
         //remarks,
         //digital_signature,
-        //employeeRole: { role_id }, // Relation
+        employeeRole: { role_id }, // Relation
         jobDetail: {
           //department_id,
           //job_title,

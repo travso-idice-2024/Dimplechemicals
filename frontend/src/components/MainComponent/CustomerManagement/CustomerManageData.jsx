@@ -532,6 +532,7 @@ const CustomerManageData = () => {
               deleteFlashMsgType={deleteFlashMsgType}
               handleDeleteFlashMessage={handleDeleteFlashMessage}
               handleDelete={handleDelete}
+              userDeatail={userDeatail}
             />
 
             {/*------- Table Data End -------*/}

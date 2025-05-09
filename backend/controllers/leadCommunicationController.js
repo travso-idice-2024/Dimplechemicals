@@ -188,6 +188,99 @@ const endMeeting = async (req, res) => {
   }
 };
 
+// const getLeadCommunicationsByLeadId = async (req, res) => {
+//   try {
+//     const { lead_id } = req.params;
+//     const {
+//       page = 1,
+//       limit = 5,
+//       search = "",
+//       lead_status,
+//       lead_date,
+//     } = req.query;
+
+//     // Validate lead_id
+//     if (!lead_id) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "lead_id is required" });
+//     }
+
+//     // Base filter
+//     let whereCondition = { lead_id };
+
+//     // Unified Search (Across multiple fields)
+//     if (search) {
+//       whereCondition[Op.or] = [
+//         { client_name: { [Op.like]: `%${search}%` } },
+//         { lead_text: { [Op.like]: `%${search}%` } },
+//         { lead_status: { [Op.like]: `%${search}%` } }, // Searching inside lead_status
+//         { "$Customer.company_name$": { [Op.like]: `%${search}%` } }, // Search in related Customer table
+//       ];
+//     }
+
+//     // Direct Filtering by lead_status
+//     if (lead_status) {
+//       whereCondition.lead_status = { [Op.like]: `%${lead_status}%` }; // Case-insensitive search
+//     }
+
+//     // Proper lead_date filtering
+//     if (lead_date) {
+//       const startDate = new Date(lead_date);
+//       const endDate = new Date(startDate);
+//       endDate.setHours(23, 59, 59, 999); // Include the whole day
+
+//       whereCondition.lead_date = { [Op.between]: [startDate, endDate] };
+//     }
+
+//     // Convert page & limit to integers for pagination
+//     const pageNumber = parseInt(page, 10);
+//     const pageSize = parseInt(limit, 10);
+//     const offset = (pageNumber - 1) * pageSize;
+
+//     // Fetch paginated lead communications
+//     const { count, rows } = await LeadCommunication.findAndCountAll({
+//       where: whereCondition,
+//       limit: pageSize,
+//       offset,
+//       attributes: [
+//         "id",
+//         "customer_id",
+//         "lead_owner_id",
+//         "sales_persion_id",
+//         "lead_id",
+//         "client_name",
+//         "lead_text",
+//         "lead_status",
+//         "lead_date",
+//         "next_meeting_time",
+//         "createdAt",
+//         "start_meeting_time",
+//         "end_meeting_time",
+//       ],
+//       include: [
+//         {
+//           model: Customer,
+//           attributes: ["company_name"], // Fetch only company_name
+//         },
+//       ],
+//       order: [["id", "ASC"]], // Order by id in descending order
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       data: rows,
+//       currentPage: pageNumber,
+//       totalPages: Math.ceil(count / pageSize),
+//       totalItems: count,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching lead communications:", error);
+//     res.status(500).json({ success: false, message: "Internal Server Error" });
+//   }
+// };
+
+
 const getLeadCommunicationsByLeadId = async (req, res) => {
   try {
     const { lead_id } = req.params;
@@ -199,46 +292,38 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
       lead_date,
     } = req.query;
 
-    // Validate lead_id
     if (!lead_id) {
       return res
         .status(400)
         .json({ success: false, message: "lead_id is required" });
     }
 
-    // Base filter
     let whereCondition = { lead_id };
 
-    // Unified Search (Across multiple fields)
     if (search) {
       whereCondition[Op.or] = [
         { client_name: { [Op.like]: `%${search}%` } },
         { lead_text: { [Op.like]: `%${search}%` } },
-        { lead_status: { [Op.like]: `%${search}%` } }, // Searching inside lead_status
-        { "$Customer.company_name$": { [Op.like]: `%${search}%` } }, // Search in related Customer table
+        { lead_status: { [Op.like]: `%${search}%` } },
+        { "$Customer.company_name$": { [Op.like]: `%${search}%` } },
       ];
     }
 
-    // Direct Filtering by lead_status
     if (lead_status) {
-      whereCondition.lead_status = { [Op.like]: `%${lead_status}%` }; // Case-insensitive search
+      whereCondition.lead_status = { [Op.like]: `%${lead_status}%` };
     }
 
-    // Proper lead_date filtering
     if (lead_date) {
       const startDate = new Date(lead_date);
       const endDate = new Date(startDate);
-      endDate.setHours(23, 59, 59, 999); // Include the whole day
-
+      endDate.setHours(23, 59, 59, 999);
       whereCondition.lead_date = { [Op.between]: [startDate, endDate] };
     }
 
-    // Convert page & limit to integers for pagination
     const pageNumber = parseInt(page, 10);
     const pageSize = parseInt(limit, 10);
     const offset = (pageNumber - 1) * pageSize;
 
-    // Fetch paginated lead communications
     const { count, rows } = await LeadCommunication.findAndCountAll({
       where: whereCondition,
       limit: pageSize,
@@ -253,7 +338,6 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
         "lead_text",
         "lead_status",
         "lead_date",
-        "next_meeting_time",
         "createdAt",
         "start_meeting_time",
         "end_meeting_time",
@@ -261,24 +345,45 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
       include: [
         {
           model: Customer,
-          attributes: ["company_name"], // Fetch only company_name
+          attributes: ["company_name"],
         },
       ],
-      order: [["id", "ASC"]], // Order by id in descending order
+      order: [["id", "ASC"]],
     });
+
+    // 🔄 Merge records with same lead_id, sales_persion_id, customer_id, and lead_date
+    const mergedMap = new Map();
+    rows.forEach(item => {
+      const key = `${item.lead_id}-${item.sales_persion_id}-${item.customer_id}-${item.lead_date.toISOString().split('T')[0]}`;
+      if (!mergedMap.has(key)) {
+        mergedMap.set(key, {
+          ...item.toJSON(),
+          start_meeting_time: item.start_meeting_time || null,
+          end_meeting_time: item.end_meeting_time || null,
+        });
+      } else {
+        const existing = mergedMap.get(key);
+        if (item.start_meeting_time) existing.start_meeting_time = item.start_meeting_time;
+        if (item.end_meeting_time) existing.end_meeting_time = item.end_meeting_time;
+      }
+    });
+
+    const mergedData = Array.from(mergedMap.values());
 
     res.status(200).json({
       success: true,
-      data: rows,
+      data: mergedData,
       currentPage: pageNumber,
-      totalPages: Math.ceil(count / pageSize),
-      totalItems: count,
+      totalPages: Math.ceil(mergedData.length / pageSize),
+      totalItems: mergedData.length,
     });
   } catch (error) {
     console.error("Error fetching lead communications:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    res.status(500).json({ success: false, message: "Internal Server Error"});
   }
 };
+
+
 
 const getWonLeadCommunications = async (req, res) => {
   try {

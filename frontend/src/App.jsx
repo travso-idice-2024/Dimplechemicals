@@ -60,6 +60,7 @@ import CustomerHistoryCard from './components/MainComponent/CustomerHistoryCard/
 import CustomerInfoForm from './components/MainComponent/CustomerInfoForm/CustomerManageData';
 import { SidebarContext } from './context/sidebarContext';
 import Calender from "./components/calender/Calender";
+import Gmail from "./components/Gmail/gmail";
 
 
 function App() {
@@ -137,6 +138,7 @@ function App() {
           <Route path='/report-management/customer-history-card' element={<CustomerHistoryCard/>}/>
           <Route path='/report-management/customer-info-form' element={<CustomerInfoForm/>}/>
           <Route path="/calender" element={<Calender/>} />
+          <Route path="/gmailtest" element={<Gmail/>}/>
 
           {/* Add more protected routes here */}
         </Route>

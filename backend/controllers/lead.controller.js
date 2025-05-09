@@ -412,12 +412,14 @@ const getleadaftermeeting = async (req, res) => {
     }
 
     const assigned_person_id = req.user.id;
+    const userId = req.user.id;
+
     const { page = 1, limit = 10, search = "" } = req.query;
     const offset = (page - 1) * limit;
 
     const leads = await Lead.findAndCountAll({
       where: {
-        assigned_person_id,
+        ...(userId !== 33 && { assigned_person_id:userId}),
         ...(search && {
           [Op.or]: [
             { assign_date: { [Op.like]: `%${search}%` } },

@@ -62,7 +62,7 @@ const MarketingManageData = () => {
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
-  //console.log("allCustomers", allCustomers?.data);
+  //console.log("userDeatail", userDeatail);
   //console.log("customerAddress", customerAddress);
   const [dealCreationOpenForm, setDealCreationOpenForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState({});
@@ -553,7 +553,7 @@ const MarketingManageData = () => {
         handleUpdateLeadFlashMessage("Failed to update", "error");
       }
     } catch (error) {
-      console.error("Update error:", error);
+      //console.error("Update error:", error);
       handleUpdateLeadFlashMessage(
         error?.message || "Something went wrong",
         "error"
@@ -576,7 +576,7 @@ const MarketingManageData = () => {
         }
       );
       setSelectedCustomer(response.data.data);
-      console.log("response", response);
+      //console.log("response", response);
       //return response.data; // Return data if needed
     } catch (error) {
       console.error("Error in fetching data:", error);
@@ -739,7 +739,7 @@ const MarketingManageData = () => {
     }
   }, [selectedLead]);
   
-  console.log("leadProductData", leadProductData);
+  //console.log("leadProductData", leadProductData);
    const handleSubmitAddProduct = async (e) => {
           e.preventDefault();
           try {
@@ -855,7 +855,6 @@ const MarketingManageData = () => {
             setViewCustomerModalOpen={setViewCustomerModalOpen}
             selectedPOAIds={selectedPOAIds} 
             setSelectedPOAIds={setSelectedPOAIds}
-            
           />
           {/*------- Table Data End -------*/}
         </div>

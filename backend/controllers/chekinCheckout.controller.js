@@ -1,6 +1,6 @@
 
 const { CheckinCheckout,User } = require("../models");
-const { Op,Sequelize, DataTypes } = require("sequelize");
+const { fn, col, literal, Op,Sequelize, DataTypes } = require("sequelize");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -93,16 +93,42 @@ const getCheckinCheckoutReport = async (req, res) => {
       }
 
       // Fetch records along with fullname from Users table
+      // const records = await CheckinCheckout.findAll({
+      //     where: whereClause,
+      //     include: [
+      //         {
+      //             model: User,
+      //             attributes: ["fullname"],
+      //             required: true,
+      //         },
+      //     ],
+      //     order: [["createdAt", "ASC"]],
+      // });
+
       const records = await CheckinCheckout.findAll({
-          where: whereClause,
-          include: [
-              {
-                  model: User,
-                  attributes: ["fullname"],
-                  required: true,
-              },
-          ],
-          order: [["createdAt", "ASC"]],
+        attributes: [
+          'emp_id',
+          [col('User.fullname'), 'fullname'],
+          'data',
+          [fn('MAX', col('check_in_time')), 'check_in_time'],
+          [fn('MAX', col('check_out_time')), 'check_out_time'],
+          [fn('MAX', col('checkin_location')), 'checkin_location'],
+          [fn('MAX', col('checkout_location')), 'checkout_location'],
+        ],
+        include: [
+          {
+            model: User,
+            attributes: []
+          }
+        ],
+        where: {
+          [Op.or]: [
+            { check_in_time: { [Op.ne]: null } },
+            { check_out_time: { [Op.ne]: null } }
+          ]
+        },
+        group: ['emp_id', 'data'],
+        order: [['data', 'ASC']]
       });
 
       return res.status(200).json({

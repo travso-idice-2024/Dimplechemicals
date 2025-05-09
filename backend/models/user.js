@@ -30,13 +30,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       username: {
         type: DataTypes.STRING,
-        allowNull: true,
-        //unique: true,
-        // validate: {
-        //   notNull: { msg: 'Username is required' },
-        //   notEmpty: { msg: 'Username cannot be empty' },
-        //   len: { args: [3, 20], msg: 'Username must be between 3 and 20 characters' },
-        // },
+        allowNull: false,
+        unique: true,
+        validate: {
+          notNull: { msg: 'Username is required' },
+          notEmpty: { msg: 'Username cannot be empty' },
+          len: { args: [3, 20], msg: 'Username must be between 3 and 20 characters' },
+        },
       },
       email: {
         type: DataTypes.STRING,
@@ -50,20 +50,20 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: true,
-        // validate: {
-        //   notNull: { msg: 'Password is required' },
-        //   notEmpty: { msg: 'Password cannot be empty' },
-        //   len: { args: [6, 100], msg: 'Password must be at least 6 characters' },
-        //   isStrongPassword(value) {
-        //     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
-        //     if (!regex.test(value)) {
-        //       throw new Error(
-        //         'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character'
-        //       );
-        //     }
-        //   },
-        // },
+        allowNull: false,
+        validate: {
+          notNull: { msg: 'Password is required' },
+          notEmpty: { msg: 'Password cannot be empty' },
+          len: { args: [6, 100], msg: 'Password must be at least 6 characters' },
+          isStrongPassword(value) {
+            const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+            if (!regex.test(value)) {
+              throw new Error(
+                'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character'
+              );
+            }
+          },
+        },
       },
       phone: {
         type: DataTypes.STRING,
@@ -115,7 +115,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         validate: {
           notEmpty: { msg: 'Address cannot be empty' },
-          len: { args: [10, 255], msg: 'Address must be between 10 and 255 characters' },
+          //len: { args: [10, 255], msg: 'Address must be between 10 and 255 characters' },
         },
       },
       status: {

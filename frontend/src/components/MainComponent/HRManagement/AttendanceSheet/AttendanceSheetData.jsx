@@ -269,7 +269,7 @@ const AttendanceSheetData = () => {
                           })}
                         </td>
                         <td className="px-4 py-2 text-newtextdata">
-                          {user?.User?.fullname}
+                          {user?.fullname}
                         </td>
                         <td className="px-4 py-2 text-newtextdata">
                           {

@@ -27,12 +27,25 @@ const DepartmentTable = ({
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
-  const [isCheckedIn, setIsCheckedIn] = useState(false);
+  //const [isCheckedIn, setIsCheckedIn] = useState(false);
+
+  const [isCheckedIn, setIsCheckedIn] = useState(() => {
+    const stored = localStorage.getItem("isCheckedIn");
+    return stored ? JSON.parse(stored) : false;
+  });
+  
+  const [activeLeadId, setActiveLeadId] = useState(() => {
+    const stored = localStorage.getItem("activeLeadId");
+    return stored ? JSON.parse(stored) : null;
+  });
+  
+
+  //console.log("isCheckedIn",isCheckedIn);
 
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
 
-  const [activeLeadId, setActiveLeadId] = useState(null);
+  //const [activeLeadId, setActiveLeadId] = useState(null);
 
   //console.log("selectedPOA",selectedPOA );
 
@@ -44,6 +57,12 @@ const DepartmentTable = ({
     setCheckInTime(storedCheckIn ? storedCheckIn : null);
     setCheckOutTime(storedCheckOut ? storedCheckOut : null);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("isCheckedIn", JSON.stringify(isCheckedIn));
+    localStorage.setItem("activeLeadId", JSON.stringify(activeLeadId));
+  }, [isCheckedIn, activeLeadId]);
+  
 
 
   const handleToggle = async (lead) => {
@@ -61,22 +80,6 @@ const DepartmentTable = ({
 
 
   const getLocationName = async (latitude, longitude) => {
-    //console.log("Lat/Lng sent to API: ", latitude, longitude);
-    //latitude="22.7563797", longitude="75.5086203";
-    //22.7563797,75.5086203
-    // try {
-    //   const response = await fetch(
-    //     `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
-    //   );
-    //   const data = await response.json();
-    //   // Ensure you get a detailed address
-    //   return data.address
-    //     ? `${data.address.city}, ${data.address.state}, ${data.address.country}`
-    //     : "Unknown Location";
-    // } catch (error) {
-    //   console.error("Error fetching location name:", error);
-    //   return "Unknown Location";
-    // }
     const apiKey = `${API_KEY}`;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
@@ -105,8 +108,6 @@ const DepartmentTable = ({
         const now = new Date();
         const currentTime = now.toTimeString().split(":").slice(0, 2).join(":");
 
-        //console.log("locationName",locationName);
-
         const checkInData = {
           start_location: locationName,
           customer_id: lead?.customer_id,
@@ -117,8 +118,6 @@ const DepartmentTable = ({
           longitude:longitude,
           type:"checkin"
         };
-
-        //console.log("checkInData", checkInData);
 
         try {
           const token = getAuthToken();
@@ -133,9 +132,7 @@ const DepartmentTable = ({
           setIsCheckedIn(true);
           //handleFlashMessage(response?.data?.message, "success");
         } catch (error) {
-          //handleFlashMessage(error || "Failed to check in", "error");
-          //console.log(error);
-          //return console.log(error.response?.data || "Failed to check in");
+          console.log(error);
         }
       });
     } else {
@@ -174,7 +171,12 @@ const DepartmentTable = ({
             }
           );
 
+          //setIsCheckedIn(false);
           setIsCheckedIn(false);
+          setActiveLeadId(null);
+          localStorage.removeItem("isCheckedIn");
+          localStorage.removeItem("activeLeadId");
+
 
           // handleFlashMessage(response?.data?.message, "success");
           //console.log(response);

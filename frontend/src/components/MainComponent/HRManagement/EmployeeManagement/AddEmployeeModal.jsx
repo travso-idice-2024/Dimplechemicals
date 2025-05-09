@@ -121,22 +121,6 @@ const AddEmployeeModal = ({
                   <p className="text-red-500 text-sm">{formErrors.fullname}</p>
                 )}
               </div>
-              {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
-                  Username :
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="name"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.username && (
-                  <p className="text-red-500 text-sm">{formErrors.username}</p>
-                )}
-              </div> */}
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Email :
@@ -214,7 +198,24 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div className="relative">
+<div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Username :
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="name"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {formErrors.username && (
+                  <p className="text-red-500 text-sm">{formErrors.username}</p>
+                )}
+              </div>
+
+               <div className="relative">
                 <label className="font-poppins font-medium text-textdata text-bgData">
                    Password :
                 </label>
@@ -236,7 +237,6 @@ const AddEmployeeModal = ({
                   <p className="text-red-500 text-sm">{formErrors.password}</p>
                 )}
               </div>
-
               <div className="relative">
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Confirm Password :
@@ -260,7 +260,7 @@ const AddEmployeeModal = ({
                     {formErrors.confirm_password}
                   </p>
                 )}
-              </div> */}
+              </div> 
 
               <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
@@ -296,7 +296,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
 
-              {/* <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
                   Select the Role :
                 </label>
@@ -316,7 +316,7 @@ const AddEmployeeModal = ({
                 {formErrors.role_id && (
                   <p className="text-red-500 text-sm">{formErrors.role_id}</p>
                 )}
-              </div> */}
+              </div>
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata text-bgData">
