@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../../AlertMessage/ErrorMessage";
-import {
-  addLeadCommunication
-} from "../../../../redux/leadSlice";
+import { addLeadCommunication } from "../../../../redux/leadSlice";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
 
 const getAuthToken = () => localStorage.getItem("token");
 
@@ -100,10 +97,10 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
 
         const checkInData = {
           start_location: locationName,
-          customer_id:selectedPOA?.customer_id,
-          lead_date:new Date().toISOString().split("T")[0],
-          lead_id:selectedPOA?.id,
-          start_meeting_time:currentTime
+          customer_id: selectedPOA?.customer_id,
+          lead_date: new Date().toISOString().split("T")[0],
+          lead_id: selectedPOA?.id,
+          start_meeting_time: currentTime,
         };
 
         //console.log("checkInData", checkInData);
@@ -155,10 +152,10 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
         //console.log("locationName checkout",locationName);
         const checkOutData = {
           end_location: locationName,
-          customer_id:selectedPOA?.customer_id,
-          lead_date:new Date().toISOString().split("T")[0],
-          lead_id:selectedPOA?.id,
-          end_meeting_time:currentTime
+          customer_id: selectedPOA?.customer_id,
+          lead_date: new Date().toISOString().split("T")[0],
+          lead_id: selectedPOA?.id,
+          end_meeting_time: currentTime,
         };
 
         try {
@@ -183,7 +180,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
           //setCheckInTime(null);
           //localStorage.setItem("checkOutTime", formattedTime);
           //localStorage.removeItem("checkInTime");
-         
+
           setIsCheckedIn(false);
           // localStorage.setItem("isCheckedIn", JSON.stringify(false));
           //console.log("response?.data?.data?.message",response?.data?.message);
@@ -200,10 +197,10 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
     }
   };
 
-   //console.log("selectedPOA", selectedPOA);
+  //console.log("selectedPOA", selectedPOA);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto max-h-[90vh]">
+      <div className="bg-white w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
         {/* Header */}
         {/* <div>
           <button
@@ -218,88 +215,118 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
           </button>
         </div> */}
 
-        <div className="text-center border-b border-gray-300 p-4">
-          <h3 className="text-lg font-semibold mt-1">
-            Summery of Sales Activity Report Format
-          </h3>
-        </div>
+        <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+          Summery of Sales Activity Report Format
+        </h2>
 
         {/* Table */}
-        <div className="overflow-x-auto p-4">
-          <table className="w-full border border-collapse text-sm">
-            <thead className="bg-gray-200 text-center">
-              <tr>
-                <th className="border px-2 py-1">Id</th>
-                <th className="border px-2 py-1">Employee Name</th>
-                <th className="border px-2 py-1">Company Name</th>
-                <th className="border px-2 py-1 text-red-500">Date of Visit</th>
-                <th className="border px-2 py-1">No. of Visits</th>
-                <th className="border px-2 py-1">Total Hrs Spend</th>
-                <th className="border px-2 py-1">Approx Area SqM</th>
-                <th className="border px-2 py-1">Approx Area Cub. Mtr</th>
-                <th className="border px-2 py-1">Total Product Qty. in Kg</th>
-                <th className="border px-2 py-1">Total Potential Amount</th>
-                <th className="border px-2 py-1">Types of Documents Sent</th>
-                <th className="border px-2 py-1">Last Visit Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {selectedPOA ? (
-                <tr className="text-center">
-                  <td className="px-4 py-2 text-textdata">1</td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.salesPerson?.fullname || "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.customer?.company_name || "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.meeting_date
-                      ? new Date(selectedPOA.meeting_date).toLocaleDateString()
-                      : "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.follow_up_record ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.total_hours_spent ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.approx_area_sqm ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.approx_area_cubm ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.total_material_qty ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.approx_business ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata whitespace-pre-line">
-                    {selectedPOA.documents?.length > 0
-                      ? selectedPOA.documents.join("\n")
-                      : "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.last_contact
-                      ? new Date(selectedPOA.last_contact).toLocaleDateString()
-                      : "-"}
-                  </td>
-                </tr>
-              ) : (
+        <div className="overflow-auto h-fit">
+          <div className="py-3 px-3 w-[1130px] overflow-x-auto">
+            <table className="table-auto w-full border border-gray-300 text-left border-collapse">
+              <thead className="bg-[#473b33] rounded-[8px]">
                 <tr>
-                  <td
-                    colSpan="13"
-                    className="border px-4 py-4 text-center text-gray-500"
-                  >
-                    No Sales Activity Report data available.
-                  </td>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-gray-300">
+                    Id
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Employee Name
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Company Name
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300 text-red-500">
+                    Date of Visit
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    No. of Visits
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Total Hrs Spend
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Approx Area SqM
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Approx Area Cub. Mtr
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Total Product Qty. in Kg
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Total Potential Amount
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Types of Documents Sent
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Last Visit Date
+                  </th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {selectedPOA ? (
+                  <tr className="text-center">
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      1
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.salesPerson?.fullname || "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.customer?.company_name || "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.meeting_date
+                        ? new Date(
+                            selectedPOA.meeting_date
+                          ).toLocaleDateString()
+                        : "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.follow_up_record ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.total_hours_spent ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.approx_area_sqm ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.approx_area_cubm ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.total_material_qty ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.approx_business ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300 whitespace-pre-line">
+                      {selectedPOA.documents?.length > 0
+                        ? selectedPOA.documents.join("\n")
+                        : "-"}
+                    </td>
+                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      {selectedPOA.last_contact
+                        ? new Date(
+                            selectedPOA.last_contact
+                          ).toLocaleDateString()
+                        : "-"}
+                    </td>
+                  </tr>
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="13"
+                      className="border px-4 py-4 text-center text-gray-500"
+                    >
+                      No Sales Activity Report data available.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Close Button */}

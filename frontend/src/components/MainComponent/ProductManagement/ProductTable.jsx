@@ -73,7 +73,7 @@ const ProductTable = ({
           </thead>
           <tbody>
             {Products?.map((product, index) => (
-              <tr key={index}>
+              <tr key={index} className="text-center">
                 {/* <td className="px-4 py-2 text-textdata">
                   <input
                     type="checkbox"

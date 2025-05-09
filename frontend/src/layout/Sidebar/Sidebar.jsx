@@ -7,7 +7,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import dimplechemical from "../../assets/images/Dimple-Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronUp,
+  faChevronDown,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { fetchCurrentUser } from "../../redux/authSlice";
 
 const Sidebar = () => {
@@ -18,11 +22,20 @@ const Sidebar = () => {
   const userRoleId = userDeatail?.employeeRole?.role_id;
   //console.log("userRoleId inside Sidebar:", userRoleId);
 
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1200);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
   const [openSubmenus, setOpenSubmenus] = useState({});
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1200);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const { toggleSidebar } = useContext(SidebarContext);
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
@@ -97,13 +110,39 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar ${sidebarClass}`}>
-      <div className="user-info p-1" style={{ width: "100%" }}>
+      {/* Mobile close button */}
+      {isMobile && (
+        <div className="mobile-close-btn">
+          <FontAwesomeIcon
+            icon={faTimes}
+            size="lg"
+            onClick={() => toggleSidebar()}
+            style={{
+              position: "absolute",
+              top: "25px",
+              right: "25px",
+              cursor: "pointer",
+              zIndex: 1000,
+              color: "#fff",
+              background: "#ef4444",
+              padding: "5px",
+              borderRadius: "5px",
+            }}
+          />
+        </div>
+      )}
+
+      <div className="user-info p-1 logo-container" style={{ width: "100%" }}>
         <img
           src={dimplechemical}
           alt=""
           style={{ width: "100%" }}
           className="cursor-pointer"
-          onClick={() => navigate("/dashboard")}
+          // onClick={() => navigate("/dashboard")}
+          onClick={() => {
+            navigate("/dashboard");
+            if (window.innerWidth <= 1200) toggleSidebar();
+          }}
         />
       </div>
 

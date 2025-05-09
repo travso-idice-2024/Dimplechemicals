@@ -1,74 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const ViewProductModal = ({ setViewModalOpen, selectedProduct }) => {
+  // Close on ESC press
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        setViewModalOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [setViewModalOpen]);
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[550px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+      <div className="bg-white rounded-lg w-full max-w-xl shadow-lg overflow-hidden">
+        <div className="bg-bgDataNew px-6 text-center py-4 text-white text-xl font-semibold">
           Product Details
-        </h2>
-        <div className="mt-5 md:mt-6 px-6 flex flex-col gap-2">
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Product Name
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.product_name || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Category
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.category?.category_name || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              HSN Code
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.HSN_code || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Stock
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.stock || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Unit
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.unit || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Rate
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.rate || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Product Description
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.product_description || "N/A"}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="font-poppins font-semibold text-textdata text-bgData">
-              Status
-            </label>
-            <p className="font-poppins font-semibold text-textdata">:</p>
-            <p className="text-textdata">{selectedProduct?.status === 1 ? "Active" : "InActive"}
-            </p>
-          </div>
-          <div className="flex items-end justify-end gap-2">
+        </div>
+
+        <div className="p-6">
+          <table className="w-full border border-gray-300 text-sm text-left">
+            <tbody>
+              <TableRow label="Product Name" value={selectedProduct?.product_name} />
+              <TableRow label="Category" value={selectedProduct?.category?.category_name} />
+              <TableRow label="HSN Code" value={selectedProduct?.HSN_code} />
+              <TableRow label="Stock" value={selectedProduct?.stock} />
+              <TableRow label="Unit" value={selectedProduct?.unit} />
+              <TableRow label="Rate" value={selectedProduct?.rate} />
+              <TableRow label="Description" value={selectedProduct?.product_description} />
+              <TableRow
+                label="Status"
+                value={selectedProduct?.status === 1 ? "Active" : "Inactive"}
+              />
+            </tbody>
+          </table>
+
+          <div className="mt-6 flex justify-end">
             <button
-              className="mt-4 bg-gray-500 text-textdata text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => setViewModalOpen(false)}
+              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
             >
               Close
             </button>
@@ -78,5 +49,13 @@ const ViewProductModal = ({ setViewModalOpen, selectedProduct }) => {
     </div>
   );
 };
+
+const TableRow = ({ label, value }) => (
+  <tr className="border-b border-gray-200">
+    <td className="py-2 px-4 font-bold text-gray-600 w-1/3">{label}</td>
+    <td className="py-2 px-2 text-gray-800">:</td>
+    <td className="py-2 px-4 text-gray-800">{value || "N/A"}</td>
+  </tr>
+);
 
 export default ViewProductModal;

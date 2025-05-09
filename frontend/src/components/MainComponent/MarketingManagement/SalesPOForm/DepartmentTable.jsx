@@ -17,22 +17,22 @@ const DepartmentTable = ({
 
   return (
     <div className={`overflow-x-auto`}>
-      <table className="table-auto w-full text-left border-collapse">
+      <table className="table-auto w-full text-center border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
               Id
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
               Company Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
               Deal Amount
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
               Advance Amount
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
               Action
             </th>
           </tr>

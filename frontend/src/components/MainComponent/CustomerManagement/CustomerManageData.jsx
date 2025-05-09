@@ -46,7 +46,7 @@ const CustomerManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = 10;
+  const customersPerPage = 8;
 
   // Fetch customers whenever searchTerm or currentPage changes
   //console.log("selectedCustomer",selectedCustomer?.id);
