@@ -13,6 +13,9 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { SidebarContext } from "../../../context/sidebarContext";
 import { addLeadCommunication } from "../../../redux/leadSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchCurrentUser } from "../../../redux/authSlice";
+import useGoogleCalendar from "../../../components/hooks/useGoogleCalendar";
+
 
 const DepartmentTable = ({
   Leads,
@@ -41,12 +44,22 @@ const DepartmentTable = ({
   setSelectedPOAIds
 }) => {
 
-  //console.log("Leads", Leads);
+  const {
+    isAuthenticated,
+    createEvent,
+  } = useGoogleCalendar();
+
+  //console.log("selectedLead", selectedLead);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+   const { user: userDeatail } = useSelector((state) => state.auth);
   const { isSidebarOpen } = useContext(SidebarContext);
 
   const [leadStatusProgress, setLeadStatusProgress] = useState(false);
+
+  useEffect(()=>{
+     dispatch(fetchCurrentUser());
+  },[]);
 
   //add followup
   const [formData, setFormData] = useState({
@@ -59,11 +72,12 @@ const DepartmentTable = ({
     lead_date: "",
   });
 
-  console.log("follow up formData", formData);
+  //console.log("follow up formData", formData);
 
   const [formErrors, setFormErrors] = useState({});
   const [flashMessage, setFlashMessage] = useState("");
   const [flashMsgType, setFlashMsgType] = useState("");
+  const [attendeesEmails, setAttendeesEmails] = useState([]);
 
   // Show flash message for success or error
   const handleFlashMessage = (message, type) => {
@@ -79,7 +93,7 @@ const DepartmentTable = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-
+    setAttendeesEmails([userDeatail.email]); // If you want an array of one email
     // Clear error when user types
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
@@ -112,6 +126,11 @@ const DepartmentTable = ({
             response?.message || "Lead Communication added successfully!",
             "success"
           );
+
+           //add google calender event 
+           if (isAuthenticated) {
+            handleAddEvent(formData);
+          }
 
           // dispatch(
           //   leadCommunicationById({
@@ -148,6 +167,22 @@ const DepartmentTable = ({
     }
   };
   //end add followup
+
+
+   //google calender (poa) event add 
+   const handleAddEvent = (formData) => {
+    const event = {
+       title: "Meeting Sheduled",
+       location: selectedLead?.lead_address,
+       description: formData?.lead_text,
+       startDateTime: formData?.lead_date,
+       endDateTime: formData?.lead_date,
+       attendeesEmails: attendeesEmails,
+    };
+    console.log("event", event);
+    createEvent(event);
+  };
+ //end google calender (poa) event add
 
   return (
     <>

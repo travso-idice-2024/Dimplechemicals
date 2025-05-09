@@ -80,7 +80,10 @@ const createLeadCommunication = async (req, res) => {
       start_location,
       lead_text,
       lead_status, 
-      client_name
+      client_name,
+      latitude,
+      longitude,
+      type
     } = req.body;
 
     // Ensure user is authenticated
@@ -110,7 +113,10 @@ const createLeadCommunication = async (req, res) => {
       start_location,
       lead_text,
       lead_status,
-      client_name 
+      client_name,
+      latitude,
+      longitude,
+      type 
     });
 
     res
@@ -133,7 +139,10 @@ const endMeeting = async (req, res) => {
       lead_date,
       lead_id,
       end_meeting_time,
-      end_location 
+      end_location,
+      latitude,
+      longitude, 
+      type
     } = req.body;
 
     // Ensure user is authenticated
@@ -161,11 +170,15 @@ const endMeeting = async (req, res) => {
       lead_id,
       end_meeting_time,
       end_location,
+      latitude,
+      longitude,
+      type
     });
 
     res
       .status(201)
       .json({
+        success:true,
         message: "Meeting End Successfully",
         data: newLead,
       });
@@ -408,6 +421,59 @@ const visistsOfMonth = async (req, res) => {
   }
 };
 
+const getTodayMeetingLocation = async (req, res) => {
+  try {
+    // Get the logged-in user's ID from authentication middleware
+    const salesPersionId = req.user?.id;
+
+    if (!salesPersionId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: No user logged in.",
+      });
+    }
+
+    // Define the start and end of the current day
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    // Fetch today's communications for the logged-in sales person
+    const communications = await LeadCommunication.findAll({
+      where: {
+        createdAt: {
+          [Op.between]: [startOfDay, endOfDay],
+        },
+        sales_persion_id: salesPersionId,
+      },
+      order: [['createdAt', 'DESC']],
+    });
+
+    // Format the response for frontend consumption
+    const locations = communications.map(comm => ({
+      id: comm.id,
+      lat: parseFloat(comm.latitude),
+      lng: parseFloat(comm.longitude),
+      type: comm.type,
+      address: comm.start_location || comm.end_location || "N/A",
+    }));
+
+    res.status(200).json({
+      success: true,
+      message: "Today's meeting locations for current user fetched successfully.",
+      data: locations,
+    });
+  } catch (error) {
+    console.error("Error fetching today's lead communications:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
 
 module.exports = {
   createLeadCommunication,
@@ -415,5 +481,6 @@ module.exports = {
   getWonLeadCommunications,
   exportWonLeadCommunications,
   visistsOfMonth,
-  endMeeting
+  endMeeting,
+  getTodayMeetingLocation
 };

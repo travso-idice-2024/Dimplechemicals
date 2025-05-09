@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
 
 const getAuthToken = () => localStorage.getItem("token");
 
@@ -66,7 +68,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
     //   console.error("Error fetching location name:", error);
     //   return "Unknown Location";
     // }
-    const apiKey = "AIzaSyCcgE3RDiMx5qZrPt8_R85Uq_gpNY9MI10";
+    const apiKey = `${API_KEY}`;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
     try {

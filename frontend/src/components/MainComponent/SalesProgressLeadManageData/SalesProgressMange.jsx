@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from "react";
+//for google map
+import {
+  GoogleMap,
+  Marker,
+  InfoWindow,
+  useJsApiLoader,
+} from "@react-google-maps/api";
+
 import { useDispatch, useSelector } from "react-redux";
 import "./SalesProgressMange.css";
 import { iconsImgs } from "../../../utils/images";
@@ -16,17 +24,22 @@ import {
   faPhone,
   faHandshake,
   faClock,
+  faIndianRupeeSign,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import { todaysAssignedLeadsCount, todaysLead } from "../../../redux/leadSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
+
 import axios from "axios";
+import Calender from "../../calender/Calender";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthToken = () => localStorage.getItem("token");
+
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const SalesProgressMange = () => {
   const dispatch = useDispatch();
@@ -35,7 +48,7 @@ const SalesProgressMange = () => {
     (state) => state.lead
   );
 
-  console.log("allLeadsCount", allLeadsCount);
+  //console.log("allLeadsCount", allLeadsCount);
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -191,7 +204,7 @@ const SalesProgressMange = () => {
     //   console.error("Error fetching location name:", error);
     //   return "Unknown Location";
     // }
-    const apiKey = "AIzaSyCcgE3RDiMx5qZrPt8_R85Uq_gpNY9MI10";
+    const apiKey = `${API_KEY}`;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
     try {
@@ -318,6 +331,57 @@ const SalesProgressMange = () => {
       console.error("Geolocation is not supported by this browser.");
     }
   };
+
+  //google map
+  const containerStyle = {
+    width: "100%",
+    height: "400px",
+  };
+
+  // Example: Salesperson's lat and lng
+
+  const [checkinLocations, setCheckinLocations] = useState([]);
+
+  const getcheckinLocations = async () => {
+    try {
+      const token = getAuthToken();
+      //console.log("token",token);
+      const response = await axios.get(`${API_URL}/auth/get-todays-location`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      //console.log("response",response?.data?.data);
+      setCheckinLocations(response?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getcheckinLocations();
+  }, []);
+
+  //console.log("checkinLocations",checkinLocations);
+
+  const { isLoaded } = useJsApiLoader({
+    id: "55383078377-kpkl3r1n0qo8937ltrskk3ane2cvmoge.apps.googleusercontent.com",
+    googleMapsApiKey: `${API_KEY}`, // replace with your actual API key
+  });
+
+  const [map, setMap] = useState(null);
+  const [selected, setSelected] = useState(null);
+
+  const onLoad = (mapInstance) => {
+    setMap(mapInstance);
+  };
+
+  const onUnmount = () => {
+    setMap(null);
+  };
+  if (!isLoaded) {
+    return <div>Loading Map...</div>;
+  }
+  //google map
   return (
     <div className="main-content">
       <UserContentTop
@@ -328,7 +392,7 @@ const SalesProgressMange = () => {
 
       {!leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* chech in check out  */}
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
@@ -388,10 +452,15 @@ const SalesProgressMange = () => {
               <p className="text-[12px]">{userDeatail?.fullname}</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faDollarSign}
                 className="text-4xl text-bgDataNew mb-2"
+              /> */}
+              <FontAwesomeIcon
+                icon={faIndianRupeeSign}
+                className="text-4xl text-bgDataNew mb-2"
               />
+
               <h2 className="text-textdata font-semibold">Total Sales</h2>
               <p className="text-[12px]">₹1,25,000</p>
             </div>
@@ -413,7 +482,47 @@ const SalesProgressMange = () => {
               <h2 className="text-textdata font-semibold">Closed Deals</h2>
               <p className="text-[12px]">3 Successful Sales</p>
             </div>
+             {/* show google map */}
+             <div className="col-span-3">
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={checkinLocations[0]}
+                zoom={12}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+              >
+                {checkinLocations.map((location) => (
+                  <Marker
+                    key={location.id}
+                    position={{ lat: location.lat, lng: location.lng }}
+                    icon={{
+                      url:
+                        location.type === "checkin"
+                          ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                          : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    }}
+                    onClick={() => setSelected(location)}
+                  />
+                ))}
+
+                {selected && (
+                  <InfoWindow
+                    position={{ lat: selected.lat, lng: selected.lng }}
+                    onCloseClick={() => setSelected(null)}
+                  >
+                    <div>{selected.address}</div>
+                  </InfoWindow>
+                )}
+              </GoogleMap>
+            </div>
+            {/* end google map  */}
           </div>
+          
+           
+            <div>
+              <Calender />
+            </div>
+         
         </div>
       )}
       {leadDataShowNew && (
@@ -484,6 +593,7 @@ const SalesProgressMange = () => {
           )}
         </div>
       )}
+      
     </div>
   );
 };

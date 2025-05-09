@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
 
 const getAuthToken = () => localStorage.getItem("token");
 
@@ -75,7 +77,7 @@ const DepartmentTable = ({
     //   console.error("Error fetching location name:", error);
     //   return "Unknown Location";
     // }
-    const apiKey = "AIzaSyCcgE3RDiMx5qZrPt8_R85Uq_gpNY9MI10";
+    const apiKey = `${API_KEY}`;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
     try {
@@ -110,10 +112,13 @@ const DepartmentTable = ({
           customer_id: lead?.customer_id,
           lead_date: new Date().toISOString().split("T")[0],
           lead_id: lead?.id,
-          start_meeting_time: currentTime
+          start_meeting_time: currentTime,
+          latitude:latitude,
+          longitude:longitude,
+          type:"checkin"
         };
 
-        console.log("checkInData", checkInData);
+        //console.log("checkInData", checkInData);
 
         try {
           const token = getAuthToken();
@@ -152,7 +157,10 @@ const DepartmentTable = ({
           customer_id: lead?.customer_id,
           lead_date: new Date().toISOString().split("T")[0],
           lead_id: lead?.id,
-          end_meeting_time: currentTime
+          end_meeting_time: currentTime,
+          latitude:latitude,
+          longitude:longitude,
+          type:"checkout"
         };
 
         try {
