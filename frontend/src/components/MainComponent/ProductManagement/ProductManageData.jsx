@@ -39,7 +39,7 @@ const ProductManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const ProductsPerPage = 10;
+  const ProductsPerPage = 7;
 
   // Fetch Products whenever searchTerm or currentPage changes
   useEffect(() => {

@@ -788,9 +788,19 @@ const MarketingManageData = () => {
           </h1>
         </div>
         <div className="flex items-center gap-[5px]">
-        <div>
+       
+          <div>
+            <input
+              type="search"
+              className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+           <div>
             <button
-              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              className="flex items-center text-textdata text-white bg-[#bf9c85] rounded-[3px] px-3 py-[0.28rem]"
               onClick={() => setIsLeadAssignPopup(true)}
             >
               <img
@@ -800,15 +810,6 @@ const MarketingManageData = () => {
               />{" "}
               Assign Lead To
             </button>
-          </div>
-          <div>
-            <input
-              type="search"
-              className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
           </div>
           <div>
             <button

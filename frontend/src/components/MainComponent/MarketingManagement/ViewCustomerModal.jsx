@@ -23,26 +23,16 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   //console.log("selectedCustomer", selectedCustomer);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
-        <div className="overflow-y-auto h-fit">
+        <div className="overflow-auto h-[500px]">
           {/* Profile Section */}
           <div className="px-5 py-4">
             <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
-                {/* <img
-                  src={
-                    selectedEmployee.profile_image
-                      ? `${API_URL.replace("api", "")}${
-                          selectedEmployee.profile_image
-                        }`
-                      : "https://via.placeholder.com/80"
-                  }
-                  alt="Profile"
-                  className="w-16 h-16 rounded-full border"
-                /> */}
+                
                 <div>
                   <h3 className="text-[15px] font-semibold">
                     {selectedCustomer?.customer?.company_name}
@@ -107,26 +97,26 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
 
 
           {/* follow up list */}
-          <div>
-            <table className="min-w-full table-auto">
+          <div className="py-3 px-7 overflow-x-auto">
+            <table className="table-auto w-full border border-gray-300 text-left border-collapse">
               <thead>
                 <tr className="bg-[#473b33] rounded-[8px]">
-                  <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">Meeting Date</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">Start Time</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">End Time</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-gray-300">Id</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Start Time</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">End Time</th>
 
-                  <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Next Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
                     Company Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
                     Client Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
                     Communication
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
                     Status
                   </th>
                 </tr>
@@ -135,9 +125,9 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 {communicationleadsList?.data &&
                   communicationleadsList?.data.map((user, index) => (
                     <tr key={index}>
-                      <td className="px-4 py-2">{index + 1}</td>
-                      {/* <td className="px-4 py-2">{user?.lead_date?.split('T')[0]}</td> */}
-                      <td className="px-4 py-2">
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{index + 1}</td>
+                      {/* <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.lead_date?.split('T')[0]}</td> */}
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">
                         {new Date(user?.createdAt)?.toLocaleDateString(
                           "en-GB",
                           {
@@ -147,10 +137,10 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                           }
                         )}
                       </td>
-                      <td className="px-4 py-2">{user?.start_meeting_time}</td>
-                      <td className="px-4 py-2">{user?.end_meeting_time}</td>
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.start_meeting_time}</td>
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.end_meeting_time}</td>
 
-                      <td className="px-4 py-2">
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">
                         {new Date(user?.lead_date)?.toLocaleDateString(
                           "en-GB",
                           {
@@ -160,20 +150,19 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                           }
                         )}
                       </td>
-                      <td className="px-4 py-2">
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">
                         {user?.Customer?.company_name}
                       </td>
-                      <td className="px-4 py-2">{user?.client_name}</td>
-                      <td className="px-4 py-2 w-[300px]">
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300 whitespace-nowrap">{user?.client_name}</td>
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300 w-[300px]">
                         {user?.lead_text}
                       </td>
-                      <td className="px-4 py-2">{user?.lead_status}</td>
+                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.lead_status}</td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
-
           {/* end follow up list */}
 
 

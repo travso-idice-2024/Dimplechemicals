@@ -293,7 +293,7 @@ const DepartmentTable = ({
                 Assign Lead
               </button> */}
                   <button
-                    className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
+                    className="bg-[#bf9c85] text-white px-3 py-1 rounded hover:bg-green-600"
                     //onClick={() => updateDealFinalize(user?.id)}
                     onClick={() => {
                       // updateDealFinalize(user?.id)

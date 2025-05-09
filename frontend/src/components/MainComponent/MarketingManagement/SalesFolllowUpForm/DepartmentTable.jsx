@@ -275,10 +275,10 @@ const DepartmentTable = ({
               <td className="px-4 py-2 text-newtextdata">
                 {user?.meeting_time}
               </td>
-              <td className="px-4 py-2 text-newtextdata w-[450px] ">
+              <td className="px-4 py-2 text-newtextdata w-[480px] ">
                 {user?.lead_summary}
               </td>
-              <td className="px-4 py-2 text-newtextdata w-[450px] ">
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                 <button
                   onClick={() => handleToggle(user)}
                   className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${isCheckedIn && activeLeadId === user.id
