@@ -17,11 +17,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ComposeEmail from "./ComposeEmail";
 import Inbox from "./Inbox";
+import CreateLabelForm from "./CreateLabelForm";
 
 const Gmail = () => {
   const { isAuthenticated, signIn, signOut, userProfile, accessToken,fetchInboxMessages ,labels,
-    fetchLabels} =
+    fetchLabels,createLabel} =
     useGmailAuth();
+
+console.log("labels data list", labels);
 
  useEffect(() => {
     if (isAuthenticated && accessToken) {
@@ -64,45 +67,52 @@ const Gmail = () => {
 
           <div className="space-y-3">
             <MenuItem
-              icon={faInbox}
-              label="Inbox"
-              activeView={activeView}
-              setActiveView={setActiveView}
-            />
-            <MenuItem
-              icon={faStar}
-              label="Starred"
-              activeView={activeView}
-              setActiveView={setActiveView}
-            />
-            <MenuItem
-              icon={faPaperPlane}
-              label="Sent"
-              activeView={activeView}
-              setActiveView={setActiveView}
-            />
-            <div className="pt-4 border-t border-gray-300">
-  <h4 className="text-gray-600 text-xs uppercase mb-2">Company Folders</h4>
-  {labels
-    .filter(
-      (label) =>
-        label.name !== "INBOX" &&
-        label.name !== "STARRED" &&
-        label.name !== "SENT" &&
-        label.name !== "DRAFT" &&
-        label.name !== "TRASH" &&
-        label.name !== "IMPORTANT" &&
-        label.name !== "CATEGORY_PERSONAL"
-    )
-    .map((label) => (
-      <MenuItem
-        key={label.id}
-        icon={faFolderOpen}
-        label={label.name}
+        icon={faInbox}
+        label="Inbox"
+        labelId={labels.find((l) => l.name === "INBOX")?.id}
         activeView={activeView}
         setActiveView={setActiveView}
       />
-    ))}
+      <MenuItem
+        icon={faStar}
+        label="Starred"
+        labelId={labels.find((l) => l.name === "STARRED")?.id}
+        activeView={activeView}
+        setActiveView={setActiveView}
+      />
+      <MenuItem
+        icon={faPaperPlane}
+        label="Sent"
+        labelId={labels.find((l) => l.name === "SENT")?.id}
+        activeView={activeView}
+        setActiveView={setActiveView}
+      />
+            <div className="pt-4 border-t border-gray-300">
+              <CreateLabelForm createLabel={createLabel} />
+  <h4 className="text-gray-600 text-xs uppercase mb-2">Labels</h4>
+   {labels
+      .filter(
+        (label) =>
+          ![
+            "INBOX",
+            "STARRED",
+            "SENT",
+            "DRAFT",
+            "TRASH",
+            "IMPORTANT",
+            "CATEGORY_PERSONAL",
+          ].includes(label.name)
+      )
+      .map((label) => (
+        <MenuItem
+          key={label.id}
+          icon={faFolderOpen}
+          label={label.name}
+          labelId={label.id}
+          activeView={activeView}
+          setActiveView={setActiveView}
+        />
+      ))}
 </div>
 
           </div>
@@ -165,11 +175,11 @@ const Gmail = () => {
   );
 };
 
-const MenuItem = ({ icon, label, activeView, setActiveView }) => (
+const MenuItem = ({ icon, label, labelId, activeView, setActiveView }) => (
   <div
-    onClick={() => setActiveView(label)}
+    onClick={() => setActiveView(labelId )}
     className={`flex items-center space-x-3 text-gray-700 hover:bg-gray-200 p-2 rounded-lg cursor-pointer transition ${
-      activeView === label ? "bg-blue-100 font-semibold" : ""
+      activeView === labelId  ? "bg-blue-100 font-semibold" : ""
     }`}
   >
     <FontAwesomeIcon icon={icon} className="w-4 h-4" />
