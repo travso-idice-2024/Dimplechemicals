@@ -140,31 +140,98 @@
     text-transform: capitalize;
   }
 
-  
-  @media screen and (max-width: 1200px) {
-    .nav-item {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 18px;
-    }
-    .nav-link {
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-    }
-    .nav-link.active {
-      border-radius: 5px;
-        padding: 10px 0px;
-    }
-    .nav-link:hover {
-      border-radius: 5px;
-        padding: 10px 0px;
-    }
-   
+ 
+/* Responsive Styles */
+@media screen and (max-width: 1400px) {
+  .sidebar {
+    padding: 24px 16px;
   }
+}
+
+@media screen and (max-width: 1200px) {
+  .sidebar {
+    position: absolute;
+    z-index: 999;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin-left: -260px;
+  }
+  .sidebar-change {
+    margin-left: 0;
+  }
+  .logo-container {
+    margin-top: 40px;
+  }
+  .info-name {
+    display: none;
+  }
+  .nav-link {
+    display: flex;
+    justify-content: flex-start; /* Aligns the content to the left */
+    align-items: center; /* Centers the content vertically */
+    margin-bottom: 18px;
+    padding-left: 20px !important;
+  }
+  .nav-item {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+    flex-direction: column;
+  }
+  .nav-link,
+  .submenu-link,
+  .nested-submenu-link {
+    padding: 0;
+    display: flex;
+    justify-content: flex-start; /* Aligns the content to the left */
+    align-items: center;
+    padding-left: 20px !important;
+    width: 100%;
+    height: 100%;
+  }
+  .nav-link.active,
+  .nav-link:hover,
+  .submenu-link.active,
+  .submenu-link:hover,
+  .nested-submenu-link.active,
+  .nested-submenu-link:hover {
+    border-radius: 5px;
+    padding: 10px 0px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    z-index: 999;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin-left: -260px;
+  }
+  .sidebar-change {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .sidebar {
+    width: 72px;
+  }
+  .sidebar {
+    position: absolute;
+    z-index: 999;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin-left: -260px;
+  }
+  .sidebar-change {
+    margin-left: 0;
+  }
+}
+
 
 /* Edit Profile */
 .dataName .css-1f44al2-control {
