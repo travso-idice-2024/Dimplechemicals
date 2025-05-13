@@ -39,8 +39,8 @@ const AssignLeadModal = ({
           <ErrorMessage message={addLeadFlashMessage} />
         )}
       </div>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Lead
           </h2>
@@ -155,80 +155,7 @@ const AssignLeadModal = ({
               )}
             </div>
 
-            {/* Meeting Date */}
-            <div>
-              <label>Meeting Date</label>
-              <input
-                type="date"
-                name="assign_date"
-                value={leadData?.assign_date}
-                onChange={handleLeadChange}
-                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                min={new Date().toISOString().split("T")[0]}
-              />
-              {addLeadFormErrors?.assign_date && (
-                <p className="text-red-500">{addLeadFormErrors?.assign_date}</p>
-              )}
-            </div>
-
-            {/* Meeting Time */}
-            <div>
-              <label className="font-poppins font-medium text-black text-[16px]">
-                Meeting Time :
-              </label>
-              <input
-                type="time"
-                name="meeting_time"
-                value={leadData?.meeting_time}
-                onChange={handleLeadChange}
-                placeholder="Meeting Time"
-                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-              />
-              {addLeadFormErrors?.meeting_time && (
-                <p className="text-red-500 text-sm">
-                  {addLeadFormErrors?.meeting_time}
-                </p>
-              )}
-            </div>
-
-            {/* Meeting Type */}
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
-                Meeting Type
-              </label>
-              <select
-                name="meeting_type"
-                value={leadData?.meeting_type}
-                onChange={handleLeadChange}
-                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-              >
-                <option value="">Select the Meeting Type</option>
-                <option value="In-Person">In-Person</option>
-                <option value="Phone Call">Phone Call</option>
-                <option value="Video Call">Video Call</option>
-              </select>
-              {addLeadFormErrors?.meeting_type && (
-                <p className="text-red-500">
-                  {addLeadFormErrors?.meeting_type}
-                </p>
-              )}
-            </div>
-
-            {/* Meeting Summary */}
-            <div>
-              <label>Meeting Summary</label>
-              <textarea
-                name="lead_summary"
-                value={leadData?.lead_summary}
-                onChange={handleLeadChange}
-                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-              />
-              {addLeadFormErrors?.lead_summary && (
-                <p className="text-red-500">
-                  {addLeadFormErrors?.lead_summary}
-                </p>
-              )}
-            </div>
+            
 
             {/* Total Material Quantity */}
             <div>
@@ -345,6 +272,81 @@ const AssignLeadModal = ({
               </select>
               {addLeadFormErrors?.lead_status && (
                 <p className="text-red-500">{addLeadFormErrors?.lead_status}</p>
+              )}
+            </div>
+
+            {/* Meeting Date */}
+            <div>
+              <label>Meeting Date</label>
+              <input
+                type="date"
+                name="assign_date"
+                value={leadData?.assign_date}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                min={new Date().toISOString().split("T")[0]}
+              />
+              {addLeadFormErrors?.assign_date && (
+                <p className="text-red-500">{addLeadFormErrors?.assign_date}</p>
+              )}
+            </div>
+
+            {/* Meeting Time */}
+            <div>
+              <label className="font-poppins font-medium text-black text-[16px]">
+                Meeting Time :
+              </label>
+              <input
+                type="time"
+                name="meeting_time"
+                value={leadData?.meeting_time}
+                onChange={handleLeadChange}
+                placeholder="Meeting Time"
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.meeting_time && (
+                <p className="text-red-500 text-sm">
+                  {addLeadFormErrors?.meeting_time}
+                </p>
+              )}
+            </div>
+
+            {/* Meeting Type */}
+            <div>
+              <label className="font-poppins font-medium text-textdata text-bgData">
+                Meeting Type
+              </label>
+              <select
+                name="meeting_type"
+                value={leadData?.meeting_type}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select the Meeting Type</option>
+                <option value="In-Person">In-Person</option>
+                <option value="Phone Call">Phone Call</option>
+                <option value="Video Call">Video Call</option>
+              </select>
+              {addLeadFormErrors?.meeting_type && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.meeting_type}
+                </p>
+              )}
+            </div>
+
+            {/* Meeting Summary */}
+            <div>
+              <label>Meeting Summary</label>
+              <textarea
+                name="lead_summary"
+                value={leadData?.lead_summary}
+                onChange={handleLeadChange}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+              />
+              {addLeadFormErrors?.lead_summary && (
+                <p className="text-red-500">
+                  {addLeadFormErrors?.lead_summary}
+                </p>
               )}
             </div>
 

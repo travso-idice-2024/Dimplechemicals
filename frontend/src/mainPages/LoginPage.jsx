@@ -203,7 +203,7 @@ const handleSubmit = async(e) => {
 
       {/* Forgot Password Modal */}
       {isForgotPasswordOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 p-2 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded-lg w-11/12 md:w-1/2 lg:w-1/4 relative">
             <FontAwesomeIcon
               icon={faTimes}

@@ -357,14 +357,14 @@ useEffect(() => {
 
       {!leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {/* chech in check out  */}
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
                 icon={faClock}
-                className="text-4xl text-bgDataNew mb-2"
+                className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
-              <h2 className="text-textdata font-semibold">
+              <h2 className="text-[12px] md:text-textdata font-semibold">
                 {" "}
                 <button
                   onClick={handleToggle}
@@ -407,34 +407,34 @@ useEffect(() => {
               <div className="relative">
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="text-4xl text-bgDataNew mb-2"
+                  className="text-3xl md:text-4xl text-bgDataNew mb-2"
                 />
                 <span className="absolute -top-2 -right-3 bg-red-500 text-white text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full">
                   {allLeadsCount?.assignedLeadsCount}
                 </span>
               </div>
-              <h2 className="text-textdata font-semibold">Assigned Lead</h2>
+              <h2 className="text-[12px] md:text-textdata font-semibold">Assigned Lead</h2>
               <p className="text-[12px]">{userDeatail?.fullname}</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               {/* <FontAwesomeIcon
                 icon={faDollarSign}
-                className="text-4xl text-bgDataNew mb-2"
+                className="text-3xl md:text-4xl text-bgDataNew mb-2"
               /> */}
               <FontAwesomeIcon
                 icon={faIndianRupeeSign}
-                className="text-4xl text-bgDataNew mb-2"
+                className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
 
-              <h2 className="text-textdata font-semibold">Total Sales</h2>
+              <h2 className="text-[12px] md:text-textdata font-semibold">Total Sales</h2>
               <p className="text-[12px]">₹1,25,000</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
                 icon={faPhone}
-                className="text-4xl text-bgDataNew mb-2"
+                className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
-              <h2 className="text-textdata font-semibold">
+              <h2 className="text-[12px] md:text-textdata font-semibold">
                 Pending Follow-Ups
               </h2>
               <p className="text-[12px]">5 Clients</p>
@@ -442,13 +442,16 @@ useEffect(() => {
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
                 icon={faHandshake}
-                className="text-4xl text-bgDataNew mb-2"
+                className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
-              <h2 className="text-textdata font-semibold">Closed Deals</h2>
+              <h2 className="text-[12px] md:text-textdata font-semibold">Closed Deals</h2>
               <p className="text-[12px]">3 Successful Sales</p>
             </div>
-             {/* show google map */}
-             <div className="col-span-3">
+             
+          </div>
+          
+           {/* show google map */}
+             <div className="">
               <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
@@ -481,9 +484,6 @@ useEffect(() => {
               </GoogleMap>
             </div>
             {/* end google map  */}
-          </div>
-          
-           
             <div>
               <Calender />
             </div>

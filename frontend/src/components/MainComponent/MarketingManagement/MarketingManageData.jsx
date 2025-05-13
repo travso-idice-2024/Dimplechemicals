@@ -781,13 +781,13 @@ const MarketingManageData = () => {
 
   return (
     <div className="flex flex-col gap-[20px]">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
         <div>
           <h1 className="text-white text-textdata font-semibold">
             Lead Management
           </h1>
         </div>
-        <div className="flex items-center gap-[5px]">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">
        
           <div>
             <input
@@ -798,6 +798,7 @@ const MarketingManageData = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+          <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
            <div>
             <button
               className="flex items-center text-textdata text-white bg-[#bf9c85] rounded-[3px] px-3 py-[0.28rem]"
@@ -823,6 +824,7 @@ const MarketingManageData = () => {
               />{" "}
               Add New Lead
             </button>
+          </div>
           </div>
         </div>
       </div>

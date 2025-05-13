@@ -19,10 +19,10 @@ function ProductMultiSelect({ allProducts, poaData, setPoaData }) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative block w-full mb-2 rounded-[5px] border border-[#473b33]">
       <button
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="block w-full border px-3 py-2 rounded-[5px] text-left"
+        className="block w-full border px-3 py-2 rounded-[5px] text-left block w-full rounded-[5px] border border-[#473b33] px-3 py-2"
       >
         {poaData.product_ids?.length > 0
           ? `${poaData.product_ids.length} product(s) selected`

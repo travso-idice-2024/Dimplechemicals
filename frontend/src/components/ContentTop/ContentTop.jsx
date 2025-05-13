@@ -157,22 +157,32 @@ const ContentTop = () => {
                 <img
                   src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?cs=srgb&dl=pexels-sulimansallehi-1704488.jpg&fm=jpg"
                   alt="User"
-                  className="w-[32px] h-[32px] rounded-full bordernewdata object-cover aspect-square"
+                  className="w-[20px] h-[20px] md:w-[32px] md:h-[32px] rounded-full bordernewdata object-cover aspect-square"
                 />
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex flex-col items-start">
-                  <h2 className="font-bai text-[12px] text-white">
+                  {/* <h2 className="font-bai text-[12px] text-white datashowname">
                     {userDeatail?.fullname}
+                  </h2> */}
+                  <h2 className="font-bai text-[12px] text-white datashowname">
+                    <span className="full-name">{userDeatail?.fullname}</span>
+                    <span className="short-name">
+                      {userDeatail?.fullname
+                        ?.split(" ")
+                        .map((word) => word[0])
+                        .join("")
+                        .toUpperCase()}
+                    </span>
                   </h2>
-                  <p className="font-bai text-[10px] text-white">
+                  <p className="font-bai text-[10px] text-white datashowemail">
                     {userDeatail?.email}
                   </p>
                 </div>
                 <div>
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    className="text-white text-[12px] mb-2"
+                    className="text-white text-[12px] md:mb-2"
                   />
                 </div>
               </div>

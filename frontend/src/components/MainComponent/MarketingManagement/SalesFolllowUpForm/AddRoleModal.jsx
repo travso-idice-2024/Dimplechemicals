@@ -41,8 +41,8 @@ const AddRoleModal = ({
         )}
       </div>
 
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New POA
           </h2>
@@ -147,92 +147,18 @@ const AddRoleModal = ({
                {/* Product Sale */}
                <div>
                 <label>Product Sale</label>
-
                <ProductMultiSelect
                 allProducts={allProducts}
                 poaData={poaData}
                 setPoaData={setPoaData}
+                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                 />
                 {poaFormErrors?.product_sale && (
                   <p className="text-red-500">{poaFormErrors?.product_sale}</p>
                 )}
               </div>
 
-              {/* Meeting Date */}
-              <div>
-                <label>Meeting Date</label>
-                <input
-                  type="date"
-                  name="assign_date"
-                  value={poaData.assign_date}
-                  onChange={handlePoaChange}
-                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                  min={new Date().toISOString().split("T")[0]}
-                />
-
-                {poaFormErrors?.assign_date && (
-                  <p className="text-red-500">{poaFormErrors?.assign_date}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="font-poppins font-medium text-black text-[16px]">
-                  Meeting Time :
-                </label>
-                <input
-                  type="time"
-                  name="meeting_time"
-                  value={poaData.meeting_time}
-                  onChange={handlePoaChange}
-                  placeholder="Meeting Time"
-                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                />
-                {poaFormErrors.meeting_time && (
-                  <p className="text-red-500 text-sm">
-                    {poaFormErrors.meeting_time}
-                  </p>
-                )}
-              </div>
-
-              {/* Meeting Type */}
-              <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
-                  Meeting Type
-                </label>
-                <select
-                  name="meeting_type"
-                  value={poaData.meeting_type}
-                  onChange={handlePoaChange}
-                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                >
-                  <option value="">Select the Meeting Type</option>
-                  <option value="In-Person">In-Person</option>
-                  <option value="Phone Call">Phone Call</option>
-                  <option value="Video Call">Video Call</option>
-                </select>
-                {poaFormErrors?.meeting_type && (
-                  <p className="text-red-500">{poaFormErrors?.meeting_type}</p>
-                )}
-              </div>
-
-              {/* Meeting Summary */}
-              <div>
-                <label>Meeting Summary</label>
-                <textarea
-                  name="lead_summary"
-                  value={poaData.lead_summary}
-                  onChange={handlePoaChange}
-                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                />
-                {poaFormErrors?.lead_summary && (
-                  <p className="text-red-500">
-                    {poaFormErrors?.lead_summary}
-                  </p>
-                )}  
-              </div>
-
-             
-              {/* Total Material Quantity */}
+                {/* Total Material Quantity */}
               <div>
                 <label>Total Material Quantity (in Kg)</label>
                 <input
@@ -280,6 +206,84 @@ const AddRoleModal = ({
                   <p className="text-red-500">{poaFormErrors?.project_name}</p>
                 )}
               </div>
+
+              {/* Meeting Date */}
+              <div>
+                <label>Meeting Date</label>
+                <input
+                  type="date"
+                  name="assign_date"
+                  value={poaData.assign_date}
+                  onChange={handlePoaChange}
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                  min={new Date().toISOString().split("T")[0]}
+                />
+
+                {poaFormErrors?.assign_date && (
+                  <p className="text-red-500">{poaFormErrors?.assign_date}</p>
+                )}
+              </div>
+
+             
+
+              {/* Meeting Type */}
+              <div>
+                <label className="font-poppins font-medium text-textdata text-bgData">
+                  Meeting Type
+                </label>
+                <select
+                  name="meeting_type"
+                  value={poaData.meeting_type}
+                  onChange={handlePoaChange}
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                >
+                  <option value="">Select the Meeting Type</option>
+                  <option value="In-Person">In-Person</option>
+                  <option value="Phone Call">Phone Call</option>
+                  <option value="Video Call">Video Call</option>
+                </select>
+                {poaFormErrors?.meeting_type && (
+                  <p className="text-red-500">{poaFormErrors?.meeting_type}</p>
+                )}
+              </div>
+
+               <div>
+                <label className="font-poppins font-medium text-black text-[16px]">
+                  Meeting Time :
+                </label>
+                <input
+                  type="time"
+                  name="meeting_time"
+                  value={poaData.meeting_time}
+                  onChange={handlePoaChange}
+                  placeholder="Meeting Time"
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                />
+                {poaFormErrors.meeting_time && (
+                  <p className="text-red-500 text-sm">
+                    {poaFormErrors.meeting_time}
+                  </p>
+                )}
+              </div>
+
+              {/* Meeting Summary */}
+              <div>
+                <label>Meeting Summary</label>
+                <textarea
+                  name="lead_summary"
+                  value={poaData.lead_summary}
+                  onChange={handlePoaChange}
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                />
+                {poaFormErrors?.lead_summary && (
+                  <p className="text-red-500">
+                    {poaFormErrors?.lead_summary}
+                  </p>
+                )}  
+              </div>
+
+             
+            
             </div>
 
             {/* Buttons */}

@@ -17,9 +17,9 @@ const SettingData = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-white text-textdata font-semibold">Settings</h1>
         </div>
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex flex-col md:flex-row gap-[20px]">
           {/* Left Sidebar for Settings List */}
-          <div className="w-[350px] bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+          <div className="md:w-[350px] bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             <nav className="navigationData">
               <ul className="space-y-4 nav-list">
                 {settingsList.map((setting) => (

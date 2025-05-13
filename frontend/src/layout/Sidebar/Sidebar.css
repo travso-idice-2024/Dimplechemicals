@@ -187,9 +187,7 @@
 }
 
 @media screen and (max-width: 420px) {
-  .sidebar {
-    width: 72px;
-  }
+  
   .sidebar {
     position: absolute;
     z-index: 999;

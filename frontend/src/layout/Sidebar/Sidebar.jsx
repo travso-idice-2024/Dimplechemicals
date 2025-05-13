@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { personsImgs } from "../../utils/images";
 import { navigationLinks } from "../../data/data";
 import "./Sidebar.css";
@@ -17,7 +17,7 @@ import { fetchCurrentUser } from "../../redux/authSlice";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const sidebarRef = useRef(null); 
   const { user: userDeatail } = useSelector((state) => state.auth);
   const userRoleId = userDeatail?.employeeRole?.role_id;
   //console.log("userRoleId inside Sidebar:", userRoleId);
@@ -36,6 +36,8 @@ const Sidebar = () => {
   }, []);
 
   const { toggleSidebar } = useContext(SidebarContext);
+
+
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [dispatch]);
@@ -47,6 +49,26 @@ const Sidebar = () => {
   const toggleSubmenu = (id) => {
     setOpenSubmenus((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+   // ⬇️ click outside to close sidebar
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        isSidebarOpen &&
+        window.innerWidth <= 1200
+      ) {
+        toggleSidebar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen, toggleSidebar]);
+
 
   const renderSubmenu = (submenu, level) => {
     const submenuClass =
@@ -109,7 +131,7 @@ const Sidebar = () => {
   if (!userRoleId) return null;
 
   return (
-    <div className={`sidebar ${sidebarClass}`}>
+    <div ref={sidebarRef} className={`sidebar ${sidebarClass}`}>
       {/* Mobile close button */}
       {isMobile && (
         <div className="mobile-close-btn">

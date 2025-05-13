@@ -13,7 +13,7 @@ const ViewProductModal = ({ setViewModalOpen, selectedProduct }) => {
   }, [setViewModalOpen]);
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50 px-4">
       <div className="bg-white rounded-lg w-full max-w-xl shadow-lg overflow-hidden">
         <div className="bg-bgDataNew px-6 text-center py-4 text-white text-xl font-semibold">
           Product Details

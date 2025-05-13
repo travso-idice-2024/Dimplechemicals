@@ -22,7 +22,7 @@ const DealCreationForm = ({
   setDealFormErrors,
   leadProductData,
   setLeadProductData,
-  handleSubmitAddProduct
+  handleSubmitAddProduct,
 }) => {
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
@@ -63,8 +63,6 @@ const DealCreationForm = ({
   //   });
   // };
 
- 
-
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -76,8 +74,8 @@ const DealCreationForm = ({
         )}
       </div>
 
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Deal
           </h2>
@@ -208,27 +206,29 @@ const DealCreationForm = ({
             </div>
           </div> */}
 
-          <div className="mt-5 md:mt-6 px-4">
-
-            <div>
-              
+          <div className="mt-5 md:mt-6 px-4 overflow-y-auto h-[400px]">
+            <label className="font-poppins font-medium text-[16px] text-bgData">Select and Add Product:</label>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-[6]">
                 <ProductMultiSelect
                   allProducts={allProducts}
                   leadData={leadProductData}
                   setLeadData={setLeadProductData}
                 />
-              
-              <button
-              className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-              onClick={handleSubmitAddProduct}
-            >
-              Add Product
-            </button>
+              </div>
 
-
+              <div className="flex-[4]">
+                <button
+                  className="w-full bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
+                  onClick={handleSubmitAddProduct}
+                >
+                  Add Product
+                </button>
+              </div>
             </div>
+
             {/* Scrollable Products List */}
-            <div className="max-h-[350px] overflow-y-auto border border-gray-300 rounded p-2 space-y-3">
+            <div className="max-h-[350px] overflow-y-auto border border-gray-400 p-2 rounded-md space-y-3 mt-4">
               {dealData?.deals?.map((product, index) => (
                 <div
                   key={product.product_id}
@@ -239,7 +239,7 @@ const DealCreationForm = ({
                     {product.product_name}
                   </h3>
 
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
                     <div>
                       <label className="text-xs block mb-1">Date</label>
                       <input
@@ -329,7 +329,7 @@ const DealCreationForm = ({
             </div>
 
             {/* Final Advance and Deal Amount */}
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mt-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-2 mt-4">
               <div>
                 <label className="text-sm block mb-1">Advance Amt</label>
                 <input
@@ -338,7 +338,7 @@ const DealCreationForm = ({
                   onChange={(e) =>
                     setDealData({ ...dealData, advance_amount: e.target.value })
                   }
-                  className="block w-full text-xs rounded border px-2 py-1"
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                   placeholder="Advance"
                 />
               </div>
@@ -351,7 +351,7 @@ const DealCreationForm = ({
                   onChange={(e) =>
                     setDealData({ ...dealData, deal_amount: e.target.value })
                   }
-                  className="block w-full text-xs rounded border px-2 py-1"
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                   placeholder="Deal Amount"
                 />
               </div>

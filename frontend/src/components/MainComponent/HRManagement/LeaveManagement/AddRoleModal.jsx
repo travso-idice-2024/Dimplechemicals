@@ -27,8 +27,8 @@ const AddRoleModal = ({
               <ErrorMessage message={flashMessage} />
             )}
           </div>
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[1350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white md:w-[1350px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-textdata font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Update Leave Data
         </h2>

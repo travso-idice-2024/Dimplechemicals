@@ -8,8 +8,8 @@ const ViewCostWorkingModal = ({
   const navigate = useNavigate();
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[1000px]  rounded-[6px]">
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white md:w-[1000px]  rounded-[6px]">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Cost Working Report
         </h2>
