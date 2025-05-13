@@ -14,11 +14,10 @@ import {
   addCustomer,
   updateCustomer,
   removeCustomer,
-  fetchAllBussinessAssociateList
+  fetchAllBussinessAssociateList,
 } from "../../../redux/customerSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import axios from "axios";
-
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,9 +25,8 @@ const getAuthToken = () => localStorage.getItem("token");
 
 const CustomerManageData = () => {
   const dispatch = useDispatch();
-  const { customers,allBAdata, totalPages, customerLoading, customerError } = useSelector(
-    (state) => state.customer
-  );
+  const { customers, allBAdata, totalPages, customerLoading, customerError } =
+    useSelector((state) => state.customer);
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
@@ -52,7 +50,7 @@ const CustomerManageData = () => {
   //console.log("selectedCustomer",selectedCustomer?.id);
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-    dispatch(fetchAllBussinessAssociateList({cust_id:selectedCustomer?.id}));
+    dispatch(fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id }));
     dispatch(
       listCustomers({
         page: currentPage,
@@ -60,7 +58,7 @@ const CustomerManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm,selectedCustomer?.id]);
+  }, [dispatch, currentPage, searchTerm, selectedCustomer?.id]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -88,12 +86,12 @@ const CustomerManageData = () => {
     address_2: "",
     address_3: "",
     address_4: "",
-    business_associate:"",
-    associate_name:"",
-    gst_number:"",
-    contact_persion1:"",
-    contact_persion2:"",
-    contact_persion3:""
+    business_associate: "",
+    associate_name: "",
+    gst_number: "",
+    contact_persion1: "",
+    contact_persion2: "",
+    contact_persion3: "",
   });
 
   useEffect(() => {
@@ -101,30 +99,34 @@ const CustomerManageData = () => {
       if (formData.pincode.length === 6) {
         try {
           // Fetch from India Post API
-          const res = await fetch(`https://api.postalpincode.in/pincode/${formData.pincode}`);
+          const res = await fetch(
+            `https://api.postalpincode.in/pincode/${formData.pincode}`
+          );
           const data = await res.json();
-  
-          if (data[0].Status === 'Success') {
+
+          if (data[0].Status === "Success") {
             const postOffice = data[0].PostOffice?.[0];
             if (postOffice) {
-              setFormData((prev) => ({ ...prev, location: postOffice.District }));
+              setFormData((prev) => ({
+                ...prev,
+                location: postOffice.District,
+              }));
               return;
             }
           }
-  
         } catch (error) {
           console.error("Error fetching city:", error);
-          setFormData((prev) => ({ ...prev, location: '' }));
+          setFormData((prev) => ({ ...prev, location: "" }));
         }
       } else {
-        setFormData((prev) => ({ ...prev, location: '' }));
+        setFormData((prev) => ({ ...prev, location: "" }));
       }
     };
-  
+
     fetchCityFromAPI();
   }, [formData.pincode]);
-  
-// When pincode changes, fetch location
+
+  // When pincode changes, fetch location
 
   const [formErrors, setFormErrors] = useState({});
   const [flashMessage, setFlashMessage] = useState("");
@@ -220,12 +222,12 @@ const CustomerManageData = () => {
     address_2: "",
     address_3: "",
     address_4: "",
-    business_associate:"",
-    associate_name:"",
-    gst_number:"",
-    contact_persion1:"",
-    contact_persion2:"",
-    contact_persion3:""
+    business_associate: "",
+    associate_name: "",
+    gst_number: "",
+    contact_persion1: "",
+    contact_persion2: "",
+    contact_persion3: "",
   });
 
   useEffect(() => {
@@ -233,26 +235,30 @@ const CustomerManageData = () => {
       if (editFormData.pincode.length === 6) {
         try {
           // Fetch from India Post API
-          const res = await fetch(`https://api.postalpincode.in/pincode/${editFormData.pincode}`);
+          const res = await fetch(
+            `https://api.postalpincode.in/pincode/${editFormData.pincode}`
+          );
           const data = await res.json();
-  
-          if (data[0].Status === 'Success') {
+
+          if (data[0].Status === "Success") {
             const postOffice = data[0].PostOffice?.[0];
             if (postOffice) {
-              setEditFormData((prev) => ({ ...prev, location: postOffice.District }));
+              setEditFormData((prev) => ({
+                ...prev,
+                location: postOffice.District,
+              }));
               return;
             }
           }
-  
         } catch (error) {
           console.error("Error fetching city:", error);
-          setEditFormData((prev) => ({ ...prev, location: '' }));
+          setEditFormData((prev) => ({ ...prev, location: "" }));
         }
       } else {
-        setEditFormData((prev) => ({ ...prev, location: '' }));
+        setEditFormData((prev) => ({ ...prev, location: "" }));
       }
     };
-  
+
     fetchCityFromAPI();
   }, [editFormData.pincode]);
 
@@ -277,16 +283,14 @@ const CustomerManageData = () => {
         address_2: selectedCustomer.address_2 || "",
         address_3: selectedCustomer.address_3 || "",
         address_4: selectedCustomer.address_4 || "",
-        contact_persion1:selectedCustomer.contact_persion1 || "",
-        contact_persion2:selectedCustomer.contact_persion2 || "",
-        contact_persion3:selectedCustomer.contact_persion3 || "",
-        gst_number:selectedCustomer.gst_number || "",
-        business_associate: selectedCustomer?.businessAssociates?.[0]?.id || ''
-
+        contact_persion1: selectedCustomer.contact_persion1 || "",
+        contact_persion2: selectedCustomer.contact_persion2 || "",
+        contact_persion3: selectedCustomer.contact_persion3 || "",
+        gst_number: selectedCustomer.gst_number || "",
+        business_associate: selectedCustomer?.businessAssociates?.[0]?.id || "",
       });
     }
   }, [selectedCustomer]);
- 
 
   const handleEditFlashMessage = (message, type) => {
     setEditFlashMessage(message);
@@ -341,7 +345,7 @@ const CustomerManageData = () => {
           })
         ).unwrap();
 
-        console.log("response",response);
+        console.log("response", response);
         if (response.success) {
           handleEditFlashMessage(response.message, "success");
           dispatch(
@@ -441,12 +445,12 @@ const CustomerManageData = () => {
 
   //if (customerLoading) return <p>Loading...</p>;
   //if (customerError) return <p>{customerError}</p>;
- // console.log("editFormData?.associate_name",editFormData?.associate_name);
+  // console.log("editFormData?.associate_name",editFormData?.associate_name);
   const handleUpdateAssociate = async () => {
     try {
       // ✅ Get token
       const token = getAuthToken();
-      
+
       // Send the updated associate_name in the body (not in params)
       const response = await axios.put(
         `${API_URL}/auth/update-asssociates/${selectedCustomer?.id}`, // Use PUT or PATCH for updates
@@ -459,10 +463,13 @@ const CustomerManageData = () => {
           },
         }
       );
-  
-      if (response.data.success) { // Ensure you're checking response.data for success
+
+      if (response.data.success) {
+        // Ensure you're checking response.data for success
         handleEditFlashMessage(response.data.message, "success");
-        dispatch(fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id }));
+        dispatch(
+          fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id })
+        );
       } else {
         handleEditFlashMessage(
           response.data.message || "Something went wrong",
@@ -471,21 +478,24 @@ const CustomerManageData = () => {
       }
     } catch (error) {
       console.error("Error updating associate:", error);
-      handleEditFlashMessage("An error occurred while updating the associate.", "error");
+      handleEditFlashMessage(
+        "An error occurred while updating the associate.",
+        "error"
+      );
     }
   };
-  
+
   return (
     <div className="main-content">
       <ContentTop />
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
           <div>
             <h1 className="text-white text-textdata font-semibold">
               Customer Management
             </h1>
           </div>
-          <div className="flex items-center gap-[5px]">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">
             <div>
               <input
                 type="search"
@@ -495,27 +505,31 @@ const CustomerManageData = () => {
                 onChange={handleSearchChange}
               />
             </div>
-            <div>
-              <button
-                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={() => setAddCustomerModalOpen(true)}
-              >
-                <img
-                  src={iconsImgs.plus}
-                  alt="plus icon"
-                  className="w-[18px] mr-1"
-                />{" "}
-                Add Customer
-              </button>
+            <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
+              <div>
+                <button
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  onClick={() => setAddCustomerModalOpen(true)}
+                >
+                  <img
+                    src={iconsImgs.plus}
+                    alt="plus icon"
+                    className="w-[18px] mr-1"
+                  />{" "}
+                  Add Customer
+                </button>
+              </div>
+              <div>
+                <button
+                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  onClick={handleExportData}
+                >
+                  Export Data
+                </button>
+              </div>
             </div>
-            <div>
-              <button
-                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={handleExportData}
-              >
-                Export Data
-              </button>
-            </div>
+
+
           </div>
         </div>
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
@@ -552,7 +566,7 @@ const CustomerManageData = () => {
               setFlashMessage={setFlashMessage}
               setFlashMsgType={setFlashMsgType}
               flashMsgType={flashMsgType}
-              bussinesasociatedata = {allBAdata?.data?.associates}
+              bussinesasociatedata={allBAdata?.data?.associates}
             />
           )}
 
@@ -572,7 +586,7 @@ const CustomerManageData = () => {
               setEditFlashMsgType={setEditFlashMsgType}
               handleEditChange={handleEditChange}
               handleEditSubmit={handleEditSubmit}
-              bussinesasociatedata = {allBAdata?.data}
+              bussinesasociatedata={allBAdata?.data}
               handleUpdateAssociate={handleUpdateAssociate}
             />
           )}

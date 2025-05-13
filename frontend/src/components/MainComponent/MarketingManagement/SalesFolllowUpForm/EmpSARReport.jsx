@@ -199,8 +199,8 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
 
   //console.log("selectedPOA", selectedPOA);
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
         {/* Header */}
         {/* <div>
           <button

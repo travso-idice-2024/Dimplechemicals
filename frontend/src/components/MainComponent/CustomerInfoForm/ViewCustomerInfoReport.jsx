@@ -4,8 +4,8 @@ import dcpllogo from "../../../assets/images/Dimple-Logos.png";
 const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
   console.log("selectedCustomer", selectedCustomer);
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-[950px] rounded-[6px]">
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white md:w-[950px] rounded-[6px]">
         <h2 className="text-white text-[20px] font-poppins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           DIMPLE CHEMICALS & SERVICES PVT. LTD.
         </h2>

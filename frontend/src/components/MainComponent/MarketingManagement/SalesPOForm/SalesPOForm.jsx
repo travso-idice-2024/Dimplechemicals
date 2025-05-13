@@ -60,7 +60,7 @@ const SalePOForm = () => {
     <div className="main-content">
       <ContentTop />
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
           <div>
             <h1 className="text-white text-textdata font-semibold">
               Sales PO Form

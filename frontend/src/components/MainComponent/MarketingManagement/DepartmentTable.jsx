@@ -40,7 +40,7 @@ const DepartmentTable = ({
   isViewCustomerModalOpen,
   setViewCustomerModalOpen,
   selectedPOAIds,
-  setSelectedPOAIds
+  setSelectedPOAIds,
 }) => {
   const { isAuthenticated, createEvent } = useGoogleCalendar();
 
@@ -193,7 +193,11 @@ const DepartmentTable = ({
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] ">
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
-                {/* <input type="checkbox" className="w-4 h-4 accent-orange-500" disabled /> */}
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 accent-orange-500"
+                  disabled
+                />
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
@@ -366,102 +370,100 @@ const DepartmentTable = ({
           </tbody>
         </table>
         {leadStatusProgress && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
-              <h2 className="text-white text-textdata font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+          <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
+              <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                 Follow Up Form
               </h2>
-              <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-                  <div>
-                    <label className="font-poppins font-medium text-black text-[16px]">
-                      Lead Status :
-                    </label>
-                    <select
-                      name="lead_status"
-                      value={formData.lead_status}
-                      onChange={handleChange}
-                      className="block w-full mb-2 rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-1 py-[9px]"
-                    >
-                      <option>Select the Status</option>
-                      <option value="Meeting">Meeting Done</option>
-                      <option value="Revisit">Revisit</option>
-                      <option value="Queries">Queries</option>
-                      <option value="ProposalSent">Proposal Sent</option>
-                      <option value="Discussion">Discussion</option>
-                      <option value="Lost">Lost</option>
-                    </select>
-                    {formErrors.lead_status && (
-                      <p className="text-red-500 text-sm">
-                        {formErrors.lead_status}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="font-poppins font-medium text-black text-[16px]">
-                      Next Metting Date :
-                    </label>
-                    <input
-                      type="date"
-                      name="lead_date"
-                      value={formData.lead_date}
-                      onChange={handleChange}
-                      placeholder="Date"
-                      className="block w-full mb-2 h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                    />
-                    {formErrors.lead_date && (
-                      <p className="text-red-500 text-sm">
-                        {formErrors.lead_date}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="font-poppins font-medium text-black text-[16px]">
-                      Description :
-                    </label>
-                    <textarea
-                      type="text"
-                      name="lead_text"
-                      value={formData.lead_text}
-                      onChange={handleChange}
-                      placeholder="Detail Note for Lead"
-                      className="block w-full mb-2 text-black rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                    />
-                    {formErrors.lead_text && (
-                      <p className="text-red-500 text-sm">
-                        {formErrors.lead_text}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <button
-                      className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
-                      onClick={() => {
-                        handleSubmitAddFollowUp();
-                      }}
-                    >
-                      Submit
-                    </button>
-                    <button
-                      className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                      onClick={() => setLeadStatusProgress(false)}
-                    >
-                      Close
-                    </button>
-
-                    <button
-                      className="mt-4 text-textdata bg-bgDataNew text-white px-3 py-2 rounded hover:bg-gray-600"
-                      onClick={() =>
-                        navigate(`/lead-followups/${formData?.lead_id}`)
-                      }
-                    >
-                      View Follow
-                    </button>
-                  </div>
+              <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+                <div>
+                  <label className="font-poppins font-medium text-black text-[16px]">
+                    Lead Status :
+                  </label>
+                  <select
+                    name="lead_status"
+                    value={formData.lead_status}
+                    onChange={handleChange}
+                    className="block w-full mb-2 rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-1 py-[9px]"
+                  >
+                    <option>Select the Status</option>
+                    <option value="Meeting">Meeting Done</option>
+                    <option value="Revisit">Revisit</option>
+                    <option value="Queries">Queries</option>
+                    <option value="ProposalSent">Proposal Sent</option>
+                    <option value="Discussion">Discussion</option>
+                    <option value="Lost">Lost</option>
+                  </select>
+                  {formErrors.lead_status && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.lead_status}
+                    </p>
+                  )}
                 </div>
+
+                <div>
+                  <label className="font-poppins font-medium text-black text-[16px]">
+                    Next Metting Date :
+                  </label>
+                  <input
+                    type="date"
+                    name="lead_date"
+                    value={formData.lead_date}
+                    onChange={handleChange}
+                    placeholder="Date"
+                    className="block w-full mb-2 h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                  />
+                  {formErrors.lead_date && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.lead_date}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="font-poppins font-medium text-black text-[16px]">
+                    Description :
+                  </label>
+                  <textarea
+                    type="text"
+                    name="lead_text"
+                    value={formData.lead_text}
+                    onChange={handleChange}
+                    placeholder="Detail Note for Lead"
+                    className="block w-full mb-2 text-black rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                  />
+                  {formErrors.lead_text && (
+                    <p className="text-red-500 text-sm">
+                      {formErrors.lead_text}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-end justify-end gap-2 px-4 mt-3">
+                <button
+                  className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
+                  onClick={() => {
+                    handleSubmitAddFollowUp();
+                  }}
+                >
+                  Submit
+                </button>
+                
+
+                <button
+                  className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
+                  onClick={() =>
+                    navigate(`/lead-followups/${formData?.lead_id}`)
+                  }
+                >
+                  View Follow
+                </button>
+                <button
+                  className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                  onClick={() => setLeadStatusProgress(false)}
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>

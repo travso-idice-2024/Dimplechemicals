@@ -18,7 +18,7 @@ const AgreementCreateForm = ({
   handleImageChange
 }) => {
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <form
         className="bg-white md:w-[600px] md:h-[650px] pt-0 pb-4 rounded-[6px] flex flex-col"
         onSubmit={handleAgreemnetSubmit}
