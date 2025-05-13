@@ -253,13 +253,8 @@ const AttendanceSheetData = () => {
                       Checkout Location
                     </th>
                   </tr>
+                  
                 </thead>
-              </table>
-            </div>
-
-            {/* Scrollable Body */}
-            <div className="overflow-y-auto max-h-[420px]">
-              <table className="table-auto w-full text-left border-collapse">
                 <tbody>
                   {empCinCotData &&
                     empCinCotData?.records?.map((user, index) => (
@@ -315,6 +310,13 @@ const AttendanceSheetData = () => {
                 </tbody>
               </table>
             </div>
+
+            {/* Scrollable Body */}
+            {/* <div className="overflow-y-auto max-h-[420px]">
+              <table className="table-auto w-full text-left border-collapse">
+              
+              </table>
+            </div> */}
             {/* {/------- Table Data End -------/} */}
           </div>
         </div>

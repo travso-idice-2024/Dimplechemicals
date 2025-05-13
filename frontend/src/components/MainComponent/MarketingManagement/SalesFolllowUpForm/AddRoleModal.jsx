@@ -194,7 +194,7 @@ const AddRoleModal = ({
 
               {/* Project Name */}
               <div>
-                <label>Project Name</label>
+                <label>Application Area</label>
                 <input
                   type="text"
                   name="project_name"

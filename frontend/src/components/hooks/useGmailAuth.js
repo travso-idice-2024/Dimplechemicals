@@ -18,16 +18,41 @@ const useGmailAuth = () => {
   const [labels, setLabels] = useState([]);
 
   // Initialize gapi
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: SCOPES
-      });
-    }
+ useEffect(() => {
+  function start() {
+    gapi.client.init({
+      clientId: CLIENT_ID,
+      scope: SCOPES
+    }).then(() => {
+      const googleAuth = gapi.auth2.getAuthInstance();
+      if (googleAuth.isSignedIn.get()) {
+        const googleUser = googleAuth.currentUser.get();
+        const token = googleUser.getAuthResponse().access_token;
+        setIsAuthenticated(true);
+        setAccessToken(token);
+        setUserProfile(googleUser.getBasicProfile());
+        console.log("User already signed in:", googleUser);
+      }
 
-    gapi.load('client:auth2', start);
-  }, []);
+      // Optionally listen to auth changes
+      googleAuth.isSignedIn.listen(isSignedIn => {
+        setIsAuthenticated(isSignedIn);
+        if (isSignedIn) {
+          const googleUser = googleAuth.currentUser.get();
+          const token = googleUser.getAuthResponse().access_token;
+          setAccessToken(token);
+          setUserProfile(googleUser.getBasicProfile());
+        } else {
+          setAccessToken(null);
+          setUserProfile(null);
+        }
+      });
+    });
+  }
+
+  gapi.load('client:auth2', start);
+}, []);
+
 
   // Login Function
   const signIn = async () => {
@@ -65,6 +90,7 @@ const useGmailAuth = () => {
   
   // Fetch Inbox Messages Function
   const fetchInboxMessages = async (label = "INBOX") => {
+    console.log("label",label);
   try {
     if (!accessToken) {
       throw new Error("User not authenticated");
@@ -148,6 +174,32 @@ const fetchLabels = async (accessToken) => {
     }
   };
 
+// ✅ Create Label Function
+  const createLabel = async (labelName) => {
+    try {
+      if (!accessToken) throw new Error("User not authenticated");
+
+      await gapi.client.load("gmail", "v1");
+
+      const response = await gapi.client.gmail.users.labels.create({
+        userId: 'me',
+        resource: {
+          name: labelName,
+          labelListVisibility: "labelShow",
+          messageListVisibility: "show"
+        }
+      });
+
+      console.log("Label created successfully:", response);
+      // Refresh label list after creation
+      fetchLabels(accessToken);
+
+    } catch (error) {
+      console.error("Error creating label:", error);
+      throw error;
+    }
+  };
+
 
   return {
     isAuthenticated,
@@ -158,6 +210,7 @@ const fetchLabels = async (accessToken) => {
     fetchInboxMessages,
     fetchLabels,
     labels,
+    createLabel
   };
 };
 
