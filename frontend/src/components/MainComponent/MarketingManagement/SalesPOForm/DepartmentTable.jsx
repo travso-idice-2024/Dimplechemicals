@@ -42,8 +42,8 @@ const DepartmentTable = ({
           <tr  key={index} className="text-center">
             <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
             <td className="px-4 py-2 text-newtextdata">{user?.company_name}</td>
-            <td className="px-4 py-2 text-newtextdata">₹{user?.deal_amount}</td>
-            <td className="px-4 py-2 text-newtextdata">₹{user?.advance_amount}</td>
+            <td className="px-4 py-2 text-newtextdata">₹{user?.total_deal_amount}</td>
+            <td className="px-4 py-2 text-newtextdata">₹{user?.total_advance_amount}</td>
             <td className="px-4 py-2 text-newtextdata"> <button
                                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                                 onClick={() => {

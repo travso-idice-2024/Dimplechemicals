@@ -23,6 +23,8 @@ const DealCreationForm = ({
   leadProductData,
   setLeadProductData,
   handleSubmitAddProduct,
+  totalAdvanceAmount,
+  totalDealAmount
 }) => {
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
@@ -79,133 +81,6 @@ const DealCreationForm = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Deal
           </h2>
-
-          {/* <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Date:</label>
-              <input
-                type="date"
-                name="date"
-                value={dealData.date || ""}
-                onChange={handleDealInputChange}
-                className="block w-full mb-1 text-gray-500 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.date && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.date}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Product Name:</label>
-                <select
-                      name="product_id"
-                      value={dealData.product_id  || ""}
-                      onChange={handleDealInputChange}
-                      className="block w-full rounded-[5px] border px-3 py-2"
-                    >
-                      <option value="">Select Product</option>
-                      {allProducts?.data?.map((prod) => (
-                        <option key={prod.id} value={prod.id}>
-                          {prod.product_name}
-                        </option>
-                      ))}
-                    </select>
-              {dealFormErrors.product_id  && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.product_id }</p>
-              )}
-            </div>
-            
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Area - Sq mtr / Cub Mtre</label>
-              <input
-                type="number"
-                name="area"
-                value={dealData.area || ""}
-                onChange={handleDealInputChange}
-                placeholder="Area"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.area && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.area}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Quantity:</label>
-              <input
-                type="number"
-                name="quantity"
-                value={dealData.quantity || ""}
-                onChange={handleDealInputChange}
-                placeholder="Quantity"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.quantity && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.quantity}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Rate:</label>
-              <input
-                type="number"
-                name="rate"
-                value={dealData.rate || ""}
-                onChange={handleDealInputChange}
-                placeholder="Rate"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.rate && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.rate}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Amount:</label>
-              <input
-                type="number"
-                name="amount"
-                value={dealData.amount || ""}
-                onChange={handleDealInputChange}
-                placeholder="Amount"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.amount && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.amount}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Advance Amount:</label>
-              <input
-                type="number"
-                name="advance_amount"
-                value={dealData.advance_amount || ""}
-                onChange={handleDealInputChange}
-                placeholder="Advance Amount"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.advance_amount && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.advance_amount}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Deal Amount:</label>
-              <input
-                type="number"
-                name="deal_amount"
-                value={dealData.deal_amount || ""}
-                onChange={handleDealInputChange}
-                placeholder="Deal Amount"
-                className="block w-full mb-1 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-              />
-              {dealFormErrors.deal_amount && (
-                <p className="text-red-500 text-sm mt-1">{dealFormErrors.deal_amount}</p>
-              )}
-            </div>
-          </div> */}
-
           <div className="mt-5 md:mt-6 px-4 overflow-y-auto h-[400px]">
             <label className="font-poppins font-medium text-[16px] text-bgData">Select and Add Product:</label>
             <div className="flex items-center justify-between gap-4">
@@ -323,6 +198,23 @@ const DealCreationForm = ({
                         placeholder="Amount"
                       />
                     </div>
+                    <div>
+                      <label className="text-xs block mb-1">Advance Amount</label>
+                      <input
+                        type="number"
+                        value={product.advance_amount}
+                        onChange={(e) =>
+                          handleProductInputChange(
+                            index,
+                            "advance_amount",
+                            e.target.value
+                          )
+                        }
+                        className="block w-full text-xs rounded border px-2 py-1"
+                        placeholder="Advance Amount"
+                      />
+                    </div>
+
                   </div>
                 </div>
               ))}
@@ -334,12 +226,13 @@ const DealCreationForm = ({
                 <label className="text-sm block mb-1">Advance Amt</label>
                 <input
                   type="number"
-                  value={dealData.advance_amount}
-                  onChange={(e) =>
-                    setDealData({ ...dealData, advance_amount: e.target.value })
-                  }
+                  value={totalAdvanceAmount}
+                  disabled
+                  // onChange={(e) =>
+                  //   setDealData({ ...dealData, total_advance_amount: e.target.value })
+                  // }
                   className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                  placeholder="Advance"
+                  //placeholder="Advance Amount"
                 />
               </div>
 
@@ -347,12 +240,13 @@ const DealCreationForm = ({
                 <label className="text-sm block mb-1">Deal Amt</label>
                 <input
                   type="number"
-                  value={dealData.deal_amount}
-                  onChange={(e) =>
-                    setDealData({ ...dealData, deal_amount: e.target.value })
-                  }
+                  value={totalDealAmount}
+                  disabled
+                  // onChange={(e) =>
+                  //   setDealData({ ...dealData, deal_amount: e.target.value })
+                  // }
                   className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
-                  placeholder="Deal Amount"
+                  //placeholder="Deal Amount"
                 />
               </div>
             </div>

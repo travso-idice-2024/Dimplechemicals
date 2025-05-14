@@ -128,7 +128,7 @@ const getCheckinCheckoutReport = async (req, res) => {
           ]
         },
         group: ['emp_id', 'data'],
-        order: [['data', 'ASC']]
+        order: [['data', 'DESC']]
       });
 
       return res.status(200).json({

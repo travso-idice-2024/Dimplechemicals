@@ -65,13 +65,10 @@ const EmpSARReport = ({
                           Rate
                         </th>
                         <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
-                          Amount
+                          Deal Amount
                         </th>
                         <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
                           Advance amount
-                        </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
-                          Deal amount
                         </th>
                       </tr>
                     </thead>
@@ -85,10 +82,19 @@ const EmpSARReport = ({
                         <td className="px-4 py-2 text-newtextdata">{user?.quantity}</td>
                         <td className="px-4 py-2 text-newtextdata">₹{user?.rate}</td>
                         <td className="px-4 py-2 text-newtextdata text-center">₹{user?.amount}</td>
-                        <td className="px-4 py-2 text-newtextdata">₹{user?.deal_amount}</td>
                         <td className="px-4 py-2 text-newtextdata">₹{user?.advance_amount}</td>
                       </tr>
                        ))}
+                        <tr className="text-center"> 
+                        <td className="px-4 py-2 text-newtextdata text-center"></td>
+                        <td className="px-4 py-2 text-newtextdata text-center"></td>         
+                        <td className="px-4 py-2 text-newtextdata text-center"></td>         
+                        <td className="px-4 py-2 text-newtextdata text-center"></td>         
+                        <td className="px-4 py-2 text-newtextdata text-center"></td>  
+                        <td className="px-4 py-2 text-newtextdata text-center"></td>         
+                        <td className="px-4 py-2 text-newtextdata text-center">₹{selectedLead?.total_deal_amount}</td>
+                        <td className="px-4 py-2 text-newtextdata">₹{selectedLead?.total_advance_amount}</td>
+                      </tr>
                     </tbody>
           </table>
         </div>

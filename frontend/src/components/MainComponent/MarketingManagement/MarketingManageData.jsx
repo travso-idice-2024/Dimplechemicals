@@ -597,11 +597,13 @@ const MarketingManageData = () => {
   // });
   const [dealData, setDealData] = useState({
     lead_id: selectedLead?.id || "",
-    advance_amount: "",
-    deal_amount: "",
     deals: [],
   });
   
+
+  const [totalAdvanceAmount, setTotalAdvanceAmount] = useState(0);
+  const [totalDealAmount, setTotalDealAmount] = useState(0);
+
 
   useEffect(() => {
     if (pductByleadId?.data?.length > 0) {
@@ -613,41 +615,61 @@ const MarketingManageData = () => {
         quantity:prod.quantity,
         rate: prod.rate,
         amount:prod.amount,
+        advance_amount:prod.advance_amount
       }));
   
       setDealData((prevState) => ({
         ...prevState,
-        deals: products,
+        deals:products, // note: spread both
       }));
     }
   }, [pductByleadId?.data]); 
 
- // console.log("pductByleadId.data", dealData);
+  // const handleProductInputChange = (index, field, value) => {
+  //   const updatedDeals = [...dealData.deals];
+  //   updatedDeals[index][field] = value;
 
-
-
+  //   setDealData({
+  //     ...dealData,
+  //     deals: updatedDeals,
+  //   });
+  // };
   const handleProductInputChange = (index, field, value) => {
-    // Create a copy of the current deals array
     const updatedDeals = [...dealData.deals];
-  
-    // Update the specific field in the corresponding product object inside the deals array
     updatedDeals[index][field] = value;
   
-    // Update the state with the modified deals array
-    setDealData({
-      ...dealData,
+    if (field === "quantity" || field === "rate") {
+      const quantity = parseFloat(updatedDeals[index].quantity) || 0;
+      const rate = parseFloat(updatedDeals[index].rate) || 0;
+      updatedDeals[index].amount = quantity * rate;
+    }
+  
+    setDealData((prevState) => ({
+      ...prevState,
       deals: updatedDeals,
-    });
+    }));
   };
   
-  //console.log("dealData", dealData);
-  // const handleDealInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setDealData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
+  
+  
+  
+  useEffect(() => {
+    const totalAdvance = dealData?.deals?.reduce(
+      (sum, item) => sum + (parseFloat(item.advance_amount) || 0),
+      0
+    );
+  
+    const totalAmount = dealData?.deals?.reduce(
+      (sum, item) => sum + (parseFloat(item.amount) || 0),
+      0
+    );
+  
+    setTotalAdvanceAmount(totalAdvance);
+    setTotalDealAmount(totalAmount);
+  }, [dealData?.deals]);
+  
+  
+  
 
   const [dealFormErrors, setDealFormErrors] = useState({});
   const [addDealFlashMessage, setAddDealFlashMessage] = useState("");
@@ -737,7 +759,7 @@ const MarketingManageData = () => {
         lead_id: selectedLead.id
       }));
     }
-  }, [selectedLead]);
+  }, [selectedLead?.id]);
   
   //console.log("leadProductData", leadProductData);
    const handleSubmitAddProduct = async (e) => {
@@ -987,6 +1009,8 @@ const MarketingManageData = () => {
           leadProductData = {leadProductData}
           setLeadProductData = {setLeadProductData}
           handleSubmitAddProduct = {handleSubmitAddProduct}
+          totalAdvanceAmount={totalAdvanceAmount}
+          totalDealAmount={totalDealAmount}
         />
       )}
         {isLeadAssignPopup && (

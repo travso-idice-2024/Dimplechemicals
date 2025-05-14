@@ -21,10 +21,8 @@ import CreateLabelForm from "./CreateLabelForm";
 
 const Gmail = () => {
   const { isAuthenticated, signIn, signOut, userProfile, accessToken,fetchInboxMessages ,labels,
-    fetchLabels,createLabel} =
+    fetchLabels,createLabel,getMessageDetail} =
     useGmailAuth();
-
-console.log("labels data list", labels);
 
  useEffect(() => {
     if (isAuthenticated && accessToken) {
@@ -49,6 +47,7 @@ console.log("labels data list", labels);
         accessToken={accessToken}
         fetchInboxMessages={fetchInboxMessages}
         labelName={activeView}
+        getMessageDetail={getMessageDetail}
       />;
   }
 };

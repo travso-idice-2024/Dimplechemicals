@@ -201,6 +201,22 @@ const fetchLabels = async (accessToken) => {
     }
   };
 
+//get message details
+const getMessageDetail = async (messageId) => {
+  try {
+    const response = await window.gapi.client.gmail.users.messages.get({
+      userId: "me",
+      id: messageId,
+      format: "full", // or 'raw', 'metadata', 'minimal'
+    });
+
+    return response.result; // save it to state
+  } catch (error) {
+    console.error("Error fetching message detail:", error);
+  }
+};
+
+
 
   return {
     isAuthenticated,
@@ -211,7 +227,8 @@ const fetchLabels = async (accessToken) => {
     fetchInboxMessages,
     fetchLabels,
     labels,
-    createLabel
+    createLabel,
+    getMessageDetail
   };
 };
 

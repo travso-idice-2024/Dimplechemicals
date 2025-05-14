@@ -1241,7 +1241,9 @@ const getFinalisedDeals = async (req, res) => {
 
 const addDealData = async (req, res) => {
   try {
-    const { lead_id, advance_amount, deal_amount, deals } = req.body;
+    const { lead_id , deals } = req.body;
+
+    //console.log("deals", deals);
     
     if (!lead_id || !Array.isArray(deals) || deals.length === 0) {
       return res.status(400).json({
@@ -1269,8 +1271,7 @@ const addDealData = async (req, res) => {
           quantity: deal?.quantity || null,
           rate: deal?.rate || null,
           amount: deal?.amount || null,
-          advance_amount:advance_amount || null,
-          deal_amount:deal_amount || null,
+          advance_amount: deal.advance_amount || null
         },
       });
 
@@ -1282,8 +1283,7 @@ const addDealData = async (req, res) => {
           quantity: deal?.quantity || null,
           rate: deal.rate || null,
           amount: deal.amount || null,
-          advance_amount:advance_amount || null,
-          deal_amount:deal_amount || null,
+          advance_amount: deal.advance_amount || null
         });
       }
 
@@ -1303,6 +1303,72 @@ const addDealData = async (req, res) => {
     });
   }
 };
+
+// const getDealData = async (req, res) => {
+//   try {
+//     const leads = await Lead.findAll({
+//       include: [
+//         {
+//           model: Customer,
+//           as: 'customer',
+//           attributes: ['company_name'],
+//         },
+//         {
+//           model: dealData,
+//           as: 'deals',
+//           attributes: [
+//             'id',
+//             'lead_id',
+//             'product_id',
+//             'area',
+//             'quantity',
+//             'rate',
+//             'amount',
+//             'advance_amount',
+//             'deal_amount',
+//             'deal_code',
+//             'date',
+//           ],
+//           include: [
+//             {
+//               model: Product,
+//               as: 'product',
+//               attributes: ['product_name'],
+//             },
+//           ],
+//         },
+//       ],
+//     });
+
+//     const result = leads.map((lead) => {
+//       const firstDeal = lead.deals[0] || {};
+//       return {
+//         lead_id: lead.id,
+//         company_name: lead.customer?.company_name || null,
+//         advance_amount: firstDeal.advance_amount || null,
+//         deal_amount: firstDeal.deal_amount || null,
+//         product_name: firstDeal.product?.product_name || null,
+//         deals: lead.deals.map((deal) => ({
+//           ...deal.toJSON(),
+//           product_name: deal.product?.product_name || null,
+//         })),
+//       };
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'Grouped deal data fetched successfully',
+//       data: result,
+//     });
+//   } catch (error) {
+//     console.error('Error fetching grouped deal data:', error);
+//     res.status(500).json({
+//       success: false,
+//       message: 'Server Error',
+//     });
+//   }
+// };
+
 
 const getDealData = async (req, res) => {
   try {
@@ -1341,13 +1407,15 @@ const getDealData = async (req, res) => {
     });
 
     const result = leads.map((lead) => {
-      const firstDeal = lead.deals[0] || {};
+      // Sum total deal_amount and advance_amount for this lead's deals
+      const total_deal_amount = lead.deals.reduce((sum, deal) => sum + (deal.amount || 0), 0);
+      const total_advance_amount = lead.deals.reduce((sum, deal) => sum + (deal.advance_amount || 0), 0);
+
       return {
         lead_id: lead.id,
         company_name: lead.customer?.company_name || null,
-        advance_amount: firstDeal.advance_amount || null,
-        deal_amount: firstDeal.deal_amount || null,
-        product_name: firstDeal.product?.product_name || null,
+        total_deal_amount,
+        total_advance_amount,
         deals: lead.deals.map((deal) => ({
           ...deal.toJSON(),
           product_name: deal.product?.product_name || null,
