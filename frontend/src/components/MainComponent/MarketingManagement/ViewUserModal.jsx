@@ -6,7 +6,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
   console.log("selectedLead", selectedLead);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Lead Details
         </h2>
@@ -14,7 +14,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             {/* Company Name */}
             <div className="flex items-center gap-3">
-              <label className="font-poppins font-semibold text-textdata text-bgData">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
                 Company Name
               </label>
               <p className="font-poppins font-semibold text-textdata">:</p>
@@ -23,7 +23,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
 
             {/* Client Name */}
             <div className="flex items-center gap-3">
-              <label className="font-poppins font-semibold text-textdata text-bgData">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
                 Client Name
               </label>
               <p className="font-poppins font-semibold text-textdata">:</p>
@@ -32,7 +32,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
 
             {/* Lead Owner */}
             <div className="flex items-center gap-3">
-              <label className="font-poppins font-semibold text-textdata text-bgData">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
                 Lead Owner
               </label>
               <p className="font-poppins font-semibold text-textdata">:</p>
@@ -41,7 +41,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
 
             {/* Lead Source */}
             <div className="flex items-center gap-3">
-              <label className="font-poppins font-semibold text-textdata text-bgData">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
                 Lead Source
               </label>
               <p className="font-poppins font-semibold text-textdata">:</p>
@@ -50,7 +50,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
 
             {/* Lead Status */}
             <div className="flex items-center gap-3">
-              <label className="font-poppins font-semibold text-textdata text-bgData">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
                 Lead Status
               </label>
               <p className="font-poppins font-semibold text-textdata">:</p>
@@ -59,7 +59,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
 
             {/* Assigned Person */}
             <div className="flex items-center gap-3">
-              <label className="font-poppins font-semibold text-textdata text-bgData">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
                 Assigned Person
               </label>
               <p className="font-poppins font-semibold text-textdata">:</p>
@@ -69,7 +69,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
 
           <div className="flex items-center gap-3">
             {/* <div className="mt-4">
-              <label className="font-poppins font-semibold text-textdata text-bgData block mb-2">
+              <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData block mb-2">
                 Lead Re-Assigned Persons
               </label>
 
@@ -155,7 +155,7 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
           </div>
           <div className="flex items-end justify-end gap-2">
             <button
-              className="mt-4 text-textdata bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+              className="mt-4 text-textdata whitespace-nowrap bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => setViewModalOpen(false)}
             >
               Close

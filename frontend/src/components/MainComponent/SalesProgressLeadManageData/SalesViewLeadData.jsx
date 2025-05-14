@@ -194,9 +194,9 @@ const SalesViewLeadData = () => {
       </div>
       <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
             <div>
-              <h1 className="text-white text-textdata font-semibold flex items-center">
+              <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center">
                 <svg
                   width="25"
                   height="25"
@@ -230,10 +230,10 @@ const SalesViewLeadData = () => {
               {/*--------- Follow Up Data Start -------*/}
               {leadStatusProgress && (
                 <div className="mt-5 md:mt-9 bg-white w-full pt-0 pb-4 rounded-[6px] flex flex-col">
-                  <h2 className="text-white text-textdata font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+                  <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                     Follow Up Form
                   </h2>
-                  <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
+                  <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-fit">
                     <div>
                       <label className="font-poppins font-medium text-black text-[16px]">
                         Description :
@@ -375,7 +375,7 @@ const SalesViewLeadData = () => {
             {/*-------------- Data Showing With the Follow Of Status ------------*/}
             {/* {leadStatusData && (  */}
             <div className="w-full mt-8 overflow-x-auto">
-              <div className="flex items-center gap-[5px]">
+              <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
                 <div>
                   <input
                     type="search"
@@ -386,7 +386,7 @@ const SalesViewLeadData = () => {
                   />
                 </div>
               </div>
-              <table className="min-w-full table-auto">
+              <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
                     <th className="px-4 py-2 text-left text-bgDataNew">Id</th>

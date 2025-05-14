@@ -4,15 +4,15 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
   //console.log(selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
 
-        <div className="overflow-y-auto h-fit">
+        <div className="overflow-y-auto md:h-fit">
           {/* Profile Section */}
           <div className="px-5 py-4">
-            <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
                 {/* <img
                   src={
@@ -91,7 +91,7 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
 
 const Detail = ({ label, value }) => (
   <div className="flex items-center gap-3">
-    <label className="font-poppins font-semibold text-textdata text-bgData">
+    <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
       {label}
     </label>
     <p className="font-poppins font-semibold text-textdata">:</p>

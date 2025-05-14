@@ -10,7 +10,7 @@ const Financial = () => {
   const [chartData] = useState({
     series: [
       {
-        data: [50, 20, 40, 5, 25],
+        data: [50, 20, 40, 5, 25], 
       },
     ],
     options: {
@@ -87,7 +87,7 @@ const Financial = () => {
   });
 
   return (
-    <div className="subgrid-two-item grid-common grid-c8 flex flex-col justify-between">
+    <div className="grid-one-item grid-common grid-c1 flex flex-col justify-between">
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">Lead Analysis Graph</h3>
         <button className="grid-c-title-icon">

@@ -10,7 +10,7 @@ const DepartmentTable = ({
 
   return (
     <div className="overflow-x-auto">
-    <table className="min-w-full table-auto">
+    <table className="table-auto w-full text-left border-collapse">
       <thead>
         <tr className="bg-[#473b33] rounded-[8px]">
           <th className="px-4 py-2 text-left text-bgDataNew">Emp. Id</th>

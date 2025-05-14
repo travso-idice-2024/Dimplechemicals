@@ -87,10 +87,11 @@ const MeetingPage = () => {
         <table className="min-w-full rounded-[8px] border-none">
           <thead className="bg-[#1e1e2d78]">
             <tr className="">
-              <th className="px-4 py-2 text-textdata">ID</th>
-              <th className="px-4 py-2 text-textdata">Name</th>
-              <th className="px-4 py-2 text-textdata">Today's Meetings</th>
-              <th className="px-4 py-2 text-textdata">Achieved for the day</th>
+              <th className="px-4 py-2 text-[10px] md:text-textdata">ID</th>
+              <th className="px-4 py-2 text-[10px] md:text-textdata">Name</th>
+              <th className="px-4 py-2 text-[10px] md:text-textdata">Today's Meetings</th>
+              <th className="px-4 py-2 text-[10px] md:text-textdata whitespace-nowrap hidden md:block">Achieved for the day</th>
+              <th className="px-4 py-2 text-[10px] md:text-textdata whitespace-nowrap block md:hidden">Achieved day</th>
             </tr>
           </thead>
           <tbody>
@@ -99,9 +100,9 @@ const MeetingPage = () => {
                 key={index + 1}
                 className="text-center hover:bg-[#1e1e2d78] cursor-pointer"
               >
-                <td className="px-4 py-2 text-textdata">{index + 1}</td>
+                <td className="px-4 py-2 text-[10px] md:text-textdata">{index + 1}</td>
                 <td
-                  className="px-4 py-2 text-textdata"
+                  className="px-4 py-2 text-[10px] md:text-textdata"
                   onClick={() => {
                     setSelectedLeadData(metting);
                     setViewLeadReportOpen(true);
@@ -109,8 +110,8 @@ const MeetingPage = () => {
                 >
                   {metting?.fullname}
                 </td>
-                <td className="px-4 py-2 text-textdata">{metting?.email}</td>
-                <td className="px-4 py-2 text-textdata">
+                <td className="px-4 py-2 text-[10px] md:text-textdata">{metting?.email}</td>
+                <td className="px-4 py-2 text-[10px] md:text-textdata">
                   {metting?.total_meetings}
                 </td>
               </tr>

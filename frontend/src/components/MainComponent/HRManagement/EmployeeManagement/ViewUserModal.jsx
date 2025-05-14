@@ -9,15 +9,15 @@ const ViewUserModal = ({
 }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Employee Details
         </h2>
 
-        <div className="overflow-y-auto h-fit">
+        <div className="overflow-y-auto md:h-fit">
           {/* Profile Section */}
           <div className="px-5 py-4">
-            <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
                 {/* <img
                   src={
@@ -52,7 +52,7 @@ const ViewUserModal = ({
 
           {/* Details Grid */}
           <div className="py-3 px-7">
-            <div className="grid grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
               <Detail label="Status" value={selectedEmployee.status} />
               <Detail label="Phone" value={selectedEmployee.phone} />
               <Detail label="Aadhar No." value={selectedEmployee.aadhar_no} />
@@ -105,7 +105,7 @@ const ViewUserModal = ({
 // Reusable Detail Component
 const Detail = ({ label, value }) => (
   <div className="flex items-center gap-3">
-    <label className="font-poppins font-semibold text-textdata text-bgData">
+    <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
       {label}
     </label>
     <p className="font-poppins font-semibold text-textdata">:</p>

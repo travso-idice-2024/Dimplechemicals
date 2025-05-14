@@ -46,28 +46,28 @@ const EmpSARReport = ({
           <table className="w-full border border-collapse text-sm">
              <thead>
                       <tr className="bg-[#473b33] rounded-[8px]">
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Id
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Date
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Product Name
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Area - Sq mtr / Cub Mtr
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Quantity
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Rate
                         </th>
                         <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
                           Deal Amount
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Advance amount
                         </th>
                       </tr>

@@ -8,13 +8,13 @@ const LeadGenerationModal = ({ selectedUserLead, onClose }) => {
 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[1080px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <div className="bg-white w-full md:w-[1080px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Lead of {selectedUserLead.name}
         </h2>
 
         <div className="overflow-x-auto px-4 mt-4">
-          <table className="min-w-full table-auto">
+          <table className="table-auto w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#473b33] rounded-[8px]">
                 <th className="px-4 py-2 text-left text-bgDataNew">Name</th>

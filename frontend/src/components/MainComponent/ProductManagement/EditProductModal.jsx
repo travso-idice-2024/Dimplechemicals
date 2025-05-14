@@ -37,13 +37,13 @@ const EditProductModal = ({
         )}
       </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white md:w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Product
           </h2>
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Product Name :
               </label>
               <input
@@ -62,7 +62,7 @@ const EditProductModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select Category :
               </label>
               <select
@@ -87,7 +87,7 @@ const EditProductModal = ({
 
             {/* HSN Code */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 HSN Code :
               </label>
               <input
@@ -107,7 +107,7 @@ const EditProductModal = ({
 
             {/* Stock */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Stock :
               </label>
               <input
@@ -125,7 +125,7 @@ const EditProductModal = ({
 
             {/* Unit */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Unit :
               </label>
               <input
@@ -143,7 +143,7 @@ const EditProductModal = ({
 
             {/* Rate */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Rate :
               </label>
               <input
@@ -161,7 +161,7 @@ const EditProductModal = ({
 
             {/* Status */}
             <div className="">
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Status :
               </label>
               <select
@@ -181,7 +181,7 @@ const EditProductModal = ({
 
             {/* Product Description */}
             <div className="col-span-3">
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Product Description :
               </label>
               <textarea
@@ -200,13 +200,13 @@ const EditProductModal = ({
           </div>
           <div className="flex items-end justify-end gap-2 px-4">
             <button
-              className="bg-bgDataNew text-textdata text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+              className="bg-bgDataNew text-textdata whitespace-nowrap text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
               onClick={handleEditSubmit}
             >
               Update Product
             </button>
             <button
-              className="mt-4 bg-gray-500 text-textdata text-white px-3 py-2 rounded hover:bg-gray-600"
+              className="mt-4 bg-gray-500 text-textdata whitespace-nowrap text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => setEditProductModalOpen(false)}
             >
               Close

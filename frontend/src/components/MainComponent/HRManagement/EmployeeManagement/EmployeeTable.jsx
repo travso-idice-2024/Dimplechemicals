@@ -38,36 +38,36 @@ const EmployeeTable = ({
         <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Emp ID
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 email
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Reporting Manager
               </th>
              
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Phone
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Status
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Leaves
               </th>
 
              
 
-              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Role</th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">Role</th> */}
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
             </tr>
@@ -75,10 +75,10 @@ const EmployeeTable = ({
           <tbody>
             {Employees?.map((user, index) => (
               <tr key={index} className="">
-                <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
-                <td className="px-4 py-2 text-newtextdata">{user?.emp_id}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{index + 1}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user?.emp_id}</td>
                 <td
-                  className="px-4 py-2 text-newtextdata cursor-pointer"
+                  className="px-4 py-2 text-newtextdata whitespace-nowrap  cursor-pointer"
                   onClick={() => {
                     setSelectedEmployee(user);
                     setViewModalOpen(true);
@@ -86,23 +86,23 @@ const EmployeeTable = ({
                 >
                   {user?.fullname}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user?.email}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user?.jobDetail?.reportingManager?.fullname}
                 </td>
                
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user?.phone}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">{user?.status}</td>
-                <td className="px-4 py-2 text-newtextdata">5</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user?.status}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">5</td>
 
 
-                {/* <td className="px-4 py-2 text-newtextdata">{user?.employeeRole?.role?.role_name}</td> */}
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user?.employeeRole?.role?.role_name}</td> */}
 
-                <td className="px-4 py-2 text-newtextdata flex items-center space-x-2">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap  flex items-center space-x-2">
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                     onClick={() => {

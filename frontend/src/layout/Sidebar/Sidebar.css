@@ -184,6 +184,15 @@
   .sidebar-change {
     margin-left: 0;
   }
+  .nav-link span {
+  font-size: 11px !important;
+}
+.submenu-link span {
+  font-size: 10px;
+}
+.nested-submenu-link span {
+  font-size: 10px;
+}
 }
 
 @media screen and (max-width: 420px) {
@@ -199,4 +208,13 @@
   .sidebar-change {
     margin-left: 0;
   }
+  .nav-link span {
+  font-size: 11px !important;
+}
+.submenu-link span {
+  font-size: 10px;
+}
+.nested-submenu-link span {
+  font-size: 10px;
+}
 }

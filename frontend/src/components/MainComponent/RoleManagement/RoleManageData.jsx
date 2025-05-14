@@ -218,11 +218,11 @@ const handleDelete = async (id) => {
   return (
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
-          <h1 className="text-white text-textdata font-semibold">
+        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
             Role Management
           </h1>
-          <div className="flex items-center gap-[5px]">
+          <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
             <input
               type="search"
               className="border border-[#473b33] bg-transparent px-3 py-[0.15rem] text-white outline-none"
@@ -231,7 +231,7 @@ const handleDelete = async (id) => {
               onChange={handleSearchChange}
             />
             <button
-              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
               onClick={() => setAddUserModalOpen(true)}
             >
               <img

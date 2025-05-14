@@ -54,14 +54,14 @@ const EditUserModal = ({
         )}
       </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Lead
           </h2>
 
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-fit">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-fit">
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Client Name :
               </label>
               <input
@@ -75,7 +75,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select Meeting date :
               </label>
               <input
@@ -97,7 +97,7 @@ const EditUserModal = ({
             {location.pathname === "/sale-management/lead-management" && (
               <>
                 <div>
-                  <label className="font-poppins font-medium text-textdata text-bgData">
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                     Last Contact date :
                   </label>
                   <input
@@ -118,7 +118,7 @@ const EditUserModal = ({
                 </div>
 
                 <div>
-                  <label className="font-poppins font-medium text-textdata text-bgData">
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                     Next FollowUp date :
                   </label>
                   <input
@@ -135,7 +135,7 @@ const EditUserModal = ({
             )}
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select Lead Source :
               </label>
               <select
@@ -158,7 +158,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Lead Owner :
               </label>
               <input
@@ -172,7 +172,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select Lead Status :
               </label>
               <select
@@ -197,7 +197,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Sales Person(contact before) :
               </label>
               <select
@@ -221,7 +221,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select Company:
               </label>
               <select
@@ -249,7 +249,7 @@ const EditUserModal = ({
 
             {updateLeadData?.customer_id && (
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select address:
                 </label>
                 <select
@@ -271,7 +271,7 @@ const EditUserModal = ({
             )}
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Follow Up Record :
               </label>
               <input
@@ -285,7 +285,7 @@ const EditUserModal = ({
             </div>
 
             <div className="">
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Any Special Requirement :
               </label>
               <textarea
@@ -299,7 +299,7 @@ const EditUserModal = ({
             </div>
 
             <div className="">
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Last Communication Details :
               </label>
               <textarea
@@ -319,7 +319,7 @@ const EditUserModal = ({
 
             {updateLeadData?.customer_id && (
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Custome Company Address:
                 </label>
                 <textarea
@@ -333,8 +333,8 @@ const EditUserModal = ({
             )}
 
             <div>
-              <div className="flex items-center justify-between">
-                <label className="font-poppins font-medium text-textdata text-bgData">
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Interest Product/Service:
                 </label>
                 <div className="flex items-center gap-2 mt-2">
@@ -390,8 +390,8 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label className="font-poppins font-medium text-textdata text-bgData">
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Budget:
                 </label>
                 <div className="flex items-center gap-2 mt-2">
@@ -448,8 +448,8 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label className="font-poppins font-medium text-textdata text-bgData">
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Quantity:
                 </label>
                 <div className="flex items-center gap-2 mt-2">

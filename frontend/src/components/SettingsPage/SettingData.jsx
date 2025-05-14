@@ -14,12 +14,12 @@ const SettingData = () => {
   return (
     <div className="main-content-holder max-h-[620px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
-          <h1 className="text-white text-textdata font-semibold">Settings</h1>
+        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <h1 className="text-white text-textdata whitespace-nowrap font-semibold">Settings</h1>
         </div>
         <div className="w-full flex flex-col md:flex-row gap-[20px]">
           {/* Left Sidebar for Settings List */}
-          <div className="md:w-[350px] bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+          <div className="w-full md:w-[350px] bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             <nav className="navigationData">
               <ul className="space-y-4 nav-list">
                 {settingsList.map((setting) => (

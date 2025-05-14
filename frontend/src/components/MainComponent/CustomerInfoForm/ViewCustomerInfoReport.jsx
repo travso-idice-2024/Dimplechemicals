@@ -5,7 +5,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
   console.log("selectedCustomer", selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[950px] rounded-[6px]">
+      <div className="bg-white w-full md:w-[950px] rounded-[6px]">
         <h2 className="text-white text-[20px] font-poppins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           DIMPLE CHEMICALS & SERVICES PVT. LTD.
         </h2>
@@ -32,10 +32,10 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
               Customer Information Form (CIF)
             </h3>
             <div className="px-[1px]">
-              <table className="min-w-full table-auto border border-gray-600">
+              <table className="table-auto w-full text-left border-collapse border border-gray-600">
                 <tbody>
                   {/* CIF No. and Date */}
-                  <tr className="hover:bg-gray-50 whitespace-nowrap">
+                  <tr className="hover:bg-gray-50 whitespace-nowrap ">
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
                       CIF NO.
                     </td>
@@ -244,11 +244,11 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
               Contact Person Details
             </h3>
             <div className="px-[1px]">
-              <table className="min-w-full table-auto border border-gray-600">
+              <table className="table-auto w-full text-left border-collapse border border-gray-600">
                 <tbody>
                   <tr className="text-center">
                     <td
-                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold whitespace-nowrap"
+                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold whitespace-nowrap "
                       colSpan={2}
                     >
                       Person Name
@@ -281,31 +281,31 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
 
                   <tr className="text-center">
                     <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
                       colSpan={2}
                     >
                       {selectedCustomer?.client_name || "Ravi Verma"}
                     </td>
                     <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap  "
                       colSpan={1}
                     >
                       {selectedCustomer?.designation || "Purchase Head"}
                     </td>
                     <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
                       colSpan={1}
                     >
                       +91 {selectedCustomer?.primary_contact || "9876543211"}
                     </td>
                     <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
                       colSpan={2}
                     >
                       {selectedCustomer?.secondary_contact || "022-123456"}
                     </td>
                     <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
                       colSpan={2}
                     >
                       {selectedCustomer?.email_id || "ravi@example.com"}
@@ -321,7 +321,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
               DCPSL Executive Details
             </h3>
             <div className="px-[1px]">
-              <table className="min-w-full table-auto border border-gray-600">
+              <table className="table-auto w-full text-left border-collapse border border-gray-600">
                 <tbody>
                   {/* DCPSL EXECUTIVE DETAILS */}
                   <tr className="text-center">
@@ -369,7 +369,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
               Buisness Associate Details
             </h3>
             <div className="px-[1px]">
-              <table className="min-w-full table-auto border border-gray-600">
+              <table className="table-auto w-full text-left border-collapse border border-gray-600">
                 <tbody>
                   {/* BUSINESS ASSOCIATE */}
                   <tr className="text-center">

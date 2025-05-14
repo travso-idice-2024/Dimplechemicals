@@ -20,19 +20,19 @@ const DepartmentTable = ({
       <table className="table-auto w-full text-center border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Id
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Company Name
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Deal Amount
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Advance Amount
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
+            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Action
             </th>
           </tr>

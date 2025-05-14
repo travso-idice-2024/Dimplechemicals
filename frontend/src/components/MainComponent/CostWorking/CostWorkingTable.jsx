@@ -37,30 +37,30 @@ const CostWorkingTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Comapny Name
               </th>
-              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">Location</th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">Location</th> */}
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Nature of Work{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Technology used
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Estimate no
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Estimate date
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Revision no
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Revision date
               </th>
 
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Action
               </th>
             </tr>
@@ -92,7 +92,7 @@ const CostWorkingTable = ({
                   {user?.revision_date.split("T")[0]}
                 </td>
 
-                <td className="px-4 py-2 text-newtextdata flex items-center space-x-2 text-center">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap flex items-center space-x-2 text-center">
                   
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"

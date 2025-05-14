@@ -121,7 +121,7 @@ const AddCostWorkingModal = ({
 
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white md:w-[1100px]  rounded-[6px]">
+        <div className="bg-white w-full md:w-[1100px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Cost Working
           </h2>
@@ -130,14 +130,14 @@ const AddCostWorkingModal = ({
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-2">
               {/* Select Customer */}
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select Name of Company:
                 </label>
                 <select
                   name="company_name"
                   value={costWorkingData.company_name || ""}
                   onChange={handleCostWorkingCustomerChange}
-                  className="block w-full text-textdata mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9.50px]"
+                  className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9.50px]"
                 >
                   <option value="">Select the Customer</option>
                   {allCustomers?.data?.map((customer) => (
@@ -156,7 +156,7 @@ const AddCostWorkingModal = ({
               {/* Select Address */}
               {costWorkingData.company_name && (
                 <div>
-                  <label className="font-poppins font-medium text-textdata text-bgData">
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                     Select Location Site:
                   </label>
                   <select
@@ -192,7 +192,7 @@ const AddCostWorkingModal = ({
                 "total_project_cost",
               ].map((field) => (
                 <div key={field}>
-                  <label className="font-poppins font-medium text-textdata text-bgData">
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                     {field
                       .split("_") // Split by underscore
                       .map(

@@ -78,3 +78,26 @@
   margin-left: 5px;
 }
 }
+
+
+@media screen and (max-width: 768px) {
+  .content-top-title {
+    color: var(--clr-white);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .datashowemail{
+    display: none;
+  }
+
+ .full-name {
+    display: none;
+  }
+  .short-name {
+    display: inline;
+  }
+  .content-top-btns {
+  margin-left: 5px;
+}
+}

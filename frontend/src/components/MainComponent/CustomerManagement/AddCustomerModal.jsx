@@ -55,13 +55,13 @@ const AddCustomerModal = ({
         )}
       </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Customer
           </h2>
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-[450px]">
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-[350px] md:h-[450px]">
             {/* <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Date :
             </label>
             <input
@@ -71,7 +71,7 @@ const AddCustomerModal = ({
             />
           </div> */}
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Company Name :
               </label>
               <input
@@ -89,7 +89,7 @@ const AddCustomerModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Contact person Name 1:
               </label>
               <input
@@ -106,7 +106,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Contact person Name 2 :
               </label>
               <input
@@ -125,7 +125,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Contact person Name 3:
               </label>
               <input
@@ -144,7 +144,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Business Associate Name :
               </label>
               <select
@@ -171,7 +171,7 @@ const AddCustomerModal = ({
             </div>
 
             <div onClick={handleAssociatePopup}>
-              <label className="font-poppins font-medium text-textdata text-bgData "></label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData "></label>
               <input
                 type="text"
                 value="Add Associate"
@@ -181,13 +181,13 @@ const AddCustomerModal = ({
             {/* Associate Popup Design */}
             {associatePopup && (
               <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-                <div className="bg-white md:w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+                <div className="bg-white w-full md:w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
                   <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                     Add New Associate
                   </h2>
-                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
+                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-fit">
                     <div>
-                      <label className="font-poppins font-medium text-textdata text-bgData">
+                      <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                         Associate Name :
                       </label>
                       <input
@@ -225,7 +225,7 @@ const AddCustomerModal = ({
             )}
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Company GST no :
               </label>
               <input
@@ -242,7 +242,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Designation :
               </label>
               <input
@@ -259,7 +259,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Primary Contact :
               </label>
               <input
@@ -278,7 +278,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Secondary Contact :
               </label>
               <input
@@ -297,7 +297,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Email Id :
               </label>
               <input
@@ -314,7 +314,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 PanNo :
               </label>
               <input
@@ -330,7 +330,7 @@ const AddCustomerModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 PinCode :
               </label>
               <input
@@ -346,7 +346,7 @@ const AddCustomerModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 City :
               </label>
               <input
@@ -362,7 +362,7 @@ const AddCustomerModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Address :
               </label>
               <textarea
@@ -379,7 +379,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Reg Office Add :
               </label>
               <textarea
@@ -396,7 +396,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Factory Add :
               </label>
               <textarea
@@ -413,7 +413,7 @@ const AddCustomerModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Plant / Unit Add :
               </label>
               <textarea

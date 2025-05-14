@@ -13,7 +13,7 @@ const Transactions = () => {
       chart: {
         type: "pie",
       },
-      labels: ["Opened", "Bounced", "Unopened", "Unmailed Data"],
+      labels: ["Opened", "Bounced", "Unopened", "Unmailed Data"], 
       colors: colors, // Apply the vibrant color combination
       dataLabels: {
         enabled: true,
@@ -62,7 +62,7 @@ const Transactions = () => {
   });
 
   return (
-    <div className="grid-one-item grid-common grid-c2 flex flex-col justify-between">
+    <div className="grid-one-item grid-common grid-c1 flex flex-col justify-between">
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">Email Analysis</h3>
         <button className="grid-c-title-icon">
@@ -77,6 +77,7 @@ const Transactions = () => {
             series={chartData.series}
             type="pie"
             width={350}
+            className=""
           />
         </div>
       </div>

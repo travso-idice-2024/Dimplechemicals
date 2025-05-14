@@ -5,13 +5,13 @@ const AddRoleModal = ({
 }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-textdata font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <div className="bg-white w-full md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Lead
         </h2>
-        <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2 overflow-y-auto h-fit">
+        <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2 overflow-y-auto h-[350px] md:h-fit">
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                leadtype :
             </label>
             <input
@@ -22,7 +22,7 @@ const AddRoleModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Email :
             </label>
             <input
@@ -33,7 +33,7 @@ const AddRoleModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Lead :
             </label>
             <select
@@ -48,7 +48,7 @@ const AddRoleModal = ({
 
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Number :
             </label>
             <input
@@ -59,7 +59,7 @@ const AddRoleModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Lead Source :
             </label>
             <select
@@ -76,7 +76,7 @@ const AddRoleModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Lead Status :
             </label>
             <select
@@ -94,7 +94,7 @@ const AddRoleModal = ({
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Description :
             </label>
             <textarea

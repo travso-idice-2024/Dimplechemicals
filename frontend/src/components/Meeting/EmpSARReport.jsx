@@ -66,7 +66,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
                     <td className="px-4 py-2 text-textdata">
                       {meeting.approx_business ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata whitespace-pre-line">
+                    <td className="px-4 py-2 text-textdata whitespace-nowrap whitespace-pre-line">
                       {meeting.documents?.length > 0
                         ? meeting.documents.join("\n")
                         : "-"}

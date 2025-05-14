@@ -204,37 +204,37 @@ const DepartmentTable = ({
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
               Id
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Company Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Contact Person Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Salse Person Name
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Meeting Date
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Meeting Type
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Meeting Summary
             </th>
-            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Project Name / Application Area
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap"> 
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap "> 
               Product Sale / Work Execution
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Total Material Qty. / Total Area (in Sqm)
             </th>
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Approx Business Potential
             </th> */}
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Action
             </th>
           </tr>
@@ -257,7 +257,7 @@ const DepartmentTable = ({
                 </td> */}
               <td className="px-4 py-2">{index + 1}</td>
               <td
-                className="px-4 py-2 text-newtextdata cursor-pointer"
+                className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"
                 onClick={() => {
                   setSelectedPOA(user);
                   setpoaReportOpen(true);
@@ -277,10 +277,10 @@ const DepartmentTable = ({
               <td className="px-4 py-2 text-newtextdata">
                 {user?.meeting_time}
               </td>
-              <td className="px-4 py-2 text-newtextdata w-[480px] ">
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap w-[480px] ">
                 {user?.lead_summary}
               </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                 <button
                   onClick={() => handleToggle(user)}
                   className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${isCheckedIn && activeLeadId === user.id

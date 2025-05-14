@@ -144,13 +144,13 @@ const EditProfile = () => {
           <h2 className="font-poppins text-[15px] md:text-[19px] font-semibold text-white">
             Profile Setup
           </h2>
-          <p className="font-inter font-medium text-[10px] md:text-textdata text-white">
+          <p className="font-inter font-medium text-[10px] md:text-textdata whitespace-nowrap text-white">
             Fill important details to Update Profile
           </p>
         </div>
         {/* Profile Photo and Badge */}
         {/* Profile Photo Section */}
-        <div className="mb-3 relative w-[100px] h-[100px] md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
+        <div className="mb-3 relative w-[100px] h-[100px] w-full md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
           {profilePhoto ? (
             <img
               src={profilePhoto}
@@ -163,7 +163,7 @@ const EditProfile = () => {
               <img
                 src="{Icon}"
                 alt="Placeholder"
-                className="md:w-8 md:h-8 w-4 h-4 mb-1"
+                className="w-full md:w-8 md:h-8 w-4 h-4 mb-1"
               />
               <span className="font-inter font-medium text-[10px] md:text-[12px] text-[#869E9D] text-center">
                 Upload <br />

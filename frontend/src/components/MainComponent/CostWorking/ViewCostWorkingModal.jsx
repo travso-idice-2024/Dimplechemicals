@@ -9,7 +9,7 @@ const ViewCostWorkingModal = ({
 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[1000px]  rounded-[6px]">
+      <div className="bg-white w-full md:w-[1000px]  rounded-[6px]">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Cost Working Report
         </h2>
@@ -64,10 +64,10 @@ const ViewCostWorkingModal = ({
                 ],
               ].map((fields, tableIndex) => (
                 <div key={tableIndex} className="overflow-x-auto">
-                  <table className="min-w-full table-auto border border-gray-300">
+                  <table className="table-auto w-full text-left border-collapse border border-gray-300">
                     <tbody>
                       {fields.map((field, index) => (
-                        <tr key={index} className="hover:bg-gray-50 whitespace-nowrap">
+                        <tr key={index} className="hover:bg-gray-50 whitespace-nowrap ">
                           <td className="px-4 py-2 text-bgDataNew font-poopins text-[16px] border border-gray-300 font-medium">
                             {field.label}:
                           </td>
@@ -161,7 +161,7 @@ const ViewCostWorkingModal = ({
               {/* <h3 className="text-xl font-semibold text-gray-800 mb-3 border-b pb-1">
                 Cost Summary
               </h3> */}
-              <table className="min-w-full table-auto border border-gray-300 rounded">
+              <table className="table-auto w-full text-left border-collapse border border-gray-300 rounded">
                 <thead>
                   <tr className="bg-gray-400 text-left">
                     <th className="px-4 py-2 border font-poopins text-black font-medium text-[16px] border-gray-300">

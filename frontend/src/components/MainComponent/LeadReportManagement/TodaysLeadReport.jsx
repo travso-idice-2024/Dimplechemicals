@@ -61,7 +61,7 @@ const TodaysLeadReport = () => {
       <ContentTop />
     <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
           <div>
             <h1 className="text-white text-[15.5px] font-semibold flex items-center">
               <svg
@@ -94,7 +94,7 @@ const TodaysLeadReport = () => {
         <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
           {/* {/------- Table Data Start -------/} */}
           <div className="overflow-x-auto">
-        <table className="min-w-full table-auto">
+        <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px]">
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>

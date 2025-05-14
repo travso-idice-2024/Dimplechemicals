@@ -139,7 +139,7 @@ const handleSubmit = async(e) => {
     <div className="flex flex-col md:flex-row items-center justify-center w-full h-screen bg-gradient-to-r from-[#1e1e2dd4] to-[#1e1e2d] p-2">
       {/* Right Section */}
       
-      <div className="flex flex-col justify-center items-center rounded-[16px] bg-[#2e2e3c] w-full p-2 py-4 md:w-[480px] md:h-[452px]">
+      <div className="flex flex-col justify-center items-center rounded-[16px] bg-[#2e2e3c] w-full p-2 py-4 w-full md:w-[480px] md:h-[452px]">
         <img
           src={dimplechemical}
           alt="Dimple Logo"
@@ -149,7 +149,7 @@ const handleSubmit = async(e) => {
           Login
         </h2>
         <form
-          className="flex flex-col gap-[16px] w-full md:w-[416px]"
+          className="flex flex-col gap-[16px] w-full w-full md:w-[416px]"
           onSubmit={handleSubmit}
         >
           <div>
@@ -189,7 +189,7 @@ const handleSubmit = async(e) => {
             Login
           </button>
         </form>
-        <div className="w-full flex justify-end mt-1 md:w-[416px]">
+        <div className="w-full flex justify-end mt-1 w-full md:w-[416px]">
           <p className="font-roboto text-[16px] font-normal text-base">
             <Link
               className="text-white hover:underline"
@@ -204,7 +204,7 @@ const handleSubmit = async(e) => {
       {/* Forgot Password Modal */}
       {isForgotPasswordOpen && (
         <div className="fixed inset-0 p-2 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-8 rounded-lg w-11/12 md:w-1/2 lg:w-1/4 relative">
+          <div className="bg-white p-8 rounded-lg w-11/12 w-full md:w-1/2 lg:w-1/4 relative">
             <FontAwesomeIcon
               icon={faTimes}
               onClick={toggleForgotPassword}

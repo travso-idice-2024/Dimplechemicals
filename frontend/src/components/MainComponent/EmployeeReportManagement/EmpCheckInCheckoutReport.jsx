@@ -98,7 +98,7 @@ const EmpCheckInCheckoutReport = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
             <div>
               <h1 className="text-white text-[15.5px] font-semibold flex items-center">
                 <svg
@@ -122,7 +122,7 @@ const EmpCheckInCheckoutReport = () => {
               </h1>
             </div>
 
-            <div className="flex items-center gap-[5px]">
+            <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
               <div>
                 <select
                   value={searchMonth}
@@ -168,7 +168,7 @@ const EmpCheckInCheckoutReport = () => {
               </div>
               <div>
                 <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                   onClick={handleExportData}
                 >
                   <img
@@ -184,7 +184,7 @@ const EmpCheckInCheckoutReport = () => {
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
+              <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">

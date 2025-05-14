@@ -805,7 +805,7 @@ const MarketingManageData = () => {
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
         <div>
-          <h1 className="text-white text-textdata font-semibold">
+          <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
             Lead Management
           </h1>
         </div>
@@ -823,7 +823,7 @@ const MarketingManageData = () => {
           <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
            <div>
             <button
-              className="flex items-center text-textdata text-white bg-[#bf9c85] rounded-[3px] px-3 py-[0.28rem]"
+              className="flex items-center text-textdata whitespace-nowrap text-white bg-[#bf9c85] rounded-[3px] px-3 py-[0.28rem]"
               onClick={() => setIsLeadAssignPopup(true)}
             >
               <img
@@ -836,7 +836,7 @@ const MarketingManageData = () => {
           </div>
           <div>
             <button
-              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
               onClick={() => setIsAssignModalOpen(true)}
             >
               <img

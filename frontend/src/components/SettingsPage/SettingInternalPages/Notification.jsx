@@ -115,10 +115,10 @@ const Notification = () => {
       </div>
       <div className="mb-4">
         <div className="flex flex-col">
-          <h3 className="text-left font-poppins font-semibold text-[15px] md:text-textdata text-white">
+          <h3 className="text-left font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap text-white">
             Notification Settings
           </h3>
-          <div className="flex items-center justify-between mt-5">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between mt-5">
             <p className="font-inter font-medium text-[14px] text-white">
               Pause all
             </p>

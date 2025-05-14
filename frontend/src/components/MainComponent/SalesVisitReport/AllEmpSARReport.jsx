@@ -51,7 +51,7 @@ const AllEmpSARReport = ({ setAllEmpSARReport, allselectedSAR }) => {
                     <td className="px-4 py-2 text-textdata">{sar.approx_area_cubm ?? "-"}</td>
                     <td className="px-4 py-2 text-textdata">{sar.quantity_no ?? "-"}</td>
                     <td className="px-4 py-2 text-textdata">{sar.budget ?? "-"}</td>
-                    <td className="px-4 py-2 text-textdata whitespace-pre-line">
+                    <td className="px-4 py-2 text-textdata whitespace-nowrap whitespace-pre-line">
                       {sar.documents?.length > 0 ? sar.documents.join("\n") : "-"}
                     </td>
                     <td className="px-4 py-2 text-textdata">
