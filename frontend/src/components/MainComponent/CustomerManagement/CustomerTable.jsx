@@ -25,7 +25,7 @@ const CustomerTable = ({
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
-        {deleteFlashMessage && deleteFlashMsgType === "success" && (
+        {deleteFlashMessage && deleteFlashMsgType === "success" && ( 
           <SuccessMessage message={deleteFlashMessage} />
         )}
         {deleteFlashMessage && deleteFlashMsgType === "error" && (
@@ -36,35 +36,35 @@ const CustomerTable = ({
         <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px]">
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 <input
                   type="checkbox"
                   disabled
                   className="w-4 h-4 accent-orange-500"
                 />
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Cust Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Company Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Client Name{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Email
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 location
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Phone Number
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
             </tr>
@@ -72,26 +72,26 @@ const CustomerTable = ({
           <tbody>
             {customers?.map((user, index) => (
               <tr key={index}>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   <input
                     type="checkbox"
                     className="w-4 h-4 accent-orange-500"
                   />
                 </td>
-                <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.cust_id}</td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{index + 1}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user.cust_id}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user.company_name}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user.client_name}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">{user.email_id}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.location}</td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user.email_id}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user.location}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user.primary_contact}
                 </td>
-                <td className="px-4 py-2 text-newtextdata space-x-2 text-center">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
                   {/* <button
                 className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
                 onClick={() => {

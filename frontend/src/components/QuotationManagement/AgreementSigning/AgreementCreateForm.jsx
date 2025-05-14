@@ -20,17 +20,17 @@ const AgreementCreateForm = ({
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <form
-        className="bg-white md:w-[600px] md:h-[650px] pt-0 pb-4 rounded-[6px] flex flex-col"
+        className="bg-white w-full md:w-[600px] md:h-[650px] pt-0 pb-4 rounded-[6px] flex flex-col"
         onSubmit={handleAgreemnetSubmit}
       >
-        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Fill the Aggrement Details
         </h2>
         <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto max-h-[650px] scrollbar-hide">
           {errorAgreement && (
             <p className="text-red-500 text-center font-medium">{errorAgreement}</p>
           )}
-          <h3 className="text-black text-center text-textdata font-poopins font-semibold border-b w-fit px-3 inline-block">
+          <h3 className="text-black text-center text-textdata whitespace-nowrap font-poopins font-semibold border-b w-fit px-3 inline-block">
             Client Details
           </h3>
           <div className="grid grid-row-1 md:grid-cols-2 gap-4">
@@ -110,7 +110,7 @@ const AgreementCreateForm = ({
             />
           </div>
 
-          <h3 className="mt-2 text-black text-center text-textdata font-poopins font-semibold border-b w-fit px-3 inline-block">
+          <h3 className="mt-2 text-black text-center text-textdata whitespace-nowrap font-poopins font-semibold border-b w-fit px-3 inline-block">
             Payment Terms
           </h3>
           <div className="grid grid-row-1 md:grid-cols-2 gap-4">
@@ -174,7 +174,7 @@ const AgreementCreateForm = ({
             />
           </div>
 
-          <h3 className="mt-2 text-black text-center text-textdata font-poopins font-semibold border-b w-fit px-3 inline-block">
+          <h3 className="mt-2 text-black text-center text-textdata whitespace-nowrap font-poopins font-semibold border-b w-fit px-3 inline-block">
             Responsibilities
           </h3>
 
@@ -211,7 +211,7 @@ const AgreementCreateForm = ({
           {/* Tab Data */}
           <div className="w-full flex items-center">
             <button
-              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
+              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap flex items-center justify-center relative ${
                 activeButtonSignature === "signature"
                   ? "text-black"
                   : "text-[#667877]"
@@ -225,7 +225,7 @@ const AgreementCreateForm = ({
             </button>
 
             <button
-              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
+              className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap flex items-center justify-center relative ${
                 activeButtonSignature === "photoSignature"
                   ? "text-black"
                   : "text-[#667877]"

@@ -89,9 +89,19 @@ const ContentTop = () => {
           >
             <img src={iconsImgs.menu} alt="" />
           </button>
-          <h3 className="content-top-title">
+          {/* <h3 className="content-top-title">
             Welcome {userDeatail?.fullname}
-          </h3>
+          </h3> */}
+           <h3 className="content-top-title">
+                    <span className="full-name">Welcome&nbsp;{userDeatail?.fullname}</span>
+                    <span className="short-name">
+                     Welcome&nbsp;{userDeatail?.fullname
+                        ?.split(" ")
+                        .map((word) => word[0])
+                        .join("")
+                        .toUpperCase()}
+                    </span>
+                  </h3>
         </div>
         <div className="content-top-btns flex">
          
@@ -157,7 +167,7 @@ const ContentTop = () => {
                 <img
                   src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?cs=srgb&dl=pexels-sulimansallehi-1704488.jpg&fm=jpg"
                   alt="User"
-                  className="w-[20px] h-[20px] md:w-[32px] md:h-[32px] rounded-full bordernewdata object-cover aspect-square"
+                  className="w-[20px] h-[20px] w-full md:w-[32px] md:h-[32px] rounded-full bordernewdata object-cover aspect-square"
                 />
               </div>
               <div className="flex items-center gap-2">

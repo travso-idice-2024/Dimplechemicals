@@ -35,7 +35,7 @@ const AllEmpPlanOfActionReport = ({
                   "Total Material Qty. / Total Area (in Sqm)",
                   "Approx Business Potential",
                 ].map((col, idx) => (
-                  <th key={idx} className="border px-4 py-2 font-medium text-newtextdata whitespace-nowrap">
+                  <th key={idx} className="border px-4 py-2 font-medium text-newtextdata whitespace-nowrap ">
                     {col}
                   </th>
                 ))}

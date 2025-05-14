@@ -46,31 +46,31 @@ const EmpSARReport = ({
           <table className="w-full border border-collapse text-sm">
              <thead>
                       <tr className="bg-[#473b33] rounded-[8px]">
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Id
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Date
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Product Name
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Area - Sq mtr / Cub Mtr
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Quantity
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Rate
                         </th>
-                        <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Amount
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Advance amount
                         </th>
-                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata  whitespace-nowrap">
+                        <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
                           Deal amount
                         </th>
                       </tr>
@@ -84,7 +84,7 @@ const EmpSARReport = ({
                         <td className="px-4 py-2 text-newtextdata">{user?.area} Sq mtr/cub mtr</td>
                         <td className="px-4 py-2 text-newtextdata">{user?.quantity}</td>
                         <td className="px-4 py-2 text-newtextdata">₹{user?.rate}</td>
-                        <td className="px-4 py-2 text-newtextdata text-center">₹{user?.amount}</td>
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap text-center">₹{user?.amount}</td>
                         <td className="px-4 py-2 text-newtextdata">₹{user?.deal_amount}</td>
                         <td className="px-4 py-2 text-newtextdata">₹{user?.advance_amount}</td>
                       </tr>

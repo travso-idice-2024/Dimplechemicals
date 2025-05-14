@@ -22,7 +22,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const Cards = () => {
+const Cards = () => { 
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   const lead = [20, 30, 45, 50,65, 95];
   const conversion = ["30%", "50%", "60%", "50%", "10%", "30%"];

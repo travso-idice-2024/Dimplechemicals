@@ -41,7 +41,7 @@ console.log("emails",emails);
           {emails?.map((email) => (
             <div
               key={email.id}
-              className="flex items-center justify-between px-4 py-3 hover:bg-gray-100 transition cursor-pointer"
+              className="flex items-start md:items-center flex-col md:flex-row md:justify-between px-4 py-3 hover:bg-gray-100 transition cursor-pointer"
             >
               {/* Left icons */}
               <div className="flex items-center gap-3">

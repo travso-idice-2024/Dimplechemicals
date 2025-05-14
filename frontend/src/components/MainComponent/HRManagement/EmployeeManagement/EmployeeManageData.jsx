@@ -197,116 +197,116 @@ const EmployeeManageData = () => {
     let errors = {};
 
     //if (currentStep === 1) {
-      // ✅ Required fields validation (only necessary fields)
-      if (!formData.fullname.trim()) {
-        errors.fullname = "*Full name is required";
-      }
-      // if (!formData.username.trim()) {
-      //   errors.username = "*Username is required";
-      // } else if (formData.username.length < 6) {
-      //   errors.username = "*Username must be at least 6 characters";
-      // }
-      if (!formData.email.trim()) {
-        errors.email = "*Email is required";
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        errors.email = "*Invalid email format";
-      }
-      if (!formData.phone.trim()) {
-        errors.phone = "*Phone number is required";
-      } else if (!/^\d{10}$/.test(formData.phone)) {
-        errors.phone = "*Phone number must be 10 digits";
-      }
-      if (!formData.password.trim()) {
-        errors.password = "*Password is required";
-      } else if (formData.password.length < 6) {
-        errors.password = "*Password must be at least 6 characters";
-      }
-      if (!formData.confirm_password.trim()) {
-        errors.confirm_password = "*Confirm Password is required";
-      } else if (formData.password !== formData.confirm_password) {
-        errors.confirm_password = "*Passwords do not match";
-      }
-      // if (!formData.gender.trim()) {
-      //   errors.gender = "*Gender is required";
-      // }
-      // if (!formData.status.trim()) {
-      //   errors.status = "*Status is required";
-      // }
-      // if (!formData.role_id.trim()) {
-      //   errors.role_id = "*Role is required";
-      // }
-      // if (!formData.profile_image) {
-      //   errors.profile_image = "Profile picture is required.";
-      // } else if (!formData.profile_image.type.startsWith("image/")) {
-      //   errors.profile_image = "Only image files are allowed.";
-      // }
-      if (!formData.pan_no.trim()) {
-        errors.pan_no = "*Pan Card is required";
-      }
-      if (!formData.aadhar_no.trim()) {
-        errors.aadhar_no = "*Aadhar Card is required";
-      }
-      // if (!formData.date_of_birth.trim()) {
-      //   errors.date_of_birth = "*DOB is required";
-      // }
-      if (!formData.address.trim()) {
-        errors.address = "*Address is required";
-      }
+    // ✅ Required fields validation (only necessary fields)
+    if (!formData.fullname.trim()) {
+      errors.fullname = "*Full name is required";
+    }
+    // if (!formData.username.trim()) {
+    //   errors.username = "*Username is required";
+    // } else if (formData.username.length < 6) {
+    //   errors.username = "*Username must be at least 6 characters";
+    // }
+    if (!formData.email.trim()) {
+      errors.email = "*Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "*Invalid email format";
+    }
+    if (!formData.phone.trim()) {
+      errors.phone = "*Phone number is required";
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      errors.phone = "*Phone number must be 10 digits";
+    }
+    if (!formData.password.trim()) {
+      errors.password = "*Password is required";
+    } else if (formData.password.length < 6) {
+      errors.password = "*Password must be at least 6 characters";
+    }
+    if (!formData.confirm_password.trim()) {
+      errors.confirm_password = "*Confirm Password is required";
+    } else if (formData.password !== formData.confirm_password) {
+      errors.confirm_password = "*Passwords do not match";
+    }
+    // if (!formData.gender.trim()) {
+    //   errors.gender = "*Gender is required";
+    // }
+    // if (!formData.status.trim()) {
+    //   errors.status = "*Status is required";
+    // }
+    // if (!formData.role_id.trim()) {
+    //   errors.role_id = "*Role is required";
+    // }
+    // if (!formData.profile_image) {
+    //   errors.profile_image = "Profile picture is required.";
+    // } else if (!formData.profile_image.type.startsWith("image/")) {
+    //   errors.profile_image = "Only image files are allowed.";
+    // }
+    if (!formData.pan_no.trim()) {
+      errors.pan_no = "*Pan Card is required";
+    }
+    if (!formData.aadhar_no.trim()) {
+      errors.aadhar_no = "*Aadhar Card is required";
+    }
+    // if (!formData.date_of_birth.trim()) {
+    //   errors.date_of_birth = "*DOB is required";
+    // }
+    if (!formData.address.trim()) {
+      errors.address = "*Address is required";
+    }
     //}
     //if (currentStep === 2) {
-      // ✅ Required fields validation (only necessary fields)
+    // ✅ Required fields validation (only necessary fields)
 
-      // if (!formData.department_id.trim()) {
-      //   errors.department_id = "*Department is required";
-      // }
+    // if (!formData.department_id.trim()) {
+    //   errors.department_id = "*Department is required";
+    // }
 
-      // if (!formData.job_title.trim()) {
-      //   errors.job_title = "*Job title is required";
-      // }
-      if (!formData.employment_type.trim()) {
-        errors.employment_type = "*Employment type is required";
-      }
-      if (!formData.date_of_joining.trim()) {
-        errors.date_of_joining = "*Date of joining is required";
-      }
-      // if (!formData.salary.trim()) {
-      //   errors.salary = "*Salary is required";
-      // }
-      if (!formData.work_location.trim()) {
-        errors.work_location = "*Work location is required";
-      }
+    // if (!formData.job_title.trim()) {
+    //   errors.job_title = "*Job title is required";
+    // }
+    if (!formData.employment_type.trim()) {
+      errors.employment_type = "*Employment type is required";
+    }
+    if (!formData.date_of_joining.trim()) {
+      errors.date_of_joining = "*Date of joining is required";
+    }
+    // if (!formData.salary.trim()) {
+    //   errors.salary = "*Salary is required";
+    // }
+    if (!formData.work_location.trim()) {
+      errors.work_location = "*Work location is required";
+    }
 
-      // if (!formData.offer_letter_date.trim()) {
-      //   errors.offer_letter_date = "*offer letter is required";
-      // }
-      // if (!formData.date_of_exit.trim()) {
-      //   errors.date_of_exit = "*Exit Date is required";
-      // }
-      if (!formData.reporting_manager_id) {
-        errors.reporting_manager_id = "*Reporting Manager is required";
-      }
-      // if (!formData.remarks.trim()) {
-      //   errors.remarks = "*Summary is required";
-      // }
+    // if (!formData.offer_letter_date.trim()) {
+    //   errors.offer_letter_date = "*offer letter is required";
+    // }
+    // if (!formData.date_of_exit.trim()) {
+    //   errors.date_of_exit = "*Exit Date is required";
+    // }
+    if (!formData.reporting_manager_id) {
+      errors.reporting_manager_id = "*Reporting Manager is required";
+    }
+    // if (!formData.remarks.trim()) {
+    //   errors.remarks = "*Summary is required";
+    // }
     //}
-   // if (currentStep === 3) {
-      // ✅ Required fields validation (only necessary fields)
+    // if (currentStep === 3) {
+    // ✅ Required fields validation (only necessary fields)
 
-      // if (!formData.bank_name.trim()) {
-      //   errors.bank_name = "*Bank name is required";
-      // }
-      // if (!formData.account_number.trim()) {
-      //   errors.account_number = "*Account number is required";
-      // }
-      // if (!formData.ifsc_code.trim()) {
-      //   errors.ifsc_code = "*IFSC code is required";
-      // }
-      // if (!formData.account_type.trim()) {
-      //   errors.account_type = "*Account type is required";
-      // }
-      // if (!formData.branch_name.trim()) {
-      //   errors.branch_name = "*Branch Name is required";
-      // }
+    // if (!formData.bank_name.trim()) {
+    //   errors.bank_name = "*Bank name is required";
+    // }
+    // if (!formData.account_number.trim()) {
+    //   errors.account_number = "*Account number is required";
+    // }
+    // if (!formData.ifsc_code.trim()) {
+    //   errors.ifsc_code = "*IFSC code is required";
+    // }
+    // if (!formData.account_type.trim()) {
+    //   errors.account_type = "*Account type is required";
+    // }
+    // if (!formData.branch_name.trim()) {
+    //   errors.branch_name = "*Branch Name is required";
+    // }
     //}
     // ✅ Update state and return validation result
     setFormErrors(errors);
@@ -457,7 +457,7 @@ const EmployeeManageData = () => {
         //password: "",
         //confirm_password: "",
         phone: selectedEmployee.phone || "",
-       // emergency_contact: selectedEmployee.emergency_contact || "",
+        // emergency_contact: selectedEmployee.emergency_contact || "",
         // date_of_birth: selectedEmployee.date_of_birth
         //   ? selectedEmployee.date_of_birth.split("T")[0]
         //   : "",
@@ -716,13 +716,14 @@ const EmployeeManageData = () => {
 
   return (
     <div className="flex flex-col gap-[20px]">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
         <div>
-          <h1 className="text-white text-textdata font-semibold">
+          <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
             Employee Management
           </h1>
         </div>
-        <div className="flex items-center gap-[5px]">
+
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">
           <div>
             <input
               type="search"
@@ -732,26 +733,28 @@ const EmployeeManageData = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div>
-            <button
-              className="flex items-center text-white text-textdata bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-              onClick={() => setAddEmployeeModalOpen(true)}
-            >
-              <img
-                src={iconsImgs.plus}
-                alt="plus icon"
-                className="w-[18px] mr-1"
-              />{" "}
-              Add Employee
-            </button>
-          </div>
-          <div>
-            <button
-              className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-              onClick={handleExportData}
-            >
-              Export Data
-            </button>
+          <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
+            <div>
+              <button
+                className="flex items-center text-white text-textdata whitespace-nowrap bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => setAddEmployeeModalOpen(true)}
+              >
+                <img
+                  src={iconsImgs.plus}
+                  alt="plus icon"
+                  className="w-[18px] mr-1"
+                />{" "}
+                Add Employee
+              </button>
+            </div>
+            <div>
+              <button
+                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={handleExportData}
+              >
+                Export Data
+              </button>
+            </div>
           </div>
         </div>
       </div>

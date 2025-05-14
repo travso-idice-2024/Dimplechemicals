@@ -55,19 +55,16 @@ const LeadByStatusReport = () => {
       const token = getAuthToken();
 
       // ✅ Correct API call with query parameters
-      const response = await axios.get(
-        `${API_URL}/auth/export-leads`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            search: searchTerm,
-            lead_status: searchStatus,
-          },
-          responseType: "blob", // ✅ Important to keep it here
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/export-leads`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          search: searchTerm,
+          lead_status: searchStatus,
+        },
+        responseType: "blob", // ✅ Important to keep it here
+      });
 
       // ✅ Create a URL for the blob
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -93,8 +90,8 @@ const LeadByStatusReport = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+            <div className="mb-5 md:mb-0">
               <h1 className="text-white text-[15.5px] font-semibold flex items-center">
                 <svg
                   width="25"
@@ -124,7 +121,7 @@ const LeadByStatusReport = () => {
             /> */}
             </div>
 
-            <div className="flex items-center gap-[5px]">
+            <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
               <div>
                 <select
                   name="lead_status"
@@ -155,28 +152,29 @@ const LeadByStatusReport = () => {
                   </option>
                 </select>
               </div>
-
-              <div>
-                <input
-                  type="search"
-                  className="relative m-0 block text-textdata w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
-                  placeholder="Search"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </div>
-              <div>
-                <button
-                  className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                  onClick={handleExportData}
-                >
-                  <img
-                    src={iconsImgs.plus}
-                    alt="plus icon"
-                    className="w-[18px] mr-1"
-                  />{" "}
-                  Export Data
-                </button>
+              <div className="flex items-center gap-[20px] md:gap-[5px] mt-3 md:mt-0">
+                <div>
+                  <input
+                    type="search"
+                    className="relative m-0 block text-textdata whitespace-nowrap w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-transparent bg-clip-padding px-3 py-[0.15rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                  />
+                </div>
+                <div>
+                  <button
+                    className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                    onClick={handleExportData}
+                  >
+                    <img
+                      src={iconsImgs.plus}
+                      alt="plus icon"
+                      className="w-[18px] mr-1"
+                    />{" "}
+                    Export Data
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -190,7 +188,7 @@ const LeadByStatusReport = () => {
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
+              <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
                     <th className="px-4 py-2 text-left text-bgDataNew text-textdata">

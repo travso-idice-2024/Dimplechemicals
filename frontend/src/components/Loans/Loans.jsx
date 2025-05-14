@@ -7,12 +7,12 @@ import "./Loans.css";
 const Loans = () => {
  
   return (
-    <div className="subgrid-two-item grid-common grid-c7">
+    <div className="grid-one-item grid-common grid-c1 flex flex-col justify-between">
       <div className="grid-c-title pb-8">
         <h3 className="grid-c-title-text">
         Deal Creation
         </h3>
-        <button className="grid-c-title-icon">
+        <button className="grid-c-title-icon"> 
           <img src={iconsImgs.plus} />
         </button>
       </div>

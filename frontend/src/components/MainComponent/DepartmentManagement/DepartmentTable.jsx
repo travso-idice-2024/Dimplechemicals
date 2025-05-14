@@ -55,7 +55,7 @@ const DepartmentTable = ({
     {deleteFlashMessage && deleteFlashMsgType  === "error" && <ErrorMessage message={deleteFlashMessage} />}
   </div>
     <div className="overflow-x-auto">
-    <table className="min-w-full table-auto">
+    <table className="table-auto w-full text-left border-collapse">
       <thead>
         <tr className="bg-[#473b33] rounded-[8px]">
           <th className="px-4 py-2 text-left text-bgDataNew text-textdata">Id</th>
@@ -74,7 +74,7 @@ const DepartmentTable = ({
             <td className="px-4 py-2 text-textdata">{department.department_name}</td>
             <td className="px-4 py-2 text-textdata">{department.department_description}</td>
             <td className="px-4 py-2 text-textdata">{department.status}</td>
-            <td className="px-4 py-2 text-textdata space-x-2">
+            <td className="px-4 py-2 text-textdata whitespace-nowrap space-x-2">
               <button
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                 onClick={() => {

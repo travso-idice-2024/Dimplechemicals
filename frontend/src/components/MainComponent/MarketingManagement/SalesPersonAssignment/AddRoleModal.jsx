@@ -3,15 +3,15 @@ import React from "react";
 const AddRoleModal = ({ setAddUserModalOpen }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[650px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[650px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Assignement
         </h2>
-        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-fit">
+        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto md:h-fit">
           
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select SalesPerson Name :
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
@@ -24,7 +24,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Assigned By :
             </label>
             <input
@@ -35,7 +35,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select Assigned Date :
             </label>
             <input
@@ -46,7 +46,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select Priority Level :
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
@@ -58,7 +58,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select Visit Date :
             </label>
             <input

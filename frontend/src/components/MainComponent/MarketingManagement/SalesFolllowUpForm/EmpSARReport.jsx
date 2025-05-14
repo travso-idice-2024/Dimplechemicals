@@ -200,7 +200,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
   //console.log("selectedPOA", selectedPOA);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
         {/* Header */}
         {/* <div>
           <button
@@ -220,45 +220,45 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
         </h2>
 
         {/* Table */}
-        <div className="overflow-auto h-fit">
+        <div className="overflow-auto md:h-fit">
           <div className="py-3 px-3 w-[1130px] overflow-x-auto">
             <table className="table-auto w-full border border-gray-300 text-left border-collapse">
               <thead className="bg-[#473b33] rounded-[8px]">
                 <tr>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
                     Id
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Employee Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Company Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300 text-red-500">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300 text-red-500">
                     Date of Visit
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     No. of Visits
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Total Hrs Spend
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Approx Area SqM
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Approx Area Cub. Mtr
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Total Product Qty. in Kg
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Total Potential Amount
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Types of Documents Sent
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Last Visit Date
                   </th>
                 </tr>
@@ -267,46 +267,46 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
               <tbody>
                 {selectedPOA ? (
                   <tr className="text-center">
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       1
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.salesPerson?.fullname || "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.customer?.company_name || "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.meeting_date
                         ? new Date(
                             selectedPOA.meeting_date
                           ).toLocaleDateString()
                         : "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.follow_up_record ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.total_hours_spent ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.approx_area_sqm ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.approx_area_cubm ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.total_material_qty ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.approx_business ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300 whitespace-pre-line">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 whitespace-pre-line">
                       {selectedPOA.documents?.length > 0
                         ? selectedPOA.documents.join("\n")
                         : "-"}
                     </td>
-                    <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                       {selectedPOA.last_contact
                         ? new Date(
                             selectedPOA.last_contact

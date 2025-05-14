@@ -202,25 +202,25 @@ const DepartmentTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Company Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Contact Person Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Salse Person Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Date
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Type
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Summary
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
             </tr>
@@ -228,7 +228,7 @@ const DepartmentTable = ({
           <tbody>
             {Leads?.map((user, index) => (
               <tr key={index} className="">
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata ">
                   <input
                     type="checkbox"
                     className="w-4 h-4 accent-orange-500"
@@ -254,7 +254,7 @@ const DepartmentTable = ({
                 </td>
                 <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
                 <td
-                  className="px-4 py-2 text-newtextdata cursor-pointer"
+                  className="px-4 py-2 text-newtextdata whitespace-nowrap  cursor-pointer"
                   onClick={() => {
                     //fetchCustomerHistory(user?.customer?.id);
                     setSelectedLead(user);
@@ -283,7 +283,7 @@ const DepartmentTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.lead_summary}
                 </td>
-                <td className="px-4 py-2 text-newtextdata flex items-center space-x-2 text-center">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap flex items-center space-x-2 text-center">
                   {/* <button
                 className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
                 onClick={() => {
@@ -371,11 +371,11 @@ const DepartmentTable = ({
         </table>
         {leadStatusProgress && (
           <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
+            <div className="bg-white w-full md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
               <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                 Follow Up Form
               </h2>
-              <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+              <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
                 <div>
                   <label className="font-poppins font-medium text-black text-[16px]">
                     Lead Status :

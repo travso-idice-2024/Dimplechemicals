@@ -62,11 +62,11 @@ const SalePOForm = () => {
       <div className="flex flex-col gap-[20px]">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
           <div>
-            <h1 className="text-white text-textdata font-semibold">
+            <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
               Sales PO Form
             </h1>
           </div>
-          <div className="flex items-center gap-[5px]">
+          <div className="flex items-center gap-[10px] md:gap-[5px]">
             <div>
               <input
                 type="search"
@@ -78,7 +78,7 @@ const SalePOForm = () => {
             </div>
             <div>
               <button
-                className="flex items-center text-textdata text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                 onClick={() => setAddUserModalOpen(true)}
               >
                 <img

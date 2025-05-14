@@ -65,13 +65,13 @@ const AddEmployeeModal = ({
         )}
       </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Employee Details
           </h2>
 
           {/* New Code */}
-          {/* <div className="p-4 md:px-20  flex items-center justify-between md:mt-8 relative w-full">
+          {/* <div className="p-4 md:px-20  flex items-start md:items-center flex-col md:flex-row md:justify-between md:mt-8 relative w-full">
             {["Personal", "Job", "Bank", "Documents"].map((step, index) => ( 
               {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">
@@ -104,9 +104,9 @@ const AddEmployeeModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentStep === 1 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-fit">
+            <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[350px] md:md:h-fit">
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Name :
                 </label>
                 <input
@@ -122,7 +122,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Email :
                 </label>
                 <input
@@ -139,7 +139,7 @@ const AddEmployeeModal = ({
               </div>
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter Date of Birth:
                 </label>
                 <input
@@ -163,7 +163,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Phone :
                 </label>
                 <input
@@ -180,7 +180,7 @@ const AddEmployeeModal = ({
               </div>
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Emergency Contact :
                 </label>
                 <input
@@ -199,7 +199,7 @@ const AddEmployeeModal = ({
               </div> */}
 
 <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Username :
                 </label>
                 <input
@@ -216,7 +216,7 @@ const AddEmployeeModal = ({
               </div>
 
                <div className="relative">
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Password :
                 </label>
                 <input
@@ -238,7 +238,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
               <div className="relative">
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Confirm Password :
                 </label>
                 <input
@@ -263,7 +263,7 @@ const AddEmployeeModal = ({
               </div> 
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Aadhar No:
                 </label>
                 <input
@@ -280,7 +280,7 @@ const AddEmployeeModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    PAN No:
                 </label>
                 <input
@@ -297,7 +297,7 @@ const AddEmployeeModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select the Role :
                 </label>
                 <select
@@ -319,7 +319,7 @@ const AddEmployeeModal = ({
               </div>
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select the Gender:
                 </label>
                 <select
@@ -339,7 +339,7 @@ const AddEmployeeModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Status:
                 </label>
                 <select
@@ -358,7 +358,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Upload Profile Picture:
                 </label>
                 <input
@@ -376,7 +376,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Address:
                 </label>
                 <textarea
@@ -392,7 +392,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Location:
                 </label>
                 <input
@@ -410,7 +410,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Joining Date:
                 </label>
                 <input
@@ -427,7 +427,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Employment Type:
                 </label>
                 <select
@@ -449,7 +449,7 @@ const AddEmployeeModal = ({
                 )}
               </div>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Manager:
                 </label>
                 <select
@@ -477,9 +477,9 @@ const AddEmployeeModal = ({
 
           {/* Step 2: Job Details */}
           {/* {currentStep === 2 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Basic Salary:
                 </label>
                 <input
@@ -496,7 +496,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Designantion:
                 </label>
                 <input
@@ -513,7 +513,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Location:
                 </label>
                 <input
@@ -532,7 +532,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Offer Letter Date:
                 </label>
                 <input
@@ -550,7 +550,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Joining Date:
                 </label>
                 <input
@@ -568,7 +568,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Exit Date:
                 </label>
                 <input
@@ -586,7 +586,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select the Department:
                 </label>
                 <select
@@ -609,7 +609,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Employment Type:
                 </label>
                 <select
@@ -632,7 +632,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Manager:
                 </label>
                 <select
@@ -657,7 +657,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Summary for Remarks:
                 </label>
                 <textarea
@@ -674,7 +674,7 @@ const AddEmployeeModal = ({
               </div> */}
 
               {/* <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Currently Working:
                 </label>
                 <div className="flex items-center gap-2">
@@ -708,9 +708,9 @@ const AddEmployeeModal = ({
 
           {/* Step 3: Bank Details */}
           {/* {currentStep === 3 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Bank Name:
                 </label>
                 <input
@@ -728,7 +728,7 @@ const AddEmployeeModal = ({
 
             
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Branch Name:
                 </label>
                 <input
@@ -748,7 +748,7 @@ const AddEmployeeModal = ({
 
             
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Account Type:
                 </label>
                 <input
@@ -767,7 +767,7 @@ const AddEmployeeModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Bank Account Number:
                 </label>
                 <input
@@ -786,7 +786,7 @@ const AddEmployeeModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    IFSC Code:
                 </label>
                 <input
@@ -806,10 +806,10 @@ const AddEmployeeModal = ({
 
           {/* Step 4: Document Upload */}
           {/* {currentStep === 4 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
              
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Documents Upload:
                 </label>
                 <input

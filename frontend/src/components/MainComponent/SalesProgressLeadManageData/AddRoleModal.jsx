@@ -3,13 +3,13 @@ import React from "react";
 const AddRoleModal = ({ setAddUserModalOpen }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[850px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-textdata font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <div className="bg-white w-full md:w-[850px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Customer
         </h2>
         <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-[450px]">
         <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Date :
             </label>
             <input
@@ -19,7 +19,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             />
           </div>
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Company Name :
             </label>
             <input
@@ -29,7 +29,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             />
           </div>
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Client Name :
             </label>
             <input
@@ -40,7 +40,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Name of Lead Owner :
             </label>
             <input
@@ -51,7 +51,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select the Lead Source :
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]">
@@ -65,7 +65,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
 
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select the Status :
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]">
@@ -80,7 +80,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Enter Designation :
             </label>
             <input
@@ -91,7 +91,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Enter Primary Contact :
             </label>
             <input
@@ -102,7 +102,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Enter Secondary Contact :
             </label>
             <input
@@ -113,7 +113,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Enter Email Id :
             </label>
             <input
@@ -124,7 +124,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Address :
             </label>
             <textarea
@@ -135,7 +135,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                AadharNo :
             </label>
             <input
@@ -146,7 +146,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
           </div>
 
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                PanNo :
             </label>
             <input
@@ -156,7 +156,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             />
           </div>
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                PinCode :
             </label>
             <input
@@ -166,7 +166,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             />
           </div>
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Location:
             </label>
             <input

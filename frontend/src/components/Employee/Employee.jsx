@@ -12,43 +12,43 @@ const employeeData = [
 
 const Employee = () => {
   return (
-    <div className="grid-two-item grid-common grid-c4 flex flex-col justify-between mb-5"> 
+    <div className="mb-5 grid-two-item grid-common grid-c4 flex flex-col gap-3 overflow-auto"> 
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">Employee Hot Leads</h3>
         <button className="grid-c-title-icon">
           <img src={iconsImgs.plus} />
         </button>
       </div>
-      <div className="overflow-x-auto shadow-md">
-        <table className="min-w-full rounded-[8px] border-none">
-          <thead className="bg-[#1e1e2d78]">
-            <tr className="">
-              <th className="px-4 py-2 text-textdata">ID</th>
-              <th className="px-4 py-2 text-textdata">Name</th>
-              <th className="px-4 py-2 text-textdata">Email</th>
-              <th className="px-4 py-2 text-textdata">Status</th>
-              <th className="px-4 py-2 text-textdata">Role</th>
-              <th className="px-4 py-2 text-textdata">Department</th>
-              <th className="px-4 py-2 text-textdata">Project Name</th>
-              <th className="px-4 py-2 text-textdata">Completed (%)</th>
+      <div className="overflow-x-auto ">
+        <table className="table-auto w-full text-left border-collapse">
+          <thead className="">
+            <tr className="bg-[#473b33] rounded-[8px] ">
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">ID</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Name</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Email</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Status</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Role</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Department</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Project Name</th>
+              <th className="px-4 py-2 text-newtextdata whitespace-nowrap ">Completed (%)</th>
             </tr>
           </thead>
           <tbody>
             {employeeData.map((employee) => (
-              <tr key={employee.id} className="text-center hover:bg-[#1e1e2d78] cursor-pointer">
-                <td className="px-4 py-2 text-textdata">{employee.id}</td>
-                <td className="px-4 py-2 text-textdata">{employee.name}</td>
-                <td className="px-4 py-2 text-textdata">{employee.email}</td>
-                <td className={`px-4 py-2 text-textdata font-semibold ${
+              <tr key={employee.id} className="text-start hover:bg-[#1e1e2d78] cursor-pointer">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{employee.id}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{employee.name}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{employee.email}</td>
+                <td className={`px-4 py-2 text-newtextdata whitespace-nowrap  font-semibold ${
                   employee.status === "Active" ? "text-green-500" : 
                   employee.status === "Inactive" ? "text-red-500" : 
                   "text-yellow-500"}`}>
                   {employee.status}
                 </td>
-                <td className="px-4 py-2 text-textdata">{employee.role}</td>
-                <td className="px-4 py-2 text-textdata">{employee.department}</td>
-                <td className="px-4 py-2 text-textdata">{employee.project}</td>
-                <td className="px-4 py-2 text-textdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{employee.role}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{employee.department}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{employee.project}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   <div className="w-32 bg-gray-300 rounded-full">
                     <div className="bg-green-500 text-xs font-medium text-white text-center p-1 rounded-full" style={{ width: `${employee.progress}%` }}>
                       {employee.progress}%

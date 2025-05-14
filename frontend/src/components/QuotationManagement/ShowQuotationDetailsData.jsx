@@ -315,7 +315,7 @@ const ShowQuotationDetailsData = ({ quotation, index }) => {
 
         {/* Invoice Items */}
         <div className="overflow-x-auto">
-          <table className="min-w-full table-auto">
+          <table className="table-auto w-full text-left border-collapse">
             <thead>
               <tr className="border-b text-sm text-black">
                 <th className="py-2 text-start">Cost</th>

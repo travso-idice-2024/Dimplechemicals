@@ -3,7 +3,7 @@
 // const SingleLeadTable = () => {
 //   return (
 //     <div className="overflow-x-auto">
-//       <table className="min-w-full table-auto">
+//       <table className="table-auto w-full text-left border-collapse">
 //         <thead>
 //         <tr className="bg-[#473b33] rounded-[8px]">
 //           <th className="px-4 py-2 text-left text-bgDataNew">Date</th>
@@ -61,10 +61,10 @@ const SingleLeadTable = ({setLeadStatusProgress, LeadSingleData}) => {
 
   return (
     <div className="bg-white w-full pt-0 pb-4 rounded-[6px] flex flex-col">
-      <h2 className="text-white text-textdata font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
         Lead Details
       </h2>
-      <div className="mt-5 md:mt-6 px-6 grid grid-cols-1 md:grid-cols-3 gap-3 overflow-y-auto h-fit text-black">
+      <div className="mt-5 md:mt-6 px-6 grid grid-cols-1 md:grid-cols-3 gap-3 overflow-y-auto md:h-fit text-black">
           <Detail label="Date" value={LeadSingleData?.assign_date.split('T')[0]} />
           <Detail label="Lead Owner" value={LeadSingleData?.leadOwner?.fullname} />
           <Detail label="Company Name" value={LeadSingleData?.customer?.company_name} />
@@ -88,7 +88,7 @@ const SingleLeadTable = ({setLeadStatusProgress, LeadSingleData}) => {
 // Reusable component for displaying details
 const Detail = ({ label, value }) => (
   <div className="flex items-center gap-3">
-    <label className="font-poppins font-semibold text-textdata text-bgData">
+    <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
       {label}
     </label>
     <p className="font-poppins font-semibold text-textdata">:</p>

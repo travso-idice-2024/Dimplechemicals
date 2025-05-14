@@ -82,13 +82,13 @@ const CustomerManageData = () => {
     <div className="main-content">
       <ContentTop />
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
           <div>
-            <h1 className="text-white text-textdata font-semibold">
+            <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
               Customer History Card
             </h1>
           </div>
-          <div className="flex items-center gap-[5px]">
+          <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
             <div>
               <input
                 type="search"

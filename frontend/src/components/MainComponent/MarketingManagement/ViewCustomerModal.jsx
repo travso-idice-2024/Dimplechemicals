@@ -23,14 +23,14 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   //console.log("selectedCustomer", selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
         <div className="overflow-auto h-[500px]">
           {/* Profile Section */}
           <div className="px-5 py-4">
-            <div className="flex items-center justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
                 
                 <div>
@@ -101,22 +101,22 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
             <table className="table-auto w-full border border-gray-300 text-left border-collapse">
               <thead>
                 <tr className="bg-[#473b33] rounded-[8px]">
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata border border-gray-300">Id</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Meeting Date</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Start Time</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">End Time</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Id</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">Start Time</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">End Time</th>
 
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Next Meeting Date</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">Next Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Company Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Client Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Communication
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Status
                   </th>
                 </tr>
@@ -125,9 +125,9 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 {communicationleadsList?.data &&
                   communicationleadsList?.data.map((user, index) => (
                     <tr key={index}>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{index + 1}</td>
-                      {/* <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.lead_date?.split('T')[0]}</td> */}
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{index + 1}</td>
+                      {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.lead_date?.split('T')[0]}</td> */}
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {new Date(user?.createdAt)?.toLocaleDateString(
                           "en-GB",
                           {
@@ -137,10 +137,10 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                           }
                         )}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.start_meeting_time}</td>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.end_meeting_time}</td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.start_meeting_time}</td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.end_meeting_time}</td>
 
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {new Date(user?.lead_date)?.toLocaleDateString(
                           "en-GB",
                           {
@@ -150,14 +150,14 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                           }
                         )}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {user?.Customer?.company_name}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300 whitespace-nowrap">{user?.client_name}</td>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300 w-[300px]">
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 whitespace-nowrap ">{user?.client_name}</td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 w-[300px]">
                         {user?.lead_text}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata border border-gray-300">{user?.lead_status}</td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.lead_status}</td>
                     </tr>
                   ))}
               </tbody>
@@ -183,7 +183,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
 
 const Detail = ({ label, value }) => (
   <div className="flex items-center gap-3">
-    <label className="font-poppins font-semibold text-textdata text-bgData">
+    <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
       {label}
     </label>
     <p className="font-poppins font-semibold text-textdata">:</p>

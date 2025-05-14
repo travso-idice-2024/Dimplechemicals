@@ -10,7 +10,7 @@ const DocumentShow = ({ toggleSection, activeButton }) => {
     <div>
       <div className="flex items-center gap-[10px] mb-5">
         <button
-          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
+          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap flex items-center justify-center relative ${
             activeButton === "Invoice" ? "text-white" : "text-[#667877]"
           }`}
           onClick={() => toggleSection("Invoice")}
@@ -21,7 +21,7 @@ const DocumentShow = ({ toggleSection, activeButton }) => {
           )}
         </button>
         <button
-          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
+          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap flex items-center justify-center relative ${
             activeButton === "Report" ? "text-white" : "text-[#667877]"
           }`}
           onClick={() => toggleSection("Report")}
@@ -32,7 +32,7 @@ const DocumentShow = ({ toggleSection, activeButton }) => {
           )}
         </button>
         <button
-          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
+          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap flex items-center justify-center relative ${
             activeButton === "Proposal" ? "text-white" : "text-[#667877]"
           }`}
           onClick={() => toggleSection("Proposal")}
@@ -43,7 +43,7 @@ const DocumentShow = ({ toggleSection, activeButton }) => {
           )}
         </button>
         <button
-          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata flex items-center justify-center relative ${
+          className={`h-[40px] px-3 font-poppins font-semibold text-[15px] md:text-textdata whitespace-nowrap flex items-center justify-center relative ${
             activeButton === "Agreement" ? "text-white" : "text-[#667877]"
           }`}
           onClick={() => toggleSection("Agreement")} 

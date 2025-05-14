@@ -364,7 +364,7 @@ useEffect(() => {
                 icon={faClock}
                 className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
-              <h2 className="text-[12px] md:text-textdata font-semibold">
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">
                 {" "}
                 <button
                   onClick={handleToggle}
@@ -413,7 +413,7 @@ useEffect(() => {
                   {allLeadsCount?.assignedLeadsCount}
                 </span>
               </div>
-              <h2 className="text-[12px] md:text-textdata font-semibold">Assigned Lead</h2>
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Assigned Lead</h2>
               <p className="text-[12px]">{userDeatail?.fullname}</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
@@ -426,7 +426,7 @@ useEffect(() => {
                 className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
 
-              <h2 className="text-[12px] md:text-textdata font-semibold">Total Sales</h2>
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Total Sales</h2>
               <p className="text-[12px]">₹1,25,000</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
@@ -434,7 +434,7 @@ useEffect(() => {
                 icon={faPhone}
                 className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
-              <h2 className="text-[12px] md:text-textdata font-semibold">
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">
                 Pending Follow-Ups
               </h2>
               <p className="text-[12px]">5 Clients</p>
@@ -444,7 +444,7 @@ useEffect(() => {
                 icon={faHandshake}
                 className="text-3xl md:text-4xl text-bgDataNew mb-2"
               />
-              <h2 className="text-[12px] md:text-textdata font-semibold">Closed Deals</h2>
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Closed Deals</h2>
               <p className="text-[12px]">3 Successful Sales</p>
             </div>
              
@@ -493,7 +493,7 @@ useEffect(() => {
       {leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
           <div className="flex flex-col gap-[20px]">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
               <div>
                 <h1
                   class="text-white text-[15.5px] font-semibold flex items-center cursor-pointer"
@@ -518,7 +518,7 @@ useEffect(() => {
                   Assign TaskLead
                 </h1>
               </div>
-              <div className="flex items-center gap-[5px]">
+              <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
                 <div>
                   <input
                     type="search"

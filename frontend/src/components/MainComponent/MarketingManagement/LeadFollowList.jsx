@@ -45,18 +45,18 @@ export const LeadFollowList = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-center justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
             
             <div>
             <button onClick={() => navigate(-1)} className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]">
                 ⬅ Back
               </button>
-              <h1 className="text-white text-textdata font-semibold">
+              <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
                 Lead Follow Up
               </h1>
               
             </div>
-            <div className="flex items-center gap-[5px]">
+            <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
               <div>
                 <input
                   type="search"
@@ -71,7 +71,7 @@ export const LeadFollowList = () => {
           </div>
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* <div className="w-full mt-8 overflow-x-auto"> */}
-            {/* <div className="flex items-center gap-[5px]">
+            {/* <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
                 <div>
                   <input
                     type="search"
@@ -83,7 +83,7 @@ export const LeadFollowList = () => {
                 </div>
               </div> */}
             <div>
-              <table className="min-w-full table-auto">
+              <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
                     <th className="px-4 py-2 text-left text-bgDataNew">Id</th>

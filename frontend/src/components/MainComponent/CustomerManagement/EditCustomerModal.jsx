@@ -57,13 +57,13 @@ const EditUserModal = ({
         )}
       </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Customer
           </h2>
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-fit">
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-[350px] md:h-fit">
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                  Company Name :
               </label>
               <input
@@ -81,7 +81,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Contact person Name 1 :
               </label>
               <input
@@ -98,7 +98,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Contact person Name 2 :
               </label>
               <input
@@ -115,7 +115,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Contact person Name 3 :
               </label>
               <input
@@ -132,7 +132,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Business Associate Name :
               </label>
               <select
@@ -159,7 +159,7 @@ const EditUserModal = ({
             </div>
 
             <div onClick={handleAssociatePopup}>
-              <label className="font-poppins font-medium text-textdata text-bgData "></label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData "></label>
               <input
                 type="text"
                 value="Add Associate"
@@ -169,7 +169,7 @@ const EditUserModal = ({
           
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Company GST no :
               </label>
               <input
@@ -188,7 +188,7 @@ const EditUserModal = ({
 
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Designation :
               </label>
               <input
@@ -205,7 +205,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Primary Contact :
               </label>
               <input
@@ -224,7 +224,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Secondary Contact :
               </label>
               <input
@@ -243,7 +243,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Enter Email Id :
               </label>
               <input
@@ -260,7 +260,7 @@ const EditUserModal = ({
             </div>
 
             {/* <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                AadharNo :
             </label>
             <input
@@ -275,7 +275,7 @@ const EditUserModal = ({
           </div> */}
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                  PanNo :
               </label>
               <input
@@ -291,7 +291,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                  PinCode :
               </label>
               <input
@@ -307,7 +307,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                  City :
               </label>
               <input
@@ -323,7 +323,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                  Address  :
               </label>
               <textarea
@@ -339,7 +339,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Reg Office Add :
               </label>
               <textarea
@@ -355,7 +355,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Factory Add :
               </label>
               <textarea
@@ -371,7 +371,7 @@ const EditUserModal = ({
               )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Plant / Unit Add :
               </label>
               <textarea
@@ -389,13 +389,13 @@ const EditUserModal = ({
           </div>
           <div className="flex items-end justify-end gap-2 px-4">
             <button
-              className="bg-bgDataNew text-textdata text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+              className="bg-bgDataNew text-textdata whitespace-nowrap text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
               onClick={handleEditSubmit}
             >
               Update Customer
             </button>
             <button
-              className="mt-4 bg-gray-500 text-textdata text-white px-3 py-2 rounded hover:bg-gray-600"
+              className="mt-4 bg-gray-500 text-textdata whitespace-nowrap text-white px-3 py-2 rounded hover:bg-gray-600"
               onClick={() => setEditCustomerModalOpen(false)}
             >
               Close
@@ -407,13 +407,13 @@ const EditUserModal = ({
         {/* Associate Popup Design */}
         {associatePopup && (
               <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-                <div className="bg-white md:w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+                <div className="bg-white w-full md:w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
                   <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                     Add New Associate
                   </h2>
-                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto h-fit">
+                  <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-fit">
                     <div>
-                      <label className="font-poppins font-medium text-textdata text-bgData">
+                      <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                         Associate Name :
                       </label>
                       <input

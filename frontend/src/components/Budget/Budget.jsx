@@ -7,7 +7,7 @@ import ReactApexChart from "react-apexcharts";
 const colors = ['#fe6c00a3', '#e74c3c', '#e74c3c', '#e74c3c', '#e74c3c', '#e74c3c'];
 const colordata = ['#fff', '#fff']
 
-const Budget = () => {
+const Budget = () => { 
   const [state, setState] = useState({
     series: [
       {
@@ -122,7 +122,7 @@ const Budget = () => {
   });
 
   return (
-    <div className="grid-two-item grid-common grid-c4 flex flex-col gap-6">
+    <div className="grid-one-item grid-common grid-c1 flex flex-col justify-between">
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">
           Sales Analytics (This Month)

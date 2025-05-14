@@ -170,7 +170,7 @@ const UserContentTop = ({ isCheckedIn, setIsCheckedIn, handleCheckOut }) => {
                 <img
                   src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?cs=srgb&dl=pexels-sulimansallehi-1704488.jpg&fm=jpg"
                   alt="User"
-                  className="w-[20px] h-[20px] md:w-[32px] md:h-[32px] rounded-full bordernewdata object-cover aspect-square"
+                  className="w-[20px] h-[20px] w-full md:w-[32px] md:h-[32px] rounded-full bordernewdata object-cover aspect-square"
                 />
               </div>
               <div className="flex items-center gap-2">

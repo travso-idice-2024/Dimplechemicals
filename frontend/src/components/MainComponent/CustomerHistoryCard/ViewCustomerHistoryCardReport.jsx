@@ -5,7 +5,7 @@ const ViewCustomerHistoryCardReport = ({
     selectedCustomer }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[900px] max-h-[90vh] overflow-y-auto pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full w-full md:w-[900px] max-h-[90vh] overflow-y-auto pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[18px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer History Card Report
         </h2>

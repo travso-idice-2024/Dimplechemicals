@@ -12,14 +12,14 @@ const DocumentAddUserModal = ({
 }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[650px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-textdata font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <div className="bg-white w-full md:w-[650px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins font-semibold mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Upload Document with Template
         </h2>
 
         <div className="mt-5 md:mt-7 px-4 flex flex-col gap-2 overflow-y-auto h-[450px]">
           <div>
-            <label className="font-poppins font-medium text-textdata text-bgData">
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select a Template :
             </label>
             <div className="grid grid-cols-2 gap-4 mt-2">
@@ -45,7 +45,7 @@ const DocumentAddUserModal = ({
           {selectedTemplate && (
             <>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Document Title :
                 </label>
                 <input
@@ -58,7 +58,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Invoice Number :
                 </label>
                 <input
@@ -69,7 +69,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Invoice Date :
                 </label>
                 <input
@@ -80,7 +80,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Upload the Pdf/Docx :
                 </label>
                 <input
@@ -93,7 +93,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Invoice Status :
                 </label>
                 <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
@@ -104,11 +104,11 @@ const DocumentAddUserModal = ({
                 </select>
               </div>
 
-              <h2 className="mt-4 font-poppins font-medium text-textdata text-bgData">
+              <h2 className="mt-4 font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Seller Company Details
               </h2>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Company Name :
                 </label>
                 <input
@@ -119,7 +119,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Contact Person :
                 </label>
                 <input
@@ -130,7 +130,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Company Tax Id :
                 </label>
                 <input
@@ -140,7 +140,7 @@ const DocumentAddUserModal = ({
                 />
               </div>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Company Address :
                 </label>
                 <textarea
@@ -150,11 +150,11 @@ const DocumentAddUserModal = ({
                 />
               </div>
 
-              <h2 className="mt-4 font-poppins font-medium text-textdata text-bgData">
+              <h2 className="mt-4 font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Product Details
               </h2>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Product code :
                 </label>
                 <input
@@ -165,7 +165,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Quantity :
                 </label>
                 <input
@@ -176,7 +176,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    SubTotal Amount :
                 </label>
                 <input
@@ -187,7 +187,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Tax percentegae :
                 </label>
                 <input
@@ -198,7 +198,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Discount :
                 </label>
                 <input
@@ -209,7 +209,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Shipping Charges :
                 </label>
                 <input
@@ -220,7 +220,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Grand Total :
                 </label>
                 <input
@@ -230,11 +230,11 @@ const DocumentAddUserModal = ({
                 />
               </div>
 
-              <h2 className="mt-4 font-poppins font-medium text-textdata text-bgData">
+              <h2 className="mt-4 font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Payment Details
               </h2>
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Payment Terms :
                 </label>
                 <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
@@ -246,7 +246,7 @@ const DocumentAddUserModal = ({
               </div>
 
               <div>
-                <label className="font-poppins font-medium text-textdata text-bgData">
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Payment Method :
                 </label>
                 <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">

@@ -75,14 +75,14 @@ const DealCreationForm = ({
       </div>
 
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Deal
           </h2>
 
-          {/* <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto h-fit">
+          {/* <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Date:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Date:</label>
               <input
                 type="date"
                 name="date"
@@ -96,7 +96,7 @@ const DealCreationForm = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Product Name:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Product Name:</label>
                 <select
                       name="product_id"
                       value={dealData.product_id  || ""}
@@ -116,7 +116,7 @@ const DealCreationForm = ({
             </div>
             
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Area - Sq mtr / Cub Mtre</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Area - Sq mtr / Cub Mtre</label>
               <input
                 type="number"
                 name="area"
@@ -131,7 +131,7 @@ const DealCreationForm = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Quantity:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Quantity:</label>
               <input
                 type="number"
                 name="quantity"
@@ -146,7 +146,7 @@ const DealCreationForm = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Rate:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Rate:</label>
               <input
                 type="number"
                 name="rate"
@@ -161,7 +161,7 @@ const DealCreationForm = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Amount:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Amount:</label>
               <input
                 type="number"
                 name="amount"
@@ -176,7 +176,7 @@ const DealCreationForm = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Advance Amount:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Advance Amount:</label>
               <input
                 type="number"
                 name="advance_amount"
@@ -191,7 +191,7 @@ const DealCreationForm = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata text-bgData">Deal Amount:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Deal Amount:</label>
               <input
                 type="number"
                 name="deal_amount"
@@ -208,7 +208,7 @@ const DealCreationForm = ({
 
           <div className="mt-5 md:mt-6 px-4 overflow-y-auto h-[400px]">
             <label className="font-poppins font-medium text-[16px] text-bgData">Select and Add Product:</label>
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-4">
               <div className="flex-[6]">
                 <ProductMultiSelect
                   allProducts={allProducts}

@@ -28,12 +28,12 @@ const AddRoleModal = ({
             )}
           </div>
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white md:w-[1350px] pt-0 pb-4 rounded-[6px] flex flex-col">
-        <h2 className="text-white text-textdata font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+      <div className="bg-white w-full md:w-[1350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Update Leave Data
         </h2>
         <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2 overflow-y-auto h-[450px]">
-          <table className="min-w-full table-auto">
+          <table className="table-auto w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#473b33] rounded-[8px]">
                 <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
