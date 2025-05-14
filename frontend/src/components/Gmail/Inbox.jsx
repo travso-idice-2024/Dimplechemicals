@@ -4,7 +4,8 @@ import { faEnvelope, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-const Inbox = ({  accessToken, fetchInboxMessages, labelName = "INBOX" }) => {
+const Inbox = ({  accessToken, fetchInboxMessages, labelName = "INBOX"}) => {
+  console.log("labelName" ,labelName);
   const [emails, setEmails] = useState([]);
   const [loading, setLoading] = useState(true);
 

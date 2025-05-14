@@ -90,6 +90,7 @@ const useGmailAuth = () => {
   
   // Fetch Inbox Messages Function
   const fetchInboxMessages = async (label = "INBOX") => {
+    console.log("this message funtion is calling",label );
     console.log("label",label);
   try {
     if (!accessToken) {
@@ -101,7 +102,7 @@ const useGmailAuth = () => {
     // List messages
     const response = await gapi.client.gmail.users.messages.list({
       userId: "me",
-      labelIds: label,
+      labelIds:label,
       maxResults: 10,
     });
 
