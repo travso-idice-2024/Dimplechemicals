@@ -110,5 +110,26 @@
       .content-grid-two .grid-two-item:nth-child(3) .subgrid-two .subgrid-two-item {
         height: 220px;
       }
+      .newdatafewitem{
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+
+      .newdatafewitem1{
+        margin-bottom: 10px !important;
+      }
+
     }
     
+
+    @media screen and (max-width: 820px) {
+     .newdatafewitem{
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+
+      .newdatafewitem1{
+        margin-bottom: 10px !important;
+      }
+ 
+    }

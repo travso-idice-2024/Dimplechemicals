@@ -51,13 +51,13 @@ const EmpReportManagementTable = ({}) => {
         <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px]">
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Report Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Description
               </th>
             </tr>
@@ -65,9 +65,9 @@ const EmpReportManagementTable = ({}) => {
           <tbody>
             {reports?.map((report, index) => (
               <tr key={index}>
-                <td className="px-4 py-2 text-textdata">{index + 1}</td>
+                <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
                 <td
-                  className="px-4 py-2 text-textdata whitespace-nowrap cursor-pointer"
+                  className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"
                   onClick={() =>
                     navigate(
                       reportPathMap[report?.reportName] || "/"
@@ -76,7 +76,7 @@ const EmpReportManagementTable = ({}) => {
                 >
                   {report?.reportName}
                 </td>
-                <td className="px-4 py-2 text-textdata">
+                <td className="px-4 py-2 text-newtextdata w-[300px] whitespace-nowrap">
                   {report?.description}
                 </td>
               </tr>

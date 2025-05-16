@@ -4,7 +4,7 @@ import {
   listDepartments,
   removeDepartment,
 } from "../../../redux/departmentSlice";
-import SuccessMessage from "../../AlertMessage/SuccessMessage";
+import SuccessMessage from "../../AlertMessage/SuccessMessage"; 
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -324,7 +324,7 @@ const DepartmentTable = ({
                         setEditUserModalOpen(true);
                       }}
                     >
-                      <FontAwesomeIcon icon={faPenToSquare} />
+                      <FontAwesomeIcon icon={faPenToSquare} /> 
                     </button>
                   )}
 

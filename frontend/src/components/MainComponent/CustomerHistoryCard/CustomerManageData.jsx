@@ -29,7 +29,7 @@ const CustomerManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = 10;
+  const customersPerPage = 6;
 
   // Fetch customers whenever searchTerm or currentPage changes
   useEffect(() => {
@@ -83,7 +83,7 @@ const CustomerManageData = () => {
       <ContentTop />
       <div className="flex flex-col gap-[20px]">
         <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
-          <div>
+          <div className="md:mb-0 mb-2">
             <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
               Customer History Card
             </h1>
@@ -100,7 +100,7 @@ const CustomerManageData = () => {
             </div>
           </div>
         </div>
-        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <CustomerTable

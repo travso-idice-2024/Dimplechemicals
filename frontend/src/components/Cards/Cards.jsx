@@ -121,7 +121,7 @@ const Cards = () => {
       </div>
       {/* <p className="text-[14px] text-bgDataNew mt-6 mb-2">Monthly Leads and Conversion Rate</p> */}
       <div className="">
-        <Bar data={barData} options={barOptions} height={200} />
+        <Bar data={barData} options={barOptions} height={200} width={100} />
       </div>
     </div>
   );

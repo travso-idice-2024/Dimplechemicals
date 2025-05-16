@@ -511,7 +511,7 @@ useEffect(() => {
         </div>
       )}
       {leadDataShowNew && (
-        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="flex flex-col gap-[20px]">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
               <div>

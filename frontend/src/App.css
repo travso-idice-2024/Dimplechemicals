@@ -158,6 +158,11 @@ button {
   .content {
     width: 100%;
   }
+
+  .heightfixalldevice{
+  height: 100% !important;
+  max-height: 100% !important;
+}
 }
 
 /* Mobile view (landscape and portrait phones, small tablets) */
@@ -170,6 +175,12 @@ button {
     color: var(--clr-silver);
     font-size: 12px;
 }
+.heightfixalldevice{
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+
 }
 
 /* Extra small devices (iPhones, small Android phones) */
@@ -181,5 +192,9 @@ button {
     font-weight: 500;
     color: var(--clr-silver);
     font-size: 12px;
+}
+.heightfixalldevice{
+  height: 100% !important;
+  max-height: 100% !important;
 }
 }

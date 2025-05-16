@@ -24,25 +24,25 @@ const CustomerTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Cust Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Company Name
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Client Name{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Email
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 location
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Phone Number
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Action
               </th>
             </tr>
@@ -50,25 +50,25 @@ const CustomerTable = ({
           <tbody>
             {customers?.map((user, index) => (
               <tr key={index}>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   <input
                     type="checkbox"
                     className="w-4 h-4 accent-orange-500"
                   />
                 </td>
-                <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.cust_id}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.company_name}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.client_name}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.email_id}</td>
-                <td className="px-4 py-2 text-newtextdata">{user.location}</td>
-                <td className="px-4 py-2 text-newtextdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{index + 1}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{user.cust_id}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{user.company_name}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{user.client_name}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{user.email_id}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{user.location}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   {user.primary_contact}
                 </td>
                 <td>
                   {" "}
                   <button
-                    className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-bgDataNew text-[14px]"
+                    className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-bgDataNew text-[14px] whitespace-nowrap"
                     onClick={() => {
                       fetchCustomerHistory(user.id);
                       setViewModalOpen(true);
