@@ -42,7 +42,7 @@ const CustomerTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Phone Number
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap">
                 Action
               </th>
             </tr>

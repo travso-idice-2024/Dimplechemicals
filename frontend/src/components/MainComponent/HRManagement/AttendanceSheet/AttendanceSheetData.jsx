@@ -125,8 +125,8 @@ const AttendanceSheetData = () => {
     <div className="main-content">
       <ContentTop />
       <div className="flex flex-col gap-[20px]">
-        <div className="flex flex-col items-start md:flex-row md:items-center justify-between">
-          <div>
+        <div className="flex flex-col items-start md:flex-row md:items-center justify-between newdatafewitem">
+          <div className="newdatafewitem1">
             <h1 className="text-white text-[15.5px] font-semibold flex items-center">
               {/* <svg
                   width="25"
@@ -155,79 +155,79 @@ const AttendanceSheetData = () => {
                 Total Time: {workingTime}
               </span>
             </div>
-<div className="flex flex-col items-start md:flex-row md:items-center gap-[10px] md:gap-[5px]">
-            <div className="flex items-center gap-[20px] md:gap-[5px]">
-              <div>
-                <select
-                  value={searchMonth}
-                  onChange={(e) => setSearchMonth(e.target.value)}
-                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
-                >
-                  <option className="text-newtextdata" value="">
-                    Select Month
-                  </option>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option
-                      className="text-[16px]"
-                      key={i + 1}
-                      value={String(i + 1).padStart(2, "0")}
-                    >
-                      {new Date(0, i).toLocaleString("en", { month: "long" })}
+            <div className="flex flex-col items-start md:flex-row md:items-center gap-[10px] md:gap-[5px]">
+              <div className="flex items-center gap-[20px] md:gap-[5px]">
+                <div>
+                  <select
+                    value={searchMonth}
+                    onChange={(e) => setSearchMonth(e.target.value)}
+                    className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
+                  >
+                    <option className="text-newtextdata" value="">
+                      Select Month
                     </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <select
-                  value={searchDay}
-                  onChange={(e) => setSearchDay(e.target.value)}
-                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
-                >
-                  <option value="">Select Day</option>
-                  {Array.from({ length: 31 }, (_, i) => {
-                    const day = (i + 1).toString().padStart(2, "0"); // Ensures "01" to "09"
-                    return (
-                      <option key={day} value={day}>
-                        {day}
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option
+                        className="text-[16px]"
+                        key={i + 1}
+                        value={String(i + 1).padStart(2, "0")}
+                      >
+                        {new Date(0, i).toLocaleString("en", { month: "long" })}
                       </option>
-                    );
-                  })}
-                </select>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <select
+                    value={searchDay}
+                    onChange={(e) => setSearchDay(e.target.value)}
+                    className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
+                  >
+                    <option value="">Select Day</option>
+                    {Array.from({ length: 31 }, (_, i) => {
+                      const day = (i + 1).toString().padStart(2, "0"); // Ensures "01" to "09"
+                      return (
+                        <option key={day} value={day}>
+                          {day}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="flex items-center gap-[20px] md:gap-[5px]">
+                <div>
+                  <select
+                    value={searchEmp}
+                    onChange={(e) => setSearchEmp(e.target.value)}
+                    className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
+                  >
+                    <option value="">Select Employee</option>
+                    {allusers?.data?.map((user, index) => (
+                      <option key={index} value={user.id}>
+                        {user.fullname}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <button
+                    className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.15rem]"
+                    onClick={handleExportData}
+                  >
+                    <img
+                      src={iconsImgs.plus}
+                      alt="plus icon"
+                      className="w-[18px] mr-1"
+                    />{" "}
+                    Export Data
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-[20px] md:gap-[5px]">
-              <div>
-                <select
-                  value={searchEmp}
-                  onChange={(e) => setSearchEmp(e.target.value)}
-                  className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
-                >
-                  <option value="">Select Employee</option>
-                  {allusers?.data?.map((user, index) => (
-                    <option key={index} value={user.id}>
-                      {user.fullname}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <button
-                  className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.15rem]"
-                  onClick={handleExportData}
-                >
-                  <img
-                    src={iconsImgs.plus}
-                    alt="plus icon"
-                    className="w-[18px] mr-1"
-                  />{" "}
-                  Export Data
-                </button>
-              </div>
-            </div>
-</div>
           </div>
         </div>
-        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">

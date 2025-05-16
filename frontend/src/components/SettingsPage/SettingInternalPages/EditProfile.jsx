@@ -150,7 +150,7 @@ const EditProfile = () => {
         </div>
         {/* Profile Photo and Badge */}
         {/* Profile Photo Section */}
-        <div className="mb-3 relative w-[100px] h-[100px] md:w-full md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
+        <div className="mb-3 relative w-[100px] h-[100px] md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
           {profilePhoto ? (
             <img
               src={profilePhoto}

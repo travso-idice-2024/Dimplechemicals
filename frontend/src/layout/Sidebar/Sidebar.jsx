@@ -75,7 +75,7 @@ const Sidebar = () => {
       level === 1 ? "submenu-link" : level === 2 ? "nested-submenu-link" : "";
 
     return (
-      <ul className="ml-4 mt-2 space-y-1">
+      <ul className="ml-4 mt-2 ">
         {submenu
           .filter(
             (subItem) =>

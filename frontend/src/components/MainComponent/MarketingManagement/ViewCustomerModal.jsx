@@ -23,7 +23,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   //console.log("selectedCustomer", selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full lg:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
@@ -55,7 +55,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
 
           {/* Details Grid */}
           <div className="py-3 px-7">
-            <div className="grid grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-4 py-2">
+            <div className="grid md:grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-4 py-2">
               <Detail
                 label="Company Name"
                 value={selectedCustomer?.customer?.company_name}
