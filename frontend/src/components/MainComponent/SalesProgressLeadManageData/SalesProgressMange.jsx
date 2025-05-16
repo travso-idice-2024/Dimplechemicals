@@ -34,6 +34,7 @@ import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
 import axios from "axios";
 import Calender from "../../calender/Calender";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -46,6 +47,7 @@ const SalesProgressMange = () => {
   const prefix = 'saleperson_';
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user: userDeatail } = useSelector((state) => state.auth);
   const { allLeadsCount, salesPersonleads, totalPages } = useSelector(
     (state) => state.lead
@@ -357,7 +359,7 @@ useEffect(() => {
 
       {!leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {/* chech in check out  */}
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
@@ -401,7 +403,7 @@ useEffect(() => {
             <div
               className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"
               onClick={() => {
-                setLeadDataShowNew(true);
+                navigate("/plan-of-action-for-day/todayPOA");
               }}
             >
               <div className="relative">
@@ -413,7 +415,25 @@ useEffect(() => {
                   {allLeadsCount?.assignedLeadsCount}
                 </span>
               </div>
-              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Assigned Lead</h2>
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Today POA</h2>
+              <p className="text-[12px]">{userDeatail?.fullname}</p>
+            </div>
+            <div
+              className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer"
+              onClick={() => {
+                navigate("/sale-management/plan-of-action-for-day");
+              }}
+            >
+              <div className="relative">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                />
+                {/* <span className="absolute -top-2 -right-3 bg-red-500 text-white text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full">
+                  {allLeadsCount?.assignedLeadsCount}
+                </span> */}
+              </div>
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Total POA</h2>
               <p className="text-[12px]">{userDeatail?.fullname}</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">

@@ -252,7 +252,7 @@ const EditUserModal = ({
                 )}
               </div>
 
-              {/* <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Emergency Contact :
                 </label>
@@ -269,7 +269,7 @@ const EditUserModal = ({
                     {updateFormErrors.emergency_contact}
                   </p>
                 )}
-              </div> */}
+              </div>
 
               {/* <div className="relative">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

@@ -3,6 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
+import { fetchAllCategories } from "../../../redux/categorySlice";
+import CategoryAutocomplete from "./CategoryAutocomplete";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const EditCostWorkingModal = ({
   setEditCostWorkingModalOpen,
@@ -29,7 +35,12 @@ const EditCostWorkingModal = ({
     (state) => state.product
   );
 
+  const { allCategories, categoryLoading, categoryError } = useSelector(
+    (state) => state.category
+  );
+
   useEffect(() => {
+    dispatch(fetchAllCategories());
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
@@ -41,6 +52,7 @@ const EditCostWorkingModal = ({
       products: [
         ...prevData.products,
         {
+          category_id: "",
           product_id: "",
           unit: "",
           qty_for: "",
@@ -50,7 +62,46 @@ const EditCostWorkingModal = ({
         },
       ],
     }));
+    setProductOptions((prev) => [...prev, []]);
   };
+
+  const [productOptions, setProductOptions] = useState([]);
+
+  const fetchProductsByCategory = async (categoryId) => {
+    try {
+      const token = getAuthToken();
+      //console.log("token",token);
+      const response = await axios.get(`${API_URL}/auth/get-product-category/${categoryId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response.data.data);
+
+      return response.data.data; // assuming your API responds with { data: [...] }
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+  const loadProductOptionsForEdit = async () => {
+    const optionsArray = [...productOptions]; // clone
+
+    for (let i = 0; i < editCostWorkingData?.products?.length; i++) {
+      const prod = editCostWorkingData?.products[i];
+      if (prod.category_id) {
+        const products = await fetchProductsByCategory(prod.category_id);
+        optionsArray[i] = products;
+      }
+    }
+
+    setProductOptions(optionsArray);
+  };
+
+  if (editCostWorkingData?.products?.length > 0) {
+    loadProductOptionsForEdit();
+  }
+}, [editCostWorkingData?.products]);
 
   // Function to remove a product entry
   const handleRemoveProduct = (index) => {
@@ -72,7 +123,7 @@ const EditCostWorkingModal = ({
 
   // Function to handle product input change
 
-  const handleProductChange = (e, index) => {
+  const handleProductChange = async(e, index) => {
     const { name, value } = e.target;
 
     const updatedProducts = [...editCostWorkingData.products];
@@ -80,6 +131,14 @@ const EditCostWorkingModal = ({
 
     // Update the value
     productToUpdate[name] = value;
+
+     // If product_id changed, set unit too
+     if (name === "product_id") {
+      const selectedProduct = productOptions[index]?.find(
+        (prod) => prod.id.toString() === value
+      );
+      productToUpdate.unit = selectedProduct ? selectedProduct.unit : "";
+    }
 
     // Recalculate basic_amount if relevant fields changed
     const qty = parseFloat(productToUpdate.qty_for) || 0;
@@ -96,6 +155,17 @@ const EditCostWorkingModal = ({
       (sum, item) => sum + (parseFloat(item.basic_amount) || 0),
       0
     );
+
+
+     // If category changed, fetch new product list for this row
+     if (name === "category_id") {
+      const products = await fetchProductsByCategory(value);
+      setProductOptions((prev) => {
+        const updatedOptions = [...prev];
+        updatedOptions[index] = products;
+        return updatedOptions;
+      });
+    }
 
     // Update full state
     setEditCostWorkingData({
@@ -225,7 +295,7 @@ const EditCostWorkingModal = ({
             </h3>
             <div className="px-4">
               
-              {editCostWorkingData.products.map((product, index) => (
+              {editCostWorkingData?.products?.map((product, index) => (
                 <>
                 <h3 className=" text-bgDataNew font-poppins font-medium text-textdatanew text-bgData mt-5">
                   Product {index+1} :
@@ -234,6 +304,15 @@ const EditCostWorkingModal = ({
                   key={index}
                   className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
                 >
+                   {/* category drop down */}
+                   <CategoryAutocomplete
+                      allCategories={allCategories}
+                      handleProductChange={handleProductChange}
+                      index={index}
+                      product={product}
+                    />
+
+
                   <select
                     name="product_id"
                     value={product.product_id || ""}
@@ -241,11 +320,11 @@ const EditCostWorkingModal = ({
                     className="block w-full rounded-[5px] border px-3 py-2"
                   >
                     <option value="">Select Product</option>
-                    {allProducts?.data?.map((prod) => (
-                      <option key={prod.id} value={prod.id}>
-                        {prod.product_name}
-                      </option>
-                    ))}
+                    {productOptions[index]?.map((prod) => (
+                        <option key={prod.id} value={prod.id}>
+                          {prod.product_name}
+                        </option>
+                      ))}
                   </select>
 
                   {[

@@ -341,9 +341,16 @@ export const navigationLinks = [
     title: "Costworking Management",
     image: iconsImgs.department,
     path: "/cost-management",
-    allowedRoles: [1]
+    allowedRoles: [1,3]
   },
-  { id: 12, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: [1,2,3]},
+  {
+    id: 12,
+    title: "Today POA",
+    image: iconsImgs.department,
+    path: "/plan-of-action-for-day/:poaType",
+    allowedRoles: []
+  },
+  { id: 13, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: [1,2,3]},
 ];
 
 //------------ Own Data --------------//

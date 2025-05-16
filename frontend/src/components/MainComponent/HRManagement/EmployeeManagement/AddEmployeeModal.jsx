@@ -104,41 +104,41 @@ const AddEmployeeModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentStep === 1 && ( */}
-            <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[350px] md:md:h-fit">
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   Name :
-                </label>
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="name"
-                  value={formData.fullname}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.fullname && (
-                  <p className="text-red-500 text-sm">{formErrors.fullname}</p>
-                )}
-              </div>
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   Email :
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.email && (
-                  <p className="text-red-500 text-sm">{formErrors.email}</p>
-                )}
-              </div>
+          <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[350px] md:md:h-fit">
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Name :
+              </label>
+              <input
+                type="text"
+                name="fullname"
+                placeholder="name"
+                value={formData.fullname}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.fullname && (
+                <p className="text-red-500 text-sm">{formErrors.fullname}</p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Email :
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.email && (
+                <p className="text-red-500 text-sm">{formErrors.email}</p>
+              )}
+            </div>
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter Date of Birth:
                 </label>
@@ -162,163 +162,163 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   Phone :
-                </label>
-                <input
-                  type="number"
-                  name="phone"
-                  placeholder="Phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.phone && (
-                  <p className="text-red-500 text-sm">{formErrors.phone}</p>
-                )}
-              </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Phone :
+              </label>
+              <input
+                type="number"
+                name="phone"
+                placeholder="Phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.phone && (
+                <p className="text-red-500 text-sm">{formErrors.phone}</p>
+              )}
+            </div>
 
-              {/* <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Emergency Contact :
-                </label>
-                <input
-                  type="number"
-                  name="emergency_contact"
-                  placeholder="emergency contact"
-                  value={formData.emergency_contact}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.emergency_contact && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.emergency_contact}
-                  </p>
-                )}
-              </div> */}
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Emergency Contact :
+              </label>
+              <input
+                type="number"
+                name="emergency_contact"
+                placeholder="emergency contact"
+                value={formData.emergency_contact}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.emergency_contact && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.emergency_contact}
+                </p>
+              )}
+            </div>
 
-<div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Username :
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="name"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.username && (
-                  <p className="text-red-500 text-sm">{formErrors.username}</p>
-                )}
-              </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Username :
+              </label>
+              <input
+                type="text"
+                name="username"
+                placeholder="name"
+                value={formData.username}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.username && (
+                <p className="text-red-500 text-sm">{formErrors.username}</p>
+              )}
+            </div>
 
-               <div className="relative">
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   Password :
-                </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
-                />
-                <span
-                  className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-                {formErrors.password && (
-                  <p className="text-red-500 text-sm">{formErrors.password}</p>
-                )}
-              </div>
-              <div className="relative">
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Confirm Password :
-                </label>
-                <input
-                  type={showCPassword ? "text" : "password"}
-                  name="confirm_password"
-                  placeholder="confirm password"
-                  value={formData.confirm_password}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
-                />
-                <span
-                  className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
-                  onClick={() => setShowCPassword(!showCPassword)}
-                >
-                  {showCPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-                {formErrors.confirm_password && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.confirm_password}
-                  </p>
-                )}
-              </div> 
+            <div className="relative">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Password :
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
+              />
+              <span
+                className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+              {formErrors.password && (
+                <p className="text-red-500 text-sm">{formErrors.password}</p>
+              )}
+            </div>
+            <div className="relative">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Confirm Password :
+              </label>
+              <input
+                type={showCPassword ? "text" : "password"}
+                name="confirm_password"
+                placeholder="confirm password"
+                value={formData.confirm_password}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 pr-10"
+              />
+              <span
+                className="absolute right-3 top-10 cursor-pointer text-[#473b33]"
+                onClick={() => setShowCPassword(!showCPassword)}
+              >
+                {showCPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+              {formErrors.confirm_password && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.confirm_password}
+                </p>
+              )}
+            </div>
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   Aadhar No:
-                </label>
-                <input
-                  type="number"
-                  name="aadhar_no"
-                  placeholder="Aadhar No"
-                  value={formData.aadhar_no}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.aadhar_no && (
-                  <p className="text-red-500 text-sm">{formErrors.aadhar_no}</p>
-                )}
-              </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Aadhar No:
+              </label>
+              <input
+                type="number"
+                name="aadhar_no"
+                placeholder="Aadhar No"
+                value={formData.aadhar_no}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.aadhar_no && (
+                <p className="text-red-500 text-sm">{formErrors.aadhar_no}</p>
+              )}
+            </div>
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   PAN No:
-                </label>
-                <input
-                  type="text"
-                  name="pan_no"
-                  placeholder="PAN No"
-                  value={formData.pan_no}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.pan_no && (
-                  <p className="text-red-500 text-sm">{formErrors.pan_no}</p>
-                )}
-              </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                PAN No:
+              </label>
+              <input
+                type="text"
+                name="pan_no"
+                placeholder="PAN No"
+                value={formData.pan_no}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.pan_no && (
+                <p className="text-red-500 text-sm">{formErrors.pan_no}</p>
+              )}
+            </div>
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Select the Role :
-                </label>
-                <select
-                  name="role_id"
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                  value={formData.role_id} // Controlled state
-                  onChange={handleChange} // Update state
-                >
-                  <option value="">Select the Role</option>
-                  {allRoles?.data?.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {role.role_name}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.role_id && (
-                  <p className="text-red-500 text-sm">{formErrors.role_id}</p>
-                )}
-              </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Select the Role :
+              </label>
+              <select
+                name="role_id"
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                value={formData.role_id} // Controlled state
+                onChange={handleChange} // Update state
+              >
+                <option value="">Select the Role</option>
+                {allRoles?.data?.map((role) => (
+                  <option key={role.id} value={role.id}>
+                    {role.role_name}
+                  </option>
+                ))}
+              </select>
+              {formErrors.role_id && (
+                <p className="text-red-500 text-sm">{formErrors.role_id}</p>
+              )}
+            </div>
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select the Gender:
                 </label>
@@ -357,7 +357,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Upload Profile Picture:
                 </label>
@@ -375,110 +375,110 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                   Address:
-                </label>
-                <textarea
-                  placeholder="Address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="block w-full mb-2 h-[50px] rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
-                  rows="3"
-                />
-                {formErrors.address && (
-                  <p className="text-red-500 text-sm">{formErrors.address}</p>
-                )}
-              </div>
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Reporting Location:
-                </label>
-                <input
-                  type="text"
-                  name="work_location"
-                  placeholder="Enter Work Location"
-                  value={formData.work_location}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.work_location && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.work_location}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Joining Date:
-                </label>
-                <input
-                  type="date"
-                  name="date_of_joining"
-                  value={formData.date_of_joining}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                />
-                {formErrors.date_of_joining && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.date_of_joining}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Employment Type:
-                </label>
-                <select
-                  name="employment_type"
-                  value={formData.employment_type}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                >
-                  <option value="">Select Employment Type</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Intern">Intern</option>
-                </select>
-                {formErrors.employment_type && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.employment_type}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Reporting Manager:
-                </label>
-                <select
-                  name="reporting_manager_id"
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
-                  value={formData.reporting_manager_id} // Controlled state
-                  onChange={handleChange} // Update state
-                >
-                  <option value="">Select Reporting Manager</option>
-                  {allusers?.data?.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.fullname}{" "}
-                      {/* Assuming user object has "name" property */}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.reporting_manager_id && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.reporting_manager_id}
-                  </p>
-                )}
-              </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Address:
+              </label>
+              <textarea
+                placeholder="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="block w-full mb-2 h-[50px] rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
+                rows="3"
+              />
+              {formErrors.address && (
+                <p className="text-red-500 text-sm">{formErrors.address}</p>
+              )}
             </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Reporting Location:
+              </label>
+              <input
+                type="text"
+                name="work_location"
+                placeholder="Enter Work Location"
+                value={formData.work_location}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.work_location && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.work_location}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Joining Date:
+              </label>
+              <input
+                type="date"
+                name="date_of_joining"
+                value={formData.date_of_joining}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+              />
+              {formErrors.date_of_joining && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.date_of_joining}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Employment Type:
+              </label>
+              <select
+                name="employment_type"
+                value={formData.employment_type}
+                onChange={handleChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+              >
+                <option value="">Select Employment Type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Intern">Intern</option>
+              </select>
+              {formErrors.employment_type && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.employment_type}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Reporting Manager:
+              </label>
+              <select
+                name="reporting_manager_id"
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
+                value={formData.reporting_manager_id} // Controlled state
+                onChange={handleChange} // Update state
+              >
+                <option value="">Select Reporting Manager</option>
+                {allusers?.data?.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.fullname}{" "}
+                    {/* Assuming user object has "name" property */}
+                  </option>
+                ))}
+              </select>
+              {formErrors.reporting_manager_id && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.reporting_manager_id}
+                </p>
+              )}
+            </div>
+          </div>
           {/* )} */}
 
           {/* Step 2: Job Details */}
           {/* {currentStep === 2 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
-              {/* <div>
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Basic Salary:
                 </label>
@@ -495,7 +495,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Designantion:
                 </label>
@@ -512,7 +512,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Location:
                 </label>
@@ -531,7 +531,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Offer Letter Date:
                 </label>
@@ -549,7 +549,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Joining Date:
                 </label>
@@ -567,7 +567,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Exit Date:
                 </label>
@@ -585,7 +585,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select the Department:
                 </label>
@@ -608,7 +608,7 @@ const AddEmployeeModal = ({
                   </p>
                 )}
               </div> */}
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Employment Type:
                 </label>
@@ -631,7 +631,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Manager:
                 </label>
@@ -656,7 +656,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Summary for Remarks:
                 </label>
@@ -673,7 +673,7 @@ const AddEmployeeModal = ({
                 )}
               </div> */}
 
-              {/* <div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Currently Working:
                 </label>
@@ -703,7 +703,7 @@ const AddEmployeeModal = ({
                   </p>
                 )}
               </div> */}
-            </div>
+          </div>
           {/* )} */}
 
           {/* Step 3: Bank Details */}
@@ -886,27 +886,27 @@ const AddEmployeeModal = ({
               </>
             )} */}
             {/* {currentStep === 2 && ( */}
-              <>
-                {/* <button
+            <>
+              {/* <button
                   className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
                   onClick={prevStep}
                 >
                   Previous
                 </button> */}
-                <button
-                  className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                  //onClick={nextStep}
-                  onClick={handleSubmit}
-                >
-                  Add Employee
-                </button>
-                <button
-                  className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-                  onClick={() => setAddEmployeeModalOpen(false)}
-                >
-                  Close
-                </button>
-              </>
+              <button
+                className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+                //onClick={nextStep}
+                onClick={handleSubmit}
+              >
+                Add Employee
+              </button>
+              <button
+                className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                onClick={() => setAddEmployeeModalOpen(false)}
+              >
+                Close
+              </button>
+            </>
             {/* )} */}
 
             {/* {currentStep === 3 && (

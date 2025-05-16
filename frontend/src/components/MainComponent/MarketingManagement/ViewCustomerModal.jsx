@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { leadCommunicationById } from "../../../redux/leadSlice";
 
-
 const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   const dispatch = useDispatch();
   const { communicationleadsList, totalPages, leadLoading, leadError } =
@@ -14,7 +13,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
     if (selectedCustomer?.id) {
       dispatch(
         leadCommunicationById({
-          leadId: selectedCustomer?.id
+          leadId: selectedCustomer?.id,
         })
       );
     }
@@ -32,7 +31,6 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
-                
                 <div>
                   <h3 className="text-[15px] font-semibold">
                     {selectedCustomer?.customer?.company_name}
@@ -90,29 +88,38 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 label="Pan No."
                 value={selectedCustomer?.customer?.pan_no}
               />
-              <Detail label="Address" value={selectedCustomer?.customer?.address} />
+              <Detail
+                label="Address"
+                value={selectedCustomer?.customer?.address}
+              />
             </div>
           </div>
-
-
 
           {/* follow up list */}
           <div className="py-3 px-7 overflow-x-auto">
             <table className="table-auto w-full border border-gray-300 text-left border-collapse">
               <thead>
                 <tr className="bg-[#473b33] rounded-[8px]">
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">Id</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">Meeting Date</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">Start Time</th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">End Time</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap border border-gray-300">
+                    Id
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
+                    Meeting Date
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
+                    Start Time
+                  </th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
+                    End Time
+                  </th>
 
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">Next Meeting Date</th>
+                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
+                    Next Meeting Date
+                  </th>
                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Company Name
                   </th>
-                  <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
-                    Client Name
-                  </th>
+                  
                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Communication
                   </th>
@@ -124,8 +131,17 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
               <tbody>
                 {communicationleadsList?.data &&
                   communicationleadsList?.data.map((user, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{index + 1}</td>
+                    <tr
+                      key={index}
+                      className={
+                        user?.start_meeting_time && user?.end_meeting_time
+                          ? "bg-[#e5e7eb61]"
+                          : "bg-gray-300"
+                      }
+                    >
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
+                        {index + 1}
+                      </td>
                       {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.lead_date?.split('T')[0]}</td> */}
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {new Date(user?.createdAt)?.toLocaleDateString(
@@ -137,8 +153,12 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                           }
                         )}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.start_meeting_time}</td>
-                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.end_meeting_time}</td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
+                        {user?.start_meeting_time}
+                      </td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
+                        {user?.end_meeting_time}
+                      </td>
 
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {new Date(user?.lead_date)?.toLocaleDateString(
@@ -153,19 +173,19 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {user?.Customer?.company_name}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 whitespace-nowrap ">{user?.client_name}</td>
+                  
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 w-[300px]">
                         {user?.lead_text}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">{user?.lead_status}</td>
+                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
+                        {user?.lead_status}
+                      </td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
           {/* end follow up list */}
-
-
         </div>
         {/* Buttons */}
         <div className="flex justify-end gap-2 px-6">

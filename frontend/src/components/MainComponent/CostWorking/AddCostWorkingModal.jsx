@@ -3,6 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
+import { fetchAllCategories } from "../../../redux/categorySlice";
+import CategoryAutocomplete from "./CategoryAutocomplete";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
 
 const AddCostWorkingModal = ({
   setIsCostWorkingModalOpen,
@@ -17,13 +23,18 @@ const AddCostWorkingModal = ({
   handleCostWorkingCustomerChange,
   customerAddress,
 }) => {
-  //console.log("costWorkingFormErrors", costWorkingFormErrors);
+  //console.log("costWorkingData", costWorkingData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
 
+  const { allCategories, categoryLoading, categoryError } = useSelector(
+    (state) => state.category
+  );
+
   useEffect(() => {
+    dispatch(fetchAllCategories());
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
@@ -35,6 +46,7 @@ const AddCostWorkingModal = ({
       products: [
         ...prevData.products,
         {
+          category_id: "",
           product_id: "",
           unit: "",
           qty_for: "",
@@ -44,6 +56,27 @@ const AddCostWorkingModal = ({
         },
       ],
     }));
+    setProductOptions((prev) => [...prev, []]);
+  };
+
+  const [productOptions, setProductOptions] = useState([]); // dynamic products for each category
+
+  //console.log("productOptions",productOptions);
+
+  const fetchProductsByCategory = async (categoryId) => {
+    try {
+      const token = getAuthToken();
+      //console.log("token",token);
+      const response = await axios.get(`${API_URL}/auth/get-product-category/${categoryId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response.data.data);
+
+      return response.data.data; // assuming your API responds with { data: [...] }
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      return [];
+    }
   };
 
   // Function to remove a product entry
@@ -66,38 +99,57 @@ const AddCostWorkingModal = ({
 
   // Function to handle product input change
 
-  const handleProductChange = (e, index) => {
+  const handleProductChange = async (e, index) => {
     const { name, value } = e.target;
-
+  
     const updatedProducts = [...costWorkingData.products];
     const productToUpdate = { ...updatedProducts[index] };
-
-    // Update the value
+  
+    // Update the selected field value
     productToUpdate[name] = value;
-
+  
+    // If product_id changed, set unit too
+    if (name === "product_id") {
+      const selectedProduct = productOptions[index]?.find(
+        (prod) => prod.id.toString() === value
+      );
+      productToUpdate.unit = selectedProduct ? selectedProduct.unit : "";
+    }
+  
     // Recalculate basic_amount if relevant fields changed
     const qty = parseFloat(productToUpdate.qty_for) || 0;
     const pak = parseFloat(productToUpdate.std_pak) || 0;
     const rate = parseFloat(productToUpdate.std_basic_rate) || 0;
-
+  
     productToUpdate.basic_amount = (qty * pak * rate).toFixed(2);
-
-    // Replace updated product
+  
+    // Replace updated product in the array
     updatedProducts[index] = productToUpdate;
-
+  
     // Recalculate total material cost
     const totalMaterialCost = updatedProducts.reduce(
       (sum, item) => sum + (parseFloat(item.basic_amount) || 0),
       0
     );
-
-    // Update full state
+  
+    // If category changed, fetch new product list for this row
+    if (name === "category_id") {
+      const products = await fetchProductsByCategory(value);
+      setProductOptions((prev) => {
+        const updatedOptions = [...prev];
+        updatedOptions[index] = products;
+        return updatedOptions;
+      });
+    }
+  
+    // Update the overall state
     setCostWorkingData({
       ...costWorkingData,
       products: updatedProducts,
       total_material_cost: totalMaterialCost.toFixed(2),
     });
   };
+  
 
   const fields = [
     { name: "unit", placeholder: "Unit No." },
@@ -231,8 +283,32 @@ const AddCostWorkingModal = ({
                     key={index}
                     className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
                   >
+                    {/* category drop down */}
+                    <CategoryAutocomplete
+                      allCategories={allCategories}
+                      handleProductChange={handleProductChange}
+                      index={index}
+                    />
+
                     {/* Product ID as Dropdown */}
                     <select
+                      name="product_id"
+                      value={product.product_id || ""}
+                      onChange={(e) => 
+                        handleProductChange(e, index)
+
+                      }
+                      className="block w-full rounded-[5px] border px-3 py-2"
+                    >
+                      <option value="">Select Product</option>
+                      {productOptions[index]?.map((prod) => (
+                        <option key={prod.id} value={prod.id}>
+                          {prod.product_name}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* <select
                       name="product_id"
                       value={product.product_id || ""}
                       onChange={(e) => handleProductChange(e, index)}
@@ -244,7 +320,7 @@ const AddCostWorkingModal = ({
                           {prod.product_name}
                         </option>
                       ))}
-                    </select>
+                    </select> */}
 
                     {/* Other Input Fields (excluding total_material_cost) */}
                     {/* {[

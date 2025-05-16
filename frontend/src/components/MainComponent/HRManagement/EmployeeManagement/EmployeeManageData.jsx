@@ -71,7 +71,7 @@ const EmployeeManageData = () => {
     password: "",
     confirm_password: "",
     phone: "",
-    //emergency_contact: "",
+    emergency_contact: "",
     //date_of_birth: "",
     //gender: "",
     //profile_image: "",
@@ -240,12 +240,12 @@ const EmployeeManageData = () => {
     // } else if (!formData.profile_image.type.startsWith("image/")) {
     //   errors.profile_image = "Only image files are allowed.";
     // }
-    if (!formData.pan_no.trim()) {
-      errors.pan_no = "*Pan Card is required";
-    }
-    if (!formData.aadhar_no.trim()) {
-      errors.aadhar_no = "*Aadhar Card is required";
-    }
+    // if (!formData.pan_no.trim()) {
+    //   errors.pan_no = "*Pan Card is required";
+    // }
+    // if (!formData.aadhar_no.trim()) {
+    //   errors.aadhar_no = "*Aadhar Card is required";
+    // }
     // if (!formData.date_of_birth.trim()) {
     //   errors.date_of_birth = "*DOB is required";
     // }
@@ -321,7 +321,7 @@ const EmployeeManageData = () => {
   const prevStep = () => setCurrentStep((prev) => prev - 1);
 
   const handleSubmit = async (e) => {
-    console.log("this function is calling");
+    //console.log("this function is calling");
     e.preventDefault();
     if (validateInputs()) {
       try {
@@ -407,7 +407,7 @@ const EmployeeManageData = () => {
     //password: "",
     //confirm_password: "",
     phone: "",
-    //emergency_contact: "",
+    emergency_contact: "",
     //date_of_birth: "",
     //gender: "",
     //profile_image: "",
@@ -457,7 +457,7 @@ const EmployeeManageData = () => {
         //password: "",
         //confirm_password: "",
         phone: selectedEmployee.phone || "",
-        // emergency_contact: selectedEmployee.emergency_contact || "",
+        emergency_contact: selectedEmployee.emergency_contact || "",
         // date_of_birth: selectedEmployee.date_of_birth
         //   ? selectedEmployee.date_of_birth.split("T")[0]
         //   : "",
@@ -597,12 +597,12 @@ const EmployeeManageData = () => {
     // if (!updateFormData.account_type.trim()) {
     //   errors.account_type = "*Account type is required";
     // }
-    if (!updateFormData.pan_no.trim()) {
-      errors.pan_no = "*Pan Card is required";
-    }
-    if (!updateFormData.aadhar_no.trim()) {
-      errors.aadhar_no = "*Aadhar Card is required";
-    }
+    // if (!updateFormData.pan_no.trim()) {
+    //   errors.pan_no = "*Pan Card is required";
+    // }
+    // if (!updateFormData.aadhar_no.trim()) {
+    //   errors.aadhar_no = "*Aadhar Card is required";
+    // }
     // if (!updateFormData.date_of_birth.trim()) {
     //   errors.date_of_birth = "*DOB is required";
     // }

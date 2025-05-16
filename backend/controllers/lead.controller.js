@@ -419,7 +419,8 @@ const getleadaftermeeting = async (req, res) => {
 
     const leads = await Lead.findAndCountAll({
       where: {
-        ...(userId !== 33 && { assigned_person_id:userId}),
+        ...(userId !== 33 && { assigned_person_id: userId }),
+        active_status: "active",   // ✅ added this condition here
         ...(search && {
           [Op.or]: [
             { assign_date: { [Op.like]: `%${search}%` } },
@@ -463,8 +464,7 @@ const getleadaftermeeting = async (req, res) => {
       message: "Leads retrieved successfully",
       data: leads.rows,
       total: leads.count,
-      currentPage: parseInt(page)
-,
+      currentPage: parseInt(page),
       totalPages: Math.ceil(leads.count / limit),
     });
   } catch (error) {
@@ -476,6 +476,7 @@ const getleadaftermeeting = async (req, res) => {
     });
   }
 };
+
 
 const removeLead = async (req, res) => {
   const { id } = req.params;

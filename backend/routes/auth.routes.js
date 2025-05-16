@@ -89,6 +89,7 @@ const {
   createProduct,
   updateProduct,
   toggleProductStatus,
+  getProductsByCategoryId
 } = require("../controllers/product.controller");
 
 const {
@@ -239,6 +240,7 @@ router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
 router.get('/get-lead-products/:lead_id', authMiddleware, getLeadProducts);
 router.post("/add-products-to-lead", authMiddleware, addProductsToLead);
 router.get("/get-todays-location", authMiddleware, getTodayMeetingLocation);
+router.get("/get-product-category/:categoryId", authMiddleware, getProductsByCategoryId);
 
 
 module.exports = router;

@@ -57,6 +57,7 @@ const createCostWorking = async (req, res) => {
     if (products && Array.isArray(products)) {
       const productRecords = products.map((product) => ({
         cost_working_id,
+        category_id:product.category_id,
         product_id: product.product_id,
         unit: product.unit,
         qty_for: product.qty_for,
@@ -215,6 +216,7 @@ const updateCostWorking = async (req, res) => {
     if (products && Array.isArray(products)) {
       const productRecords = products.map((product) => ({
         cost_working_id,
+        category_id:product.category_id,
         product_id: product.product_id,
         unit: product.unit,
         qty_for: product.qty_for,

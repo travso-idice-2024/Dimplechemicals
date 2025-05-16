@@ -135,56 +135,54 @@ const createLeadCommunication = async (req, res) => {
 const endMeeting = async (req, res) => {
   try {
     const {
-      customer_id,
-      lead_date,
-      lead_id,
+      lead_text,
+      lead_status,
+      lead_date,   // schedule for next meeting
       end_meeting_time,
-      end_location,
-      latitude,
-      longitude, 
-      type
+      end_location,            // to target the specific lead
     } = req.body;
 
-    // Ensure user is authenticated
+    // Check user auth
     if (!req.user || !req.user.id) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // Assign logged-in user ID to sales_persion_id
     const sales_persion_id = req.user.id;
 
-    // Validate required fields
-    if (
-      !customer_id ||
-      !lead_date ||
-      !lead_id
-    ) {
-      return res.status(400).json({ message: "All fields are required" });
+    if (!end_meeting_time || !end_location) {
+      return res.status(400).json({ message: "end_meeting_time and end_location are required" });
     }
 
-    // Insert record
-    const newLead = await LeadCommunication.create({
-      customer_id,
-      sales_persion_id, // Automatically set from logged-in user
-      lead_date,
-      lead_id,
-      end_meeting_time,
-      end_location,
-      latitude,
-      longitude,
-      type
+    // Find the latest lead communication record for this user and lead_id
+    const latestLead = await LeadCommunication.findOne({
+      where: {
+        sales_persion_id,
+      },
+      order: [['createdAt', 'DESC']]
     });
 
-    res
-      .status(201)
-      .json({
-        success:true,
-        message: "Meeting End Successfully",
-        data: newLead,
-      });
+    if (!latestLead) {
+      return res.status(404).json({ message: "No lead communication record found to update" });
+    }
+
+    // Update the found record
+    await latestLead.update({
+      lead_text,
+      lead_status,
+      lead_date,
+      end_meeting_time,
+      end_location
+    });
+
+    res.status(200).json({
+      success:true,
+      message: "Meeting ended and lead communication updated successfully",
+      data: latestLead
+    });
+
   } catch (error) {
-    console.error("Error inserting lead communication:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error ending meeting:", error);
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 

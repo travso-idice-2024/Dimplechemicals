@@ -61,7 +61,7 @@ const ProductTable = ({
                 Rate
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                Product Description
+              Consumption per Sq. Mtr.
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                 Status

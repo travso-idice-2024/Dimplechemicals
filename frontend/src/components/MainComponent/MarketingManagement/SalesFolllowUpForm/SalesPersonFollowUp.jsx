@@ -25,11 +25,15 @@ import {
 import {addLead , listLeads} from "../../../../redux/leadSlice";
 import {fetchCurrentUser } from "../../../../redux/authSlice";
 import useGoogleCalendar from "../../../../components/hooks/useGoogleCalendar";
+import { useParams } from "react-router-dom";
+
 
 
 
 const SalesPersonFollowUp = () => {
-  //console.log("SalesPersonFollowUp component mounted");
+  const { poaType } = useParams();
+  //console.log("SalesPersonFollowUp com
+  // ponent mounted");
   const {
     isAuthenticated,
     createEvent,
@@ -339,7 +343,9 @@ const SalesPersonFollowUp = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between"> 
           <div>
             <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
-            Visit Plan (POA)
+            {poaType === "todayPOA" ? "Today's Plan of Action (POA)" : "Visit Plan (POA)"}
+
+            
             </h1>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">

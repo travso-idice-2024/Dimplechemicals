@@ -276,7 +276,7 @@ useEffect(() => {
       nature_of_work: selectedCostWorking.nature_of_work || "",
       technology_used: selectedCostWorking.technology_used || "",
       //estimate_no: selectedCostWorking.estimate_no || "",
-      estimate_date: selectedCostWorking.estimate_date?.split("T")[0] || "",
+      estimate_date: selectedCostWorking?.estimate_date?.split("T")[0] || "",
       //revision_no: selectedCostWorking.revision_no || "",
       revision_date: selectedCostWorking.revision_date?.split("T")[0] || "",
       area_to_be_coated: selectedCostWorking.area_to_be_coated || "",
@@ -295,6 +295,7 @@ useEffect(() => {
     });
   }
 }, [selectedCostWorking]);
+
 
 
   // Handle input changes for update form

@@ -106,8 +106,6 @@ const DepartmentTable = ({
 
   // Handle Form Submit
   const handleSubmitAddFollowUp = async () => {
-    //e.preventDefault();
-
     if (validateInputs()) {
       try {
         //console.log("formData", formData);
@@ -115,7 +113,6 @@ const DepartmentTable = ({
           addLeadCommunication(formData)
         ).unwrap();
 
-        //console.log("response", response);
         if (response?.success) {
           handleFlashMessage(
             response?.message || "Lead Communication added successfully!",
@@ -126,25 +123,6 @@ const DepartmentTable = ({
           if (isAuthenticated) {
             handleAddEvent(formData);
           }
-
-          // dispatch(
-          //   leadCommunicationById({
-          //     leadId: leadId,
-          //     page: currentPage,
-          //     limit: leadCumPerPage,
-          //     search: searchTerm,
-          //   })
-          // );
-
-          // Reload lead list after adding lead
-          // dispatch(
-          //   listLeads({
-          //     page: currentPage,
-          //     limit: leadsPerPage,
-          //     search: searchTerm,
-          //   })
-          // );
-
           // Close modal after successful submission
           setTimeout(() => {
             setLeadStatusProgress(false);
@@ -292,7 +270,7 @@ const DepartmentTable = ({
               >
                 Assign Lead
               </button> */}
-                  <button
+                  {/* <button
                     className="bg-[#bf9c85] text-white px-3 py-1 rounded hover:bg-green-600"
                     //onClick={() => updateDealFinalize(user?.id)}
                     onClick={() => {
@@ -312,7 +290,7 @@ const DepartmentTable = ({
                     }}
                   >
                     Followup
-                  </button>
+                  </button> */}
                   <button
                     className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-green-600"
                     //onClick={() => updateDealFinalize(user?.id)}
