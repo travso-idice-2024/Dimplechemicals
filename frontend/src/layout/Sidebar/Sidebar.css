@@ -141,7 +141,7 @@
     display: flex;
     justify-content: flex-start; /* Aligns the content to the left */
     align-items: center; /* Centers the content vertically */
-    margin-bottom: 18px;
+    margin-bottom: 5px;
     padding-left: 20px !important;
   }
   .nav-item {

@@ -38,66 +38,66 @@ const ProductTable = ({
         <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px]">
-              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata"></th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap"></th> */}
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Id
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Product 
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Category 
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 HSN Code{" "}
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Stock
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Unit
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Rate
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Product Description
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Status
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
             {Products?.map((product, index) => (
-              <tr key={index} className="text-center">
-                {/* <td className="px-4 py-2 text-textdata">
+              <tr key={index} >
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   <input
                     type="checkbox"
                     className="w-4 h-4 accent-orange-500"
                   />
                 </td> */}
-                <td className="px-4 py-2 text-textdata">{index + 1}</td>
-                <td className="px-4 py-2 text-textdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{index + 1}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   {product.product_name}
                 </td>
-                <td className="px-4 py-2 text-textdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   {product?.category?.category_name || "-"}
                 </td>
-                <td className="px-4 py-2 text-textdata">{product.HSN_code}</td>
-                <td className="px-4 py-2 text-textdata">{product.stock}</td>
-                <td className="px-4 py-2 text-textdata">{product.unit}</td>
-                <td className="px-4 py-2 text-textdata">{product.rate}</td>
-                <td className="px-4 py-2 text-textdata">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{product.HSN_code}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{product.stock}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{product.unit}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{product.rate}</td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   {product.product_description}
                 </td>
-                <td><button
+                <td className="text-center"><button
                     className={`${
                       product.status === 1 ? "bg-green-500" : "bg-red-500"
-                    } text-white px-3 py-1 rounded hover:bg-red-600 text-[12px]`}
+                    } text-white px-3 text-center py-1 rounded hover:bg-red-600 text-[12px]`}
                     onClick={() => {
                       if (
                         window.confirm(
@@ -110,7 +110,7 @@ const ProductTable = ({
                   >
                     {product.status == 1 ? "Active" : "Inactive"}
                   </button></td>
-                <td className="flex items-center gap-2 px-4 py-2 text-textdata">
+                <td className="flex items-center gap-2 px-4 py-2 text-newtextdata whitespace-nowrap">
                   {" "}
                   
                   <button

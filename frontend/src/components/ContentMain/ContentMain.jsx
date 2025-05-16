@@ -74,8 +74,8 @@ const ContentMain = () => {
       <div className="space-y-3">
         {/* Flex row for 4 divs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 cursor-pointer">
-            <div className="w-full flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer">
+            <div className="w-full flex items-center justify-between">
               <h3 className="grid-c-title-text">Total Lead Entries</h3>
               <button className="grid-c-title-icon">
                 <img src={iconsImgs.plus} alt="plus-icon" />
@@ -90,8 +90,8 @@ const ContentMain = () => {
               </h2>
             </div>
           </div>
-          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 cursor-pointer">
-            <div className="w-full flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer">
+            <div className="w-full flex items-center justify-between">
               <h3 className="grid-c-title-text">Total Sales</h3>
               <button className="grid-c-title-icon">
                 <img src={iconsImgs.plus} alt="plus-icon" />
@@ -106,8 +106,8 @@ const ContentMain = () => {
               </h2>
             </div>
           </div>
-          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 cursor-pointer">
-            <div className="w-full flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer">
+            <div className="w-full flex items-center justify-between">
               <h3 className="grid-c-title-text">Total Visits</h3>
               <button className="grid-c-title-icon">
                 <img src={iconsImgs.plus} alt="plus-icon" />
@@ -122,8 +122,8 @@ const ContentMain = () => {
               </h2>
             </div>
           </div>
-          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 cursor-pointer">
-            <div className="w-full flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer">
+            <div className="w-full flex items-center justify-between">
               <h3 className="grid-c-title-text">Expenses</h3>
               <button className="grid-c-title-icon">
                 <img src={iconsImgs.plus} alt="plus-icon" />

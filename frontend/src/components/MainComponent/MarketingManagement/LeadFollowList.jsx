@@ -46,8 +46,7 @@ export const LeadFollowList = () => {
       <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
-            
-            <div>
+            {/* <div>
             <button onClick={() => navigate(-1)} className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]">
                 ⬅ Back
               </button>
@@ -55,6 +54,28 @@ export const LeadFollowList = () => {
                 Lead Follow Up
               </h1>
               
+            </div>*/}
+            <div>
+              <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center">
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={() => navigate(-1)}
+                  className="cursor-pointer"
+                >
+                  <path
+                    d="M22.5 27L13.5 18L22.5 9"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>
+                </svg>
+                Lead Follow Up
+              </h1>
             </div>
             <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
               <div>
@@ -66,7 +87,6 @@ export const LeadFollowList = () => {
                   onChange={handleSearchChange}
                 />
               </div>
-
             </div>
           </div>
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
@@ -82,26 +102,34 @@ export const LeadFollowList = () => {
                   />
                 </div>
               </div> */}
-            <div>
+            <div className="overflow-x-auto">
               <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
-                    <th className="px-4 py-2 text-left text-bgDataNew">Id</th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">Meeting Date</th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">Start Time</th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">End Time</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">Id</th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                      Meeting Date
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                      Start Time
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                      End Time
+                    </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew">Next Meeting Date</th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                      Next Meeting Date
+                    </th>
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                       Company Name
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                       Client Name
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                       Communication
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                       Status
                     </th>
                   </tr>
@@ -110,9 +138,9 @@ export const LeadFollowList = () => {
                   {communicationleadsList?.data &&
                     communicationleadsList?.data.map((user, index) => (
                       <tr key={index}>
-                        <td className="px-4 py-2">{index + 1}</td>
-                        {/* <td className="px-4 py-2">{user?.lead_date?.split('T')[0]}</td> */}
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-newtextdata ">{index + 1}</td>
+                        {/* <td className="px-4 py-2 text-newtextdata ">{user?.lead_date?.split('T')[0]}</td> */}
+                        <td className="px-4 py-2 text-newtextdata ">
                           {new Date(user?.createdAt)?.toLocaleDateString(
                             "en-GB",
                             {
@@ -122,10 +150,12 @@ export const LeadFollowList = () => {
                             }
                           )}
                         </td>
-                        <td className="px-4 py-2">{user?.start_meeting_time}</td>
-                        <td className="px-4 py-2">{user?.end_meeting_time}</td>
+                        <td className="px-4 py-2 text-newtextdata ">
+                          {user?.start_meeting_time}
+                        </td>
+                        <td className="px-4 py-2 text-newtextdata ">{user?.end_meeting_time}</td>
 
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-newtextdata ">
                           {new Date(user?.lead_date)?.toLocaleDateString(
                             "en-GB",
                             {
@@ -135,27 +165,28 @@ export const LeadFollowList = () => {
                             }
                           )}
                         </td>
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-newtextdata ">
                           {user?.Customer?.company_name}
                         </td>
-                        <td className="px-4 py-2">{user?.client_name}</td>
-                        <td className="px-4 py-2 w-[300px]">
+                        <td className="px-4 py-2 text-newtextdata ">{user?.client_name}</td>
+                        <td className="px-4 py-2 text-newtextdata  w-[300px]">
                           {user?.lead_text}
                         </td>
-                        <td className="px-4 py-2">{user?.lead_status}</td>
+                        <td className="px-4 py-2 text-newtextdata ">{user?.lead_status}</td>
                       </tr>
                     ))}
                 </tbody>
               </table>
             </div>
-            {/* Pagination Controls with Number */}
+            
+            {/* </div> */}
+          </div>
+          {/* Pagination Controls with Number */}
             <Pagination
               currentPage={currentPage}
               handlePageChange={handlePageChange}
               totalPages={totalPages}
             />
-            {/* </div> */}
-          </div>
         </div>
       </div>
     </div>

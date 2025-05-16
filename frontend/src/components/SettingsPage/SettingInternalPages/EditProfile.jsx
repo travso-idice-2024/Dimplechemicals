@@ -141,16 +141,16 @@ const EditProfile = () => {
     <div className="navigationData">
       <form className="flex flex-col items-center" onSubmit={handleSubmit}>
         <div className="text-center mb-5">
-          <h2 className="font-poppins text-[15px] md:text-[19px] font-semibold text-white">
+          <h2 className="font-poppins text-[17px] md:text-[19px] font-semibold text-white">
             Profile Setup
           </h2>
-          <p className="font-inter font-medium text-[10px] md:text-textdata whitespace-nowrap text-white">
+          <p className="font-inter font-medium text-[12px] md:text-[10px] md:text-textdata whitespace-nowrap text-white">
             Fill important details to Update Profile
           </p>
         </div>
         {/* Profile Photo and Badge */}
         {/* Profile Photo Section */}
-        <div className="mb-3 relative w-[100px] h-[100px] w-full md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
+        <div className="mb-3 relative w-[100px] h-[100px] md:w-full md:w-[130px] md:h-[130px] rounded-full overflow-hidden border-[4px] md:border-[3px] border-[#FFFFFF] bg-[#F0F7F7] flex flex-col items-center justify-center group">
           {profilePhoto ? (
             <img
               src={profilePhoto}
