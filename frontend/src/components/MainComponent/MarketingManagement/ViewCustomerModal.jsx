@@ -26,7 +26,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
-        <div className="overflow-auto h-[500px]">
+        <div className="overflow-auto h-[380px]">
           {/* Profile Section */}
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
