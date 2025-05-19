@@ -41,7 +41,7 @@ const ParticularLeadAssign = ({
           <h2 className="text-white text-[18px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Assign Sales Person
           </h2>
-          <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto md:h-fit">
+          <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto md:h-fit max-w-full">
             {/* Sales Person */}
             <div>
               <label>Select Sales Person</label>
@@ -49,7 +49,7 @@ const ParticularLeadAssign = ({
                 name="new_assigned_person_id"
                 value={poaUpdateData?.new_assigned_person_id}
                 onChange={handlePoaUpdateChange}
-                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                className="block w-full max-w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
               >
                 <option value="">Select the Person</option>
                 {userDataWithRole?.data?.map((user) => (

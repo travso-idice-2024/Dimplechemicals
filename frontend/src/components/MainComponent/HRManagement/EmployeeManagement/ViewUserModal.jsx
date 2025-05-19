@@ -19,7 +19,7 @@ const ViewUserModal = ({
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
-                {/* <img
+                <img
                   src={
                     selectedEmployee.profile_image
                       ? `${API_URL.replace("api", "")}${
@@ -29,7 +29,7 @@ const ViewUserModal = ({
                   }
                   alt="Profile"
                   className="w-16 h-16 rounded-full border"
-                /> */}
+                />
                 <div>
                   <h3 className="text-[15px] font-semibold">
                     {selectedEmployee.fullname}
@@ -51,30 +51,39 @@ const ViewUserModal = ({
           </div>
 
           {/* Details Grid */}
-          <div className="py-3 px-7">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
-              <Detail label="Status" value={selectedEmployee.status} />
-              <Detail label="Phone" value={selectedEmployee.phone} />
-              <Detail label="Aadhar No." value={selectedEmployee.aadhar_no} />
-              <Detail label="PAN No." value={selectedEmployee.pan_no} />
-              <Detail
-                label="Employment Type"
-                value={selectedEmployee.jobDetail.employment_type}
-              />
-              <Detail
-                label="Reporting Manager"
-                value={selectedEmployee.jobDetail.reportingManager.fullname}
-              />
-              <Detail
-                label="Work Location"
-                value={selectedEmployee.jobDetail.work_location}
-              />
-              <Detail label="Address" value={selectedEmployee.address} />
-              <Detail
-                label="Joining Date"
-                value={selectedEmployee.jobDetail.date_of_joining}
-              />
-             
+          <div className="py-3 px-6">
+            <div className="bg-[#e5e7eb38] rounded-[5px] px-2 py-2">
+              <table className="w-full border border-gray-300 text-sm text-left">
+                <tbody>
+                  <TableRow label="Status" value={selectedEmployee.status} />
+                  <TableRow
+                    label="Phone"
+                    value={selectedEmployee?.customer?.client_name}
+                  />
+                  <TableRow
+                    label="Aadhar No."
+                    value={selectedEmployee.aadhar_no}
+                  />
+                  <TableRow label="PAN No." value={selectedEmployee.pan_no} />
+                  <TableRow
+                    label="Employment Type"
+                    value={selectedEmployee.jobDetail.employment_type}
+                  />
+                  <TableRow
+                    label="Reporting Manager"
+                    value={selectedEmployee.jobDetail.reportingManager.fullname}
+                  />
+                  <TableRow
+                    label="Work Location"
+                    value={selectedEmployee.jobDetail.work_location}
+                  />
+                  <TableRow label="Address" value={selectedEmployee.address} />
+                  <TableRow
+                    label="Joining Date"
+                    value={selectedEmployee.jobDetail.date_of_joining}
+                  />
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -102,15 +111,12 @@ const ViewUserModal = ({
   );
 };
 
-// Reusable Detail Component
-const Detail = ({ label, value }) => (
-  <div className="flex items-center gap-3">
-    <label className="font-poppins font-semibold text-textdata whitespace-nowrap text-bgData">
-      {label}
-    </label>
-    <p className="font-poppins font-semibold text-textdata">:</p>
-    <p>{value}</p>
-  </div>
+const TableRow = ({ label, value }) => (
+  <tr className="border-b border-gray-200">
+    <td className="py-2 px-4 font-bold text-gray-600 w-1/3">{label}</td>
+    <td className="py-2 px-2 text-gray-800">:</td>
+    <td className="py-2 px-4 text-gray-800">{value || "N/A"}</td>
+  </tr>
 );
 
 export default ViewUserModal;
