@@ -68,7 +68,7 @@ const closeModal = () => {
   return (
  <>
   {!isAuthenticated ? (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
+    <div className="flex justify-center items-center min-h-screen bg-gray-400">
       <button
         onClick={handleLogin}
         className="bg-blue-600 text-white border-none px-5 py-2 cursor-pointer rounded text-lg"
@@ -82,7 +82,7 @@ const closeModal = () => {
         onClick={handleLogout}
         className="bg-red-500 text-white border-none px-5 py-2 cursor-pointer rounded text-lg mb-5"
       >
-        Logout
+        Sign Out with Google
       </button>
 
       {events?.length > 0 ? (

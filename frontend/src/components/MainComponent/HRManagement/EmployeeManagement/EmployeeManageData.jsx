@@ -13,6 +13,8 @@ import {
   removeUser,
   updateUser,
 } from "../../../../redux/userSlice";
+import { fetchCurrentUser } from "../../../../redux/authSlice";
+
 import SignatureCanvas from "react-signature-canvas";
 import axios from "axios";
 
@@ -25,6 +27,11 @@ const EmployeeManageData = () => {
   const { users, totalPages, userLoading, userError } = useSelector(
     (state) => state.user
   );
+
+  const { user: userDeatail } = useSelector((state) => state.auth);
+   useEffect(() => {
+      dispatch(fetchCurrentUser());
+    }, [dispatch]);
 
   //console.log("users", users);
 
@@ -420,7 +427,7 @@ const EmployeeManageData = () => {
     //digital_signature: "",
 
     // Employee Roles Table Fields
-    //role_id: "",
+    role_id: "",
 
     // Job Details Table Fields
     //department_id: "",
@@ -432,7 +439,7 @@ const EmployeeManageData = () => {
     work_location: "",
     reporting_manager_id: "",
     //offer_letter_date: "",
-    //date_of_exit: "",
+    date_of_exit: "",
 
     // Bank Details Table Fields
     // bank_name: "",
@@ -470,7 +477,7 @@ const EmployeeManageData = () => {
         pan_no: selectedEmployee.pan_no || "",
         //remarks: selectedEmployee.remarks || "",
         //digital_signature: selectedEmployee.digital_signature || "",
-        //role_id: selectedEmployee?.employeeRole?.role_id || "",
+        role_id: selectedEmployee?.employeeRole?.role_id || "",
         //department_id: selectedEmployee?.jobDetail?.department_id || "",
         //job_title: selectedEmployee?.jobDetail?.job_title || "",
         employment_type: selectedEmployee?.jobDetail?.employment_type || "",
@@ -486,7 +493,7 @@ const EmployeeManageData = () => {
         // offer_letter_date: selectedEmployee?.jobDetail?.offer_letter_date
         //   ? selectedEmployee?.jobDetail?.offer_letter_date.split("T")[0]
         //   : "",
-        // date_of_exit: selectedEmployee?.jobDetail?.date_of_exit
+        date_of_exit: selectedEmployee?.jobDetail?.date_of_exit
         //   ? selectedEmployee?.jobDetail?.date_of_exit.split("T")[0]
         //   : "",
         // bank_name: selectedEmployee?.bankDetail?.bank_name || "",
@@ -827,6 +834,7 @@ const EmployeeManageData = () => {
             nextUpdateStep={nextUpdateStep}
             prevUpdateStep={prevUpdateStep}
             currentUpdateStep={currentUpdateStep}
+            userDeatail={userDeatail}
           />
         )}
 

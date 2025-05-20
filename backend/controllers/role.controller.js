@@ -16,7 +16,7 @@ const listRoles = async (req, res) => {
     if (all === "true") {
       const roles = await Role.findAll({
         where: whereCondition,
-        order: [["role_name", "ASC"]], // Sort by role name
+        order: [["role_name", "DESC"]], // Sort by role name
       });
       return res.status(200).json({ success: true, data: roles });
     }
@@ -31,7 +31,7 @@ const listRoles = async (req, res) => {
       where: whereCondition,
       limit: pageSize,
       offset,
-      order: [["role_name", "ASC"]],
+      order: [["role_name", "DESC"]],
     });
 
     res.status(200).json({

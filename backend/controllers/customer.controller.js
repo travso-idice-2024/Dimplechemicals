@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Customer, Lead, User, BusinessAssociate } = require("../models");
+const { Customer, Lead, User, BusinessAssociate, CustomerContactPerson,CustomerAddress } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -8,21 +8,23 @@ const { ValidationError } = require("sequelize");
 const listCustomers = async (req, res) => {
   
   try {
-    const { page = 1, limit = 10, search = "", all } = req.query;
+    const { page = 1, limit = 5, search = "", all } = req.query;
 
     // Base filter: Only fetch active customers
     let whereCondition = { active_status: "active" };
 
     // Add search filter if provided
     if (search) {
-      whereCondition.company_name = { [Op.like]: `%${search}%` };
+      //whereCondition.company_name = { [Op.like]: `%${search}%` };
+      whereCondition.company_name = { [Op.like]: `${search}%` };
+
     }
 
     // Fetch all active customers if "all" query param is true
     if (all === "true") {
       const customers = await Customer.findAll({
         where: whereCondition,
-        order: [["company_name", "ASC"]],
+        order: [["createdAt", "DESC"]],
       });
       return res.status(200).json({ success: true, data: customers });
     }
@@ -37,15 +39,27 @@ const listCustomers = async (req, res) => {
       where: whereCondition,
       limit: pageSize,
       offset,
-      order: [["company_name", "ASC"]],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: BusinessAssociate,
           as: 'businessAssociates',
           where: {
-            status: 1, // or is_active: true, depending on your schema
+            status: 1,
           },
-          required: false, // this ensures customers without active associates are still returned
+          required: false, // so even customers without active associates are included
+          attributes: ['id', 'associate_name', 'status'] // whatever fields you need
+        },
+        {
+          model: CustomerContactPerson,
+          as: "contactPersons", // alias must match your association
+          required: false,
+          attributes: ["id", "name", "email", "phone_no","designation"], // adjust as needed
+        },
+        {
+          model: CustomerAddress,
+          as: "addresses", // alias must match your association
+          required: false,
         },
       ],
     });
@@ -69,23 +83,22 @@ const addCustomer = async (req, res) => {
   try {
     const {
       company_name,
-      client_name,
-      designation,
+      //client_name,
+      //designation,
       primary_contact,
       secondary_contact,
       email_id,
-      address,
-      address_2,
-      address_3,
-      address_4,
-      location,
-      pincode,
+      //address,
+      //address_2,
+      //address_3,
+      //address_4,
+      //location,
+      //pincode,
       pan_no,
       associate_name,
       business_associate,
-      contact_persion1,
-      contact_persion2,
-      contact_persion3,
+      contact_persons,
+      company_address,
       gst_number,
     } = req.body;
 
@@ -109,34 +122,76 @@ const addCustomer = async (req, res) => {
     // Create new customer
     const newCustomer = await Customer.create({
       company_name,
-      client_name,
-      designation,
+      //client_name,
+      //designation,
       primary_contact,
       secondary_contact,
       email_id,
-      address,
-      address_2,
-      address_3,
-      address_4,
-      location,
-      pincode,
+     // address,
+     // address_2,
+      //address_3,
+      //address_4,
+      //location,
+      //pincode,
       pan_no,
-      associate_name,
       business_associate,
-      contact_persion1,
-      contact_persion2,
-      contact_persion3,
+      contact_persons,
+      company_address,
       gst_number,
     });
 
+    if (Array.isArray(contact_persons) && contact_persons.length > 0) {
+      const contactEntries = contact_persons.map((person) => ({
+        customer_id: newCustomer.id,
+        name: person.name,
+        email: person.email,
+        phone_no: person.phone_no,
+        designation: person.designation,
+      }));
+
+      await CustomerContactPerson.bulkCreate(contactEntries);
+    }
+
+    // Insert company addresses
+    if (Array.isArray(company_address) && company_address.length > 0) {
+      const addressEntries = company_address.map((addr) => ({
+        customer_id: newCustomer.id,
+        pincode: addr.pincode,
+        location: addr.location,
+        city: addr.city,
+        address_type: addr.address_type,
+      }));
+
+      await CustomerAddress.bulkCreate(addressEntries);
+    }
+
     // Create new business associate entry (with foreign key customer_id)
-    if (associate_name) {
-      await BusinessAssociate.create({
-        associate_name: associate_name,
-        //code: `BA${newCustomer.id}`,
-        status: true,
-        customer_id: newCustomer.id, // <-- This fixes the foreign key issue
-      });
+    // if (associate_name) {
+    //   await BusinessAssociate.create({
+    //     associate_name: associate_name,
+    //     //code: `BA${newCustomer.id}`,
+    //     status: true,
+    //     customer_id: newCustomer.id, // <-- This fixes the foreign key issue
+    //   });
+    // }
+
+    // Handle Business Associates (multiple, with one marked as status: true)
+    if (Array.isArray(associate_name) && associate_name.length > 0) {
+      const associateData = associate_name.map((name) => ({
+        associate_name: name,
+        status: name === business_associate, // true only for matched one
+        customer_id: newCustomer.id,
+      }));
+
+      const createdAssociates = await BusinessAssociate.bulkCreate(associateData, { returning: true });
+
+      // Add code for each: BA<ID>
+      await Promise.all(
+        createdAssociates.map((associate) => {
+          const code = `BA${associate.id}`;
+          return associate.update({ code });
+        })
+    );
     }
 
     res.status(201).json({
@@ -165,21 +220,20 @@ const updateCustomer = async (req, res) => {
     const { id } = req.params;
     const {
       company_name,
-      client_name,
-      designation,
+      //client_name,
+      //designation,
       primary_contact,
       secondary_contact,
       email_id,
-      address,
-      location,
-      pincode,
+      //address,
+      //location,
+      //pincode,
       pan_no,
-      address_2,
-      address_3,
-      address_4,
-      contact_persion1,
-      contact_persion2,
-      contact_persion3,
+     // address_2,
+     // address_3,
+     // address_4,
+      contact_persons = [],
+      company_address,
       gst_number,
       business_associate
     } = req.body;
@@ -197,21 +251,18 @@ const updateCustomer = async (req, res) => {
 
     await customer.update({
       company_name,
-      client_name,
-      designation,
+      //client_name,
+      //designation,
       primary_contact,
       secondary_contact,
       email_id,
-      address,
-      location,
-      pincode,
+      //address,
+      //location,
+      //pincode,
       pan_no,
-      address_2,
-      address_3,
-      address_4,
-      contact_persion1,
-      contact_persion2,
-      contact_persion3,
+      //address_2,
+      //address_3,
+      //address_4,
       gst_number,
     });
 
@@ -235,6 +286,42 @@ const updateCustomer = async (req, res) => {
       );
     }
 
+
+     // Update Contact Persons
+     if (Array.isArray(contact_persons)) {
+      // First, delete old contact persons for this customer
+      await CustomerContactPerson.destroy({
+        where: { customer_id: id },
+      });
+
+      // Then, add new ones
+      for (const contact of contact_persons) {
+        await CustomerContactPerson.create({
+          customer_id: id,
+          name: contact.name,
+          email: contact.email,
+          phone_no: contact.phone_no,
+          designation: contact.designation,
+        });
+      }
+    }
+
+
+    //  Update Customer Addresses
+    if (Array.isArray(company_address)) {
+      // Delete old addresses
+      await CustomerAddress.destroy({ where: { customer_id: id } });
+
+      const addressEntries = company_address.map((addr) => ({
+        customer_id: id,
+        pincode: addr.pincode,
+        location: addr.location,
+        city: addr.city,
+        address_type: addr.address_type,
+      }));
+
+      await CustomerAddress.bulkCreate(addressEntries);
+    }
     res.status(200).json({
       success: true,
       message: "Customer updated successfully",
@@ -283,46 +370,39 @@ const getCustomerAddresses = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find customer by ID
-    const customer = await Customer.findOne({
-      where: { id: id },
+    // Fetch address details from CustomerAddress
+    const customerAddress = await CustomerAddress.findAll({
+      where: { customer_id: id },
       attributes: [
-        "company_name",
-        "address",
-        "address_2",
-        "address_3",
-        "address_4",
-        "contact_persion1",
-        "contact_persion2",
-        "contact_persion3",
+        "customer_id",
+        "pincode",
+        "location",
+        "city",
+        "address_type",
       ],
     });
 
-    // If customer not found
-    if (!customer) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Customer not found." });
+    if (!customerAddress) {
+      return res.status(404).json({
+        success: false,
+        message: "Customer address not found.",
+      });
     }
 
-    // Prepare response
+    // Fetch contact persons from CustomerContactPerson
+    const contactPersons = await CustomerContactPerson.findAll({
+      where: { customer_id: id },
+      attributes: ["name", "id","customer_id"],
+    });
+
+    // Build the response
     res.status(200).json({
       success: true,
       message: "Customer details retrieved successfully",
       data: {
-        id,
-        company_name: customer.company_name,
-        addresses: [
-          customer.address,
-          customer.address_2,
-          customer.address_3,
-          customer.address_4,
-        ],
-        contact_persons: [
-          customer.contact_persion1,
-          customer.contact_persion2,
-          customer.contact_persion3,
-        ],
+        customer_id: id,
+        addresses: customerAddress,
+        contact_persons: contactPersons,
       },
     });
   } catch (error) {
@@ -331,8 +411,8 @@ const getCustomerAddresses = async (req, res) => {
       success: false,
       message: "Error retrieving customer details",
       error: error.message,
-    });
-  }
+  });
+}
 };
 
 const exportCustomersToExcel = async (req, res) => {

@@ -49,7 +49,7 @@ const SalesPersonFollowUp = () => {
   const { leads, totalPages, departmentloading, departmenterror } = useSelector(
     (state) => state.lead
   );
-  //console.log("userDeatail",userDeatail.email);
+  console.log("leads",leads);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
@@ -77,7 +77,7 @@ const SalesPersonFollowUp = () => {
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
   const [selectedPOAId, setSelectedPOAId] = useState(null);
   const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
-  const poaPerPage = 4;
+  const poaPerPage = 5;
 
   const [poaReportOpen, setpoaReportOpen] = useState(false);
   const [allEmpPlanOfActionReport, setAllEmpPlanOfActionReport] =
@@ -190,8 +190,8 @@ const SalesPersonFollowUp = () => {
   const validatePoaForm = () => {
     let errors = {};
     if (!poaData.customer_id) errors.customer_id = "Customer is required.";
-    if (!poaData.contact_person_name)
-      errors.contact_person_name = "Contact Person Name is required.";
+    // if (!poaData.contact_person_name)
+    //   errors.contact_person_name = "Contact Person Name is required.";
     if (!poaData.assigned_person_id)
       errors.assigned_person_id = "Sales Person is required.";
     if (!poaData.assign_date)
@@ -359,6 +359,7 @@ const SalesPersonFollowUp = () => {
               />
             </div>
             <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
+            {userDeatail?.employeeRole?.role_id === 1 && (
             <div>
               <button
                 className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
@@ -370,6 +371,8 @@ const SalesPersonFollowUp = () => {
                 All Employee POA
               </button>
             </div>
+            )}
+            {userDeatail?.employeeRole?.role_id === 3 && (
             <div>
               <button
                 className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
@@ -383,6 +386,7 @@ const SalesPersonFollowUp = () => {
                 POA for Day
               </button>
             </div>
+            )}
             </div>
           </div>
         </div>

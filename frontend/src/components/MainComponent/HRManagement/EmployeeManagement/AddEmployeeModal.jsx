@@ -298,7 +298,7 @@ const AddEmployeeModal = ({
 
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                Select the Role :
+              Assign Role :
               </label>
               <select
                 name="role_id"

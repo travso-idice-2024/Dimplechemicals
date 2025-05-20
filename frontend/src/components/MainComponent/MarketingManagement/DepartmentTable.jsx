@@ -243,7 +243,7 @@ const DepartmentTable = ({
                   {user?.customer?.company_name}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.contact_person_name}
+                {user?.contactPerson?.name || "N/A"}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.assignedPerson?.fullname}

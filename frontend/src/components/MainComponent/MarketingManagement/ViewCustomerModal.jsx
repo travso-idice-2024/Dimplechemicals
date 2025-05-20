@@ -60,13 +60,10 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
               />
               <Detail
                 label="Contact person Name"
-                value={selectedCustomer?.customer?.contact_persion1}
+                value={selectedCustomer?.contactPerson?.name}
               />
 
-              <Detail
-                label="Designation"
-                value={selectedCustomer?.customer?.designation}
-              />
+             
               <Detail
                 label="Primary Contact"
                 value={selectedCustomer?.customer?.primary_contact}
@@ -76,22 +73,12 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 value={selectedCustomer?.customer?.email_id}
               />
 
-              <Detail
-                label="City"
-                value={selectedCustomer?.customer?.location}
-              />
-              <Detail
-                label="Pincode"
-                value={selectedCustomer?.customer?.pincode}
-              />
+             
               <Detail
                 label="Pan No."
                 value={selectedCustomer?.customer?.pan_no}
               />
-              <Detail
-                label="Address"
-                value={selectedCustomer?.customer?.address}
-              />
+             
             </div>
           </div>
 

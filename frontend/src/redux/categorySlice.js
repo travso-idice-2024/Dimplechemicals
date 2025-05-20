@@ -42,6 +42,7 @@ export const fetchAllCategories = createAsyncThunk(
   }
 );
 
+
 // ✅ Add new category
 export const addCategory = createAsyncThunk(
   "category/addCategory",
@@ -106,6 +107,7 @@ const categorySlice = createSlice({
   initialState: {
     categories: [],
     allCategories: [],
+    
     categoryLoading: false,
     categoryError: null,
     totalPages: 1,
@@ -126,6 +128,8 @@ const categorySlice = createSlice({
         state.categoryLoading = false;
         state.categoryError = action.payload;
       })
+
+    
 
       // 🔹 listCategories
       .addCase(listCategories.pending, (state) => {

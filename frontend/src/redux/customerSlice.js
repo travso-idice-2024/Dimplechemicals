@@ -8,7 +8,7 @@ const getAuthToken = () => localStorage.getItem("token");
 // ✅ LIST CUSTOMERS
 export const listCustomers = createAsyncThunk(
   "auth/listCustomers",
-  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+  async ({ page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/customerList`, {
@@ -23,6 +23,64 @@ export const listCustomers = createAsyncThunk(
     }
   }
 );
+
+
+// ✅ Fetch all pincodes (without pagination)
+export const fetchAllPincodes = createAsyncThunk(
+  "category/fetchAllPincodes",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/pincodes`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { all: true },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch all pincodes"
+      );
+    }
+  }
+);
+
+export const getAreaByPincode = createAsyncThunk(
+  "auth/getAreaByPincode",
+  async ({ pincode = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/pincode/${pincode}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        //params: { pincode},
+      });
+      return response.data;
+    } catch (customerError) {
+      return rejectWithValue(
+        customerError.response?.data || "Failed to fetch pincode"
+      );
+    }
+  }
+);
+
+
+export const getCityByAreaname = createAsyncThunk(
+  "auth/getCityByAreaname",
+  async ({ areaname = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/pincodes/${areaname}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        //params: { pincode},
+      });
+      return response.data;
+    } catch (customerError) {
+      return rejectWithValue(
+        customerError.response?.data || "Failed to fetch city"
+      );
+    }
+  }
+);
+
 
 // ✅ FETCH ALL CUSTOMERS
 export const fetchAllCustomers = createAsyncThunk(
@@ -147,7 +205,10 @@ const customerSlice = createSlice({
   name: "customer",
   initialState: {
     customers: [],
+    allCity: [],
     allCustomers: [],
+    allPincodes: [],
+    allAreas: [],
     allBAdata:[],
     customerAddress:[],
     customerLoading: false,
@@ -169,6 +230,20 @@ const customerSlice = createSlice({
         state.customerLoading = false;
         state.customerError = action.payload;
       })
+
+        //fetchAllPincodes
+            .addCase(fetchAllPincodes.pending, (state) => {
+              state.categoryLoading = true;
+              state.categoryError = null;
+            })
+            .addCase(fetchAllPincodes.fulfilled, (state, action) => {
+              state.categoryLoading = false;
+              state.allPincodes = action.payload;
+            })
+            .addCase(fetchAllPincodes.rejected, (state, action) => {
+              state.categoryLoading = false;
+              state.categoryError = action.payload;
+            })
       
       .addCase(fetchAllBussinessAssociateList.pending, (state) => {
         state.customerLoading = true;
@@ -208,6 +283,36 @@ const customerSlice = createSlice({
         state.customerLoading = false;
         state.customerError = action.payload;
       })
+
+      .addCase(getAreaByPincode.pending, (state) => {
+        state.customerLoading = true;
+        state.customerError = null;
+      })
+      .addCase(getAreaByPincode.fulfilled, (state, action) => {
+        state.customerLoading = false;
+        state.allAreas = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(getAreaByPincode.rejected, (state, action) => {
+        state.customerLoading = false;
+        state.customerError = action.payload;
+      })
+
+      
+      .addCase(getCityByAreaname.pending, (state) => {
+        state.customerLoading = true;
+        state.customerError = null;
+      })
+      .addCase(getCityByAreaname.fulfilled, (state, action) => {
+        state.customerLoading = false;
+        state.allCity = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(getCityByAreaname.rejected, (state, action) => {
+        state.customerLoading = false;
+        state.customerError = action.payload;
+      })
+
       .addCase(addCustomer.pending, (state) => {
         state.customerLoading = true;
         state.customerError = null;

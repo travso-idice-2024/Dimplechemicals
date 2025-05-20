@@ -1,37 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listCustomers, removeCustomer } from "../../../redux/customerSlice";
-import SuccessMessage from "../../AlertMessage/SuccessMessage";
-import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import { listCustomers, removeCustomer } from "../../../../redux/customerSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const CustomerTable = ({
   customers,
-  setEditCustomerModalOpen,
-  setViewModalOpen,
   selectedCustomer,
   setSelectedCustomer,
-  setIsAssignModalOpen,
-  deleteFlashMessage,
-  deleteFlashMsgType,
-  handleDeleteFlashMessage,
-  handleDelete,
   userDeatail,
 }) => {
+  const navigate = useNavigate();
   //console.log("userDeatail", userDeatail);
   return (
     <>
-      <div className="fixed top-5 right-5 z-50">
-        {deleteFlashMessage && deleteFlashMsgType === "success" && ( 
-          <SuccessMessage message={deleteFlashMessage} />
-        )}
-        {deleteFlashMessage && deleteFlashMsgType === "error" && (
-          <ErrorMessage message={deleteFlashMessage} />
-        )}
-      </div>
       <div className="overflow-x-auto">
         <table className="table-auto w-full text-left border-collapse">
           <thead>
@@ -82,53 +67,14 @@ const CustomerTable = ({
                   {user.primary_contact}
                 </td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
-                  {/* <button
-                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
-                onClick={() => {
-                setSelectedCustomer(user);
-                setIsAssignModalOpen(true)
-              }}
-              >
-                Assign Lead
-       </button> */}
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                     onClick={() => {
-                      setSelectedCustomer(user);
-                      setViewModalOpen(true);
+                      navigate(`/sale-management/lead-management/${user?.id}`);
                     }}
                   >
-                    <FontAwesomeIcon icon={faEye} />
+                    View All Leads
                   </button>
-
-                  {userDeatail?.employeeRole?.role_id !== 3 && (
-                    <>
-                      <button
-                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2"
-                        onClick={() => {
-                          setSelectedCustomer(user);
-                          setEditCustomerModalOpen(true);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </button>
-
-                      <button
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              "Are you sure you want to delete this customer?"
-                            )
-                          ) {
-                            handleDelete(user.id);
-                          }
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </>
-                  )}
                 </td>
               </tr>
             ))}

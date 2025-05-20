@@ -14,7 +14,7 @@ const listCategories = async (req, res) => {
     if (all === "true") {
       const categories = await Category.findAll({
         where: whereCondition,
-        order: [["category_name", "ASC"]],
+        order: [["category_name", "DESC"]],
       });
       return res.status(200).json({ success: true, data: categories });
     }
@@ -28,7 +28,7 @@ const listCategories = async (req, res) => {
       where: whereCondition,
       limit: pageSize,
       offset,
-      order: [["category_name", "ASC"]],
+      order: [["category_name", "DESC"]],
     });
 
     res.status(200).json({

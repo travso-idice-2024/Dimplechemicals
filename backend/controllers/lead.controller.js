@@ -1,8 +1,10 @@
 const { Op, Sequelize, fn ,col,literal} = require("sequelize");
-const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData,LeadCommunication } = require("../models");
+const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData,LeadCommunication,CustomerContactPerson } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment"); 
+
 
 // const addLead = async (req, res) => {
 //   try {
@@ -307,12 +309,25 @@ const updateLead = async (req, res) => {
 
 const getLeadList = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = "", all } = req.query;
+    //console.log("userrole",req.user.userrole);
+    const { page = 1, limit = 5, search = "", all } = req.query;
+
+    const userId = req.user?.id;
+    const userRole = req.user?.userrole;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized"});
+    } 
 
     // Base filter with default active_status
     let whereCondition = {
+      //assigned_person_id: userId,
       active_status: "active", // ✅ Default condition applied
     };
+
+     // Non-admin users see only their assigned leads
+     if (userRole !== 1) {
+      whereCondition.assigned_person_id = userId;
+    }
 
     // Unified Search (Across multiple fields)
     if (search) {
@@ -339,6 +354,11 @@ const getLeadList = async (req, res) => {
           },
           { model: User, as: "leadOwner", attributes: ["fullname"] },
           { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
+          {
+            model: CustomerContactPerson,
+            as: "contactPerson",
+            attributes: ["name"],
+          },
           {
             model: LeadAssignedHistory,
             as: "assignmentHistory", // ✅ Use the alias you defined in association
@@ -377,6 +397,11 @@ const getLeadList = async (req, res) => {
         { model: User, as: "leadOwner", attributes: ["fullname"] },
         { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
         {
+          model: CustomerContactPerson,
+          as: "contactPerson",
+          attributes: ["name"],
+        },
+        {
           model: LeadAssignedHistory,
           as: "assignmentHistory", // ✅ Use the alias you defined in association
           include: [
@@ -412,6 +437,8 @@ const getleadaftermeeting = async (req, res) => {
     }
 
     const assigned_person_id = req.user.id;
+    const customerId = req.params.id;
+
     const userId = req.user.id;
 
     const { page = 1, limit = 10, search = "" } = req.query;
@@ -419,6 +446,7 @@ const getleadaftermeeting = async (req, res) => {
 
     const leads = await Lead.findAndCountAll({
       where: {
+        customer_id: customerId,
         ...(userId !== 33 && { assigned_person_id: userId }),
         active_status: "active",   // ✅ added this condition here
         ...(search && {
@@ -434,6 +462,11 @@ const getleadaftermeeting = async (req, res) => {
           as: "customer",
         },
         { model: User, as: "assignedPerson", attributes: ["fullname"] },
+        {
+          model: CustomerContactPerson,
+          as: "contactPerson",
+          attributes: ["name"],
+        },
         {
           model: LeadAssignedHistory,
           as: "assignmentHistory",
@@ -1403,6 +1436,7 @@ const getDealData = async (req, res) => {
               attributes: ['product_name'],
             },
           ],
+          order: [['createdAt', 'DESC']],
         },
       ],
     });
@@ -1507,6 +1541,70 @@ const addProductsToLead = async (req, res) => {
   }
 };
 
+const getLeadListofAll = async (req, res) => {
+  try {
+    // Get today's date range (00:00 to 23:59)
+    const todayStart = moment().startOf("day").toDate();
+    const todayEnd = moment().endOf("day").toDate();
+
+    const leads = await Lead.findAll({
+      where: {
+        assign_date: {
+          [Op.between]: [todayStart, todayEnd],
+        },
+      },
+      attributes: [
+        "id",
+        "lead_source",
+        "lead_status",
+        "assign_date",
+        "createdAt",
+      ],
+      include: [
+        {
+          model: Customer,
+          as: "customer",
+        },
+        {
+          model: User,
+          as: "leadOwner",
+          attributes: ["fullname"],
+        },
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["fullname"],
+        },
+        {
+          model: LeadAssignedHistory,
+          as: "assignmentHistory",
+          include: [
+            {
+              model: User,
+              as: "assignedPerson",
+              attributes: ["fullname"],
+            },
+          ],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Leads retrieved successfully",
+      data: leads,
+    });
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving leads",
+      error: error.message,
+   });
+ }
+};
+
 
 module.exports = {
   addLead,
@@ -1527,5 +1625,6 @@ module.exports = {
   getDealData,
   countTotalLeads,
   getleadaftermeeting,
-  addProductsToLead
+  addProductsToLead,
+  getLeadListofAll
 };

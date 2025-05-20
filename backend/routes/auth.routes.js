@@ -60,7 +60,8 @@ const {
   getDealData,
   countTotalLeads,
   getleadaftermeeting,
-  addProductsToLead
+  addProductsToLead,
+  getLeadListofAll
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -111,6 +112,8 @@ const{
 
 const { listCategories } = require('../controllers/category.controller');
 const {getLeadProducts} = require('../controllers/dealDataController');
+const {getAllPincodes,getAreaByPincode,getCityByAreaname} = require('../controllers/mytable.controller');
+
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -236,11 +239,15 @@ router.put(
 );
 
 router.post("/end-meeting", authMiddleware, endMeeting);
-router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
+router.get("/get-lead-afterMeeting/:id", authMiddleware, getleadaftermeeting);
 router.get('/get-lead-products/:lead_id', authMiddleware, getLeadProducts);
 router.post("/add-products-to-lead", authMiddleware, addProductsToLead);
 router.get("/get-todays-location", authMiddleware, getTodayMeetingLocation);
 router.get("/get-product-category/:categoryId", authMiddleware, getProductsByCategoryId);
+router.get("/leadListofall", authMiddleware, getLeadListofAll);
+router.get('/pincodes', authMiddleware, getAllPincodes);
+router.get('/pincode/:pincode', authMiddleware, getAreaByPincode);
+router.get('/pincodes/:areaname', authMiddleware, getCityByAreaname);
 
 
 module.exports = router;

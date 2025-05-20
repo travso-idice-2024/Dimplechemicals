@@ -671,7 +671,7 @@ exports.updateEmployee = async (req, res) => {
       fullname,
       address,
       //status,
-      //role_id,
+      role_id,
       //department_id,
       //job_title,
       employment_type,
@@ -681,7 +681,7 @@ exports.updateEmployee = async (req, res) => {
       work_location,
       reporting_manager_id,
       //offer_letter_date,
-      //date_of_exit,
+      date_of_exit,
       // bank_name,
       // account_number,
       // ifsc_code,
@@ -729,7 +729,7 @@ exports.updateEmployee = async (req, res) => {
     });
 
     // Update related tables
-    //if (role_id) await user.employeeRole.update({ role_id });
+    if (role_id) await user.employeeRole.update({ role_id });
     if (employment_type) {
       await user.jobDetail.update({
         //department_id,
@@ -741,7 +741,7 @@ exports.updateEmployee = async (req, res) => {
         work_location,
         reporting_manager_id,
         //offer_letter_date,
-        //date_of_exit,
+        date_of_exit,
       });
     }
     // if (bank_name || account_number || ifsc_code) {

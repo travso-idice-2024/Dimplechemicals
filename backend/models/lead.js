@@ -73,6 +73,11 @@ module.exports = (sequelize, DataTypes) => {
       models.Product.hasMany(models.CostWorkingProduct, {
         foreignKey: "product_id",
       });
+      Lead.belongsTo(models.CustomerContactPerson, {
+        foreignKey: "contact_person_name", // or your actual foreign key
+        as: "contactPerson",
+      });
+      
     }
   }
   Lead.init(

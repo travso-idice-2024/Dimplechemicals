@@ -4,6 +4,7 @@ import { fetchAllCategories } from "../../../redux/categorySlice";
 
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import CategoryAutoComplete from "../../Common/CategoryAutoComplete";
 
 const AddProductModal = ({
   setAddProductModalOpen,
@@ -26,7 +27,7 @@ const AddProductModal = ({
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
-  //console.log("allCategories", allCategories);
+  
   return (
     <>
       {/* Flash Messages */}
@@ -63,7 +64,14 @@ const AddProductModal = ({
               )}
             </div>
 
-            <div>
+            <CategoryAutoComplete
+              allCategories={allCategories}
+              formData={formData}
+              setFormData={setFormData}
+              formErrors={formErrors}
+            />
+
+            {/* <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select the Category :
               </label>
@@ -83,7 +91,7 @@ const AddProductModal = ({
               {formErrors.category_id && (
                 <p className="text-red-500 text-sm">{formErrors.category_id}</p>
               )}
-            </div>
+            </div> */}
 
             {/* HSN Code */}
             <div>
@@ -122,7 +130,7 @@ const AddProductModal = ({
             </div>
 
             {/* Unit */}
-            <div>
+            {/* <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Unit :
               </label>
@@ -134,6 +142,55 @@ const AddProductModal = ({
                 onChange={handleChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
+              {formErrors.unit && (
+                <p className="text-red-500 text-sm">{formErrors.unit}</p>
+              )}
+            </div> */}
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Unit :
+              </label>
+              <select
+                value={
+                  formData.unit === ""
+                    ? ""
+                    : ["Kg", "Ltr"].includes(formData.unit)
+                    ? formData.unit
+                    : "Number"
+                }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "") {
+                    setFormData({ ...formData, unit: "" });
+                  } else if (value === "Number") {
+                    setFormData({ ...formData, unit: "0" }); // start with "0"
+                  } else {
+                    setFormData({ ...formData, unit: value });
+                  }
+                }}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select Unit</option>
+                <option value="Kg">Kg</option>
+                <option value="Ltr">Ltr</option>
+                <option value="Number">Number</option>
+              </select>
+
+              {/* Conditionally render number input if unit is numeric */}
+              {formData.unit !== "" &&
+                !["Kg", "Ltr"].includes(formData.unit) && (
+                  <input
+                    type="number"
+                    value={formData.unit}
+                    onChange={(e) =>
+                      setFormData({ ...formData, unit: e.target.value })
+                    }
+                    placeholder="Enter Number"
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
+                    autoFocus
+                  />
+                )}
+
               {formErrors.unit && (
                 <p className="text-red-500 text-sm">{formErrors.unit}</p>
               )}

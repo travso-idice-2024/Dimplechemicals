@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
 import "./MarketingManageData.css";
 import { iconsImgs } from "../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
@@ -40,7 +41,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const getAuthToken = () => localStorage.getItem("token");
 
 const MarketingManageData = () => {
-
+  const { id } = useParams();
   const {
     isAuthenticated,
     createEvent,
@@ -107,6 +108,7 @@ const MarketingManageData = () => {
     );
     dispatch(
       GenratedlistLeads({
+        id:id,
         page: currentPage,
         limit: leadPerPage,
         search: searchTerm,

@@ -30,7 +30,7 @@ const CustomerManageData = () => {
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  //console.log("allBAdata", allBAdata);
+ // console.log("allBAdata", allBAdata);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
@@ -44,7 +44,7 @@ const CustomerManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = 8;
+  const customersPerPage = 5;
 
   // Fetch customers whenever searchTerm or currentPage changes
   //console.log("selectedCustomer",selectedCustomer?.id);
@@ -87,11 +87,10 @@ const CustomerManageData = () => {
     address_3: "",
     address_4: "",
     business_associate: "",
-    associate_name: "",
+    associate_name:[],
     gst_number: "",
-    contact_persion1: "",
-    contact_persion2: "",
-    contact_persion3: "",
+    contact_persons: [],
+    company_address:[]
   });
 
   useEffect(() => {
@@ -146,7 +145,7 @@ const CustomerManageData = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
 
-    setLastUpdatedField(name);
+    // setLastUpdatedField(name);
 
     // Clear error when user types
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
@@ -158,15 +157,15 @@ const CustomerManageData = () => {
       errors.company_name = "*Company name is required";
     // if (!formData.client_name.trim())
     //   errors.client_name = "*Client name is required";
-    if (!formData.designation.trim())
-      errors.designation = "*Designation is required";
+    // if (!formData.designation.trim())
+    //   errors.designation = "*Designation is required";
     if (!formData.primary_contact.trim())
       errors.primary_contact = "*Primary contact is required";
     if (!formData.email_id.trim()) errors.email_id = "*Email is required";
-    if (!formData.address.trim()) errors.address = "*Address is required";
-    if (!formData.location.trim()) errors.location = "*Location is required";
-    if (!formData.pincode.trim()) errors.pincode = "*Pincode is required";
-    if (!formData.pan_no.trim()) errors.pan_no = "*PAN No is required";
+    //if (!formData.address.trim()) errors.address = "*Address is required";
+    //if (!formData.location.trim()) errors.location = "*Location is required";
+    //if (!formData.pincode.trim()) errors.pincode = "*Pincode is required";
+    //if (!formData.pan_no.trim()) errors.pan_no = "*PAN No is required";
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -222,21 +221,20 @@ const CustomerManageData = () => {
     address_2: "",
     address_3: "",
     address_4: "",
-    business_associate: "",
-    associate_name: "",
+    business_associate:"",
+    associate_name:[],
     gst_number: "",
-    contact_persion1: "",
-    contact_persion2: "",
-    contact_persion3: "",
+    contact_persons: [],
+    company_address:[]
   });
 
   useEffect(() => {
     const fetchCityFromAPI = async () => {
-      if (editFormData.pincode.length === 6) {
+      if (editFormData?.pincode?.length === 6) {
         try {
           // Fetch from India Post API
           const res = await fetch(
-            `https://api.postalpincode.in/pincode/${editFormData.pincode}`
+            `https://api.postalpincode.in/pincode/${editFormData?.pincode}`
           );
           const data = await res.json();
 
@@ -268,26 +266,27 @@ const CustomerManageData = () => {
 
   // Update form data when a customer is selected for editing
   useEffect(() => {
+    console.log("selectedCustomer",selectedCustomer);
     if (selectedCustomer) {
       setEditFormData({
         company_name: selectedCustomer.company_name || "",
-        client_name: selectedCustomer.client_name || "",
-        designation: selectedCustomer.designation || "",
+        //client_name: selectedCustomer.client_name || "",
+        //designation: selectedCustomer.designation || "",
         primary_contact: selectedCustomer.primary_contact || "",
         secondary_contact: selectedCustomer.secondary_contact || "",
         email_id: selectedCustomer.email_id || "",
-        address: selectedCustomer.address || "",
-        location: selectedCustomer.location || "",
-        pincode: selectedCustomer.pincode || "",
+        //address: selectedCustomer.address || "",
+        //location: selectedCustomer.location || "",
+       // pincode: selectedCustomer.pincode || "",
         pan_no: selectedCustomer.pan_no || "",
-        address_2: selectedCustomer.address_2 || "",
-        address_3: selectedCustomer.address_3 || "",
-        address_4: selectedCustomer.address_4 || "",
-        contact_persion1: selectedCustomer.contact_persion1 || "",
-        contact_persion2: selectedCustomer.contact_persion2 || "",
-        contact_persion3: selectedCustomer.contact_persion3 || "",
+        //address_2: selectedCustomer.address_2 || "",
+        //address_3: selectedCustomer.address_3 || "",
+        //address_4: selectedCustomer.address_4 || "",
         gst_number: selectedCustomer.gst_number || "",
         business_associate: selectedCustomer?.businessAssociates?.[0]?.id || "",
+        contact_persons: selectedCustomer?.contactPersons || [],
+        company_address: selectedCustomer?.addresses || []
+        //contact_persons: selectedCustomer?.
       });
     }
   }, [selectedCustomer]);
@@ -313,16 +312,16 @@ const CustomerManageData = () => {
       errors.company_name = "*Company name is required";
     // if (!editFormData.client_name.trim())
     //   errors.client_name = "*Client name is required";
-    if (!editFormData.designation.trim())
-      errors.designation = "*Designation is required";
+    // if (!editFormData.designation.trim())
+    //   errors.designation = "*Designation is required";
     if (!editFormData.primary_contact.trim())
       errors.primary_contact = "*Primary contact is required";
     if (!editFormData.email_id.trim()) errors.email_id = "*Email is required";
-    if (!editFormData.address.trim()) errors.address = "*Address is required";
-    if (!editFormData.location.trim())
-      errors.location = "*Location is required";
-    if (!editFormData.pincode.trim()) errors.pincode = "*Pincode is required";
-    if (!editFormData.pan_no.trim()) errors.pan_no = "*PAN No is required";
+   // if (!editFormData.address.trim()) errors.address = "*Address is required";
+    //if (!editFormData.location.trim())
+      //errors.location = "*Location is required";
+    //if (!editFormData.pincode.trim()) errors.pincode = "*Pincode is required";
+    //if (!editFormData.pan_no.trim()) errors.pan_no = "*PAN No is required";
 
     setEditFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -334,10 +333,10 @@ const CustomerManageData = () => {
     if (validateEditInputs()) {
       try {
         //console.log("editFormData",editFormData);
-        console.log("Dispatching updateCustomer", {
-          id: selectedCustomer?.id,
-          customerData: editFormData,
-        });
+        // console.log("Dispatching updateCustomer", {
+        //   id: selectedCustomer?.id,
+        //   customerData: editFormData,
+        // });
         const response = await dispatch(
           updateCustomer({
             id: selectedCustomer?.id,
@@ -446,6 +445,11 @@ const CustomerManageData = () => {
   //if (customerLoading) return <p>Loading...</p>;
   //if (customerError) return <p>{customerError}</p>;
   // console.log("editFormData?.associate_name",editFormData?.associate_name);
+  const [associatePopup, setAssociatePopup] = useState(false);
+   
+  const handleAssociatePopup = () => {
+    setAssociatePopup(true);
+  };
   const handleUpdateAssociate = async () => {
     try {
       // ✅ Get token
@@ -465,6 +469,7 @@ const CustomerManageData = () => {
       );
 
       if (response.data.success) {
+        setAssociatePopup(false);
         // Ensure you're checking response.data for success
         handleEditFlashMessage(response.data.message, "success");
         dispatch(
@@ -567,6 +572,7 @@ const CustomerManageData = () => {
               setFlashMsgType={setFlashMsgType}
               flashMsgType={flashMsgType}
               bussinesasociatedata={allBAdata?.data?.associates}
+              handleFlashMessage={handleFlashMessage}
             />
           )}
 
@@ -588,9 +594,11 @@ const CustomerManageData = () => {
               handleEditSubmit={handleEditSubmit}
               bussinesasociatedata={allBAdata?.data}
               handleUpdateAssociate={handleUpdateAssociate}
+              associatePopup={associatePopup} 
+              setAssociatePopup={setAssociatePopup}
+              handleAssociatePopup={handleAssociatePopup}
             />
           )}
-
           {/* View User Modal */}
           {isViewModalOpen && (
             <ViewCustomerModal

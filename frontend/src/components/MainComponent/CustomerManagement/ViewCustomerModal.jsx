@@ -1,7 +1,7 @@
 import React from "react";
 
 const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
-  //console.log(selectedCustomer);
+  console.log(selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full md:w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
@@ -52,27 +52,87 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                 label="Company Name"
                 value={selectedCustomer.company_name}
               />
-              <Detail
-                label="Contact person Name"
-                value={selectedCustomer.client_name}
-              />
 
-              <Detail
-                label="Designation"
-                value={selectedCustomer.designation}
-              />
               <Detail
                 label="Primary Contact"
                 value={selectedCustomer.primary_contact}
               />
               <Detail label="Email Id" value={selectedCustomer.email_id} />
 
-              
-              <Detail label="City" value={selectedCustomer.location} />
-              <Detail label="Pincode" value={selectedCustomer.pincode} />
               <Detail label="Pan No." value={selectedCustomer.pan_no} />
-              <Detail label="Address" value={selectedCustomer.address} />
+              <Detail label="Gst No." value={selectedCustomer.gst_number} />
+              <Detail label="Business Associate" value={selectedCustomer?.businessAssociates[0]?.associate_name} />
             </div>
+             {/* Multiple Contact Persons */}
+             {selectedCustomer?.contactPersons && selectedCustomer?.contactPersons?.length > 0 && (
+              <div className="mt-6">
+              <h3 className="text-[17px] font-semibold mb-2 text-bgDataNew">
+                Contact Persons
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border border-[#d1d5db] rounded-[5px]">
+                  <thead className="bg-[#f3f4f6]">
+                    <tr>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">#</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Designation</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Name</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Email</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Phone</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedCustomer?.contactPersons.map((person, index) => (
+                      <tr key={index} className="bg-white hover:bg-gray-50">
+                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{index + 1}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.designation}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.name}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.email}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.phone_no}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            )}
+
+            {/* multiple address */}
+            {selectedCustomer?.addresses && selectedCustomer?.addresses?.length > 0 && (
+           <div className="mt-6">
+           <h3 className="text-[17px] font-semibold mb-2 text-bgDataNew">
+             Company Address's
+           </h3>
+           <div className="overflow-x-auto">
+             <table className="w-full text-left border border-[#d1d5db] rounded-[5px]">
+               <thead className="bg-[#f3f4f6]">
+                 <tr>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">#</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">PIN Code</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Location</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">City</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Address Type</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 {selectedCustomer?.addresses?.map((address, index) => (
+                   <tr key={index} className="bg-white hover:bg-gray-50">
+                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{index + 1}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.pincode}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.location}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.city}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.address_type}</td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+           </div>
+         </div>
+         
+            
+            )}
+
+
           </div>
         </div>
         {/* Buttons */}

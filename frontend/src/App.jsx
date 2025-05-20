@@ -61,6 +61,7 @@ import CustomerInfoForm from './components/MainComponent/CustomerInfoForm/Custom
 import { SidebarContext } from './context/sidebarContext';
 import Calender from "./components/calender/Calender";
 import Gmail from "./components/Gmail/gmail";
+import CustomerLeadList from "./components/MainComponent/MarketingManagement/SalesFolllowUpForm/CustomerManageData";
 
 
 function App() {
@@ -80,7 +81,7 @@ function App() {
           <Route path="/dashboard" element={<Content />} />
           <Route path="/marketing-management/lead-management" element={<MarketingManage />} />
           <Route path="/lead-management" element={<MarketingManage />} />
-          <Route path="/sale-management/lead-management" element={<MarketingManage />} />
+          <Route path="/sale-management/lead-management/:id" element={<MarketingManage />} />
           <Route path="/sale-management/leads/assignment" element={<SalesPersonAssign />} />
           <Route path="/sale-management/plan-of-action-for-day" element={<SalesPersonFollowUp />} />
           <Route path="/plan-of-action-for-day/:poaType" element={<SalesPersonFollowUp />} />
@@ -140,6 +141,7 @@ function App() {
           <Route path='/report-management/customer-info-form' element={<CustomerInfoForm/>}/>
           <Route path="/calender" element={<Calender/>} />
           <Route path="/gmailtest" element={<Gmail/>}/>
+          <Route path="/sale-management/customer-lead-list" element={<CustomerLeadList/>}/>
 
           {/* Add more protected routes here */}
         </Route>

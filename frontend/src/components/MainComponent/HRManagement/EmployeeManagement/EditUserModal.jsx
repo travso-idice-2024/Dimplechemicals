@@ -36,8 +36,9 @@ const EditUserModal = ({
   nextUpdateStep,
   prevUpdateStep,
   currentUpdateStep,
+  userDeatail
 }) => {
-  //console.log("selectedEmployee", selectedEmployee);
+  //console.log("userDeatail", userDeatail?.employeeRole?.role_id);
   const dispatch = useDispatch();
 
   const { allRoles, loading, error } = useSelector((state) => state.auth);
@@ -359,9 +360,9 @@ const EditUserModal = ({
                 )}
               </div>
 
-              {/* <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Select the Role :
+                  Assign Role :
                 </label>
                 <select
                   name="role_id"
@@ -385,7 +386,7 @@ const EditUserModal = ({
                     {updateFormErrors.role_id}
                   </p>
                 )}
-              </div> */}
+              </div>
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -723,10 +724,10 @@ const EditUserModal = ({
                   </p>
                 )}
               </div> */}
-
-              {/* <div>
+              {userDeatail?.employeeRole?.role_id === 1 && (
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Exit Date:
+                  Date Of Exit:
                 </label>
                 <input
                   type="date"
@@ -740,7 +741,8 @@ const EditUserModal = ({
                     {updateFormErrors.date_of_exit}
                   </p>
                 )}
-              </div> */}
+              </div>
+              )}
 
               {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

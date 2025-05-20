@@ -1,9 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addCustomer, listCustomers } from "../../../redux/customerSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { iconsImgs } from "../../../utils/images";
+import {
+  fetchAllPincodes,
+  getAreaByPincode,
+  getCityByAreaname,
+} from "../../../redux/customerSlice";
+import AutoCompleteInput from "./AutoCompletePincode";
 
 const AddCustomerModal = ({
   setAddCustomerModalOpen,
@@ -18,31 +24,139 @@ const AddCustomerModal = ({
   setFlashMsgType,
   flashMsgType,
   bussinesasociatedata,
+  handleFlashMessage
 }) => {
+  //console.log("formData", formData);
+
   const dispatch = useDispatch();
+  const { allPincodes, allAreas, allCity } = useSelector(
+    (state) => state.customer
+  );
+
+  useEffect(() => {
+    dispatch(fetchAllPincodes());
+  }, [dispatch]);
+
+  //console.log("allAreas", allAreas);
+
   const [associatePopup, setAssociatePopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
+  const [areasByIndex, setAreasByIndex] = useState({});
+
+
+
+  const [newAssociateName, setNewAssociateName] = useState("");
+  const handleNewAssociateChange = (e) => {
+    setNewAssociateName(e.target.value);
+  };
+  
 
   const handleAddAssociate = () => {
-    // Save associate_name to business_associate field (if needed)
-    setFormData((prev) => ({
-      ...prev,
-      associate_name: prev.associate_name, // Clear input field
-    }));
+    if (newAssociateName.trim() === "") return;
 
-    // ✅ Show success message
-    // setSuccessMessage("Business Associate added successfully!");
+  setFormData((prev) => ({
+    ...prev,
+    associate_name: [...prev.associate_name, newAssociateName],
+  }));
 
-    // // ✅ Clear message after 3 seconds
-    // setTimeout(() => {
-    //   setSuccessMessage("");
-    //   handleAssociatePopup();
-    // }, 3000);
+  setNewAssociateName(""); // clear input
+
+  handleFlashMessage("Business Associate added successfully!", "success");
+
+  //setSuccessMessage("Business Associate added successfully!");
+
+  // setTimeout(() => {
+  //   setSuccessMessage("");
+  // }, 2000);
+    setNewAssociateName("");  // clear input field after adding
+
+    setTimeout(() => {
+      setAssociatePopup(false);
+      }, 1000);
   };
+
+  //console.log("dsfds", formData.associate_name);
 
   const handleAssociatePopup = () => {
     setAssociatePopup(true);
   };
+
+  //add more contact persons
+  const handleContactPersonChange = (index, e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedContacts = [...prevData.contact_persons];
+      updatedContacts[index][name] = value;
+      return { ...prevData, contact_persons: updatedContacts };
+    });
+  };
+
+  const addContactPerson = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      contact_persons: [
+        ...prevData.contact_persons,
+        { name: "", email: "", phone_no: "", designation: "" },
+      ],
+    }));
+  };
+
+  const removeContactPerson = (index) => {
+    setFormData((prevData) => {
+      const updatedContacts = [...prevData.contact_persons];
+      updatedContacts.splice(index, 1);
+      return { ...prevData, contact_persons: updatedContacts };
+    });
+  };
+  //end add more conatct persons
+
+  //add more address
+  const addressTypes = ["Factory", "Office", "Plant / Unit 1", "Reg Office"];
+  const handleAddressChange = (index, e) => {
+    const { name, value } = e.target;
+    const newAddresses = [...formData.company_address];
+    newAddresses[index][name] = value;
+
+    // If location (areaname) changes — dispatch to get city
+    if (name === "location") {
+      dispatch(getCityByAreaname({ areaname: value }))
+        .unwrap()
+        .then((res) => {
+          //console.log("res?.data[0]?.district", res?.data[0]?.district);
+          if (res?.data[0]?.district) {
+            newAddresses[index]["city"] = res?.data[0]?.district;
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              company_address: newAddresses,
+            }));
+          }
+        });
+    }
+
+    // Otherwise just update normally
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      company_address: newAddresses,
+    }));
+  };
+
+  const addAddress = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      company_address: [
+        ...prevFormData.company_address,
+        { pincode: "", location: "", city: "", address_type: "" },
+      ],
+    }));
+  };
+
+  const removeAddress = (index) => {
+    const newAddresses = company_address.filter((_, i) => i !== index);
+    setFormData(newAddresses);
+  };
+  //end add more address
+
+  //console.log("formData", formData);
 
   return (
     <>
@@ -102,11 +216,11 @@ const AddCustomerModal = ({
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 >
                   <option value="">Select Business Associate</option>
-                  {bussinesasociatedata &&
-                    bussinesasociatedata.length > 0 &&
-                    bussinesasociatedata.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.associate_name}
+                  {formData?.associate_name &&
+                    formData?.associate_name.length > 0 &&
+                    formData?.associate_name.map((item) => (
+                      <option key={item.id} value={item}>
+                        {item}
                       </option>
                     ))}
                 </select>
@@ -141,8 +255,8 @@ const AddCustomerModal = ({
                         <input
                           type="text"
                           name="associate_name"
-                          value={formData.associate_name}
-                          onChange={handleChange}
+                          value={newAssociateName}
+                          onChange={handleNewAssociateChange}
                           placeholder="associate name"
                           className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                         />
@@ -191,7 +305,7 @@ const AddCustomerModal = ({
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter Designation :
                 </label>
@@ -208,11 +322,11 @@ const AddCustomerModal = ({
                     {formErrors.designation}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Enter Primary Contact :
+                  Company Primary Contact :
                 </label>
                 <input
                   type="number"
@@ -231,7 +345,7 @@ const AddCustomerModal = ({
 
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Enter Secondary Contact :
+                  Company Secondary Contact :
                 </label>
                 <input
                   type="number"
@@ -250,7 +364,7 @@ const AddCustomerModal = ({
 
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Enter Email Id :
+                  Company Email Id :
                 </label>
                 <input
                   type="email"
@@ -267,12 +381,12 @@ const AddCustomerModal = ({
 
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  PanNo :
+                  Pan No :
                 </label>
                 <input
                   type="text"
                   name="pan_no"
-                  placeholder="panNo"
+                  placeholder="Pan No"
                   value={formData.pan_no}
                   onChange={handleChange}
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
@@ -281,7 +395,7 @@ const AddCustomerModal = ({
                   <p className="text-red-500 text-sm">{formErrors.pan_no}</p>
                 )}
               </div>
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   PinCode :
                 </label>
@@ -379,82 +493,228 @@ const AddCustomerModal = ({
                 {formErrors.address_4 && (
                   <p className="text-red-500 text-sm">{formErrors.address_4}</p>
                 )}
-              </div>
+              </div> */}
             </div>
 
-            <h3 class="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-3 text-center mx-auto">
-              Contact Person
+            <h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-3 text-center mx-auto">
+              Contact Person's
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Contact person Name 1:
-                </label>
-                <input
-                  type="text"
-                  name="contact_persion1"
-                  placeholder="Contact Person 1"
-                  value={formData.contact_persion1}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.contact_persion1 && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.contact_persion1}
-                  </p>
-                )}
-              </div>
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Contact person Name 2 :
-                </label>
-                <input
-                  type="text"
-                  name="contact_persion2"
-                  placeholder="Contact Persion 2"
-                  value={formData.contact_persion2}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.contact_persion2 && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.contact_persion2}
-                  </p>
-                )}
-              </div>
+            {formData.contact_persons.map((person, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-4 mb-4 rounded-md"
+              >
+                <div>
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                    Designation: {index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    name="designation"
+                    placeholder="Contact Person Designation"
+                    value={person.designation}
+                    onChange={(e) => handleContactPersonChange(index, e)}
+                    className="w-full border border-gray-400 rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                    Name: {index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Contact Person Name"
+                    value={person.name}
+                    onChange={(e) => handleContactPersonChange(index, e)}
+                    className="w-full border border-gray-400 rounded px-3 py-2"
+                  />
+                </div>
 
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Contact person Name 3:
-                </label>
-                <input
-                  type="text"
-                  name="contact_persion3"
-                  placeholder="Contact Persion 3"
-                  value={formData.contact_persion3}
-                  onChange={handleChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {formErrors.contact_persion3 && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.contact_persion3}
-                  </p>
-                )}
-              </div>
-              {/* Add Button */}
+                <div>
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                    Email: {index + 1}
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={person.email}
+                    onChange={(e) => handleContactPersonChange(index, e)}
+                    className="w-full border border-gray-400 rounded px-3 py-2"
+                  />
+                </div>
 
+                <div>
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                    Phone: {index + 1}
+                  </label>
+                  <input
+                    type="number"
+                    name="phone_no"
+                    placeholder="Phone"
+                    value={person.phone_no}
+                    onChange={(e) => handleContactPersonChange(index, e)}
+                    className="w-full border border-gray-400 rounded px-3 py-2"
+                  />
+                </div>
+
+                <div className="flex items-end">
+                  <button
+                    type="button"
+                    onClick={() => removeContactPerson(index)}
+                    className="text-white bg-red-500 px-3 py-1 rounded-[3px] mt-2"
+                  >
+                    Remove Contact
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            <div>
+              <button
+                type="button"
+                onClick={addContactPerson}
+                className="flex items-center text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+              >
+                <img
+                  src={iconsImgs.plus}
+                  alt="plus icon"
+                  className="w-[18px] mr-1"
+                />
+                Add Contact
+              </button>
+            </div>
+
+            {/* add more address */}
+
+            <div>
+              <h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-3 text-center mx-auto">
+                Add Address
+              </h3>
+
+              {formData.company_address.map((address, index) => (
+                <div
+                  key={index}
+                  className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-4 mb-4 rounded-md"
+                >
+                  <AutoCompleteInput
+                    label={`PIN Code: ${index + 1}`}
+                    name="pincode"
+                    value={address.pincode}
+                    onChange={(e) => handleAddressChange(index, e)}
+                    placeholder="PIN Code"
+                    options={allPincodes.data.map((item) => item.pincode)}
+                    onSelect={(selectedPincode) => {
+                      dispatch(getAreaByPincode({ pincode: selectedPincode }))
+                        .unwrap()
+                        .then((res) => {
+                          setAreasByIndex((prev) => ({
+                            ...prev,
+                            [index]: res?.data || [],
+                          }));
+                        });
+                    }}
+                  />
+
+                  {/* <div>
+                    <label className="font-poppins text-bgData">PIN Code: {index + 1}</label>
+                    <input
+                      type="text"
+                      name="pincode"
+                      value={address.pincode}
+                      onChange={(e) => handleAddressChange(index, e)}
+                      placeholder="PIN Code"
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                    />
+                  </div> */}
+
+                  <div>
+                    <label className="font-poppins text-bgData">
+                      Location: {index + 1}
+                    </label>
+                    <select
+                      name="location"
+                      value={address.location}
+                      onChange={(e) => handleAddressChange(index, e)}
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                    >
+                      <option value="">Select Location</option>
+                      {areasByIndex[index]?.map((area, i) => (
+                        <option key={i} value={area.areaname}>
+                          {area.areaname}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* <input
+                      type="text"
+                      name="location"
+                      value={address.location}
+                      onChange={(e) => handleAddressChange(index, e)}
+                      placeholder="Location"
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                    /> */}
+                  </div>
+
+                  <div>
+                    <label className="font-poppins text-bgData">
+                      City: {index + 1}
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={address.city}
+                      //onChange={(e) => handleAddressChange(index, e)}
+                      placeholder="City"
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                      readOnly
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-poppins text-bgData">
+                      Address Type: {index + 1}
+                    </label>
+                    <select
+                      name="address_type"
+                      value={address.address_type}
+                      onChange={(e) => handleAddressChange(index, e)}
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                    >
+                      <option value="">Select Type</option>
+                      {addressTypes.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      onClick={() => removeAddress(index)}
+                      className="text-white bg-red-500 px-3 py-2 rounded"
+                    >
+                      Remove Address
+                    </button>
+                  </div>
+                </div>
+              ))}
               <div>
                 <button
-                  className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                  onClick={() => setAddCustomerModalOpen(true)}
+                  type="button"
+                  onClick={addAddress}
+                  className="flex items-center text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                 >
                   <img
                     src={iconsImgs.plus}
                     alt="plus icon"
                     className="w-[18px] mr-1"
-                  />{" "}
-                  Add Contact
+                  />
+                  Add Address
                 </button>
               </div>
             </div>

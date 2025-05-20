@@ -79,14 +79,21 @@ export const navigationLinks = [
         submenu: [
           {
             id: "5.2.1",
+            title: "Customer leads",
+            image: iconsImgs.followupform,
+            path: "/sale-management/customer-lead-list",
+            allowedRoles: [1,3],
+          },
+          {
+            id: "5.2.2",
             title: "Sales Lead",
             image: iconsImgs.assignment,
             //path: "/sale-management/leads/assignment",
             path: "/sale-management/lead-management",
-            allowedRoles: [1, 3],
+            allowedRoles: [1,3],
           },
           {
-            id: "5.2.2",
+            id: "5.2.3",
             title: "Finalize Deal",
             image: iconsImgs.poform,
             path: "/sale-management/leads/po-form",
@@ -351,6 +358,7 @@ export const navigationLinks = [
     allowedRoles: []
   },
   { id: 13, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: [1,2,3]},
+  { id: 14, title: "Calender", image: iconsImgs.gears, path: "/calender" ,allowedRoles: [3]},
 ];
 
 //------------ Own Data --------------//

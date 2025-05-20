@@ -433,7 +433,7 @@ useEffect(() => {
                   {allLeadsCount?.assignedLeadsCount}
                 </span> */}
               </div>
-              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Total POA</h2>
+              <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">History POA</h2>
               <p className="text-[12px]">{userDeatail?.fullname}</p>
             </div>
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">

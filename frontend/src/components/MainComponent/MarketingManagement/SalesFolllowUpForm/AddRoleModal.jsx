@@ -4,6 +4,7 @@ import SuccessMessage from "../../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../../redux/productSlice";
 import ProductMultiSelect from "./ProductMultiSelect";
+import SearchableSelect from "./SearchableSelect";
 
 const AddRoleModal = ({
   setAddUserModalOpen,
@@ -24,12 +25,17 @@ const AddRoleModal = ({
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
-  //console.log("poaData",poaData);
+  console.log("poaData", poaData);
   //console.log("allProducts", allProducts);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
+
+  const customerOptions = allCustomers?.data?.map((customer) => ({
+    value: customer.id,
+    label: customer.company_name,
+  }));
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -54,7 +60,7 @@ const AddRoleModal = ({
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select Customer:
                 </label>
-                <select
+                {/* <select
                   name="customer_id"
                   value={poaData?.customer_id}
                   onChange={handlePoaCustomerChange}
@@ -66,7 +72,17 @@ const AddRoleModal = ({
                       {customer.company_name}
                     </option>
                   ))}
-                </select>
+                </select> */}
+                <SearchableSelect
+                  options={customerOptions}
+                  value={poaData?.customer_id}
+                  onChange={(selectedValue) =>
+                    handlePoaCustomerChange({
+                      target: { name: "customer_id", value: selectedValue },
+                    })
+                  }
+                  placeholder="Select the Customer"
+                />
                 {poaFormErrors?.customer_id && (
                   <p className="text-red-500">{poaFormErrors?.customer_id}</p>
                 )}
@@ -86,8 +102,11 @@ const AddRoleModal = ({
 
                     {/* Dynamic customer options */}
                     {customerAddress?.data?.addresses?.map((address, index) => (
-                      <option key={index} value={address}>
-                        {address}
+                      <option
+                        key={index}
+                        value={`${address?.address_type} - ${address?.location}, ${address?.city}, ${address?.pincode}`}
+                      >
+                        {`${address?.address_type} - ${address?.location}, ${address?.city}, ${address?.pincode}`}
                       </option>
                     ))}
                   </select>
@@ -107,8 +126,8 @@ const AddRoleModal = ({
                   {/* Dynamic customer options */}
                   {customerAddress?.data?.contact_persons?.map(
                     (contact_person, index) => (
-                      <option key={index} value={contact_person}>
-                        {contact_person}
+                      <option key={index} value={contact_person.id}>
+                        {contact_person.name}
                       </option>
                     )
                   )}
@@ -143,22 +162,21 @@ const AddRoleModal = ({
                 )}
               </div>
 
-
-               {/* Product Sale */}
-               <div>
+              {/* Product Sale */}
+              <div>
                 <label>Product Sale</label>
-               <ProductMultiSelect
-                allProducts={allProducts}
-                poaData={poaData}
-                setPoaData={setPoaData}
-                className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
+                <ProductMultiSelect
+                  allProducts={allProducts}
+                  poaData={poaData}
+                  setPoaData={setPoaData}
+                  className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                 />
                 {poaFormErrors?.product_sale && (
                   <p className="text-red-500">{poaFormErrors?.product_sale}</p>
                 )}
               </div>
 
-                {/* Total Material Quantity */}
+              {/* Total Material Quantity */}
               <div>
                 <label>Total Material Quantity (in Kg)</label>
                 <input
@@ -224,8 +242,6 @@ const AddRoleModal = ({
                 )}
               </div>
 
-             
-
               {/* Meeting Type */}
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -247,7 +263,7 @@ const AddRoleModal = ({
                 )}
               </div>
 
-               <div>
+              <div>
                 <label className="font-poppins font-medium text-black text-[16px]">
                   Meeting Time :
                 </label>
@@ -276,14 +292,9 @@ const AddRoleModal = ({
                   className="block w-full mb-2 rounded-[5px] border border-[#473b33] px-3 py-2"
                 />
                 {poaFormErrors?.lead_summary && (
-                  <p className="text-red-500">
-                    {poaFormErrors?.lead_summary}
-                  </p>
-                )}  
+                  <p className="text-red-500">{poaFormErrors?.lead_summary}</p>
+                )}
               </div>
-
-             
-            
             </div>
 
             {/* Buttons */}

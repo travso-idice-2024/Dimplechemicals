@@ -8,7 +8,7 @@ const getAuthToken = () => localStorage.getItem("token");
 // ✅ LIST LEADS (Paginated)
 export const listLeads = createAsyncThunk(
   "auth/leadList",
-  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+  async ({ page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/leadList`, {
@@ -26,10 +26,10 @@ export const listLeads = createAsyncThunk(
 
 export const GenratedlistLeads = createAsyncThunk(
   "auth/GenratedlistLeads",
-  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+  async ({ id="", page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/get-lead-afterMeeting`, {
+      const response = await axios.get(`${API_URL}/auth/get-lead-afterMeeting/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         params: { page, limit, search },
       });

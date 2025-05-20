@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategories } from "../../../redux/categorySlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
+import CategoryAutoComplete from "../../Common/CategoryAutoComplete";
 
 const EditProductModal = ({
   setEditProductModalOpen,
@@ -61,7 +62,7 @@ const EditProductModal = ({
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Select Category :
               </label>
@@ -83,7 +84,15 @@ const EditProductModal = ({
                   {editFormErrors.category_id}
                 </p>
               )}
-            </div>
+            </div> */}
+
+            <CategoryAutoComplete
+              allCategories={allCategories}
+              editMode={true}
+              editFormData={editFormData}
+              setEditFormData={setEditFormData}
+              editFormErrors={editFormErrors}
+            />
 
             {/* HSN Code */}
             <div>
@@ -124,7 +133,7 @@ const EditProductModal = ({
             </div>
 
             {/* Unit */}
-            <div>
+            {/* <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Unit :
               </label>
@@ -136,6 +145,56 @@ const EditProductModal = ({
                 onChange={handleEditChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
               />
+              {editFormErrors.unit && (
+                <p className="text-red-500 text-sm">{editFormErrors.unit}</p>
+              )}
+            </div> */}
+
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Unit :
+              </label>
+              <select
+                value={
+                  editFormData.unit === ""
+                    ? ""
+                    : ["Kg", "Ltr"].includes(editFormData.unit)
+                    ? editFormData.unit
+                    : "Number"
+                }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "") {
+                    handleEditChange({ target: { name: "unit", value: "" } });
+                  } else if (value === "Number") {
+                    handleEditChange({ target: { name: "unit", value: "0" } }); // start with "0"
+                  } else {
+                    handleEditChange({ target: { name: "unit", value } });
+                  }
+                }}
+                name="unit"
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
+              >
+                <option value="">Select Unit</option>
+                <option value="Kg">Kg</option>
+                <option value="Ltr">Ltr</option>
+                <option value="Number">Number</option>
+              </select>
+
+              {/* Conditionally render number input if unit is numeric */}
+              {editFormData.unit !== "" &&
+                !["Kg", "Ltr"].includes(editFormData.unit) && (
+                  <input
+                    type="number"
+                    name="unit"
+                    value={editFormData.unit}
+                    onChange={handleEditChange}
+                    placeholder="Enter Number"
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
+                    autoFocus
+                  />
+                )}
+
               {editFormErrors.unit && (
                 <p className="text-red-500 text-sm">{editFormErrors.unit}</p>
               )}

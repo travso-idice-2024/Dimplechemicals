@@ -53,7 +53,7 @@ const listDepartments = async (req, res) => {
       // Common query options
       const queryOptions = {
         where: whereCondition,
-        order: [["department_name", "ASC"]], // Sorting by department name
+        order: [["department_name", "DESC"]], // Sorting by department name
         attributes: { exclude: [] }, // Fetch all fields
       };
   

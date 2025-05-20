@@ -346,7 +346,7 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
           attributes: ["company_name"],
         },
       ],
-      order: [["id", "ASC"]],
+      order: [["id", "DESC"]],
     });
 
     // 🔄 Merge records with same lead_id, sales_persion_id, customer_id, and lead_date

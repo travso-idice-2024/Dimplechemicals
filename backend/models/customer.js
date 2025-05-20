@@ -18,6 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'customer_id',
         as: 'businessAssociates',
       });
+
+      Customer.hasMany(models.CustomerContactPerson, {
+        foreignKey: "customer_id",
+        as: "contactPersons",
+      });
+      Customer.hasMany(models.CustomerAddress, {
+        foreignKey: "customer_id",
+        as: "addresses",
+      });
     }
   }
   Customer.init({

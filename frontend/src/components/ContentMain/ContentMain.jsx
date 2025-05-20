@@ -12,6 +12,7 @@ import Financial from "../Financial/Financial";
 import Employee from "../Employee/Employee";
 import MeetingPage from "../Meeting/MeetingPage";
 import { iconsImgs } from "../../utils/images";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,31 +22,44 @@ import {
   faHandshake,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+
 const API_URL = import.meta.env.VITE_API_URL;
 const getAuthToken = () => localStorage.getItem("token");
 
 const ContentMain = () => {
   const dispatch = useDispatch();
+    const navigate = useNavigate();    
   const [totalLeadCount, setTotalLeadCount] = useState(0);
   const [totalVisitCount, setTotalVisitCount] = useState(0);
 
   const fetchTotalLeadCount = async () => {
     try {
-      // ✅ Get token
       const token = getAuthToken();
-
-      // ✅ Correct API call with query parameters
-      const response = await axios.get(`${API_URL}/auth/total-lead-count`, {
+  
+      const response = await axios.get(`${API_URL}/auth/leadListofall`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setTotalLeadCount(response.data.totalLeads);
-      //console.log("total lead count", response.data.totalLeads);
+  
+      const leads = response.data?.data || [];  // assuming leads are in response.data.data
+  
+      const today = new Date().toISOString().slice(0, 10);
+  
+      const todaysLeadCount = leads.filter((lead) => 
+        lead.assign_date?.split("T")[0] === today
+      ).length;
+  
+      //console.log("Today's lead count:", todaysLeadCount);
+      // optionally set state here if needed
+      setTotalLeadCount(todaysLeadCount);
+  
     } catch (error) {
       console.error("Error in fetching data:", error);
     }
   };
+  
+  
 
   const fetchTotalVisitCount = async () => {
     try {
@@ -74,9 +88,13 @@ const ContentMain = () => {
       <div className="space-y-3">
         {/* Flex row for 4 divs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer">
+          <div 
+          className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer"
+          onClick={() => {
+            navigate("/plan-of-action-for-day/todayPOA");
+          }}>
             <div className="w-full flex items-center justify-between">
-              <h3 className="grid-c-title-text">Total Lead Entries</h3>
+              <h3 className="grid-c-title-text">Total Today POA</h3>
               <button className="grid-c-title-icon">
                 <img src={iconsImgs.plus} alt="plus-icon" />
               </button>
@@ -84,9 +102,10 @@ const ContentMain = () => {
             <div class="flex flex-col items-center justify-center">
               <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">
                 {totalLeadCount}
+                
               </span>
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap text-[#dccfc6] font-medium mt-1">
-                Total Lead
+                Today POA
               </h2>
             </div>
           </div>
