@@ -78,7 +78,7 @@ const SalePOForm = () => {
             </div>
             <div>
               <button
-                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                className="flex items-center text-[10px] md:text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.48rem] md:py-[0.28rem]"
                 onClick={() => setAddUserModalOpen(true)}
               >
                 <img
