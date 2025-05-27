@@ -233,7 +233,7 @@ const SalesViewLeadData = () => {
                   <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                     Follow Up Form
                   </h2>
-                  <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-fit">
+                  <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-[380px]">
                     <div>
                       <label className="font-poppins font-medium text-black text-[16px]">
                         Description :

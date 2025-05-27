@@ -104,7 +104,7 @@ const AddEmployeeModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentStep === 1 && ( */}
-          <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[350px] md:md:h-fit">
+          <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[350px] md:md:h-[380px]">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Name :
@@ -477,7 +477,7 @@ const AddEmployeeModal = ({
 
           {/* Step 2: Job Details */}
           {/* {currentStep === 2 && ( */}
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
             {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Basic Salary:
@@ -708,7 +708,7 @@ const AddEmployeeModal = ({
 
           {/* Step 3: Bank Details */}
           {/* {currentStep === 3 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                    Bank Name:
@@ -806,7 +806,7 @@ const AddEmployeeModal = ({
 
           {/* Step 4: Document Upload */}
           {/* {currentStep === 4 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
              
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

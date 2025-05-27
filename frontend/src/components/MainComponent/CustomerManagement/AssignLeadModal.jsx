@@ -25,7 +25,7 @@ const AssignLeadModal = ({
         <h2 className="text-white text-textdata whitespace-nowrap font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Lead
         </h2>
-        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-[350px] md:h-fit">
+        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-[350px] md:h-[380px]">
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                Lead Source :

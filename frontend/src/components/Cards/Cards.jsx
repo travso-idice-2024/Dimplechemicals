@@ -35,7 +35,22 @@ const Cards = () => {
       {
         label: "Monthly Leads & Conversion rate",
         data: lead,
-        backgroundColor: colors,
+        backgroundColor: function (context) {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          if (!chartArea) return null; // Wait until chart is initialized
+
+          const gradient = ctx.createLinearGradient(
+            0,
+            chartArea.bottom,
+            0,
+            chartArea.top
+          );
+          gradient.addColorStop(0, "#1f1833"); // From bottom
+          gradient.addColorStop(1, "#534343"); // To top
+          return gradient;
+        },
       },
     ],
   };

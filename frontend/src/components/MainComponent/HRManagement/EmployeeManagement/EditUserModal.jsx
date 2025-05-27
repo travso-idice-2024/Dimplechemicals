@@ -154,7 +154,7 @@ const EditUserModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentUpdateStep === 1 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-[380px]">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Name :
@@ -631,7 +631,7 @@ const EditUserModal = ({
 
           {/* Step 2: Job Details */}
           {/* {currentUpdateStep === 2 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
               {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Basic Salary:
@@ -872,7 +872,7 @@ const EditUserModal = ({
 
           {/* Step 3: Bank Details */}
           {/* {currentUpdateStep === 3 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Bank Name:
@@ -974,7 +974,7 @@ const EditUserModal = ({
 
           {/* Step 4: Document Upload */}
           {/* {currentUpdateStep === 4 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
              
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

@@ -28,38 +28,35 @@ const getAuthToken = () => localStorage.getItem("token");
 
 const ContentMain = () => {
   const dispatch = useDispatch();
-    const navigate = useNavigate();    
+  const navigate = useNavigate();
   const [totalLeadCount, setTotalLeadCount] = useState(0);
   const [totalVisitCount, setTotalVisitCount] = useState(0);
 
   const fetchTotalLeadCount = async () => {
     try {
       const token = getAuthToken();
-  
+
       const response = await axios.get(`${API_URL}/auth/leadListofall`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      const leads = response.data?.data || [];  // assuming leads are in response.data.data
-  
+
+      const leads = response.data?.data || []; // assuming leads are in response.data.data
+
       const today = new Date().toISOString().slice(0, 10);
-  
-      const todaysLeadCount = leads.filter((lead) => 
-        lead.assign_date?.split("T")[0] === today
+
+      const todaysLeadCount = leads.filter(
+        (lead) => lead.assign_date?.split("T")[0] === today
       ).length;
-  
+
       //console.log("Today's lead count:", todaysLeadCount);
       // optionally set state here if needed
       setTotalLeadCount(todaysLeadCount);
-  
     } catch (error) {
       console.error("Error in fetching data:", error);
     }
   };
-  
-  
 
   const fetchTotalVisitCount = async () => {
     try {
@@ -88,11 +85,12 @@ const ContentMain = () => {
       <div className="space-y-3">
         {/* Flex row for 4 divs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div 
-          className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer"
-          onClick={() => {
-            navigate("/plan-of-action-for-day/todayPOA");
-          }}>
+          <div
+            className="bg-bgData flex-1 flex flex-col items-center gap-5 rounded-[8px] shadow-md shadow-black/5 text-white p-4 md:p-4 cursor-pointer"
+            onClick={() => {
+              navigate("/plan-of-action-for-day/todayPOA");
+            }}
+          >
             <div className="w-full flex items-center justify-between">
               <h3 className="grid-c-title-text">Total Today POA</h3>
               <button className="grid-c-title-icon">
@@ -100,9 +98,11 @@ const ContentMain = () => {
               </button>
             </div>
             <div class="flex flex-col items-center justify-center">
-              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">
+              <span
+                className="bg-gradient-to-br from-[#5e5284] to-[#665858]
+ text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+              >
                 {totalLeadCount}
-                
               </span>
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap text-[#dccfc6] font-medium mt-1">
                 Today POA
@@ -117,7 +117,10 @@ const ContentMain = () => {
               </button>
             </div>
             <div class="flex flex-col items-center justify-center">
-              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">
+              <span
+                className="bg-gradient-to-br from-[#5e5284] to-[#665858]
+ text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+              >
                 10
               </span>
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap text-[#dccfc6] font-medium mt-1">
@@ -133,7 +136,10 @@ const ContentMain = () => {
               </button>
             </div>
             <div class="flex flex-col items-center justify-center">
-              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">
+              <span
+                className="bg-gradient-to-br from-[#5e5284] to-[#665858]
+ text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+              >
                 {totalVisitCount}
               </span>
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap text-[#dccfc6] font-medium mt-1">
@@ -149,7 +155,10 @@ const ContentMain = () => {
               </button>
             </div>
             <div class="flex flex-col items-center justify-center">
-              <span className="bg-[#fe6c00a3] text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center">
+              <span
+                className="bg-gradient-to-br from-[#5e5284] to-[#665858]
+ text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+              >
                 15
               </span>
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap text-[#dccfc6] font-medium mt-1">
@@ -170,7 +179,7 @@ const ContentMain = () => {
         </div>
       </div>
 
-       <MeetingPage />
+      <MeetingPage />
       <Employee />
     </div>
   );

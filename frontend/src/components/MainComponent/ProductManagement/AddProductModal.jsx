@@ -44,7 +44,7 @@ const AddProductModal = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Product
           </h2>
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Product Name :

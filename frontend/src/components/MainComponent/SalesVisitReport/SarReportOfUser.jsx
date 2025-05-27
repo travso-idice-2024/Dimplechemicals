@@ -10,7 +10,7 @@ const SarReportOfUser = ({setsarReportOpen,
         Employee Activity Report Format
       </h2>
 
-      <div className="mt-5 md:mt-5 px-4 overflow-y-auto md:h-fit">
+      <div className="mt-5 md:mt-5 px-4 overflow-y-auto md:h-[380px]">
         <div className="overflow-x-auto w-[1058px]">
           <table className="w-full table-auto">
             <thead>

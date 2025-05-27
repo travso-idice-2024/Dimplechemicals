@@ -59,7 +59,7 @@ const EditUserModal = ({
             Edit Lead
           </h2>
 
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-fit">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-[380px]">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Client Name :

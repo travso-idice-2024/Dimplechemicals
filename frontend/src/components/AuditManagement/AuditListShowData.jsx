@@ -9,7 +9,7 @@ const AuditListShowData = ({
 }) => {
   return (
     <div>
-      <div className="bg-white md:h-fit py-5 flex flex-col justify-center shadow-lg p-6 rounded-lg">
+      <div className="bg-white md:h-[380px] py-5 flex flex-col justify-center shadow-lg p-6 rounded-lg">
         {/* Header */}
         <header className="flex justify-center items-center border-b pb-4 mb-6">
           <h1 className="text-2xl font-bold text-gray-800">
