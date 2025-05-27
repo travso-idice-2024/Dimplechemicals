@@ -17,6 +17,9 @@ const Financial = () => {
       chart: {
         height: 350,
         type: "bar",
+          toolbar: {
+               show: false,  // <-- Add this line to hide the 3 lines toolbar
+           },
         events: {
           click: function (chart, w, e) {
             // console.log(chart, w, e)

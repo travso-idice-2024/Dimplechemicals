@@ -30,7 +30,7 @@ const CustomerManageData = () => {
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
- // console.log("allBAdata", allBAdata);
+  //console.log("customers", customers);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
@@ -44,7 +44,7 @@ const CustomerManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = 5;
+  const customersPerPage = 6;
 
   // Fetch customers whenever searchTerm or currentPage changes
   //console.log("selectedCustomer",selectedCustomer?.id);
@@ -189,16 +189,17 @@ const CustomerManageData = () => {
           );
           setTimeout(() => {
             setAddCustomerModalOpen(false);
-          }, 3000);
-        } else {
-          handleFlashMessage(
-            response?.message || "Something went wrong",
-            "error"
-          );
+          }, 1000);
         }
       } catch (error) {
         console.error("Error adding customer:", error);
-        handleFlashMessage(error?.message || "An error occurred", "error");
+        const errors = error?.errors;
+        if (Array.isArray(errors) && errors.length > 0) {
+          handleFlashMessage(errors.join("\n"), "error");
+        } else {
+          handleFlashMessage(error?.message || "Something went wrong", "error");
+        }
+        //handleFlashMessage(error?.message || "An error occurred", "error");
       }
     }
   };
@@ -356,7 +357,7 @@ const CustomerManageData = () => {
           );
           setTimeout(() => {
             setEditCustomerModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleEditFlashMessage(
             response?.message || "Something went wrong",

@@ -234,9 +234,9 @@ const AttendanceSheetData = () => {
               <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Id
-                    </th>
+                    </th> */}
                     <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                       Date
                     </th>
@@ -263,9 +263,9 @@ const AttendanceSheetData = () => {
                   {empCinCotData &&
                     empCinCotData?.records?.map((user, index) => (
                       <tr key={index + 1}>
-                        <td className="px-4 py-2 text-newtextdata">
+                        {/* <td className="px-4 py-2 text-newtextdata">
                           {index + 1}
-                        </td>
+                        </td> */}
                         <td className="px-4 py-2 text-newtextdata">
                           {new Date(user?.data)?.toLocaleDateString("en-GB", {
                             day: "2-digit",

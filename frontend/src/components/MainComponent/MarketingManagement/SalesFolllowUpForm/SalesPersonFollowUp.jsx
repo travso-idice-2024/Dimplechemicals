@@ -49,7 +49,7 @@ const SalesPersonFollowUp = () => {
   const { leads, totalPages, departmentloading, departmenterror } = useSelector(
     (state) => state.lead
   );
-  console.log("leads",leads);
+  //console.log("leads",leads);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
@@ -91,13 +91,25 @@ const SalesPersonFollowUp = () => {
         roleId: 3,
       })
     );
-    dispatch(
-      listLeads({
-        page: currentPage,
-        limit: poaPerPage,
-        search: searchTerm,
-      })
-    );
+    if(poaType){
+      dispatch(
+        listLeads({
+          poaType:"todayPOA",
+          page: currentPage,
+          limit: poaPerPage,
+          search: searchTerm,
+        })
+      );
+    }else{
+      dispatch(
+        listLeads({
+          page: currentPage,
+          limit: poaPerPage,
+          search: searchTerm,
+        })
+      );
+    }
+   
   }, [dispatch, currentPage, searchTerm]);
 
   // Handle search input change
@@ -239,7 +251,7 @@ const SalesPersonFollowUp = () => {
           }
           setTimeout(() => {
             setAddUserModalOpen(false); // Make sure modal state name matches
-          }, 3000);
+          }, 1000);
         } else {
           handlePoaFlashMessage(
             response?.message || "Something went wrong",
@@ -297,7 +309,7 @@ const SalesPersonFollowUp = () => {
         // Reset state
         setTimeout(() => {
           setIsLeadAssignPopup(false); // Make sure modal state name matches
-        }, 3000);
+        }, 1000);
         setSelectedPOAId(null);
         setSelectedPOA("");
 

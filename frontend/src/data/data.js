@@ -77,23 +77,24 @@ export const navigationLinks = [
         path: "/sale-management/leads",
         allowedRoles: [1, 3],
         submenu: [
+          // {
+          //   id: "5.2.1",
+          //   title: "Customer leads",
+          //   image: iconsImgs.followupform,
+          //   path: "/sale-management/customer-lead-list",
+          //   allowedRoles: [1,3],
+          // },
           {
             id: "5.2.1",
-            title: "Customer leads",
-            image: iconsImgs.followupform,
-            path: "/sale-management/customer-lead-list",
-            allowedRoles: [1,3],
-          },
-          {
-            id: "5.2.2",
             title: "Sales Lead",
             image: iconsImgs.assignment,
             //path: "/sale-management/leads/assignment",
             path: "/sale-management/lead-management",
             allowedRoles: [1,3],
+            //allowedRoles: [],
           },
           {
-            id: "5.2.3",
+            id: "5.2.1",
             title: "Finalize Deal",
             image: iconsImgs.poform,
             path: "/sale-management/leads/po-form",
@@ -357,8 +358,8 @@ export const navigationLinks = [
     path: "/plan-of-action-for-day/:poaType",
     allowedRoles: []
   },
-  { id: 13, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: [1,2,3]},
-  { id: 14, title: "Calender", image: iconsImgs.gears, path: "/calender" ,allowedRoles: [3]},
+  { id: 13, title: "Calender", image: iconsImgs.Calender, path: "/calender" ,allowedRoles: [3]},
+  { id: 14, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
 ];
 
 //------------ Own Data --------------//

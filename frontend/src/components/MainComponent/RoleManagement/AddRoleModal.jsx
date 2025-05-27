@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addRole,listRoles } from "../../../redux/authSlice";
+import { addRole, listRoles } from "../../../redux/authSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const AddRoleModal = ({ 
+const AddRoleModal = ({
   setAddUserModalOpen,
-    formData,
-    setFormData,
-    formErrors,
-    setFormErrors,
-    flashMessage,
-    flashMsgType,
-    handleFlashMessage,
-    handleChange,
-    handleSubmit }) => {
+  formData,
+  setFormData,
+  formErrors,
+  setFormErrors,
+  flashMessage,
+  flashMsgType,
+  handleFlashMessage,
+  handleChange,
+  handleSubmit,
+}) => {
   const dispatch = useDispatch();
   // const [formData, setFormData] = useState({
   //   role_name: "",
@@ -82,23 +83,23 @@ const AddRoleModal = ({
 
   return (
     <>
-    <div className="fixed top-5 right-5 z-50">
-    {flashMessage && flashMsgType === "success" && (
-          <SuccessMessage message={flashMessage} />
-        )}
-        {flashMessage && flashMsgType === "error" && (
-          <ErrorMessage message={flashMessage} />
-        )}
-    </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Role
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {flashMessage && flashMsgType === "success" && (
+              <SuccessMessage message={flashMessage} />
+            )}
+            {flashMessage && flashMsgType === "error" && (
+              <ErrorMessage message={flashMessage} />
+            )}
+          </div>
           <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                 Role Name:
+                Role Name:
               </label>
               <input
                 type="text"
@@ -115,7 +116,7 @@ const AddRoleModal = ({
 
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                 Role Description:
+                Role Description:
               </label>
               <textarea
                 name="role_description"

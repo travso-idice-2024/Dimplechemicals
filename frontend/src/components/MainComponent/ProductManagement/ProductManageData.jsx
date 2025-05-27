@@ -139,7 +139,7 @@ const ProductManageData = () => {
           );
           setTimeout(() => {
             setAddProductModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleFlashMessage(
             response?.message || "Something went wrong",
@@ -250,7 +250,7 @@ const ProductManageData = () => {
           );
           setTimeout(() => {
             setEditProductModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleEditFlashMessage(
             response?.message || "Something went wrong",

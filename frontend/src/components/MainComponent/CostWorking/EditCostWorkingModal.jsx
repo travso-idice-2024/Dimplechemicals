@@ -5,6 +5,7 @@ import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
 import { fetchAllCategories } from "../../../redux/categorySlice";
 import CategoryAutocomplete from "./CategoryAutocomplete";
+import Select from "react-select";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -71,9 +72,12 @@ const EditCostWorkingModal = ({
     try {
       const token = getAuthToken();
       //console.log("token",token);
-      const response = await axios.get(`${API_URL}/auth/get-product-category/${categoryId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/get-product-category/${categoryId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       console.log(response.data.data);
 
       return response.data.data; // assuming your API responds with { data: [...] }
@@ -84,24 +88,24 @@ const EditCostWorkingModal = ({
   };
 
   useEffect(() => {
-  const loadProductOptionsForEdit = async () => {
-    const optionsArray = [...productOptions]; // clone
+    const loadProductOptionsForEdit = async () => {
+      const optionsArray = [...productOptions]; // clone
 
-    for (let i = 0; i < editCostWorkingData?.products?.length; i++) {
-      const prod = editCostWorkingData?.products[i];
-      if (prod.category_id) {
-        const products = await fetchProductsByCategory(prod.category_id);
-        optionsArray[i] = products;
+      for (let i = 0; i < editCostWorkingData?.products?.length; i++) {
+        const prod = editCostWorkingData?.products[i];
+        if (prod.category_id) {
+          const products = await fetchProductsByCategory(prod.category_id);
+          optionsArray[i] = products;
+        }
       }
+
+      setProductOptions(optionsArray);
+    };
+
+    if (editCostWorkingData?.products?.length > 0) {
+      loadProductOptionsForEdit();
     }
-
-    setProductOptions(optionsArray);
-  };
-
-  if (editCostWorkingData?.products?.length > 0) {
-    loadProductOptionsForEdit();
-  }
-}, [editCostWorkingData?.products]);
+  }, [editCostWorkingData?.products]);
 
   // Function to remove a product entry
   const handleRemoveProduct = (index) => {
@@ -123,7 +127,7 @@ const EditCostWorkingModal = ({
 
   // Function to handle product input change
 
-  const handleProductChange = async(e, index) => {
+  const handleProductChange = async (e, index) => {
     const { name, value } = e.target;
 
     const updatedProducts = [...editCostWorkingData.products];
@@ -132,8 +136,8 @@ const EditCostWorkingModal = ({
     // Update the value
     productToUpdate[name] = value;
 
-     // If product_id changed, set unit too
-     if (name === "product_id") {
+    // If product_id changed, set unit too
+    if (name === "product_id") {
       const selectedProduct = productOptions[index]?.find(
         (prod) => prod.id.toString() === value
       );
@@ -156,9 +160,8 @@ const EditCostWorkingModal = ({
       0
     );
 
-
-     // If category changed, fetch new product list for this row
-     if (name === "category_id") {
+    // If category changed, fetch new product list for this row
+    if (name === "category_id") {
       const products = await fetchProductsByCategory(value);
       setProductOptions((prev) => {
         const updatedOptions = [...prev];
@@ -175,19 +178,25 @@ const EditCostWorkingModal = ({
     });
   };
 
+  //select customer
+  const customerOptions =
+    allCustomers?.data?.map((customer) => ({
+      value: customer.id,
+      label: customer.company_name,
+    })) || [];
+
+  console.log("customerOptions", customerOptions);
+  console.log(
+    "editCostWorkingData.company_name",
+    editCostWorkingData.company_name
+  );
+
+  const customFilterOption = (option, inputValue) =>
+    option.label.toLowerCase().startsWith(inputValue.toLowerCase());
+
   return (
     <>
       {/* Flash Messages */}
-      <div className="fixed top-5 right-5 z-50">
-        {editCostWorkingFlashMessage &&
-          editCostWorkingFlashMsgType === "success" && (
-            <SuccessMessage message={editCostWorkingFlashMessage} />
-          )}
-        {editCostWorkingFlashMessage &&
-          editCostWorkingFlashMsgType === "error" && (
-            <ErrorMessage message={editCostWorkingFlashMessage} />
-          )}
-      </div>
 
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
@@ -195,6 +204,16 @@ const EditCostWorkingModal = ({
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Update Cost Working
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {editCostWorkingFlashMessage &&
+              editCostWorkingFlashMsgType === "success" && (
+                <SuccessMessage message={editCostWorkingFlashMessage} />
+              )}
+            {editCostWorkingFlashMessage &&
+              editCostWorkingFlashMsgType === "error" && (
+                <ErrorMessage message={editCostWorkingFlashMessage} />
+              )}
+          </div>
 
           <div className="p-4 mt-5 overflow-y-auto h-[440px]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-48 gap-y-2">
@@ -203,7 +222,7 @@ const EditCostWorkingModal = ({
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select Name of Company:
                 </label>
-                <select
+                {/* <select
                   name="company_name"
                   value={editCostWorkingData.company_name || ""}
                   onChange={handleEditCostWorkingCustomerChange}
@@ -215,7 +234,26 @@ const EditCostWorkingModal = ({
                       {customer.company_name}
                     </option>
                   ))}
-                </select>
+                </select> */}
+                <Select
+                  options={customerOptions}
+                  value={customerOptions.find(
+                    (option) => option.value == editCostWorkingData.company_name
+                  )}
+                  onChange={(selectedOption) =>
+                    handleEditCostWorkingCustomerChange({
+                      target: {
+                        name: "company_name",
+                        value: selectedOption.value,
+                      },
+                    })
+                  }
+                  placeholder="Select the Customer"
+                  className="mb-2"
+                  isSearchable
+                  filterOption={customFilterOption}
+                />
+
                 {editCostWorkingFormErrors?.company_name && (
                   <p className="text-red-500">
                     {editCostWorkingFormErrors?.company_name}
@@ -236,9 +274,14 @@ const EditCostWorkingModal = ({
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                   >
                     <option value="">Select the Address</option>
-                    {customerAddress?.data?.addresses?.map((address, index) => (
+                    {/* {customerAddress?.data?.addresses?.map((address, index) => (
                       <option key={index} value={address}>
                         {address}
+                      </option>
+                    ))} */}
+                    {customerAddress?.data?.addresses?.map((address, index) => (
+                      <option key={index} value={address.location}>
+                        {address.location}
                       </option>
                     ))}
                   </select>
@@ -288,76 +331,74 @@ const EditCostWorkingModal = ({
               ))}
             </div>
 
-
-{/* Product List */}
-<h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
+            {/* Product List */}
+            <h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
               Products
             </h3>
             <div className="px-4">
-              
               {editCostWorkingData?.products?.map((product, index) => (
                 <>
-                <h3 className=" text-bgDataNew font-poppins font-medium text-textdatanew text-bgData mt-5">
-                  Product {index+1} :
-                </h3>
-                <div
-                  key={index}
-                  className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
-                >
-                   {/* category drop down */}
-                   <CategoryAutocomplete
+                  <h3 className=" text-bgDataNew font-poppins font-medium text-textdatanew text-bgData mt-5">
+                    Product {index + 1} :
+                  </h3>
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
+                  >
+                    {/* category drop down */}
+                    <CategoryAutocomplete
                       allCategories={allCategories}
                       handleProductChange={handleProductChange}
                       index={index}
                       product={product}
                     />
 
-
-                  <select
-                    name="product_id"
-                    value={product.product_id || ""}
-                    onChange={(e) => handleProductChange(e, index)}
-                    className="block w-full rounded-[5px] border px-3 py-2"
-                  >
-                    <option value="">Select Product</option>
-                    {productOptions[index]?.map((prod) => (
+                    <select
+                      name="product_id"
+                      value={product.product_id || ""}
+                      onChange={(e) => handleProductChange(e, index)}
+                      className="block w-full rounded-[5px] border px-3 py-2"
+                    >
+                      <option value="">Select Product</option>
+                      {productOptions[index]?.map((prod) => (
                         <option key={prod.id} value={prod.id}>
                           {prod.product_name}
                         </option>
                       ))}
-                  </select>
+                    </select>
 
-                  {[
-                    "unit",
-                    "qty_for",
-                    "std_pak",
-                    "std_basic_rate",
-                    "basic_amount",
-                  ].map((field) => (
-                    <input
-                      key={field}
-                      type="text"
-                      name={field}
-                      value={product[field] || ""}
-                      onChange={(e) => handleProductChange(e, index)}
-                      placeholder={field
-                        .split("_")
-                        .map(
-                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                        )
-                        .join(" ")}
-                      className="block w-full rounded-[5px] border px-3 py-2"
-                    />
-                  ))}
+                    {[
+                      "unit",
+                      "qty_for",
+                      "std_pak",
+                      "std_basic_rate",
+                      "basic_amount",
+                    ].map((field) => (
+                      <input
+                        key={field}
+                        type="text"
+                        name={field}
+                        value={product[field] || ""}
+                        onChange={(e) => handleProductChange(e, index)}
+                        placeholder={field
+                          .split("_")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ")}
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    ))}
 
-                  <button
-                    type="button"
-                    onClick={() => handleEditRemoveProduct(index)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Remove Product Field
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      onClick={() => handleEditRemoveProduct(index)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Remove Product Field
+                    </button>
+                  </div>
                 </>
               ))}
 

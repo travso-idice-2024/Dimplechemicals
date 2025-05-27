@@ -72,19 +72,19 @@ exports.login = async (req, res) => {
       }
     ] });
     if (!user) {
-      return res.status(401).json({ message: "Invalid username." });
+      return res.json({ success: false,message: "Invalid username." });
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.json({success: false, message: "Invalid password" });
     }
 
     // Generate JWT token
     const token = generateToken(user);
 
-    res.json({ message: "Login successful", token, user:user});
+    res.json({ success: true, message: "Login successful", token, user:user});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -94,7 +94,7 @@ exports.login = async (req, res) => {
 exports.listEmployees = async (req, res) => {
   try {
     console.log("req.query" , req.query);
-    const { page = 1, limit = 10, search = "", all, roleId  } = req.query;
+    const { page = 1, limit = 6, search = "", all, roleId  } = req.query;
 
     // Convert page & limit to integers
     const pageNumber = parseInt(page, 10) || 1;

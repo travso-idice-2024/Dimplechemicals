@@ -1,33 +1,36 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
+const ViewUserModal = ({ setViewModalOpen, selectedLead }) => { 
   const navigate = useNavigate();
   console.log("selectedLead", selectedLead);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-lg w-full max-w-xl shadow-lg overflow-hidden">
+      <div className="bg-white rounded-lg w-full lg:w-[900px] shadow-lg overflow-hidden">
         <div className="bg-bgDataNew px-6 text-center py-2 text-white text-xl font-semibold">
           Lead Details
         </div>
 
-        <div className="p-6">
-          <table className="w-full border border-gray-300 text-sm text-left">
+        <div className="overflow-auto h-[380px]">
+        <div className="p-6 flex flex-col items-center justify-center">
+          <table className="w-full lg:w-fit px-4 border border-gray-300 mb-8 text-sm text-left">
             <tbody>
               <TableRow label="Company Name" value={selectedLead?.customer?.company_name} />
-              <TableRow label="Client Name" value={selectedLead?.customer?.client_name} />
+              <TableRow label="Contact Person Name" value={selectedLead?.contactPerson?.name} />
+              <TableRow label="Salse Person Name" value={selectedLead?.assignedPerson?.fullname} />
               <TableRow label="Lead Owner" value={selectedLead?.leadOwner?.fullname} />
-              <TableRow label="Lead Source" value={selectedLead?.lead_source} />
-              <TableRow label="Lead Status" value={selectedLead?.lead_status} />
-              <TableRow label="Assigned Person" value={selectedLead?.assignedPerson?.fullname} />
-              <TableRow label="Description" value={selectedLead?.product_description} />
+              <TableRow label="Meeting Date" value={selectedLead?.communications[0]?.lead_date?.split("T")[0]} />
+              <TableRow label="Meeting Type" value={selectedLead?.meeting_type} />
+              {/* <TableRow label="Meeting Summary" value={selectedLead?.communications[0]?.lead_text?.split("\n").map((line, index) => (
+                    <div key={index}>{line}</div>
+                  ))} /> */}
              
             </tbody>
           </table>
 
 
           <div className="mt-4">
-              <label className="font-poppins font-semibold text-[18px] text-center text-bgData block mb-2">
+              <label className="font-poppins font-semibold  text-center text-bgData block mb-4 text-bgDataNew font-poppins border w-[300px] font-medium  text-bgData text-center mx-auto">
                 Lead Re-Assigned Persons
               </label>
 
@@ -70,7 +73,11 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
               )}
             </div>
 
-          <div className="mt-6 flex justify-end">
+         
+        </div>
+        
+        </div>
+        <div className="mt-4 pr-6 pb-4 flex justify-end">
             <button
               onClick={() => setViewModalOpen(false)}
               className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
@@ -78,7 +85,6 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
               Close
             </button>
           </div>
-        </div>
       </div>
     </div>
   );

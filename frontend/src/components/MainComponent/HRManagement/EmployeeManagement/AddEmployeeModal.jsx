@@ -56,19 +56,19 @@ const AddEmployeeModal = ({
   const [showCPassword, setShowCPassword] = useState(false);
   return (
     <>
-      <div className="fixed top-5 right-5 z-50">
-        {flashMessage && flashMsgType === "success" && (
-          <SuccessMessage message={flashMessage} />
-        )}
-        {flashMessage && flashMsgType === "error" && (
-          <ErrorMessage message={flashMessage} />
-        )}
-      </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Employee Details
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {flashMessage && flashMsgType === "success" && (
+              <SuccessMessage message={flashMessage} />
+            )}
+            {flashMessage && flashMsgType === "error" && (
+              <ErrorMessage message={flashMessage} />
+            )}
+          </div>
 
           {/* New Code */}
           {/* <div className="p-4 md:px-20  flex items-start md:items-center flex-col md:flex-row md:justify-between md:mt-8 relative w-full">
@@ -298,7 +298,7 @@ const AddEmployeeModal = ({
 
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-              Assign Role :
+                Assign Role :
               </label>
               <select
                 name="role_id"
@@ -428,7 +428,7 @@ const AddEmployeeModal = ({
             </div>
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                Employment Type:
+                Employeement Type:
               </label>
               <select
                 name="employment_type"
@@ -436,7 +436,7 @@ const AddEmployeeModal = ({
                 onChange={handleChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[9px]"
               >
-                <option value="">Select Employment Type</option>
+                <option value="">Select Employeement Type</option>
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
                 <option value="Contract">Contract</option>

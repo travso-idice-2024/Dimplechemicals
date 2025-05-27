@@ -122,7 +122,7 @@ const Budget = () => {
   });
 
   return (
-    <div className="grid-one-item grid-common grid-c1 flex flex-col justify-between">
+    <div className="grid-one-item grid-common grid-c1 flex flex-col gap-5">
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">
           Sales Analytics (This Month)

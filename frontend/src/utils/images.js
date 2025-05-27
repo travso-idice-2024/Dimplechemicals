@@ -35,6 +35,7 @@ import assignment from "../assets/icons/assignment.svg";
 import poform from "../assets/icons/poform.svg";
 import followupform from "../assets/icons/followupform.svg";
 import hr from "../assets/icons/hr.svg";
+import Calender from "../assets/icons/calender.svg";
 
 // person images
 import person_one from "../assets/images/person_one.jpg";
@@ -46,7 +47,7 @@ import DimpleChemicals from "../assets/images/Dimple-Logo.png"
 import Image_Upload from "../assets/images/Image-Upload.png"
 
 export const iconsImgs = {
-    hr, followupform, poform, assignment, lead, marketing, department, role, employee, quotation, security,Logout, privacy_policy, notification, Profile_Icon, alert, bell, bills, budget, card, check, empty_check, gears, home, menu, plane, plus, report, search, user, wallet, wealth, user_add, add_plus, customer_requirement,dmanage
+    Calender, hr, followupform, poform, assignment, lead, marketing, department, role, employee, quotation, security,Logout, privacy_policy, notification, Profile_Icon, alert, bell, bills, budget, card, check, empty_check, gears, home, menu, plane, plus, report, search, user, wallet, wealth, user_add, add_plus, customer_requirement,dmanage
 }
 
 export const personsImgs = {

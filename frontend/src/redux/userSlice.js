@@ -7,7 +7,7 @@ const getAuthToken = () => localStorage.getItem("token");
 // ✅ LIST USERS
 export const listUsers = createAsyncThunk(
   "auth/listUsers",
-  async ({ page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+  async ({ page = 1, limit = 6, search = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/employeeList`, {

@@ -29,9 +29,9 @@ const EmployeeManageData = () => {
   );
 
   const { user: userDeatail } = useSelector((state) => state.auth);
-   useEffect(() => {
-      dispatch(fetchCurrentUser());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   //console.log("users", users);
 
@@ -43,7 +43,7 @@ const EmployeeManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const employeePerPage = 10;
+  const employeePerPage = 6;
 
   // Fetch departments whenever searchTerm or currentPage changes
   useEffect(() => {
@@ -203,16 +203,21 @@ const EmployeeManageData = () => {
   const validateInputs = () => {
     let errors = {};
 
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+
     //if (currentStep === 1) {
     // ✅ Required fields validation (only necessary fields)
     if (!formData.fullname.trim()) {
       errors.fullname = "*Full name is required";
     }
-    // if (!formData.username.trim()) {
-    //   errors.username = "*Username is required";
-    // } else if (formData.username.length < 6) {
-    //   errors.username = "*Username must be at least 6 characters";
-    // }
+    if (!formData.username.trim()) {
+      errors.username = "*Username is required";
+    } else if (formData.username.length < 3) {
+      errors.username = "*Username must be at least 3 characters";
+    } else if (formData.username.length > 20) {
+      errors.username = "*Username cannot be more than 20 characters";
+    }
+
     if (!formData.email.trim()) {
       errors.email = "*Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -223,11 +228,17 @@ const EmployeeManageData = () => {
     } else if (!/^\d{10}$/.test(formData.phone)) {
       errors.phone = "*Phone number must be 10 digits";
     }
+    // Password validation
     if (!formData.password.trim()) {
       errors.password = "*Password is required";
     } else if (formData.password.length < 6) {
       errors.password = "*Password must be at least 6 characters";
+    } else if (!passwordRegex.test(formData.password)) {
+      errors.password =
+        "*Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character";
     }
+
+    // Confirm Password validation
     if (!formData.confirm_password.trim()) {
       errors.confirm_password = "*Confirm Password is required";
     } else if (formData.password !== formData.confirm_password) {
@@ -334,7 +345,7 @@ const EmployeeManageData = () => {
       try {
         //console.log("formData", formData);
         const response = await dispatch(addUser(formData)).unwrap();
-        console.log("response", response.success); // Debugging response
+        //console.log("response", response.success); // Debugging response
 
         if (response?.success == true) {
           handleFlashMessage(response?.message, "success");
@@ -346,9 +357,11 @@ const EmployeeManageData = () => {
             })
           );
 
+          setFormData({});
+
           setTimeout(() => {
             setAddEmployeeModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleFlashMessage(
             response?.message || "Something went wrong",
@@ -493,7 +506,7 @@ const EmployeeManageData = () => {
         // offer_letter_date: selectedEmployee?.jobDetail?.offer_letter_date
         //   ? selectedEmployee?.jobDetail?.offer_letter_date.split("T")[0]
         //   : "",
-        date_of_exit: selectedEmployee?.jobDetail?.date_of_exit
+        date_of_exit: selectedEmployee?.jobDetail?.date_of_exit,
         //   ? selectedEmployee?.jobDetail?.date_of_exit.split("T")[0]
         //   : "",
         // bank_name: selectedEmployee?.bankDetail?.bank_name || "",
@@ -664,7 +677,7 @@ const EmployeeManageData = () => {
           );
           setTimeout(() => {
             setEditUserModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleUpdateFlashMessage(
             response.message || "Something went wrong",

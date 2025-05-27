@@ -28,7 +28,7 @@ const DepartmentTable = ({
   setpoaReportOpen,
 }) => {
   const { poaType } = useParams();
-  console.log("poaList", poaList);
+  console.log("selectedPOA", selectedPOA);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
@@ -247,7 +247,7 @@ const DepartmentTable = ({
 
   // Handle Form Submit
   const handleSubmitAddFollowUp = async () => {
-    console.log("function called");
+    //console.log("function called",selectedPOA?.id);
 
     if (validateInputs()) {
       try {
@@ -266,6 +266,7 @@ const DepartmentTable = ({
               ...formData,
               end_location: locationName,
               end_meeting_time: currentTime,
+              lead_id:selectedPOA?.id
             };
 
             setFormData(updatedFormData); // optional, if you want to persist it
@@ -342,9 +343,9 @@ const DepartmentTable = ({
             {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
               <input type="checkbox" disabled className="w-4 h-4 accent-orange-500" />
             </th> */}
-            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
               Id
-            </th>
+            </th> */}
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Company Name
             </th>
@@ -383,13 +384,13 @@ const DepartmentTable = ({
           </tr>
         </thead>
         <tbody>
-          {(poaType === "todayPOA"
+          {/* {(poaType === "todayPOA"
             ? poaList.filter((user) => {
                 const today = new Date().toISOString().slice(0, 10);
-                return user.assign_date?.split("T")[0] === today;
+                return user.assign_date?.split("T")[0] === today || user.next_followup?.split("T")[0] === today;
               })
-            : poaList
-          ).map((user, index) => (
+            : poaList) */}
+          {poaList?.map((user, index) => (
             <tr key={index}>
               {/* <td className="px-4 py-2 text-newtextdata">
                  
@@ -404,7 +405,7 @@ const DepartmentTable = ({
         }}
       /> 
                 </td> */}
-              <td className="px-4 py-2">{index + 1}</td>
+              {/* <td className="px-4 py-2">{index + 1}</td> */}
               <td
                 className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"
                 onClick={() => {
@@ -421,7 +422,9 @@ const DepartmentTable = ({
                 {user.assignedPerson?.fullname || "N/A"}
               </td>
               <td className="px-4 py-2 text-newtextdata">
-                {user?.assign_date?.split("T")[0]}
+                {user?.next_followup
+                  ? user?.next_followup?.split("T")[0]
+                  : user?.assign_date?.split("T")[0]}
               </td>
               <td className="px-4 py-2 text-newtextdata">
                 {user?.meeting_time}
@@ -432,7 +435,8 @@ const DepartmentTable = ({
               {userDeatail?.employeeRole?.role_id === 3 && (
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   <button
-                    onClick={() => {handleToggle(user);
+                    onClick={() => {
+                      handleToggle(user);
                       setSelectedPOA(user);
                     }}
                     className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${

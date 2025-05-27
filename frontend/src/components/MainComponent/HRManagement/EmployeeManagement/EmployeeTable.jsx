@@ -38,9 +38,9 @@ const EmployeeTable = ({
         <table className="table-auto w-full text-left border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Id
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Emp ID
               </th>
@@ -75,7 +75,7 @@ const EmployeeTable = ({
           <tbody>
             {Employees?.map((user, index) => (
               <tr key={index} className="">
-                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{index + 1}</td>
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{index + 1}</td> */}
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user?.emp_id}</td>
                 <td
                   className="px-4 py-2 text-newtextdata whitespace-nowrap  cursor-pointer"

@@ -5,6 +5,7 @@ import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
 import { fetchAllCategories } from "../../../redux/categorySlice";
 import CategoryAutocomplete from "./CategoryAutocomplete";
+import Select from "react-select";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,7 +24,7 @@ const AddCostWorkingModal = ({
   handleCostWorkingCustomerChange,
   customerAddress,
 }) => {
-  //console.log("costWorkingData", costWorkingData);
+  console.log("costWorkingData", costWorkingData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -67,9 +68,12 @@ const AddCostWorkingModal = ({
     try {
       const token = getAuthToken();
       //console.log("token",token);
-      const response = await axios.get(`${API_URL}/auth/get-product-category/${categoryId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/get-product-category/${categoryId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       console.log(response.data.data);
 
       return response.data.data; // assuming your API responds with { data: [...] }
@@ -101,13 +105,13 @@ const AddCostWorkingModal = ({
 
   const handleProductChange = async (e, index) => {
     const { name, value } = e.target;
-  
+
     const updatedProducts = [...costWorkingData.products];
     const productToUpdate = { ...updatedProducts[index] };
-  
+
     // Update the selected field value
     productToUpdate[name] = value;
-  
+
     // If product_id changed, set unit too
     if (name === "product_id") {
       const selectedProduct = productOptions[index]?.find(
@@ -115,23 +119,23 @@ const AddCostWorkingModal = ({
       );
       productToUpdate.unit = selectedProduct ? selectedProduct.unit : "";
     }
-  
+
     // Recalculate basic_amount if relevant fields changed
     const qty = parseFloat(productToUpdate.qty_for) || 0;
     const pak = parseFloat(productToUpdate.std_pak) || 0;
     const rate = parseFloat(productToUpdate.std_basic_rate) || 0;
-  
+
     productToUpdate.basic_amount = (qty * pak * rate).toFixed(2);
-  
+
     // Replace updated product in the array
     updatedProducts[index] = productToUpdate;
-  
+
     // Recalculate total material cost
     const totalMaterialCost = updatedProducts.reduce(
       (sum, item) => sum + (parseFloat(item.basic_amount) || 0),
       0
     );
-  
+
     // If category changed, fetch new product list for this row
     if (name === "category_id") {
       const products = await fetchProductsByCategory(value);
@@ -141,7 +145,7 @@ const AddCostWorkingModal = ({
         return updatedOptions;
       });
     }
-  
+
     // Update the overall state
     setCostWorkingData({
       ...costWorkingData,
@@ -149,7 +153,6 @@ const AddCostWorkingModal = ({
       total_material_cost: totalMaterialCost.toFixed(2),
     });
   };
-  
 
   const fields = [
     { name: "unit", placeholder: "Unit No." },
@@ -159,10 +162,29 @@ const AddCostWorkingModal = ({
     { name: "basic_amount", placeholder: "Basic Amount" },
   ];
 
+  //customer auto search
+
+  const customerOptions =
+    allCustomers?.data?.map((customer) => ({
+      value: customer.id,
+      label: customer.company_name,
+    })) || [];
+
+  const customFilterOption = (option, inputValue) =>
+    option.label.toLowerCase().startsWith(inputValue.toLowerCase());
+
   return (
     <>
       {/* Flash Messages */}
-      <div className="fixed top-5 right-5 z-50">
+      
+
+      {/* Modal Container */}
+      <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white w-full md:w-[1100px]  rounded-[6px]">
+          <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+            Add Cost Working
+          </h2>
+          <div className="fixed top-5 right-5 z-50">
         {costWorkingFlashMessage && costWorkingFlashMsgType === "success" && (
           <SuccessMessage message={costWorkingFlashMessage} />
         )}
@@ -171,13 +193,6 @@ const AddCostWorkingModal = ({
         )}
       </div>
 
-      {/* Modal Container */}
-      <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1100px]  rounded-[6px]">
-          <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
-            Add Cost Working
-          </h2>
-
           <div className="p-4 mt-5 overflow-y-auto h-[440px]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-2">
               {/* Select Customer */}
@@ -185,7 +200,7 @@ const AddCostWorkingModal = ({
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select Name of Company:
                 </label>
-                <select
+                {/* <select
                   name="company_name"
                   value={costWorkingData.company_name || ""}
                   onChange={handleCostWorkingCustomerChange}
@@ -193,11 +208,30 @@ const AddCostWorkingModal = ({
                 >
                   <option value="">Select the Customer</option>
                   {allCustomers?.data?.map((customer) => (
-                    <option key={customer.id} value={customer.id}>
-                      {customer.company_name}
+                    <option key={customer?.id} value={customer?.id}>
+                      {customer?.company_name}
                     </option>
                   ))}
-                </select>
+                </select> */}
+
+                <Select
+                  options={customerOptions}
+                  value={customerOptions.find(
+                    (option) => option.value === costWorkingData.company_name
+                  )}
+                  onChange={(selectedOption) =>
+                    handleCostWorkingCustomerChange({
+                      target: {
+                        name: "company_name",
+                        value: selectedOption.value,
+                      },
+                    })
+                  }
+                  placeholder="Select the Customer"
+                  className="mb-2"
+                  isSearchable
+                  filterOption={customFilterOption}
+                />
                 {costWorkingFormErrors?.company_name && (
                   <p className="text-red-500">
                     {costWorkingFormErrors?.company_name}
@@ -218,9 +252,15 @@ const AddCostWorkingModal = ({
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                   >
                     <option value="">Select the Address</option>
-                    {customerAddress?.data?.addresses?.map((address, index) => (
+                    {/* {customerAddress?.data?.addresses?.map((address, index) => (
                       <option key={index} value={address}>
                         {address}
+                      </option>
+                    ))} */}
+
+                    {customerAddress?.data?.addresses?.map((address, index) => (
+                      <option key={index} value={address.location}>
+                        {address.location}
                       </option>
                     ))}
                   </select>
@@ -294,10 +334,7 @@ const AddCostWorkingModal = ({
                     <select
                       name="product_id"
                       value={product.product_id || ""}
-                      onChange={(e) => 
-                        handleProductChange(e, index)
-
-                      }
+                      onChange={(e) => handleProductChange(e, index)}
                       className="block w-full rounded-[5px] border px-3 py-2"
                     >
                       <option value="">Select Product</option>

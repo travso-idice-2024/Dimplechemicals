@@ -9,7 +9,7 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
           Customer Details
         </h2>
 
-        <div className="overflow-y-auto md:h-fit">
+        <div className="overflow-y-auto md:h-[350px]">
           {/* Profile Section */}
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
@@ -57,7 +57,12 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                 label="Primary Contact"
                 value={selectedCustomer.primary_contact}
               />
+              
               <Detail label="Email Id" value={selectedCustomer.email_id} />
+              <Detail
+                label="Secondary Contact"
+                value={selectedCustomer.secondary_contact}
+              />
 
               <Detail label="Pan No." value={selectedCustomer.pan_no} />
               <Detail label="Gst No." value={selectedCustomer.gst_number} />

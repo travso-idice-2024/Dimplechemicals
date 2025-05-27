@@ -160,7 +160,7 @@ const costWorkingPerPage = 8;
     //if (!costWorkingData.estimate_no) errors.estimate_no = "Estimate Number is required.";
     if (!costWorkingData.estimate_date) errors.estimate_date = "Estimate Date is required.";
     //if (!costWorkingData.revision_no) errors.revision_no = "Revision Number is required.";
-    if (!costWorkingData.revision_date) errors.revision_date = "Revision Date is required.";
+    // if (!costWorkingData.revision_date) errors.revision_date = "Revision Date is required.";
     if (!costWorkingData.area_to_be_coated) errors.area_to_be_coated = "Area to be Coated is required.";
     if (!costWorkingData.thickness_in_mm) errors.thickness_in_mm = "Thickness in MM is required.";
     if (!costWorkingData.labour_cost) errors.labour_cost = "Labour Cost is required.";
@@ -363,7 +363,7 @@ useEffect(() => {
     //if (!editCostWorkingData.estimate_no) errors.estimate_no = "Estimate Number is required.";
     if (!editCostWorkingData.estimate_date) errors.estimate_date = "Estimate Date is required.";
    // if (!editCostWorkingData.revision_no) errors.revision_no = "Revision Number is required.";
-    if (!editCostWorkingData.revision_date) errors.revision_date = "Revision Date is required.";
+    // if (!editCostWorkingData.revision_date) errors.revision_date = "Revision Date is required.";
     if (!editCostWorkingData.area_to_be_coated) errors.area_to_be_coated = "Area to be Coated is required.";
     if (!editCostWorkingData.thickness_in_mm) errors.thickness_in_mm = "Thickness in MM is required.";
     if (!editCostWorkingData.labour_cost) errors.labour_cost = "Labour Cost is required.";
@@ -423,7 +423,7 @@ useEffect(() => {
   
           setTimeout(() => {
             setEditCostWorkingModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleEditCostWorkingFlashMessage(
             response?.message || "Something went wrong",

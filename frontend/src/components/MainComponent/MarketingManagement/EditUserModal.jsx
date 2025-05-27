@@ -45,19 +45,19 @@ const EditUserModal = ({
 
   return (
     <>
-      <div className="fixed top-5 right-5 z-50">
-        {updateLeadFlashMessage && updateLeadFlashMsgType === "success" && (
-          <SuccessMessage message={updateLeadFlashMessage} />
-        )}
-        {updateLeadFlashMessage && updateLeadFlashMsgType === "error" && (
-          <ErrorMessage message={updateLeadFlashMessage} />
-        )}
-      </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Lead
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {updateLeadFlashMessage && updateLeadFlashMsgType === "success" && (
+              <SuccessMessage message={updateLeadFlashMessage} />
+            )}
+            {updateLeadFlashMessage && updateLeadFlashMsgType === "error" && (
+              <ErrorMessage message={updateLeadFlashMessage} />
+            )}
+          </div>
 
           <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-fit">
             <div>

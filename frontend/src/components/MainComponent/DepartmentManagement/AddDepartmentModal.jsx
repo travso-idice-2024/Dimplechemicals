@@ -4,7 +4,7 @@ import { addDepartment, listDepartments } from "../../../redux/departmentSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const AddDepartmentModal = ({  
+const AddDepartmentModal = ({
   setAddModalOpen,
   formData,
   setFormData,
@@ -17,7 +17,8 @@ const AddDepartmentModal = ({
   handleChange,
   validateInputs,
   handleSubmit,
-  handleFlashMessage, }) => {
+  handleFlashMessage,
+}) => {
   const dispatch = useDispatch();
   // const [formData, setFormData] = useState({
   //   department_name: "",
@@ -85,10 +86,6 @@ const AddDepartmentModal = ({
   return (
     <>
       {/* Flash Messages */}
-      <div className="fixed top-5 right-5 z-50">
-        {flashMessage && flashMsgType === "success" && <SuccessMessage message={flashMessage} />}
-        {flashMessage && flashMsgType === "error" && <ErrorMessage message={flashMessage} />}
-      </div>
 
       {/* Modal */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
@@ -96,11 +93,19 @@ const AddDepartmentModal = ({
           <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Department
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {flashMessage && flashMsgType === "success" && (
+              <SuccessMessage message={flashMessage} />
+            )}
+            {flashMessage && flashMsgType === "error" && (
+              <ErrorMessage message={flashMessage} />
+            )}
+          </div>
           <div className="mt-5 md:mt-9 px-4 flex flex-col gap-2">
             {/* Department Name */}
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                 Department Name:
+                Department Name:
               </label>
               <input
                 type="text"
@@ -111,7 +116,9 @@ const AddDepartmentModal = ({
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
               {formErrors.department_name && (
-                <p className="text-red-500 text-sm">{formErrors.department_name}</p>
+                <p className="text-red-500 text-sm">
+                  {formErrors.department_name}
+                </p>
               )}
             </div>
 
@@ -142,7 +149,7 @@ const AddDepartmentModal = ({
             {/* Status */}
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                 Status:
+                Status:
               </label>
               <select
                 name="status"
@@ -162,7 +169,7 @@ const AddDepartmentModal = ({
             {/* Department Description */}
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                 Description:
+                Description:
               </label>
               <textarea
                 name="department_description"
@@ -172,7 +179,9 @@ const AddDepartmentModal = ({
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
               {formErrors.department_description && (
-                <p className="text-red-500 text-sm">{formErrors.department_description}</p>
+                <p className="text-red-500 text-sm">
+                  {formErrors.department_description}
+                </p>
               )}
             </div>
 

@@ -155,7 +155,7 @@ const SalesViewLeadData = () => {
           // Close modal after successful submission
           setTimeout(() => {
             setLeadStatusProgress(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleFlashMessage(
             response?.message || "Something went wrong",

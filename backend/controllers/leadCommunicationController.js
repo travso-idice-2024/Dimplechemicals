@@ -79,11 +79,11 @@ const createLeadCommunication = async (req, res) => {
       start_meeting_time,
       start_location,
       lead_text,
-      lead_status, 
+      lead_status,
       client_name,
       latitude,
       longitude,
-      type
+      type,
     } = req.body;
 
     // Ensure user is authenticated
@@ -95,37 +95,76 @@ const createLeadCommunication = async (req, res) => {
     const sales_persion_id = req.user.id;
 
     // Validate required fields
-    if (
-      !customer_id ||
-      !lead_date ||
-      !lead_id
-    ) {
+    if (!customer_id || !lead_date || !lead_id) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Insert record
-    const newLead = await LeadCommunication.create({
+    const latestLead = await LeadCommunication.findOne({
+      where: {
+        lead_id,
+      },
+      order: [["createdAt", "DESC"]],
+    });
+
+    // const updatedLeadText = `${latestLead.lead_text || ""}\n${lead_text}`;
+    // const updatedLeadStatus = `${
+    //   latestLead.lead_status || ""
+    // } -> ${lead_status}`;
+
+    if (!latestLead) {
+      return res
+        .status(404)
+        .json({ message: "No lead communication record found to update" });
+    }
+
+    // Update the found record
+    await latestLead.update({
       customer_id,
       sales_persion_id, // Automatically set from logged-in user
       lead_date,
       lead_id,
       start_meeting_time,
       start_location,
-      lead_text,
-      lead_status,
+      // lead_text: updatedLeadText,
+      // lead_status: updatedLeadStatus,
       client_name,
       latitude,
       longitude,
-      type 
+      type,
     });
 
-    res
-      .status(201)
-      .json({
-        success:true,
-        message: "Meeting Started successfully",
-        data: newLead,
-      });
+    //update next followu date in lead table
+    const Leaddate = await Lead.findOne({
+      where: {
+        id: latestLead?.lead_id,
+      },
+    });
+
+    await Leaddate.update({
+      next_followup: lead_date,
+    });
+
+    // Insert record
+    // const newLead = await LeadCommunication.create({
+    //   customer_id,
+    //   sales_persion_id, // Automatically set from logged-in user
+    //   lead_date,
+    //   lead_id,
+    //   start_meeting_time,
+    //   start_location,
+    //   lead_text,
+    //   lead_status,
+    //   client_name,
+    //   latitude,
+    //   longitude,
+    //   type,
+    // });
+
+    res.status(201).json({
+      success: true,
+      message: "Meeting Started successfully",
+      data: newLead,
+    });
   } catch (error) {
     console.error("Error inserting lead communication:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -137,9 +176,10 @@ const endMeeting = async (req, res) => {
     const {
       lead_text,
       lead_status,
-      lead_date,   // schedule for next meeting
+      lead_date, // schedule for next meeting
       end_meeting_time,
-      end_location,            // to target the specific lead
+      end_location, // to target the specific lead
+      lead_id,
     } = req.body;
 
     // Check user auth
@@ -150,39 +190,73 @@ const endMeeting = async (req, res) => {
     const sales_persion_id = req.user.id;
 
     if (!end_meeting_time || !end_location) {
-      return res.status(400).json({ message: "end_meeting_time and end_location are required" });
+      return res
+        .status(400)
+        .json({ message: "end_meeting_time and end_location are required" });
     }
 
     // Find the latest lead communication record for this user and lead_id
     const latestLead = await LeadCommunication.findOne({
       where: {
-        sales_persion_id,
+        lead_id,
       },
-      order: [['createdAt', 'DESC']]
+      order: [["createdAt", "DESC"]],
     });
 
+    // Combine old and new lead_text and lead_status
+    //const updatedLeadText = `${latestLead.lead_text || ""}\n${lead_text}`;
+    const oldText = latestLead.lead_text ? latestLead.lead_text.trim() : "";
+
+    // Split old text into lines, or empty array if none
+    const lines = oldText ? oldText.split("\n") : [];
+
+    // Calculate next line number
+    const nextNumber = lines.length + 1;
+
+    // Prepare new text line
+    const newText = `${nextNumber}. ${lead_text}`;
+
+    // Combine old lines + new text
+    const updatedLeadText = oldText ? `${oldText}\n${newText}` : newText;
+
+    const updatedLeadStatus = `${
+      latestLead.lead_status || ""
+    } -> ${lead_status}`;
+
     if (!latestLead) {
-      return res.status(404).json({ message: "No lead communication record found to update" });
+      return res
+        .status(404)
+        .json({ message: "No lead communication record found to update" });
     }
 
     // Update the found record
     await latestLead.update({
-      lead_text,
-      lead_status,
+      lead_text: updatedLeadText,
+      lead_status: updatedLeadStatus,
       lead_date,
       end_meeting_time,
-      end_location
+      end_location,
+    });
+
+    //update next followu date in lead table
+    const Leaddate = await Lead.findOne({
+      where: {
+        id: latestLead?.lead_id,
+      },
+    });
+
+    await Leaddate.update({
+      next_followup: lead_date,
     });
 
     res.status(200).json({
-      success:true,
+      success: true,
       message: "Meeting ended and lead communication updated successfully",
-      data: latestLead
+      data: latestLead,
     });
-
   } catch (error) {
     console.error("Error ending meeting:", error);
-    res.status(500).json({ message: "Internal Server Error"});
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -278,10 +352,111 @@ const endMeeting = async (req, res) => {
 //   }
 // };
 
+// const getLeadCommunicationsByLeadId = async (req, res) => {
+//   try {
+//     const { lead_id } = req.params;
+//     const {
+//       page = 1,
+//       limit = 5,
+//       search = "",
+//       lead_status,
+//       lead_date,
+//     } = req.query;
+
+//     if (!lead_id) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "lead_id is required" });
+//     }
+
+//     let whereCondition = { lead_id };
+
+//     if (search) {
+//       whereCondition[Op.or] = [
+//         { client_name: { [Op.like]: `%${search}%` } },
+//         { lead_text: { [Op.like]: `%${search}%` } },
+//         { lead_status: { [Op.like]: `%${search}%` } },
+//         { "$Customer.company_name$": { [Op.like]: `%${search}%` } },
+//       ];
+//     }
+
+//     if (lead_status) {
+//       whereCondition.lead_status = { [Op.like]: `%${lead_status}%` };
+//     }
+
+//     if (lead_date) {
+//       const startDate = new Date(lead_date);
+//       const endDate = new Date(startDate);
+//       endDate.setHours(23, 59, 59, 999);
+//       whereCondition.lead_date = { [Op.between]: [startDate, endDate] };
+//     }
+
+//     const pageNumber = parseInt(page, 10);
+//     const pageSize = parseInt(limit, 10);
+//     const offset = (pageNumber - 1) * pageSize;
+
+//     const { count, rows } = await LeadCommunication.findAndCountAll({
+//       where: whereCondition,
+//       limit: pageSize,
+//       offset,
+//       attributes: [
+//         "id",
+//         "customer_id",
+//         "lead_owner_id",
+//         "sales_persion_id",
+//         "lead_id",
+//         "client_name",
+//         "lead_text",
+//         "lead_status",
+//         "lead_date",
+//         "createdAt",
+//         "start_meeting_time",
+//         "end_meeting_time",
+//       ],
+//       include: [
+//         {
+//           model: Customer,
+//           attributes: ["company_name"],
+//         },
+//       ],
+//       order: [["id", "DESC"]],
+//     });
+
+//     // 🔄 Merge records with same lead_id, sales_persion_id, customer_id, and lead_date
+//     const mergedMap = new Map();
+//     rows.forEach(item => {
+//       const key = `${item.lead_id}-${item.sales_persion_id}-${item.customer_id}-${item.lead_date.toISOString().split('T')[0]}`;
+//       if (!mergedMap.has(key)) {
+//         mergedMap.set(key, {
+//           ...item.toJSON(),
+//           start_meeting_time: item.start_meeting_time || null,
+//           end_meeting_time: item.end_meeting_time || null,
+//         });
+//       } else {
+//         const existing = mergedMap.get(key);
+//         if (item.start_meeting_time) existing.start_meeting_time = item.start_meeting_time;
+//         if (item.end_meeting_time) existing.end_meeting_time = item.end_meeting_time;
+//       }
+//     });
+
+//     const mergedData = Array.from(mergedMap.values());
+
+//     res.status(200).json({
+//       success: true,
+//       data: mergedData,
+//       currentPage: pageNumber,
+//       totalPages: Math.ceil(mergedData.length / pageSize),
+//       totalItems: mergedData.length,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching lead communications:", error);
+//     res.status(500).json({ success: false, message: "Internal Server Error"});
+//   }
+// };
 
 const getLeadCommunicationsByLeadId = async (req, res) => {
   try {
-    const { lead_id } = req.params;
+    const { customer_id } = req.params;
     const {
       page = 1,
       limit = 5,
@@ -290,13 +465,32 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
       lead_date,
     } = req.query;
 
-    if (!lead_id) {
+    if (!customer_id) {
       return res
         .status(400)
-        .json({ success: false, message: "lead_id is required" });
+        .json({ success: false, message: "customer_id is required" });
     }
 
-    let whereCondition = { lead_id };
+    // 1️⃣ Get all Lead ids for given customer_id
+    const leads = await Lead.findAll({
+      where: { customer_id },
+      attributes: ["id"],
+    });
+
+    const leadIds = leads.map((lead) => lead.id);
+
+    if (leadIds.length === 0) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+        currentPage: 1,
+        totalPages: 0,
+        totalItems: 0,
+      });
+    }
+
+    // 2️⃣ Now build whereCondition for LeadCommunication
+    let whereCondition = { lead_id: { [Op.in]: leadIds } };
 
     if (search) {
       whereCondition[Op.or] = [
@@ -318,10 +512,12 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
       whereCondition.lead_date = { [Op.between]: [startDate, endDate] };
     }
 
+    // 3️⃣ Pagination setup
     const pageNumber = parseInt(page, 10);
     const pageSize = parseInt(limit, 10);
     const offset = (pageNumber - 1) * pageSize;
 
+    // 4️⃣ Fetch LeadCommunications
     const { count, rows } = await LeadCommunication.findAndCountAll({
       where: whereCondition,
       limit: pageSize,
@@ -349,10 +545,22 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
       order: [["id", "DESC"]],
     });
 
-    // 🔄 Merge records with same lead_id, sales_persion_id, customer_id, and lead_date
+    // 5️⃣ Merge records by (lead_id, sales_persion_id, customer_id, lead_date)
     const mergedMap = new Map();
-    rows.forEach(item => {
-      const key = `${item.lead_id}-${item.sales_persion_id}-${item.customer_id}-${item.lead_date.toISOString().split('T')[0]}`;
+    rows.forEach((item) => {
+      // const key = `${item?.lead_id}-${item?.sales_persion_id}-${
+      //   item?.customer_id
+      // }-${item?.lead_date?.toISOString().split("T")[0]}`;
+      let leadDate = "N/A";
+      if (item?.lead_date) {
+        const dateObj = new Date(item.lead_date);
+        if (!isNaN(dateObj)) {
+          leadDate = dateObj.toISOString().split("T")[0];
+        }
+      }
+
+      const key = `${item?.lead_id}-${item?.sales_persion_id}-${item?.customer_id}-${leadDate}`;
+
       if (!mergedMap.has(key)) {
         mergedMap.set(key, {
           ...item.toJSON(),
@@ -361,8 +569,10 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
         });
       } else {
         const existing = mergedMap.get(key);
-        if (item.start_meeting_time) existing.start_meeting_time = item.start_meeting_time;
-        if (item.end_meeting_time) existing.end_meeting_time = item.end_meeting_time;
+        if (item.start_meeting_time)
+          existing.start_meeting_time = item.start_meeting_time;
+        if (item.end_meeting_time)
+          existing.end_meeting_time = item.end_meeting_time;
       }
     });
 
@@ -376,12 +586,10 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
       totalItems: mergedData.length,
     });
   } catch (error) {
-    console.error("Error fetching lead communications:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error"});
+    console.error("Error fetching lead communications by customer:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-
-
 
 const getWonLeadCommunications = async (req, res) => {
   try {
@@ -551,11 +759,11 @@ const getTodayMeetingLocation = async (req, res) => {
         },
         sales_persion_id: salesPersionId,
       },
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
     });
 
     // Format the response for frontend consumption
-    const locations = communications.map(comm => ({
+    const locations = communications.map((comm) => ({
       id: comm.id,
       lat: parseFloat(comm.latitude),
       lng: parseFloat(comm.longitude),
@@ -565,7 +773,8 @@ const getTodayMeetingLocation = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Today's meeting locations for current user fetched successfully.",
+      message:
+        "Today's meeting locations for current user fetched successfully.",
       data: locations,
     });
   } catch (error) {
@@ -573,10 +782,9 @@ const getTodayMeetingLocation = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server Error",
-    });
-  }
+    });
+  }
 };
-
 
 module.exports = {
   createLeadCommunication,
@@ -585,5 +793,5 @@ module.exports = {
   exportWonLeadCommunications,
   visistsOfMonth,
   endMeeting,
-  getTodayMeetingLocation
+  getTodayMeetingLocation,
 };

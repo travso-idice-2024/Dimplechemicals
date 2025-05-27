@@ -43,16 +43,18 @@ const ContentMain = () => {
       });
   
       const leads = response.data?.data || [];  // assuming leads are in response.data.data
+
+      console.log("admin",leads);
   
-      const today = new Date().toISOString().slice(0, 10);
+      //const today = new Date().toISOString().slice(0, 10);
   
-      const todaysLeadCount = leads.filter((lead) => 
-        lead.assign_date?.split("T")[0] === today
-      ).length;
+      // const todaysLeadCount = leads.filter((lead) => 
+      //   lead.assign_date?.split("T")[0] === today || lead.next_followup?.split("T")[0] === today
+      // ).length;
   
       //console.log("Today's lead count:", todaysLeadCount);
       // optionally set state here if needed
-      setTotalLeadCount(todaysLeadCount);
+      setTotalLeadCount(leads.length);
   
     } catch (error) {
       console.error("Error in fetching data:", error);
