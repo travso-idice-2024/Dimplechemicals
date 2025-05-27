@@ -47,8 +47,8 @@ const Cards = () => {
             0,
             chartArea.top
           );
-          gradient.addColorStop(0, "#1f1833"); // From bottom
-          gradient.addColorStop(1, "#534343"); // To top
+          gradient.addColorStop(0, "#fe6c00a3"); // From bottom
+          gradient.addColorStop(1, "#fe6c00a3"); // To top
           return gradient;
         },
       },
