@@ -36,19 +36,7 @@ const AddProductModal = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Product
           </h2>
-<<<<<<< HEAD
           <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
-=======
-          <div className="fixed top-5 right-5 z-50">
-            {flashMessage && flashMsgType === "success" && (
-              <SuccessMessage message={flashMessage} />
-            )}
-            {flashMessage && flashMsgType === "error" && (
-              <ErrorMessage message={flashMessage} />
-            )}
-          </div>
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
->>>>>>> 61db49babc0728cb5ffd121b25361979745234cb
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Product Name :

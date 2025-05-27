@@ -154,7 +154,6 @@ const EditUserModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentUpdateStep === 1 && ( */}
-<<<<<<< HEAD
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-[380px]">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -175,28 +174,6 @@ const EditUserModal = ({
                 )}
               </div>
               {/* <div>
-=======
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-fit">
-            <div>
-              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                Name :
-              </label>
-              <input
-                type="text"
-                name="fullname"
-                placeholder="name"
-                value={updateFormData.fullname}
-                onChange={handleUpdateChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-              />
-              {updateFormErrors.fullname && (
-                <p className="text-red-500 text-sm">
-                  {updateFormErrors.fullname}
-                </p>
-              )}
-            </div>
-            {/* <div>
->>>>>>> 61db49babc0728cb5ffd121b25361979745234cb
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Username :
                 </label>
@@ -649,13 +626,8 @@ const EditUserModal = ({
 
           {/* Step 2: Job Details */}
           {/* {currentUpdateStep === 2 && ( */}
-<<<<<<< HEAD
             <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
               {/* <div>
-=======
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
-            {/* <div>
->>>>>>> 61db49babc0728cb5ffd121b25361979745234cb
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Basic Salary:
                 </label>
