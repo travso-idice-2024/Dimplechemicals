@@ -110,7 +110,7 @@ const DepartmentManageData = () => {
           }
           setTimeout(() => {
             setAddModalOpen(false);
-          }, 3000);
+          }, 1000);
         } catch (error) {
           console.error("Error adding department:", error);
           handleFlashMessage(error?.message || "An error occurred", "error");
@@ -196,7 +196,7 @@ const DepartmentManageData = () => {
           );
           setTimeout(() => {
             setEditModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleUpdateFlashMessage(response.message || "Something went wrong", "error");
         }

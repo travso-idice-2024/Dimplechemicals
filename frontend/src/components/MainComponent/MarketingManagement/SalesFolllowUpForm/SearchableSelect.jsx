@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect  } from "react";
 
 const SearchableSelect = ({ options, value, onChange, placeholder }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showOptions, setShowOptions] = useState(false);
+  const selectRef = useRef(null);
 
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().startsWith(searchTerm.toLowerCase())
@@ -13,9 +14,22 @@ const SearchableSelect = ({ options, value, onChange, placeholder }) => {
     setShowOptions(false);
     setSearchTerm("");
   };
+   // close dropdown on outside click
+   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setShowOptions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className="relative">
+    <div className="relative"  ref={selectRef}>
       <input
         type="text"
         value={searchTerm || options.find((opt) => opt.value === value)?.label || ""}

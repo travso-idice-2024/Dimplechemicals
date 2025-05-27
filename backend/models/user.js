@@ -130,8 +130,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       pan_no: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true, // Ensure unique PAN numbers
+        allowNull: true,
+        //unique: true, // Ensure unique PAN numbers
       },
       emergency_contact: {
         type: DataTypes.STRING,

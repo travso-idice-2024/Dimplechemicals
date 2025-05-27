@@ -64,7 +64,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     pan_no: {
       type: DataTypes.STRING,
-      unique: true,
+      allowNull: true,
+      //unique: true,
     },
     active_status: {
       type: DataTypes.ENUM("active", "deactive"),  // 👈 ENUM field

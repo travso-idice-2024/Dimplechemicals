@@ -5,7 +5,8 @@ import { useNavigate ,Link} from "react-router-dom";
 import dimplechemical from "../assets/images/Dimple-Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-//import SuccessError from '../OtherPages/SuccessError';
+import SuccessMessage from "../components/AlertMessage/SuccessMessage";
+import ErrorMessage from "../components/AlertMessage/ErrorMessage";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -44,8 +45,8 @@ const LoginPage = () => {
     setForgotPasswordOpen(false);
   };
   //forgetpassword
-//   const [flashMessage, setFlashMessage] = useState('');
-//   const [flashMsgType, setFlashMsgType] = useState('');
+  const [flashMessage, setFlashMessage] = useState('');
+  const [flashMsgType, setFlashMsgType] = useState('');
 
 
   /* handle input changes */
@@ -103,32 +104,26 @@ const handleSubmit = async(e) => {
   const isValid = await validateInputs();
 
   if(isValid) {
-    // console.log("yes valid form")
     try {
       const response = await dispatch(loginUser(formData)).unwrap();
-      if(response.error) {
-        //handleFlashMessage(response.error, 'error');
-        console.log("error in login");
+      //console.log("response",response);
+      if(response.success == false) {
+        //alert("error");
+        handleFlashMessage(response?.message, 'error');
       } else {
         localStorage.setItem("token", response.token);
-       
-        //handleFlashMessage(response.message, 'success');
-        //console.log("login successful",response?.user?.employeeRole?.role_id);
         const userRoleID = response?.user?.employeeRole?.role_id || "";
         if(userRoleID == 3) {
           navigate("/lead-sales");
         }else{
           navigate("/dashboard");
-        }
-        
-        
+        }   
       }
     } catch (error) {
-      console.log("error at login page catch block", error);
-      const errorMessage = error.error || "something went wrong";
-      //handleFlashMessage(errorMessage, 'error')
+      const errorMessage = error.message || "something went wrong";
+      handleFlashMessage(errorMessage, 'error')
     }
-    // navigate("/header")
+    //navigate("/header")
   } else {
     console.log("not a valid form")
   }
@@ -138,6 +133,14 @@ const handleSubmit = async(e) => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center w-full h-screen bg-gradient-to-r from-[#1e1e2dd4] to-[#1e1e2d] p-2">
       {/* Right Section */}
+       <div className="fixed top-5 right-5 z-50">
+              {flashMessage && flashMsgType === "success" && (
+                <SuccessMessage message={flashMessage} />
+              )}
+              {flashMessage && flashMsgType === "error" && (
+                <ErrorMessage message={flashMessage} />
+              )}
+            </div>
       
       <div className="flex flex-col justify-center items-center rounded-[16px] bg-[#2e2e3c] w-full p-2 py-4 w-full md:w-[480px] md:h-[452px]">
         <img

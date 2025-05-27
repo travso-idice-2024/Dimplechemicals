@@ -251,7 +251,7 @@ const SalesPersonFollowUp = () => {
         // Reset state
         setTimeout(() => {
           setIsLeadAssignPopup(false); // Make sure modal state name matches
-        }, 3000);
+        }, 1000);
         setSelectedPOAId(null);
         setSelectedPOA("");
 

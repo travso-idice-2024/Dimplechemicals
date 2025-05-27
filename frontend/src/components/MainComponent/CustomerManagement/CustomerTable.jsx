@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
 
 const CustomerTable = ({
   customers,
@@ -21,6 +23,7 @@ const CustomerTable = ({
   handleDelete,
   userDeatail,
 }) => {
+  const navigate = useNavigate();
   //console.log("userDeatail", userDeatail);
   return (
     <>
@@ -43,9 +46,9 @@ const CustomerTable = ({
                   className="w-4 h-4 accent-orange-500"
                 />
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Id
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Cust Id
               </th>
@@ -57,6 +60,9 @@ const CustomerTable = ({
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Phone Number
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                Secondary contact Number
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
@@ -72,16 +78,30 @@ const CustomerTable = ({
                     className="w-4 h-4 accent-orange-500"
                   />
                 </td>
-                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{index + 1}</td>
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{index + 1}</td> */}
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user.cust_id}</td>
-                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"  onClick={() => {
+                      setSelectedCustomer(user);
+                      setViewModalOpen(true);
+                    }}>
                   {user.company_name}
                 </td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">{user.email_id}</td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user.primary_contact}
                 </td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
+                  {user.primary_contact}
+                </td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
+                {/* <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    onClick={() => {
+                      navigate(`/sale-management/lead-management/${user?.id}`);
+                    }}
+                  >
+                    View All Leads
+                  </button> */}
                   {/* <button
                 className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
                 onClick={() => {

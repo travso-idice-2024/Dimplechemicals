@@ -7,6 +7,7 @@ const ViewUserModal = ({
   selectedEmployee,
   setEditUserModalOpen,
 }) => {
+  console.log("selectedEmployee",selectedEmployee);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
@@ -57,30 +58,46 @@ const ViewUserModal = ({
                 <tbody>
                   <TableRow label="Status" value={selectedEmployee.status} />
                   <TableRow
+                    label="Email"
+                    value={selectedEmployee?.email}
+                  />
+                   <TableRow
+                    label="Username"
+                    value={selectedEmployee?.username}
+                  />
+                  <TableRow
+                    label="Role"
+                    value={selectedEmployee?.employeeRole?.role?.role_name}
+                  />
+                  <TableRow
                     label="Phone"
-                    value={selectedEmployee?.customer?.client_name}
+                    value={selectedEmployee?.phone}
+                  />
+                   <TableRow
+                    label="Emergency Contact"
+                    value={selectedEmployee?.emergency_contact}
                   />
                   <TableRow
                     label="Aadhar No."
-                    value={selectedEmployee.aadhar_no}
+                    value={selectedEmployee?.aadhar_no}
                   />
-                  <TableRow label="PAN No." value={selectedEmployee.pan_no} />
+                  <TableRow label="PAN No." value={selectedEmployee?.pan_no} />
                   <TableRow
                     label="Employment Type"
-                    value={selectedEmployee.jobDetail.employment_type}
+                    value={selectedEmployee?.jobDetail?.employment_type}
                   />
                   <TableRow
                     label="Reporting Manager"
-                    value={selectedEmployee.jobDetail.reportingManager.fullname}
+                    value={selectedEmployee?.jobDetail?.reportingManager?.fullname}
                   />
                   <TableRow
                     label="Work Location"
-                    value={selectedEmployee.jobDetail.work_location}
+                    value={selectedEmployee?.jobDetail?.work_location}
                   />
-                  <TableRow label="Address" value={selectedEmployee.address} />
+                  <TableRow label="Address" value={selectedEmployee?.address} />
                   <TableRow
                     label="Joining Date"
-                    value={selectedEmployee.jobDetail.date_of_joining}
+                    value={selectedEmployee?.jobDetail?.date_of_joining}
                   />
                 </tbody>
               </table>

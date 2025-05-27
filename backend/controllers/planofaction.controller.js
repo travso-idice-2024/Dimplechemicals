@@ -1,4 +1,5 @@
-const {PlanOfAction, Customer, User}= require("../models");
+const { Lead,EmployeeRole, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData,LeadCommunication,CustomerContactPerson } = require("../models");
+
 const { Op } = require("sequelize");
 const moment = require("moment");
 
@@ -148,74 +149,177 @@ const updateSalesPerson = async (req, res) => {
   }
 };
 
+// const planOfActionForaDay = async (req, res) => {
+//   try {
+//     const today = moment().format("YYYY-MM-DD");
+
+//     // Include Customer and SalesPerson
+//     const includeRelations = [
+//       {
+//         model: Customer,
+//         as: "customer",
+//         attributes: ["id", "company_name"],
+//       },
+//       {
+//         model: User,
+//         as: "salesPerson",
+//         attributes: ["id", "fullname", "email"],
+//       },
+//     ];
+
+//     const meetings = await PlanOfAction.findAll({
+//       where: {
+//         meeting_date: today,
+//         sales_persion_id: {
+//           [Op.ne]: null
+//         }
+//       },
+//       include: includeRelations,
+//     });
+
+//     const grouped = {};
+
+//     meetings.forEach(meeting => {
+//       const sp = meeting.salesPerson;
+//       if (sp) {
+//         if (!grouped[sp.id]) {
+//           grouped[sp.id] = {
+//             id: sp.id,
+//             fullname: sp.fullname,
+//             email: sp.email,
+//             total_meetings: 0,
+//             meetings: []
+//           };
+//         }
+
+//         grouped[sp.id].total_meetings++;
+
+//         grouped[sp.id].meetings.push({
+//           ...meeting.dataValues,
+//         });
+//       }
+//     });
+
+//     const result = Object.values(grouped);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Plan of Action for today",
+//       data: result
+//     });
+
+//   } catch (error) {
+//     console.error("Error fetching today's meeting details:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server Error",
+//       error: error.message
+//     });
+//   }
+// };
+
 const planOfActionForaDay = async (req, res) => {
   try {
-    const today = moment().format("YYYY-MM-DD");
+    const todayStart = moment().startOf("day").toDate();
+    const todayEnd = moment().endOf("day").toDate();
 
-    // Include Customer and SalesPerson
-    const includeRelations = [
-      {
-        model: Customer,
-        as: "customer",
-        attributes: ["id", "company_name"],
-      },
-      {
-        model: User,
-        as: "salesPerson",
-        attributes: ["id", "fullname", "email"],
-      },
-    ];
-
-    const meetings = await PlanOfAction.findAll({
+    const leads = await Lead.findAll({
       where: {
-        meeting_date: today,
-        sales_persion_id: {
-          [Op.ne]: null
-        }
+        [Op.or]: [
+          { assign_date: { [Op.between]: [todayStart, todayEnd] } },
+          { next_followup: { [Op.between]: [todayStart, todayEnd] } },
+        ],
+        assigned_person_id: { [Op.ne]: null },
       },
-      include: includeRelations,
+      attributes: [
+        "id",
+        "lead_source",
+        "lead_status",
+        "assign_date",
+        "next_followup",
+        "assigned_person_id",
+        "createdAt",
+      ],
+      include: [
+        {
+          model: Customer,
+          as: "customer",
+        },
+        {
+          model: User,
+          as: "leadOwner",
+          attributes: ["fullname"],
+        },
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["id", "fullname", "email"],
+          include: [
+            {
+              model: EmployeeRole,
+              as: "employeeRole",
+              where: { role_id: 3 },
+              attributes: [],
+              required: true,
+            },
+          ],
+        },
+        {
+          model: LeadAssignedHistory,
+          as: "assignmentHistory",
+          include: [
+            {
+              model: User,
+              as: "assignedPerson",
+              attributes: ["fullname"],
+            },
+          ],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
     });
 
-    const grouped = {};
+    // Group leads under each salesperson with count
+    const groupedLeads = {};
 
-    meetings.forEach(meeting => {
-      const sp = meeting.salesPerson;
+    leads.forEach((lead) => {
+      const sp = lead.assignedPerson;
       if (sp) {
-        if (!grouped[sp.id]) {
-          grouped[sp.id] = {
+        if (!groupedLeads[sp.id]) {
+          groupedLeads[sp.id] = {
             id: sp.id,
             fullname: sp.fullname,
             email: sp.email,
             total_meetings: 0,
-            meetings: []
+            leads: [],
           };
         }
 
-        grouped[sp.id].total_meetings++;
-
-        grouped[sp.id].meetings.push({
-          ...meeting.dataValues,
-        });
+        groupedLeads[sp.id].total_meetings++;
+        groupedLeads[sp.id].leads.push(lead);
       }
     });
 
-    const result = Object.values(grouped);
+    const result = Object.values(groupedLeads);
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Plan of Action for today",
-      data: result
+      message: "Salesperson-wise lead list retrieved successfully",
+      data: result,
     });
 
   } catch (error) {
-    console.error("Error fetching today's meeting details:", error);
-    return res.status(500).json({
+    console.error("Error fetching leads:", error);
+    res.status(500).json({
       success: false,
-      message: "Server Error",
-      error: error.message
+      message: "Error retrieving leads",
+      error: error.message,
     });
   }
 };
+
+
+
 
 module.exports = {
     createPlan, getPlanOfActions, updateSalesPerson,planOfActionForaDay

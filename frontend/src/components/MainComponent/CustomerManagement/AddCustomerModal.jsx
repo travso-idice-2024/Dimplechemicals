@@ -24,7 +24,7 @@ const AddCustomerModal = ({
   setFlashMsgType,
   flashMsgType,
   bussinesasociatedata,
-  handleFlashMessage
+  handleFlashMessage,
 }) => {
   //console.log("formData", formData);
 
@@ -43,36 +43,33 @@ const AddCustomerModal = ({
   const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
   const [areasByIndex, setAreasByIndex] = useState({});
 
-
-
   const [newAssociateName, setNewAssociateName] = useState("");
   const handleNewAssociateChange = (e) => {
     setNewAssociateName(e.target.value);
   };
-  
 
   const handleAddAssociate = () => {
     if (newAssociateName.trim() === "") return;
 
-  setFormData((prev) => ({
-    ...prev,
-    associate_name: [...prev.associate_name, newAssociateName],
-  }));
+    setFormData((prev) => ({
+      ...prev,
+      associate_name: [...prev.associate_name, newAssociateName],
+    }));
 
-  setNewAssociateName(""); // clear input
+    setNewAssociateName(""); // clear input
 
-  handleFlashMessage("Business Associate added successfully!", "success");
+    handleFlashMessage("Business Associate added successfully!", "success");
 
-  //setSuccessMessage("Business Associate added successfully!");
+    //setSuccessMessage("Business Associate added successfully!");
 
-  // setTimeout(() => {
-  //   setSuccessMessage("");
-  // }, 2000);
-    setNewAssociateName("");  // clear input field after adding
+    // setTimeout(() => {
+    //   setSuccessMessage("");
+    // }, 2000);
+    setNewAssociateName(""); // clear input field after adding
 
     setTimeout(() => {
       setAssociatePopup(false);
-      }, 1000);
+    }, 1000);
   };
 
   //console.log("dsfds", formData.associate_name);
@@ -161,19 +158,20 @@ const AddCustomerModal = ({
   return (
     <>
       {/* Flash Messages */}
-      <div className="fixed top-5 right-5 z-50">
-        {flashMessage && flashMsgType === "success" && (
-          <SuccessMessage message={flashMessage} />
-        )}
-        {flashMessage && flashMsgType === "error" && (
-          <ErrorMessage message={flashMessage} />
-        )}
-      </div>
+
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Customer
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {flashMessage && flashMsgType === "success" && (
+              <SuccessMessage message={flashMessage} />
+            )}
+            {flashMessage && flashMsgType === "error" && (
+              <ErrorMessage message={flashMessage} />
+            )}
+          </div>
           <div className="mt-5 md:mt-5 px-2 md:px-4  overflow-y-auto h-[350px] md:h-[450px]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* <div>

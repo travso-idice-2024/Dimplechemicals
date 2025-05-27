@@ -111,6 +111,7 @@ const getCostWorking = async (req, res) => {
       ],
       offset: parseInt(offset),
       limit: parseInt(limit),
+      distinct: true,
       order: [["createdAt", "DESC"]],
     });
 

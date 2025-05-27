@@ -172,7 +172,7 @@ const RoleManageData = () => {
           );
           setTimeout(() => {
             setEditroleModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleUpdateFlashMessage(response.message || "Something went wrong", "error");
         }

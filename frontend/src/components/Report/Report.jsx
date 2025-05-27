@@ -3,12 +3,11 @@ import ReactApexChart from "react-apexcharts";
 import { iconsImgs } from "../../utils/images";
 import "./Report.css";
 
-const colors = ['#fff', '#fff', '#fff', '#fff', '#fff']; // Define your color combination 
+const colors = ["#fff", "#fff", "#fff", "#fff", "#fff"]; // Define your color combination
 
-
-const colordata = ['#fe6c00a3', '#e74c3c']
+const colordata = ["#fe6c00a3", "#e74c3c"];
 const Report = () => {
-  const [chartData, setChartData] = useState({ 
+  const [chartData, setChartData] = useState({
     series: [
       { name: "MKTG", data: [10, 15, 18, 16, 8] },
       { name: "SALES", data: [7, 10, 8, 10, 5] },

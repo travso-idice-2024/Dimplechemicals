@@ -39,9 +39,9 @@ const ProductTable = ({
           <thead>
             <tr className="bg-[#473b33] rounded-[8px]">
               {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap"></th> */}
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Id
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                 Product 
               </th>
@@ -80,7 +80,7 @@ const ProductTable = ({
                     className="w-4 h-4 accent-orange-500"
                   />
                 </td> */}
-                <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{index + 1}</td>
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{index + 1}</td> */}
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                   {product.product_name}
                 </td>

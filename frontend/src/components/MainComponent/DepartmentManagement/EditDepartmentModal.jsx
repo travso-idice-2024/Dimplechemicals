@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateDepartment, listDepartments } from "../../../redux/departmentSlice";
+import {
+  updateDepartment,
+  listDepartments,
+} from "../../../redux/departmentSlice";
 import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 
-const EditDepartmentModal = ({ 
+const EditDepartmentModal = ({
   setEditModalOpen,
   selectedDepartment,
   setSelectedDepartment,
@@ -17,7 +20,8 @@ const EditDepartmentModal = ({
   handleUpdateChange,
   validateUpdateInputs,
   handleUpdateSubmit,
-  handleUpdateFlashMessage, }) => {
+  handleUpdateFlashMessage,
+}) => {
   const dispatch = useDispatch();
 
   // const [updateFormData, setupdateFormData] = useState({
@@ -94,19 +98,25 @@ const EditDepartmentModal = ({
 
   return (
     <>
-      <div className="fixed top-5 right-5 z-50">
-        {updateFlashMessage && updateFlashMsgType === "success" && <SuccessMessage message={updateFlashMessage} />}
-        {updateFlashMessage && updateFlashMsgType === "error" && <ErrorMessage message={updateFlashMessage} />}
-      </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full md:w-[450px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Department
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {updateFlashMessage && updateFlashMsgType === "success" && (
+              <SuccessMessage message={updateFlashMessage} />
+            )}
+            {updateFlashMessage && updateFlashMsgType === "error" && (
+              <ErrorMessage message={updateFlashMessage} />
+            )}
+          </div>
 
           <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2">
             <div>
-              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Department Name:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Department Name:
+              </label>
               <input
                 type="text"
                 name="department_name"
@@ -114,10 +124,16 @@ const EditDepartmentModal = ({
                 onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
-              {updateFormErrors.department_name && <p className="text-red-500 text-sm">{updateFormErrors.department_name}</p>}
+              {updateFormErrors.department_name && (
+                <p className="text-red-500 text-sm">
+                  {updateFormErrors.department_name}
+                </p>
+              )}
             </div>
             <div>
-              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Status:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Status:
+              </label>
               <select
                 name="status"
                 value={updateFormData.status}
@@ -130,18 +146,27 @@ const EditDepartmentModal = ({
             </div>
 
             <div>
-              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">Department Description:</label>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Department Description:
+              </label>
               <textarea
                 name="department_description"
                 value={updateFormData.department_description}
                 onChange={handleUpdateChange}
                 className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
               />
-              {updateFormErrors.department_description && <p className="text-red-500 text-sm">{updateFormErrors.department_description}</p>}
+              {updateFormErrors.department_description && (
+                <p className="text-red-500 text-sm">
+                  {updateFormErrors.department_description}
+                </p>
+              )}
             </div>
 
             <div className="flex items-end justify-end gap-2">
-              <button onClick={handleUpdateSubmit} className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]">
+              <button
+                onClick={handleUpdateSubmit}
+                className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
+              >
                 Save Changes
               </button>
               <button

@@ -61,7 +61,8 @@ const {
   countTotalLeads,
   getleadaftermeeting,
   addProductsToLead,
-  getLeadListofAll
+  getLeadListofAll,
+  deleteProductFromLead
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -174,7 +175,7 @@ router.get("/export-leads", authMiddleware, exportLeadsToExcel);
 //lead communication
 router.post("/lead-communication", authMiddleware, createLeadCommunication);
 router.get(
-  "/lead-communications-list/:lead_id",
+  "/lead-communications-list/:customer_id",
   authMiddleware,
   getLeadCommunicationsByLeadId
 );
@@ -239,8 +240,9 @@ router.put(
 );
 
 router.post("/end-meeting", authMiddleware, endMeeting);
-router.get("/get-lead-afterMeeting/:id", authMiddleware, getleadaftermeeting);
-router.get('/get-lead-products/:lead_id', authMiddleware, getLeadProducts);
+router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
+// router.get("/get-lead-afterMeeting/:id", authMiddleware, getleadaftermeeting);
+router.get('/get-lead-products/:customer_id', authMiddleware, getLeadProducts);
 router.post("/add-products-to-lead", authMiddleware, addProductsToLead);
 router.get("/get-todays-location", authMiddleware, getTodayMeetingLocation);
 router.get("/get-product-category/:categoryId", authMiddleware, getProductsByCategoryId);
@@ -248,6 +250,7 @@ router.get("/leadListofall", authMiddleware, getLeadListofAll);
 router.get('/pincodes', authMiddleware, getAllPincodes);
 router.get('/pincode/:pincode', authMiddleware, getAreaByPincode);
 router.get('/pincodes/:areaname', authMiddleware, getCityByAreaname);
+router.post("/delete-product-from-lead", authMiddleware,deleteProductFromLead);
 
 
 module.exports = router;

@@ -4,7 +4,8 @@ import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { fetchAllProducts } from "../../../redux/productSlice";
 import ProductMultiSelect from "./ProductMultiSelect";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 // import { getProductByLeadId } from "../../../redux/leadSlice";
 
 const DealCreationForm = ({
@@ -24,13 +25,14 @@ const DealCreationForm = ({
   setLeadProductData,
   handleSubmitAddProduct,
   totalAdvanceAmount,
-  totalDealAmount
+  totalDealAmount,
+  handleRemoveProduct,
 }) => {
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
-
+  //console.log("dealData",dealData);
   // const { pductByleadId } = useSelector((state) => state.lead);
 
   //console.log("pductByleadId", pductByleadId?.data);
@@ -67,22 +69,23 @@ const DealCreationForm = ({
 
   return (
     <>
-      <div className="fixed top-5 right-5 z-50">
-        {addDealFlashMessage && addDealFlashMsgType === "success" && (
-          <SuccessMessage message={addDealFlashMessage} />
-        )}
-        {addDealFlashMessage && addDealFlashMsgType === "error" && (
-          <ErrorMessage message={addDealFlashMessage} />
-        )}
-      </div>
-
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Deal
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {addDealFlashMessage && addDealFlashMsgType === "success" && (
+              <SuccessMessage message={addDealFlashMessage} />
+            )}
+            {addDealFlashMessage && addDealFlashMsgType === "error" && (
+              <ErrorMessage message={addDealFlashMessage} />
+            )}
+          </div>
           <div className="mt-5 md:mt-6 px-4 overflow-y-auto h-[400px]">
-            <label className="font-poppins font-medium text-[16px] text-bgData">Select and Add Product:</label>
+            <label className="font-poppins font-medium text-[16px] text-bgData">
+              Select and Add Product:
+            </label>
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-4">
               <div className="flex-[6]">
                 <ProductMultiSelect
@@ -199,7 +202,9 @@ const DealCreationForm = ({
                       />
                     </div>
                     <div>
-                      <label className="text-xs block mb-1">Advance Amount</label>
+                      <label className="text-xs block mb-1">
+                        Advance Amount
+                      </label>
                       <input
                         type="number"
                         value={product.advance_amount}
@@ -214,7 +219,13 @@ const DealCreationForm = ({
                         placeholder="Advance Amount"
                       />
                     </div>
-
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveProduct(product)}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 w-fit h-fit mt-4"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
                   </div>
                 </div>
               ))}

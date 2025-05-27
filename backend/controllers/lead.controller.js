@@ -1,10 +1,22 @@
-const { Op, Sequelize, fn ,col,literal} = require("sequelize");
-const { Lead, Customer, User, sequelize, CheckinCheckout, CostWorking, Product, CostWorkingProduct,LeadAssignedHistory,dealData,LeadCommunication,CustomerContactPerson } = require("../models");
+const { Op, Sequelize, fn, col, literal } = require("sequelize");
+const {
+  Lead,
+  Customer,
+  User,
+  sequelize,
+  CheckinCheckout,
+  CostWorking,
+  Product,
+  CostWorkingProduct,
+  LeadAssignedHistory,
+  dealData,
+  LeadCommunication,
+  CustomerContactPerson,
+} = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
-const moment = require("moment"); 
-
+const moment = require("moment");
 
 // const addLead = async (req, res) => {
 //   try {
@@ -195,6 +207,23 @@ const addLead = async (req, res) => {
       await dealData.bulkCreate(dealDataPayload);
     }
 
+    //add data in lead communication
+
+    // Insert record
+    const comuLead = await LeadCommunication.create({
+      customer_id,
+      sales_persion_id: assigned_person_id, // Automatically set from logged-in user
+      lead_date: assign_date || new Date(),
+      lead_id: newLead.id,
+      // start_meeting_time,
+      // start_location,
+      lead_text: `1. ${lead_summary}`,
+      lead_status: "Discussion",
+      client_name: contact_person_name,
+    });
+
+    //++++++++++++++++++++
+
     res.status(201).json({
       success: true,
       message: "Record added successfully",
@@ -205,7 +234,6 @@ const addLead = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 const updateLead = async (req, res) => {
   try {
@@ -237,8 +265,7 @@ const updateLead = async (req, res) => {
     } = req.body;
 
     // ✅ Find the existing lead
-    const lead = await Lead.findByPk(id)
-;
+    const lead = await Lead.findByPk(id);
     if (!lead) {
       return res
         .status(404)
@@ -310,13 +337,13 @@ const updateLead = async (req, res) => {
 const getLeadList = async (req, res) => {
   try {
     //console.log("userrole",req.user.userrole);
-    const { page = 1, limit = 5, search = "", all } = req.query;
+    const { poaType = "", page = 1, limit = 5, search = "", all } = req.query;
 
     const userId = req.user?.id;
     const userRole = req.user?.userrole;
     if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized"});
-    } 
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
 
     // Base filter with default active_status
     let whereCondition = {
@@ -324,8 +351,25 @@ const getLeadList = async (req, res) => {
       active_status: "active", // ✅ Default condition applied
     };
 
-     // Non-admin users see only their assigned leads
-     if (userRole !== 1) {
+    const todayDate = new Date().toISOString().split("T")[0];
+
+    if (poaType === "todayPOA") {
+      whereCondition[Op.or] = [
+        Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("assign_date")),
+          "=",
+          todayDate
+        ),
+        Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("next_followup")),
+          "=",
+          todayDate
+        ),
+      ];
+    }
+
+    // Non-admin users see only their assigned leads
+    if (userRole !== 1) {
       whereCondition.assigned_person_id = userId;
     }
 
@@ -350,7 +394,7 @@ const getLeadList = async (req, res) => {
           {
             model: Customer,
             as: "customer",
-           // attributes: ["id", "company_name", "client_name"],
+            // attributes: ["id", "company_name", "client_name"],
           },
           { model: User, as: "leadOwner", attributes: ["fullname"] },
           { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
@@ -368,8 +412,8 @@ const getLeadList = async (req, res) => {
                 as: "assignedPerson", // Same alias as in the association above
                 attributes: ["fullname"],
               },
-          ],
-        },
+            ],
+          },
         ],
         order: [["createdAt", "DESC"]],
       });
@@ -410,10 +454,11 @@ const getLeadList = async (req, res) => {
               as: "assignedPerson", // Same alias as in the association above
               attributes: ["fullname"],
             },
-         ],
+          ],
         },
       ],
       order: [["createdAt", "DESC"]],
+      distinct: true,
     });
 
     res.status(200).json({
@@ -428,6 +473,7 @@ const getLeadList = async (req, res) => {
   }
 };
 
+
 const getleadaftermeeting = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
@@ -436,19 +482,18 @@ const getleadaftermeeting = async (req, res) => {
         .json({ success: false, message: "Unauthorized: User not found" });
     }
 
-    const assigned_person_id = req.user.id;
-    const customerId = req.params.id;
-
     const userId = req.user.id;
-
     const { page = 1, limit = 10, search = "" } = req.query;
     const offset = (page - 1) * limit;
 
-    const leads = await Lead.findAndCountAll({
+    // Step 1: Fetch latest lead IDs per customer
+    const latestLeadIds = await Lead.findAll({
+      attributes: [
+        [Sequelize.fn("MAX", Sequelize.col("id")), "latest_id"],
+      ],
       where: {
-        customer_id: customerId,
         ...(userId !== 33 && { assigned_person_id: userId }),
-        active_status: "active",   // ✅ added this condition here
+        active_status: "active",
         ...(search && {
           [Op.or]: [
             { assign_date: { [Op.like]: `%${search}%` } },
@@ -456,11 +501,39 @@ const getleadaftermeeting = async (req, res) => {
           ],
         }),
       },
+      group: ["customer_id"],
+      raw: true,
+    });
+
+    const leadIds = latestLeadIds.map(item => item.latest_id);
+
+    if (leadIds.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No leads found",
+        data: [],
+        total: 0,
+        currentPage: parseInt(page),
+        totalPages: 0,
+      });
+    }
+
+    // Step 2: Fetch full lead records with meeting_type and associations
+    const leads = await Lead.findAndCountAll({
+      where: {
+        id: { [Op.in]: leadIds },
+      },
+      attributes: [
+        "id",
+        "customer_id",
+        "meeting_type", // include meeting_type here
+      ],
       include: [
         {
           model: Customer,
           as: "customer",
         },
+        { model: User, as: "leadOwner", attributes: ["fullname"] },
         { model: User, as: "assignedPerson", attributes: ["fullname"] },
         {
           model: CustomerContactPerson,
@@ -485,9 +558,10 @@ const getleadaftermeeting = async (req, res) => {
             end_meeting_time: { [Op.ne]: null },
           },
           required: true,
+          order: [["id", "ASC"]],
         },
       ],
-      order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
       limit: parseInt(limit),
       offset: parseInt(offset),
     });
@@ -511,6 +585,189 @@ const getleadaftermeeting = async (req, res) => {
 };
 
 
+//26/05/25
+
+// const getleadaftermeeting = async (req, res) => {
+//   try {
+//     if (!req.user || !req.user.id) {
+//       return res
+//         .status(401)
+//         .json({ success: false, message: "Unauthorized: User not found" });
+//     }
+
+//     const assigned_person_id = req.user.id;
+//     //const customerId = req.params.id;
+
+//     const userId = req.user.id;
+
+//     const { page = 1, limit = 10, search = "" } = req.query;
+//     const offset = (page - 1) * limit;
+
+//     const leads = await Lead.findAndCountAll({
+//       attributes: [
+//         [Sequelize.fn("MAX", Sequelize.col("id")), "max_id"],
+//         "customer_id",
+//         "meeting_type",
+//         "id"
+//       ],
+
+//       where: {
+//         ...(userId !== 33 && { assigned_person_id: userId }),
+//         active_status: "active",
+//         ...(search && {
+//           [Op.or]: [
+//             { assign_date: { [Op.like]: `%${search}%` } },
+//             { lead_status: { [Op.like]: `%${search}%` } },
+//           ],
+//         }),
+//       },
+//       include: [
+//         {
+//           model: Customer,
+//           as: "customer",
+//         },
+//         { model: User, as: "leadOwner", attributes: ["fullname"] },
+//         { model: User, as: "assignedPerson", attributes: ["fullname"] },
+//         {
+//           model: CustomerContactPerson,
+//           as: "contactPerson",
+//           attributes: ["name"],
+//         },
+//         {
+//           model: LeadAssignedHistory,
+//           as: "assignmentHistory",
+//           include: [
+//             {
+//               model: User,
+//               as: "assignedPerson",
+//               attributes: ["fullname"],
+//             },
+//           ],
+//         },
+//         {
+//           model: LeadCommunication,
+//           as: "communications",
+//           where: {
+//             end_meeting_time: { [Op.ne]: null },
+//           },
+//           required: true,
+//           //separate: true,
+//           order: [['id', 'ASC']],
+//         },
+//       ],
+//       order: [[Sequelize.literal("max_id"), "DESC"]],
+//       distinct: true,
+//       limit: parseInt(limit),
+//       offset: parseInt(offset),
+//       group: ["customer_id"], //
+//     });
+
+//     //console.log("result",leads );
+//     res.status(200).json({
+//       success: true,
+//       message: "Leads retrieved successfully",
+//       data: leads.rows,
+//       total: leads.count,
+//       currentPage: parseInt(page),
+//       totalPages: Math.ceil(leads.count / limit),
+//     });
+//   } catch (error) {
+//     console.error("Error fetching leads:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Error retrieving leads",
+//       error: error.message,
+//     });
+//   }
+// };
+
+//26/05/25
+
+// const getleadaftermeeting = async (req, res) => {
+//   try {
+//     if (!req.user || !req.user.id) {
+//       return res
+//         .status(401)
+//         .json({ success: false, message: "Unauthorized: User not found" });
+//     }
+
+//     const assigned_person_id = req.user.id;
+//     //const customerId = req.params.id;
+
+//     const userId = req.user.id;
+
+//     const { page = 1, limit = 10, search = "" } = req.query;
+//     const offset = (page - 1) * limit;
+
+//     const leads = await Lead.findAndCountAll({
+//       where: {
+//         //customer_id: customerId,
+//         ...(userId !== 33 && { assigned_person_id: userId }),
+//         active_status: "active", // ✅ added this condition here
+//         ...(search && {
+//           [Op.or]: [
+//             { assign_date: { [Op.like]: `%${search}%` } },
+//             { lead_status: { [Op.like]: `%${search}%` } },
+//           ],
+//         }),
+//       },
+//       include: [
+//         {
+//           model: Customer,
+//           as: "customer",
+//         },
+//         { model: User, as: "leadOwner", attributes: ["fullname"] },
+//         { model: User, as: "assignedPerson", attributes: ["fullname"] },
+//         {
+//           model: CustomerContactPerson,
+//           as: "contactPerson",
+//           attributes: ["name"],
+//         },
+//         {
+//           model: LeadAssignedHistory,
+//           as: "assignmentHistory",
+//           include: [
+//             {
+//               model: User,
+//               as: "assignedPerson",
+//               attributes: ["fullname"],
+//             },
+//           ],
+//         },
+//         {
+//           model: LeadCommunication,
+//           as: "communications",
+//           where: {
+//             end_meeting_time: { [Op.ne]: null },
+//           },
+//           required: true,
+//         },
+//       ],
+//       order: [["createdAt", "DESC"]],
+//       distinct: true,
+//       limit: parseInt(limit),
+//       offset: parseInt(offset),
+//     });
+
+//     //console.log("result",leads );
+//     res.status(200).json({
+//       success: true,
+//       message: "Leads retrieved successfully",
+//       data: leads.rows,
+//       total: leads.count,
+//       currentPage: parseInt(page),
+//       totalPages: Math.ceil(leads.count / limit),
+//     });
+//   } catch (error) {
+//     console.error("Error fetching leads:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Error retrieving leads",
+//       error: error.message,
+//     });
+//   }
+// }
+
 const removeLead = async (req, res) => {
   const { id } = req.params;
   const active_status = "deactive"; // Set to "deactive"
@@ -531,13 +788,11 @@ const removeLead = async (req, res) => {
     res.json({ success: true, message: "Lead removed successfully", lead });
   } catch (error) {
     console.error("Error updating lead status:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating lead status",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating lead status",
+      error: error.message,
+    });
   }
 };
 
@@ -561,14 +816,32 @@ const getTodaysAssignedLeadsCount = async (req, res) => {
     //console.log("Today's Date (for comparison):", todayDate);
 
     // ✅ Count leads where assign_date matches today's date
+    // const assignedLeadsCount = await Lead.count({
+    //   where: {
+    //     assigned_person_id,
+    //     [Op.and]: Sequelize.where(
+    //       Sequelize.fn("DATE", Sequelize.col("assign_date")),
+    //       "=",
+    //       todayDate
+    //     ),
+    //   },
+    // });
+
     const assignedLeadsCount = await Lead.count({
       where: {
         assigned_person_id,
-        [Op.and]: Sequelize.where(
-          Sequelize.fn("DATE", Sequelize.col("assign_date")),
-          "=",
-          todayDate
-        ),
+        [Op.or]: [
+          Sequelize.where(
+            Sequelize.fn("DATE", Sequelize.col("assign_date")),
+            "=",
+            todayDate
+          ),
+          Sequelize.where(
+            Sequelize.fn("DATE", Sequelize.col("next_followup")),
+            "=",
+            todayDate
+          ),
+        ],
       },
     });
 
@@ -739,7 +1012,7 @@ const getAllUsersTodaysLeads = async (req, res) => {
         {
           model: Customer,
           as: "customer",
-          attributes: ["company_name","email_id","primary_contact"],
+          attributes: ["company_name", "email_id", "primary_contact"],
         },
         {
           model: User,
@@ -771,10 +1044,13 @@ const getAllUsersTodaysLeads = async (req, res) => {
 
 const exportTodaysLeadsToExcel = async (req, res) => {
   try {
-   
     // ✅ Generate timestamp for file name
-    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
-    
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/T/, "_")
+      .replace(/:/g, "-")
+      .split(".")[0];
+
     // ✅ Ensure export directory exists
     const exportPath = path.join(__dirname, "../exports");
     if (!fs.existsSync(exportPath)) {
@@ -785,12 +1061,15 @@ const exportTodaysLeadsToExcel = async (req, res) => {
     }
 
     // ✅ Define Excel file path
-    const filePath = path.join(exportPath, `Todays_Leads_Report_${timestamp}.xlsx`);
+    const filePath = path.join(
+      exportPath,
+      `Todays_Leads_Report_${timestamp}.xlsx`
+    );
 
     // ✅ Create a new workbook & worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Today's Leads Report");
-   
+
     // ✅ Define Headers (Including Extra Fields)
     worksheet.columns = [
       { header: "Lead ID", key: "id", width: 10 },
@@ -807,7 +1086,7 @@ const exportTodaysLeadsToExcel = async (req, res) => {
     const todayDate = new Date().toISOString().split("T")[0];
 
     // ✅ Fetch Today's Leads from DB
-   
+
     const leads = await Lead.findAll({
       where: {
         [Op.and]: [Sequelize.where(fn("DATE", col("assign_date")), todayDate)],
@@ -815,7 +1094,11 @@ const exportTodaysLeadsToExcel = async (req, res) => {
       include: [
         { model: Customer, as: "customer", attributes: ["company_name"] },
         { model: User, as: "leadOwner", attributes: ["fullname"] },
-        { model: User, as: "assignedPerson", attributes: ["fullname", "email", "phone"] },
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["fullname", "email", "phone"],
+        },
       ],
       order: [["assign_date", "DESC"]],
     });
@@ -834,29 +1117,41 @@ const exportTodaysLeadsToExcel = async (req, res) => {
         phone: lead.assignedPerson?.phone || "N/A",
       });
 
-      if (index < 5) console.log(`Sample Data Row ${index + 1}:`, lead.toJSON());
+      if (index < 5)
+        console.log(`Sample Data Row ${index + 1}:`, lead.toJSON());
     });
 
     // ✅ Save Excel file
-   
+
     await workbook.xlsx.writeFile(filePath);
-   
+
     res.download(filePath, "Todays_Leads_Report.xlsx", (err) => {
       if (err) {
-        return res.status(500).json({ success: false, message: "Error downloading file" });
+        return res
+          .status(500)
+          .json({ success: false, message: "Error downloading file" });
       }
     });
-
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error exporting today's leads", error: error.message});
+    res.status(500).json({
+      success: false,
+      message: "Error exporting today's leads",
+      error: error.message,
+    });
   }
 };
 
-
 const getAllLeads = async (req, res) => {
   try {
-   
-    const { search = "", lead_status, lead_source, start_date, end_date ,leadOwner, customer} = req.query;
+    const {
+      search = "",
+      lead_status,
+      lead_source,
+      start_date,
+      end_date,
+      leadOwner,
+      customer,
+    } = req.query;
 
     let whereCondition = {};
 
@@ -870,22 +1165,22 @@ const getAllLeads = async (req, res) => {
 
     if (start_date && end_date) {
       whereCondition.assign_date = {
-        [Op.between]: [start_date, end_date], 
+        [Op.between]: [start_date, end_date],
       };
     } else if (start_date) {
-      whereCondition.assign_date = { [Op.gte]: start_date }; 
+      whereCondition.assign_date = { [Op.gte]: start_date };
     } else if (end_date) {
       whereCondition.assign_date = { [Op.lte]: end_date }; // Less than or equal to end_date
     }
 
-     // let leadOwnerCondition = {};
-      if (leadOwner) {
-        whereCondition.lead_owner_id  = leadOwner;
-      }
+    // let leadOwnerCondition = {};
+    if (leadOwner) {
+      whereCondition.lead_owner_id = leadOwner;
+    }
 
-      if (customer) {
-        whereCondition.customer_id   = customer;
-      }
+    if (customer) {
+      whereCondition.customer_id = customer;
+    }
 
     if (search) {
       whereCondition[Op.or] = [
@@ -897,14 +1192,18 @@ const getAllLeads = async (req, res) => {
       ];
     }
 
-    
     const { count, rows } = await Lead.findAndCountAll({
       where: whereCondition,
       include: [
         {
           model: Customer,
           as: "customer",
-          attributes: ["company_name","address","email_id","primary_contact"],
+          attributes: [
+            "company_name",
+            "address",
+            "email_id",
+            "primary_contact",
+          ],
         },
         {
           model: User,
@@ -920,7 +1219,6 @@ const getAllLeads = async (req, res) => {
       order: [["assign_date", "DESC"]],
     });
 
-  
     res.status(200).json({
       success: true,
       message: "Leads retrieved successfully",
@@ -932,13 +1230,21 @@ const getAllLeads = async (req, res) => {
       success: false,
       message: "Error retrieving leads",
       error: error.message,
-    });}
+    });
+  }
 };
-
 
 const exportLeadsToExcel = async (req, res) => {
   try {
-    const { search = "", lead_status="", lead_source="", start_date="", end_date="", leadOwner="", customer="" } = req.query;
+    const {
+      search = "",
+      lead_status = "",
+      lead_source = "",
+      start_date = "",
+      end_date = "",
+      leadOwner = "",
+      customer = "",
+    } = req.query;
 
     let whereCondition = {};
 
@@ -961,11 +1267,11 @@ const exportLeadsToExcel = async (req, res) => {
     }
 
     if (leadOwner) {
-      whereCondition.lead_owner_id  = leadOwner;
+      whereCondition.lead_owner_id = leadOwner;
     }
 
     if (customer) {
-      whereCondition.customer_id   = customer;
+      whereCondition.customer_id = customer;
     }
 
     if (search) {
@@ -990,7 +1296,11 @@ const exportLeadsToExcel = async (req, res) => {
     });
 
     // Prepare file path
-    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/T/, "_")
+      .replace(/:/g, "-")
+      .split(".")[0];
     const exportPath = path.join(__dirname, "../exports");
     if (!fs.existsSync(exportPath)) {
       fs.mkdirSync(exportPath, { recursive: true });
@@ -1019,22 +1329,30 @@ const exportLeadsToExcel = async (req, res) => {
         lead_status: lead.lead_status,
         lead_owner: lead.leadOwner?.fullname || "N/A",
         assigned_person: lead.assignedPerson?.fullname || "N/A",
-        assign_date: lead.assign_date ? lead.assign_date.toISOString().split("T")[0] : "N/A",
+        assign_date: lead.assign_date
+          ? lead.assign_date.toISOString().split("T")[0]
+          : "N/A",
       });
 
-      if (index < 5) console.log(`Sample Data Row ${index + 1}:`, lead.toJSON());
+      if (index < 5)
+        console.log(`Sample Data Row ${index + 1}:`, lead.toJSON());
     });
 
     await workbook.xlsx.writeFile(filePath);
 
     res.download(filePath, `Leads_Report_${timestamp}.xlsx`, (err) => {
       if (err) {
-        return res.status(500).json({ success: false, message: "Error downloading file" });
+        return res
+          .status(500)
+          .json({ success: false, message: "Error downloading file" });
       }
     });
-
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error exporting leads", error: error.message});
+    res.status(500).json({
+      success: false,
+      message: "Error exporting leads",
+      error: error.message,
+    });
   }
 };
 
@@ -1065,7 +1383,7 @@ const getTodayAssignedLeads = async (req, res) => {
             "id",
             "total_application_labour_cost",
             "total_project_cost",
-            "total_material_cost"
+            "total_material_cost",
           ],
           limit: 1,
           order: [["createdAt", "DESC"]],
@@ -1107,7 +1425,7 @@ const getTodayAssignedLeads = async (req, res) => {
 
     leads.forEach((lead) => {
       const assignedId = lead.assigned_person_id;
-    
+
       if (!grouped[assignedId]) {
         grouped[assignedId] = {
           assigned_person: lead.assignedPerson,
@@ -1123,19 +1441,19 @@ const getTodayAssignedLeads = async (req, res) => {
           total_project_cost = 0,
           total_material_cost = 0,
         } = cw;
-      
+
         cw.dataValues.total_cost_amount =
           total_application_labour_cost +
           total_project_cost +
           total_material_cost;
-      
+
         // 🛠 Flatten product_name into each product
         cw.costWorkingProducts?.forEach((cwp) => {
           cwp.dataValues.product_name = cwp.product?.product_name || null;
           delete cwp.dataValues.product; // optional: remove nested object
         });
       });
-      
+
       const costWorking = lead.costWorking?.[0];
       if (costWorking) {
         const {
@@ -1143,7 +1461,7 @@ const getTodayAssignedLeads = async (req, res) => {
           total_project_cost = 0,
           total_material_cost = 0,
         } = costWorking;
-    
+
         // ✅ Add total_cost_amount as a new field, not replacing the model instance
         costWorking.dataValues.total_cost_amount =
           total_application_labour_cost +
@@ -1151,21 +1469,20 @@ const getTodayAssignedLeads = async (req, res) => {
           total_material_cost;
       }
       // ✅ Extract check_in_time from first and check_out_time from second
-  const checkins = lead.checkinCheckouts;
-  const firstCheckIn = checkins?.[0]?.check_in_time || null;
-  const secondCheckOut = checkins?.[1]?.check_out_time || null;
+      const checkins = lead.checkinCheckouts;
+      const firstCheckIn = checkins?.[0]?.check_in_time || null;
+      const secondCheckOut = checkins?.[1]?.check_out_time || null;
 
-  // 🧪 Add only those two as final output
-  lead.dataValues.first_check_in_time = firstCheckIn;
-  lead.dataValues.second_check_out_time = secondCheckOut;
+      // 🧪 Add only those two as final output
+      lead.dataValues.first_check_in_time = firstCheckIn;
+      lead.dataValues.second_check_out_time = secondCheckOut;
 
-  // Optional: remove full checkinCheckouts array if you don't need it
-  delete lead.dataValues.checkinCheckouts;
-    
+      // Optional: remove full checkinCheckouts array if you don't need it
+      delete lead.dataValues.checkinCheckouts;
+
       grouped[assignedId].lead_count += 1;
       grouped[assignedId].leads.push(lead);
     });
-    
 
     const result = Object.values(grouped);
 
@@ -1175,8 +1492,8 @@ const getTodayAssignedLeads = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching assigned leads:", error);
-    res.status(500).json({ message: "Server Error"});
-}
+    res.status(500).json({ message: "Server Error" });
+  }
 };
 
 const updateDealFinalised = async (req, res) => {
@@ -1185,7 +1502,9 @@ const updateDealFinalised = async (req, res) => {
 
     const lead = await Lead.findByPk(id);
     if (!lead) {
-      return res.status(404).json({ success: false, message: "Lead not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Lead not found" });
     }
 
     lead.deal_finalised = true; // or 1
@@ -1198,7 +1517,7 @@ const updateDealFinalised = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating deal_finalised:", error);
-    res.status(500).json({ success: false, message: "Server error"});
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -1215,9 +1534,9 @@ const getFinalisedDeals = async (req, res) => {
     // Apply search if provided
     if (search) {
       whereClause[Op.or] = [
-        { '$customer.name$': { [Op.like]: `%${search}%` } },
-        { '$assignedPerson.fullname$': { [Op.like]: `%${search}%` } },
-        { '$leadOwner.fullname$': { [Op.like]: `%${search}%` } }
+        { "$customer.name$": { [Op.like]: `%${search}%` } },
+        { "$assignedPerson.fullname$": { [Op.like]: `%${search}%` } },
+        { "$leadOwner.fullname$": { [Op.like]: `%${search}%` } },
       ];
     }
 
@@ -1232,9 +1551,9 @@ const getFinalisedDeals = async (req, res) => {
               FROM leadcommunications AS lc 
               WHERE lc.lead_id = Lead.id
             )`),
-            'VisitCount'
-          ]
-        ]
+            "VisitCount",
+          ],
+        ],
       },
       include: [
         {
@@ -1262,8 +1581,7 @@ const getFinalisedDeals = async (req, res) => {
       data: leads,
       pagination: {
         total,
-        page: parseInt(page)
-,
+        page: parseInt(page),
         totalPages: Math.ceil(total / limit),
       },
     });
@@ -1275,37 +1593,37 @@ const getFinalisedDeals = async (req, res) => {
 
 const addDealData = async (req, res) => {
   try {
-    const { lead_id , deals } = req.body;
+    const { deals } = req.body;
 
     //console.log("deals", deals);
-    
-    if (!lead_id || !Array.isArray(deals) || deals.length === 0) {
+
+    if (!Array.isArray(deals) || deals.length === 0) {
       return res.status(400).json({
         success: false,
         message: "lead_id and at least one deal item are required.",
       });
     }
 
-    const leadExists = await Lead.findByPk(lead_id);
-    if (!leadExists) {
-      return res.status(404).json({
-        success: false,
-        message: "Invalid lead_id: Lead not found",
-      });
-    }
+    // const leadExists = await Lead.findByPk(lead_id);
+    // if (!leadExists) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Invalid lead_id: Lead not found",
+    //   });
+    // }
 
     const updatedDeals = [];
 
     for (const deal of deals) {
       const [existingDeal, created] = await dealData.findOrCreate({
-        where: { lead_id, product_id: deal.product_id },
+        where: { product_id: deal.product_id },
         defaults: {
           date: deal?.date || null,
           area: deal.area,
           quantity: deal?.quantity || null,
           rate: deal?.rate || null,
           amount: deal?.amount || null,
-          advance_amount: deal.advance_amount || null
+          advance_amount: deal.advance_amount || null,
         },
       });
 
@@ -1317,7 +1635,7 @@ const addDealData = async (req, res) => {
           quantity: deal?.quantity || null,
           rate: deal.rate || null,
           amount: deal.amount || null,
-          advance_amount: deal.advance_amount || null
+          advance_amount: deal.advance_amount || null,
         });
       }
 
@@ -1340,48 +1658,78 @@ const addDealData = async (req, res) => {
 
 // const getDealData = async (req, res) => {
 //   try {
+//     // Extract query parameters with default values
+//     const { page = 1, limit = 10, search = "" } = req.query;
+//     const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+
+//     // Define where condition for filtering by company name
+//     const whereCondition = {};
+//     if (search) {
+//       whereCondition["$customer.company_name$"] = { [Op.like]: `%${search}%` };
+//     }
+
+//     // Fetch leads with associated customer and deals
 //     const leads = await Lead.findAll({
+//       where: whereCondition,
 //       include: [
 //         {
 //           model: Customer,
-//           as: 'customer',
-//           attributes: ['company_name'],
+//           as: "customer",
+//           attributes: ["company_name"],
 //         },
 //         {
 //           model: dealData,
-//           as: 'deals',
+//           as: "deals",
 //           attributes: [
-//             'id',
-//             'lead_id',
-//             'product_id',
-//             'area',
-//             'quantity',
-//             'rate',
-//             'amount',
-//             'advance_amount',
-//             'deal_amount',
-//             'deal_code',
-//             'date',
+//             "id",
+//             "lead_id",
+//             "product_id",
+//             "area",
+//             "quantity",
+//             "rate",
+//             "amount",
+//             "advance_amount",
+//             "deal_amount",
+//             "deal_code",
+//             "date",
+//             "createdAt",
 //           ],
 //           include: [
 //             {
 //               model: Product,
-//               as: 'product',
-//               attributes: ['product_name'],
+//               as: "product",
+//               attributes: ["product_name"],
 //             },
 //           ],
+//           separate: true, // Ensures proper ordering and pagination
+//           order: [["createdAt", "DESC"]],
 //         },
 //       ],
+//       order: [["createdAt", "DESC"]],
+//       limit: parseInt(limit, 10),
+//       offset,
+//       distinct: true, // Ensures correct count when associations are involved
 //     });
 
+//     // Calculate total count for pagination
+//     const totalCount = await Lead.count({ where: whereCondition });
+
+//     // Process the leads to compute total deal and advance amounts
 //     const result = leads.map((lead) => {
-//       const firstDeal = lead.deals[0] || {};
+//       const total_deal_amount = lead.deals.reduce(
+//         (sum, deal) => sum + (deal.amount || 0),
+//         0
+//       );
+//       const total_advance_amount = lead.deals.reduce(
+//         (sum, deal) => sum + (deal.advance_amount || 0),
+//         0
+//       );
+
 //       return {
 //         lead_id: lead.id,
 //         company_name: lead.customer?.company_name || null,
-//         advance_amount: firstDeal.advance_amount || null,
-//         deal_amount: firstDeal.deal_amount || null,
-//         product_name: firstDeal.product?.product_name || null,
+//         total_deal_amount,
+//         total_advance_amount,
 //         deals: lead.deals.map((deal) => ({
 //           ...deal.toJSON(),
 //           product_name: deal.product?.product_name || null,
@@ -1389,89 +1737,270 @@ const addDealData = async (req, res) => {
 //       };
 //     });
 
+//     // Send the response with pagination details
 //     res.status(200).json({
 //       success: true,
-//       message: 'Grouped deal data fetched successfully',
+//       message: "Grouped deal data fetched successfully",
 //       data: result,
+//       currentPage: parseInt(page, 10),
+//       totalPages: Math.ceil(totalCount / limit),
+//       totalItems: totalCount,
 //     });
 //   } catch (error) {
-//     console.error('Error fetching grouped deal data:', error);
+//     console.error("Error fetching grouped deal data:", error);
 //     res.status(500).json({
 //       success: false,
-//       message: 'Server Error',
+//       message: "Server Error",
 //     });
 //   }
 // };
 
+// const getDealData = async (req, res) => {
+//   try {
+//     if (!req.user || !req.user.id) {
+//       return res
+//         .status(401)
+//         .json({ success: false, message: "Unauthorized: User not found" });
+//     }
+
+//     const userId = req.user.id;
+
+//     // Step 1: get customer_ids for this sales person
+//     const customerIdsResult = await Lead.findAll({
+//       attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("customer_id")), "customer_id"]],
+//       where: {
+//         assigned_person_id: userId,
+//         active_status: "active"
+//       },
+//       raw: true
+//     });
+
+//     const customerIds = customerIdsResult.map((c) => c.customer_id);
+//     if (customerIds.length === 0) {
+//       return res.status(200).json({ success: true, data: [], message: "No data found" });
+//     }
+
+//     // Step 2: get all leads for these customer ids
+//     const leads = await Lead.findAll({
+//       where: { customer_id: customerIds },
+//       include: [
+//         {
+//           model: Customer,
+//           as: "customer",
+//           attributes: ["id", "company_name"]
+//         },
+//         {
+//           model: dealData,
+//           as: "deals",
+//           attributes: [
+//             "id", "lead_id", "product_id", "amount", "advance_amount", "deal_amount", "createdAt"
+//           ],
+//           include: [
+//             {
+//               model: Product,
+//               as: "product",
+//               attributes: ["product_name"]
+//             }
+//           ],
+//           required: false
+//         }
+//       ],
+//       order: [["customer_id", "DESC"], ["id", "DESC"]],
+//     });
+
+//     // Step 3: group by customer
+//     const groupedData = {};
+
+//     leads.forEach((lead) => {
+//       const customerId = lead.customer?.id;
+//       if (!customerId) return;
+
+//       if (!groupedData[customerId]) {
+//         groupedData[customerId] = {
+//           customer_id: customerId,
+//           company_name: lead.customer.company_name,
+//           total_deal_amount: 0,
+//           total_advance_amount: 0,
+//           leads: []
+//         };
+//       }
+
+//       const dealsWithProduct = lead.deals.map((deal) => ({
+//         ...deal.toJSON(),
+//         product_name: deal.product?.product_name || null,
+//       }));
+
+//       const totalDealAmount = dealsWithProduct.reduce(
+//         (sum, deal) => sum + (deal.amount || 0),
+//         0
+//       );
+//       const totalAdvanceAmount = dealsWithProduct.reduce(
+//         (sum, deal) => sum + (deal.advance_amount || 0),
+//         0
+//       );
+
+//       groupedData[customerId].total_deal_amount += totalDealAmount;
+//       groupedData[customerId].total_advance_amount += totalAdvanceAmount;
+
+//       groupedData[customerId].leads.push({
+//         lead_id: lead.id,
+//         deals: dealsWithProduct
+//       });
+//     });
+
+//     const resultArray = Object.values(groupedData);
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Deal data fetched successfully",
+//       data: resultArray
+//     });
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).json({ success: false, message: "Server Error", error: error.message });
+//   }
+// };
 
 const getDealData = async (req, res) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized: User not found" });
+    }
+
+    const userId = req.user.id;
+
+    // Step 1: Get the customer_ids for this salesperson
+    const customerIdsResult = await Lead.findAll({
+      attributes: [
+        [Sequelize.fn("DISTINCT", Sequelize.col("customer_id")), "customer_id"],
+      ],
+      where: {
+        ...(userId !== 33 && { assigned_person_id: userId }),
+        //assigned_person_id: userId,
+        active_status: "active",
+      },
+      raw: true,
+    });
+
+    const customerIds = customerIdsResult.map((c) => c.customer_id);
+    if (customerIds.length === 0) {
+      return res
+        .status(200)
+        .json({ success: true, data: [], message: "No data found" });
+    }
+
+    // Step 2: Get all leads for these customer ids
     const leads = await Lead.findAll({
+      where: { customer_id: customerIds },
       include: [
         {
           model: Customer,
-          as: 'customer',
-          attributes: ['company_name'],
+          as: "customer",
+          attributes: ["id", "company_name"],
         },
         {
           model: dealData,
-          as: 'deals',
+          as: "deals",
           attributes: [
-            'id',
-            'lead_id',
-            'product_id',
-            'area',
-            'quantity',
-            'rate',
-            'amount',
-            'advance_amount',
-            'deal_amount',
-            'deal_code',
-            'date',
+            "id",
+            "lead_id",
+            "date",
+            "product_id",
+            "quantity",
+            "rate",
+            "amount",
+            "advance_amount",
+            "deal_amount",
+            "createdAt",
           ],
           include: [
             {
               model: Product,
-              as: 'product',
-              attributes: ['product_name'],
+              as: "product",
+              attributes: ["product_name"],
             },
           ],
-          order: [['createdAt', 'DESC']],
+          required: false,
         },
+      ],
+      order: [
+        ["customer_id", "DESC"],
+        ["id", "DESC"],
       ],
     });
 
-    const result = leads.map((lead) => {
-      // Sum total deal_amount and advance_amount for this lead's deals
-      const total_deal_amount = lead.deals.reduce((sum, deal) => sum + (deal.amount || 0), 0);
-      const total_advance_amount = lead.deals.reduce((sum, deal) => sum + (deal.advance_amount || 0), 0);
+    // Step 3: Format the response in the structure expected by frontend
+    const groupedData = {};
 
-      return {
-        lead_id: lead.id,
-        company_name: lead.customer?.company_name || null,
-        total_deal_amount,
-        total_advance_amount,
-        deals: lead.deals.map((deal) => ({
-          ...deal.toJSON(),
-          product_name: deal.product?.product_name || null,
-        })),
-      };
+    leads.forEach((lead) => {
+      const customerId = lead.customer?.id;
+      if (!customerId) return;
+
+      if (!groupedData[customerId]) {
+        groupedData[customerId] = {
+          customer_id: customerId,
+          company_name: lead.customer.company_name,
+          total_deal_amount: 0,
+          total_advance_amount: 0,
+          deals: [],
+        };
+      }
+
+      const dealsWithProduct = lead.deals.map((deal) => ({
+        ...deal.toJSON(),
+        product_name: deal.product?.product_name || null,
+      }));
+
+      const totalDealAmount = dealsWithProduct.reduce(
+        (sum, deal) => sum + (deal.amount || 0),
+        0
+      );
+      const totalAdvanceAmount = dealsWithProduct.reduce(
+        (sum, deal) => sum + (deal.advance_amount || 0),
+        0
+      );
+
+      groupedData[customerId].total_deal_amount += totalDealAmount;
+      groupedData[customerId].total_advance_amount += totalAdvanceAmount;
+
+      groupedData[customerId].deals.push(...dealsWithProduct); // Add the deals to the group
     });
+
+    // Convert the grouped object to an array of the structure you need
+    const resultArray = Object.values(groupedData).map((customer) => ({
+      customer_id: customer.customer_id,
+      company_name: customer.company_name,
+      total_deal_amount: customer.total_deal_amount,
+      total_advance_amount: customer.total_advance_amount,
+      deals: customer.deals.map((deal) => ({
+        deal_id: deal.id,
+        date: deal.date,
+        quantity: deal.quantity,
+        rate: deal.rate,
+        lead_id: deal.lead_id,
+        product_id: deal.product_id,
+        product_name: deal.product_name,
+        amount: deal.amount,
+        advance_amount: deal.advance_amount,
+        deal_amount: deal.deal_amount,
+        createdAt: deal.createdAt,
+      })),
+    }));
 
     res.status(200).json({
       success: true,
-      message: 'Grouped deal data fetched successfully',
-      data: result,
+      message: "Deal data grouped by customer fetched successfully",
+      data: resultArray,
     });
   } catch (error) {
-    console.error('Error fetching grouped deal data:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-    });
+    console.error("Error:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Server Error", error: error.message });
   }
 };
-
 
 const countTotalLeads = async (req, res) => {
   try {
@@ -1485,7 +2014,6 @@ const countTotalLeads = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-
 
 const addProductsToLead = async (req, res) => {
   try {
@@ -1508,7 +2036,7 @@ const addProductsToLead = async (req, res) => {
 
     const existing = await dealData.findAll({
       where: { lead_id },
-      attributes: ['product_id'],
+      attributes: ["product_id"],
     });
 
     const existingProductIds = existing.map((item) => item.product_id);
@@ -1541,6 +2069,50 @@ const addProductsToLead = async (req, res) => {
   }
 };
 
+const deleteProductFromLead = async (req, res) => {
+  try {
+    const { product_id } = req.body;
+
+    if (!product_id) {
+      return res.status(400).json({
+        success: false,
+        message: "lead_id and product_id are required.",
+      });
+    }
+
+    // const lead = await Lead.findByPk(lead_id);
+    // if (!lead) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Lead not found.",
+    //   });
+    // }
+
+    // Check if product exists for the lead
+    const dealRecord = await dealData.findOne({
+      where: { product_id },
+    });
+
+    if (!dealRecord) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found for this lead.",
+      });
+    }
+
+    // Delete the record
+    await dealRecord.destroy();
+
+    res.status(200).json({
+      success: true,
+      message: "Product removed from lead successfully.",
+    });
+  } catch (error) {
+    console.error("Error deleting product from lead:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 const getLeadListofAll = async (req, res) => {
   try {
     // Get today's date range (00:00 to 23:59)
@@ -1549,9 +2121,10 @@ const getLeadListofAll = async (req, res) => {
 
     const leads = await Lead.findAll({
       where: {
-        assign_date: {
-          [Op.between]: [todayStart, todayEnd],
-        },
+        [Op.or]: [
+          { assign_date: { [Op.between]: [todayStart, todayEnd] } },
+          { next_followup: { [Op.between]: [todayStart, todayEnd] } },
+        ],
       },
       attributes: [
         "id",
@@ -1601,10 +2174,9 @@ const getLeadListofAll = async (req, res) => {
       success: false,
       message: "Error retrieving leads",
       error: error.message,
-   });
- }
+    });
+  }
 };
-
 
 module.exports = {
   addLead,
@@ -1626,5 +2198,6 @@ module.exports = {
   countTotalLeads,
   getleadaftermeeting,
   addProductsToLead,
-  getLeadListofAll
+  getLeadListofAll,
+  deleteProductFromLead,
 };

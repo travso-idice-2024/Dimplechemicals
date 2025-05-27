@@ -18,8 +18,7 @@ const CostWorkingTable = ({
   handleDeleteFlashMessage,
   handleDelete,
 }) => {
-  console.log("CostWorkings", CostWorkings);
-
+  //console.log("CostWorkings", CostWorkings);
   return (
     <>
       <div className="fixed top-5 right-5 z-50">
@@ -34,9 +33,9 @@ const CostWorkingTable = ({
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px] text-center">
-              <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
                 Id
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-textdata whitespace-nowrap ">
                 Comapny Name
               </th>
@@ -68,7 +67,7 @@ const CostWorkingTable = ({
           <tbody>
             {CostWorkings?.map((user, index) => (
               <tr key={index} className="text-center">
-                <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
+                {/* <td className="px-4 py-2 text-newtextdata">{index + 1}</td> */}
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.company?.company_name}
                 </td>

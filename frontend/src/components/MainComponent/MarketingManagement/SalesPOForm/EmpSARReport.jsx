@@ -77,7 +77,7 @@ const EmpSARReport = ({
                       <tr  key={index} className="text-center">
                         <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
                         <td className="px-4 py-2 text-newtextdata">{user?.date}</td>
-                        <td className="px-4 py-2 text-newtextdata">{user?.product?.product_name}</td>
+                        <td className="px-4 py-2 text-newtextdata">{user?.product_name}</td>
                         <td className="px-4 py-2 text-newtextdata">{user?.area} Sq mtr/cub mtr</td>
                         <td className="px-4 py-2 text-newtextdata">{user?.quantity}</td>
                         <td className="px-4 py-2 text-newtextdata">₹{user?.rate}</td>

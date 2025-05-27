@@ -8,12 +8,12 @@ const getAuthToken = () => localStorage.getItem("token");
 // ✅ LIST LEADS (Paginated)
 export const listLeads = createAsyncThunk(
   "auth/leadList",
-  async ({ page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
+  async ({ poaType = "", page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/leadList`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: { page, limit, search },
+        params: { poaType,page, limit, search },
       });
       return response.data;
     } catch (leadError) {
@@ -26,13 +26,21 @@ export const listLeads = createAsyncThunk(
 
 export const GenratedlistLeads = createAsyncThunk(
   "auth/GenratedlistLeads",
-  async ({ id="", page = 1, limit = 10, search = "" }, { rejectWithValue }) => {
+  async (
+    // { id = "", page = 1, limit = 10, search = "" },
+    { page = 1, limit = 10, search = "" },
+    { rejectWithValue }
+  ) => {
     try {
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/get-lead-afterMeeting/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { page, limit, search },
-      });
+      const response = await axios.get(
+        // `${API_URL}/auth/get-lead-afterMeeting/${id}`,
+        `${API_URL}/auth/get-lead-afterMeeting`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { page, limit, search },
+        }
+      );
       return response.data;
     } catch (leadError) {
       return rejectWithValue(
@@ -112,22 +120,51 @@ export const addDeal = createAsyncThunk(
   }
 );
 
-
 //add product to lead
 export const addProductToLead = createAsyncThunk(
   "auth/addProductToLead",
   async (leadData, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.post(`${API_URL}/auth/add-products-to-lead`, leadData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.post(
+        `${API_URL}/auth/add-products-to-lead`,
+        leadData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data;
     } catch (leadError) {
-      return rejectWithValue(leadError.response?.data || "Failed to add product to lead");
+      return rejectWithValue(
+        leadError.response?.data || "Failed to add product to lead"
+      );
     }
   }
 );
+
+//delete product to lead
+export const deleteProductFromLead = createAsyncThunk(
+  "auth/deleteProductFromLead",
+  async (productData, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.post(
+        `${API_URL}/auth/delete-product-from-lead`,
+        productData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to delete product from lead"
+      );
+    }
+  }
+);
+
+
 
 //Lead communication for sales person
 export const addLeadCommunication = createAsyncThunk(
@@ -258,15 +295,15 @@ export const todaysLead = createAsyncThunk(
 //lead communication
 export const leadCommunicationById = createAsyncThunk(
   "auth/lead-communications-list",
-  async ({ leadId, page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
+  async ({ customer_id, page = 1, limit = 5, search = "" }, { rejectWithValue }) => {
     try {
       //console.log(leadId, page,limit, search);
       const token = getAuthToken();
       const response = await axios.get(
-        `${API_URL}/auth/lead-communications-list/${leadId}`,
+        `${API_URL}/auth/lead-communications-list/${customer_id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          params: { leadId, page, limit, search },
+          params: { customer_id, page, limit, search },
         }
       );
       return response.data;
@@ -370,7 +407,9 @@ export const updateSalesPersionAssignment = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to update assigned persion");
+      return rejectWithValue(
+        error.response?.data || "Failed to update assigned persion"
+      );
     }
   }
 );
@@ -393,16 +432,18 @@ export const finalizeDealsList = createAsyncThunk(
   }
 );
 
-
 export const getProductByLeadId = createAsyncThunk(
   "auth/get-lead-products",
-  async ({lead_id }, { rejectWithValue }) => {
+  async ({ customer_id }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/get-lead-products/${lead_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { lead_id },
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/get-lead-products/${customer_id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          //params: { customer_id },
+        }
+      );
       return response.data;
     } catch (leadError) {
       return rejectWithValue(
@@ -417,13 +458,13 @@ const leadSlice = createSlice({
   name: "lead",
   initialState: {
     leads: [],
-    genleads:[],
-    pductByleadId:[],
+    genleads: [],
+    pductByleadId: [],
     allWonleads: [],
     communicationleads: [],
     communicationleadsList: [],
     finalizeDealsData: [],
-    finalizeDealsListData:[],
+    finalizeDealsListData: [],
     lead: null,
     salesPersonleads: [],
     allLeads: [],
@@ -438,14 +479,30 @@ const leadSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
+      // .addCase(updateSalesPersionAssignment.fulfilled, (state, action) => {
+      //   const index = state.genleads.findIndex(
+      //     (item) => item.id === action.payload.id
+      //   );
+      //   if (index !== -1) {
+      //     state.genleads[index] = action.payload;
+      //   }
+      // })
+
+      //   .addCase(updateSalesPersionAssignment.rejected, (state, action) => {
+      //     state.leadError = action.payload;
+      //   })
+
       .addCase(updateSalesPersionAssignment.fulfilled, (state, action) => {
-        const index = state.leads.data?.findIndex(
-          (item) => item.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.leads.data[index] = action.payload;
+        if (Array.isArray(state.genleads)) {
+          const index = state.genleads.findIndex(
+            (item) => item.id === action.payload.id
+          );
+          if (index !== -1) {
+            state.genleads[index] = action.payload;
+          }
         }
       })
+      
       .addCase(updateSalesPersionAssignment.rejected, (state, action) => {
         state.leadError = action.payload;
       })
@@ -606,13 +663,13 @@ const leadSlice = createSlice({
       .addCase(addLead.fulfilled, (state, action) => {
         state.leadLoading = false;
         state.leadError = null;
-      
+
         state.leads = {
           ...state.leads,
           data: [action.payload.data, ...(state.leads.data || [])],
         };
       })
-      
+
       .addCase(addLead.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
@@ -624,11 +681,11 @@ const leadSlice = createSlice({
       })
       .addCase(addDeal.fulfilled, (state, action) => {
         state.leadLoading = false;
-      
+
         if (!Array.isArray(state.leads)) {
-          state.leads = [];  // Reset to array if somehow not
+          state.leads = []; // Reset to array if somehow not
         }
-      
+
         state.leads.unshift(action.payload.data);
       })
       .addCase(addDeal.rejected, (state, action) => {
@@ -643,15 +700,31 @@ const leadSlice = createSlice({
       .addCase(addProductToLead.fulfilled, (state, action) => {
         state.leadLoading = false;
         if (!Array.isArray(state.leads)) {
-          state.leads = [];  // Reset to array if somehow not
+          state.leads = []; // Reset to array if somehow not
         }
         state.leads.unshift(action.payload.data);
-      }) 
+      })
       .addCase(addProductToLead.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
       })
-      
+
+      .addCase(deleteProductFromLead.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(deleteProductFromLead.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        if (!Array.isArray(state.leads)) {
+          state.leads = []; // Reset to array if somehow not
+        }
+        state.leads.unshift(action.payload.data);
+      })
+      .addCase(deleteProductFromLead.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
       .addCase(addLeadCommunication.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;

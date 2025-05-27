@@ -9,7 +9,11 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
           Customer Details
         </h2>
 
+<<<<<<< HEAD
         <div className="overflow-y-auto md:h-[380px]">
+=======
+        <div className="overflow-y-auto md:h-[350px]">
+>>>>>>> 61db49babc0728cb5ffd121b25361979745234cb
           {/* Profile Section */}
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between bg-[#e5e7eb61] p-2 rounded-[10px]">
@@ -57,7 +61,12 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                 label="Primary Contact"
                 value={selectedCustomer.primary_contact}
               />
+              
               <Detail label="Email Id" value={selectedCustomer.email_id} />
+              <Detail
+                label="Secondary Contact"
+                value={selectedCustomer.secondary_contact}
+              />
 
               <Detail label="Pan No." value={selectedCustomer.pan_no} />
               <Detail label="Gst No." value={selectedCustomer.gst_number} />

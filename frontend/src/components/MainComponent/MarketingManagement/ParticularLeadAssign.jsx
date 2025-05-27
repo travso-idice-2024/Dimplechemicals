@@ -21,27 +21,31 @@ const ParticularLeadAssign = ({
   setUpdateLeadFlashMsgType,
   handleUpdateLeadChange,
   handleUpdateLeadFlashMessage,
-  selectedPOAIds
+  selectedPOAIds,
 }) => {
   const dispatch = useDispatch();
   return (
     <>
       {/* Flash Messages */}
-      <div className="fixed top-5 right-5 z-50">
-        {updateLeadFlashMessage && updateLeadFlashMsgType === "success" && (
-          <SuccessMessage message={updateLeadFlashMessage} />
-        )}
-        {updateLeadFlashMessage && updateLeadFlashMsgType === "error" && (
-          <ErrorMessage message={updateLeadFlashMessage} />
-        )}
-      </div>
 
       <div className="fixed inset-0 p-2 bg-black/50 flex justify-center items-center z-50">
         <div className="bg-white w-full w-full md:w-[400px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[18px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Assign Sales Person
           </h2>
+<<<<<<< HEAD
           <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto md:h-[380px] max-w-full">
+=======
+          <div className="fixed top-5 right-5 z-50">
+            {updateLeadFlashMessage && updateLeadFlashMsgType === "success" && (
+              <SuccessMessage message={updateLeadFlashMessage} />
+            )}
+            {updateLeadFlashMessage && updateLeadFlashMsgType === "error" && (
+              <ErrorMessage message={updateLeadFlashMessage} />
+            )}
+          </div>
+          <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto md:h-fit max-w-full">
+>>>>>>> 61db49babc0728cb5ffd121b25361979745234cb
             {/* Sales Person */}
             <div>
               <label>Select Sales Person</label>
@@ -82,7 +86,6 @@ const ParticularLeadAssign = ({
               Close
             </button>
           </div>
-          
         </div>
       </div>
     </>

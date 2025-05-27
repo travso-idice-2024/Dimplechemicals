@@ -60,7 +60,7 @@ const MeetingPage = () => {
         },
       });
       settodayPOACount(response.data.data);
-      console.log("poa data", response.data.data);
+      console.log("poa data", response);
       //return response.data; // Return data if needed
     } catch (error) {
       console.error("Error in fetching data:", error);

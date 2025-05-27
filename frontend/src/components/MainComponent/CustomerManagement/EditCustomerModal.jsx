@@ -37,10 +37,8 @@ const EditUserModal = ({
     (state) => state.customer
   );
 
-
   const [areasByIndex, setAreasByIndex] = useState({});
   const [citiesByIndex, setCitiesByIndex] = useState({});
-
 
   useEffect(() => {
     dispatch(fetchAllPincodes());
@@ -109,36 +107,74 @@ const EditUserModal = ({
       }
     });
   }, [editFormData.company_address]);
-  
 
   // Handle input changes for addresses
   const handleEditAddressChange = (index, e) => {
     const { name, value } = e.target;
+  
+    // Clone the array of addresses
     const newAddresses = [...editFormData.company_address];
-    newAddresses[index][name] = value;
-
-     // If location (areaname) changes — dispatch to get city
-        if (name === "location") {
-          dispatch(getCityByAreaname({ areaname: value }))
-            .unwrap()
-            .then((res) => {
-              //console.log("res?.data[0]?.district", res?.data[0]?.district);
-              if (res?.data[0]?.district) {
-                newAddresses[index]["city"] = res?.data[0]?.district;
-                setEditFormData((prevFormData) => ({
-                  ...prevFormData,
-                  company_address: newAddresses,
-                }));
-              }
-            });
-        }
-
-
+  
+    // Clone the specific address object before modifying
+    const updatedAddress = { ...newAddresses[index], [name]: value };
+  
+    newAddresses[index] = updatedAddress;
+  
+    // If location changes, fetch city and update city field
+    if (name === "location") {
+      dispatch(getCityByAreaname({ areaname: value }))
+        .unwrap()
+        .then((res) => {
+          if (res?.data[0]?.district) {
+            // Clone the address again before modifying
+            const updatedAddressWithCity = {
+              ...newAddresses[index],
+              city: res?.data[0]?.district,
+            };
+  
+            newAddresses[index] = updatedAddressWithCity;
+  
+            setEditFormData((prevFormData) => ({
+              ...prevFormData,
+              company_address: newAddresses,
+            }));
+          }
+        });
+    }
+  
+    // Finally update form data state
     setEditFormData((prevData) => ({
       ...prevData,
       company_address: newAddresses,
     }));
   };
+  
+  // const handleEditAddressChange = (index, e) => {
+  //   const { name, value } = e.target;
+  //   const newAddresses = [...editFormData.company_address];
+  //   newAddresses[index][name] = value;
+
+  //   // If location (areaname) changes — dispatch to get city
+  //   if (name === "location") {
+  //     dispatch(getCityByAreaname({ areaname: value }))
+  //       .unwrap()
+  //       .then((res) => {
+  //         //console.log("res?.data[0]?.district", res?.data[0]?.district);
+  //         if (res?.data[0]?.district) {
+  //           newAddresses[index]["city"] = res?.data[0]?.district;
+  //           setEditFormData((prevFormData) => ({
+  //             ...prevFormData,
+  //             company_address: newAddresses,
+  //           }));
+  //         }
+  //       });
+  //   }
+
+  //   setEditFormData((prevData) => ({
+  //     ...prevData,
+  //     company_address: newAddresses,
+  //   }));
+  // };
 
   // Add a new blank address
   const addEditAddress = () => {
@@ -164,19 +200,19 @@ const EditUserModal = ({
 
   return (
     <>
-      <div className="fixed top-5 right-5 z-50">
-        {editFlashMessage && editFlashMsgType === "success" && (
-          <SuccessMessage message={editFlashMessage} />
-        )}
-        {editFlashMessage && editFlashMsgType === "error" && (
-          <ErrorMessage message={editFlashMessage} />
-        )}
-      </div>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Customer
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {editFlashMessage && editFlashMsgType === "success" && (
+              <SuccessMessage message={editFlashMessage} />
+            )}
+            {editFlashMessage && editFlashMsgType === "error" && (
+              <ErrorMessage message={editFlashMessage} />
+            )}
+          </div>
           <div className="mt-5 md:mt-5 px-4  overflow-y-auto h-[350px] md:h-[380px]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
@@ -600,15 +636,15 @@ const EditUserModal = ({
                       allPincodes?.data?.map((item) => item.pincode) || []
                     }
                     onSelect={(selectedPincode) => {
-                                         dispatch(getAreaByPincode({ pincode: selectedPincode }))
-                                           .unwrap()
-                                           .then((res) => {
-                                             setAreasByIndex((prev) => ({
-                                               ...prev,
-                                               [index]: res?.data || [],
-                                             }));
-                                           });
-                                       }}
+                      dispatch(getAreaByPincode({ pincode: selectedPincode }))
+                        .unwrap()
+                        .then((res) => {
+                          setAreasByIndex((prev) => ({
+                            ...prev,
+                            [index]: res?.data || [],
+                          }));
+                        });
+                    }}
                   />
 
                   <div>

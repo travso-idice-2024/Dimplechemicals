@@ -23,7 +23,7 @@ const SalePOForm = () => {
       (state) => state.lead
     );
  
-  console.log("finalizeDealsListData", finalizeDealsListData);
+  //console.log("finalizeDealsListData", finalizeDealsListData);
   const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);

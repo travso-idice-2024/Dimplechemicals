@@ -4,7 +4,7 @@ import {
   listDepartments,
   removeDepartment,
 } from "../../../redux/departmentSlice";
-import SuccessMessage from "../../AlertMessage/SuccessMessage"; 
+import SuccessMessage from "../../AlertMessage/SuccessMessage";
 import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -44,7 +44,7 @@ const DepartmentTable = ({
 }) => {
   const { isAuthenticated, createEvent } = useGoogleCalendar();
 
-  //console.log("selectedLead", selectedLead);
+  console.log("Leadsdata", Leads);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user: userDeatail } = useSelector((state) => state.auth);
@@ -126,7 +126,7 @@ const DepartmentTable = ({
           // Close modal after successful submission
           setTimeout(() => {
             setLeadStatusProgress(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleFlashMessage(
             response?.message || "Something went wrong",
@@ -177,11 +177,20 @@ const DepartmentTable = ({
                   disabled
                 />
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
                 Id
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Company Name
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                Email
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                Phone
+              </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                Lead Owner
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Contact Person Name
@@ -189,15 +198,16 @@ const DepartmentTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Salse Person Name
               </th>
+             
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Date
               </th>
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Type
               </th>
-              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+              {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Summary
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
@@ -230,7 +240,7 @@ const DepartmentTable = ({
                     }}
                   />
                 </td>
-                <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
+                {/* <td className="px-4 py-2 text-newtextdata">{index + 1}</td> */}
                 <td
                   className="px-4 py-2 text-newtextdata whitespace-nowrap  cursor-pointer"
                   onClick={() => {
@@ -243,13 +253,24 @@ const DepartmentTable = ({
                   {user?.customer?.company_name}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
-                {user?.contactPerson?.name || "N/A"}
+                  {user?.customer?.email_id || "N/A"}
+                </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.customer?.primary_contact || "N/A"}
+                </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.leadOwner?.fullname}
+                </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.contactPerson?.name || "N/A"}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.assignedPerson?.fullname}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.assign_date?.split("T")[0]}
+                  {/* {user?.assign_date?.split("T")[0]} */}
+                  {user?.communications[0]?.lead_date?.split("T")[0]}
+                  {/* {user?.next_followup ? user?.next_followup?.split("T")[0] : user?.assign_date?.split("T")[0]} */}
                 </td>
 
                 {/* <td className="px-4 py-2 text-newtextdata">
@@ -258,9 +279,13 @@ const DepartmentTable = ({
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.meeting_type}
                 </td>
-                <td className="px-4 py-2 text-newtextdata">
-                  {user?.lead_summary}
-                </td>
+                {/* <td className="px-4 py-2 text-newtextdata"> */}
+                  {/* {user?.lead_summary} */}
+                  {/* {user?.communications[0]?.lead_text} */}
+                  {/* {user?.communications[0]?.lead_text?.split("\n").map((line, index) => (
+                    <div key={index}>{line}</div>
+                  ))} */}
+                {/* </td> */}
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap flex items-center space-x-2 text-center">
                   {/* <button
                 className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700 mb-2"
@@ -297,10 +322,10 @@ const DepartmentTable = ({
                     onClick={() => {
                       // updateDealFinalize(user?.id)
                       setSelectedLead(user);
-                      setDealData((prev) => ({
-                        ...prev,
-                        lead_id: user.id,
-                      }));
+                      // setDealData((prev) => ({
+                      //   ...prev,
+                      //   lead_id: user.id,
+                      // }));
                       setDealCreationOpenForm(true);
                     }}
                   >
@@ -324,7 +349,7 @@ const DepartmentTable = ({
                         setEditUserModalOpen(true);
                       }}
                     >
-                      <FontAwesomeIcon icon={faPenToSquare} /> 
+                      <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
                   )}
 
@@ -426,7 +451,6 @@ const DepartmentTable = ({
                 >
                   Submit
                 </button>
-                
 
                 <button
                   className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"

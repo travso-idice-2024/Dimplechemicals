@@ -20,9 +20,9 @@ const DepartmentTable = ({
       <table className="table-auto w-full text-center border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
+            {/* <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Id
-            </th>
+            </th> */}
             <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Company Name
             </th>
@@ -40,7 +40,7 @@ const DepartmentTable = ({
         <tbody>
         {finalizeDealsListData?.map((user, index) => (
           <tr  key={index} className="text-center">
-            <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
+            {/* <td className="px-4 py-2 text-newtextdata">{index + 1}</td> */}
             <td className="px-4 py-2 text-newtextdata">{user?.company_name}</td>
             <td className="px-4 py-2 text-newtextdata">₹{user?.total_deal_amount}</td>
             <td className="px-4 py-2 text-newtextdata">₹{user?.total_advance_amount}</td>

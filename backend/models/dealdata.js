@@ -6,9 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       dealData.belongsTo(models.Lead, {
         foreignKey: 'lead_id',
-        as: 'lead',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
+        as: 'lead'
       });
 
       dealData.belongsTo(models.Product, {

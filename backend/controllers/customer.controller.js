@@ -8,7 +8,7 @@ const { ValidationError } = require("sequelize");
 const listCustomers = async (req, res) => {
   
   try {
-    const { page = 1, limit = 5, search = "", all } = req.query;
+    const { page = 1, limit = 6 , search = "", all } = req.query;
 
     // Base filter: Only fetch active customers
     let whereCondition = { active_status: "active" };
@@ -40,6 +40,7 @@ const listCustomers = async (req, res) => {
       limit: pageSize,
       offset,
       order: [["createdAt", "DESC"]],
+      distinct: true,
       include: [
         {
           model: BusinessAssociate,
@@ -420,23 +421,38 @@ const exportCustomersToExcel = async (req, res) => {
     const { search = "" } = req.query;
 
     // Search condition
-    let whereCondition = {};
-    if (search) {
-      whereCondition = {
-        [Op.or]: [
-          { company_name: { [Op.like]: `%${search}%` } },
-          { client_name: { [Op.like]: `%${search}%` } },
-          { email_id: { [Op.like]: `%${search}%` } },
-          { cust_id: { [Op.like]: `%${search}%` } },
-          { pan_no: { [Op.like]: `%${search}%` } },
-          { primary_contact: { [Op.like]: `%${search}%` } },
-        ],
-      };
-    }
-
+     // Base filter: Only fetch active customers
+     let whereCondition = {};
+     // Add search filter if provided
+     if (search) {
+       whereCondition.company_name = { [Op.like]: `${search}%` }; 
+     }
+  
     const customers = await Customer.findAll({
       where: whereCondition,
       order: [["id", "ASC"]],
+      include: [
+        {
+          model: BusinessAssociate,
+          as: 'businessAssociates',
+          where: {
+            status: 1,
+          },
+          required: false, // so even customers without active associates are included
+          attributes: ['id', 'associate_name', 'status'] // whatever fields you need
+        },
+        {
+          model: CustomerContactPerson,
+          as: "contactPersons", // alias must match your association
+          required: false,
+          attributes: ["id", "name", "email", "phone_no","designation"], // adjust as needed
+        },
+        {
+          model: CustomerAddress,
+          as: "addresses", // alias must match your association
+          required: false,
+        },
+      ],
     });
 
     const workbook = new ExcelJS.Workbook();
@@ -445,40 +461,55 @@ const exportCustomersToExcel = async (req, res) => {
     worksheet.columns = [
       { header: "Customer ID", key: "cust_id", width: 15 },
       { header: "Company Name", key: "company_name", width: 25 },
-      { header: "Client Name", key: "client_name", width: 20 },
-      { header: "Designation", key: "designation", width: 15 },
       { header: "Primary Contact", key: "primary_contact", width: 20 },
       { header: "Secondary Contact", key: "secondary_contact", width: 20 },
       { header: "Email", key: "email_id", width: 25 },
-      { header: "Address", key: "address", width: 30 },
-      { header: "Address 2", key: "address_2", width: 30 },
-      { header: "Address 3", key: "address_3", width: 30 },
-      { header: "Address 4", key: "address_4", width: 30 },
-      { header: "Location", key: "location", width: 20 },
-      { header: "Pincode", key: "pincode", width: 15 },
       { header: "PAN No", key: "pan_no", width: 20 },
+      { header: "GST No", key: "gst_number", width: 20 },
+      { header: "Business Associate", key: "business_associate", width: 20 },
       { header: "Status", key: "active_status", width: 15 },
+      { header: "Contact Persons", key: "contact_persons", width: 50 },
+      { header: "Company Address's", key: "company_address", width: 50 }
+      
     ];
 
     customers.forEach((customer) => {
       worksheet.addRow({
         cust_id: customer.cust_id,
         company_name: customer.company_name,
-        client_name: customer.client_name,
-        designation: customer.designation,
         primary_contact: customer.primary_contact,
         secondary_contact: customer.secondary_contact,
         email_id: customer.email_id,
-        address: customer.address,
-        address_2: customer.address_2,
-        address_3: customer.address_3,
-        address_4: customer.address_4,
-        location: customer.location,
-        pincode: customer.pincode,
         pan_no: customer.pan_no,
+        gst_number: customer.gst_number,
+        business_associate: customer.businessAssociates[0]?.associate_name,
         active_status: customer.active_status,
+        contact_persons: customer.contactPersons
+          ?.map(
+            (p) => `${p.designation} ${p.name} (${p.email}, ${p.phone_no})`
+          )
+          .join("\n"), // newline-separated
+        company_address: customer.addresses
+          ?.map(
+            (p) => `${p.address_type} - ${p.location}, (${p.city}, ${p.pincode})`
+          )
+          .join("\n"), // newline-separated
       });
     });
+
+    // customers.forEach((customer) => {
+    //   worksheet.addRow({
+    //     cust_id: customer.cust_id,
+    //     company_name: customer.company_name,
+    //     primary_contact: customer.primary_contact,
+    //     secondary_contact: customer.secondary_contact,
+    //     email_id: customer.email_id,
+    //     pan_no: customer.pan_no,
+    //     gst_number: customer.gst_number,
+    //     business_associate: customer.businessAssociates[0]?.associate_name,
+    //     active_status: customer.active_status,
+    //   });
+    // });
 
     const timestamp = new Date()
       .toISOString()

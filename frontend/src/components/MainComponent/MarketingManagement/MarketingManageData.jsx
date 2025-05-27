@@ -22,7 +22,8 @@ import {
   updateSalesPersionAssignment,
   addDeal,
   getProductByLeadId,
-  addProductToLead
+  addProductToLead,
+  deleteProductFromLead
 } from "../../../redux/leadSlice";
 
 import { fetchCurrentUser } from "../../../redux/authSlice";
@@ -41,7 +42,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const getAuthToken = () => localStorage.getItem("token");
 
 const MarketingManageData = () => {
-  const { id } = useParams();
+  //const { id } = useParams();
   const {
     isAuthenticated,
     createEvent,
@@ -54,7 +55,7 @@ const MarketingManageData = () => {
 
   const { pductByleadId } = useSelector((state) => state.lead);
 
-  //console.log("pductByleadId",pductByleadId);
+ 
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
@@ -91,11 +92,15 @@ const MarketingManageData = () => {
   const leadPerPage = 4;
 
   // Fetch departments whenever searchTerm or currentPage changes
-  //console.log("selectedLead?.id", selectedLead?.id);
+  //console.log("selectedLead", selectedLead);
 
    useEffect(() => {
-      dispatch(getProductByLeadId({ lead_id: selectedLead?.id })); 
-    }, [dispatch,selectedLead?.id]);
+      dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id})); 
+    }, [dispatch,selectedLead?.customer_id]);
+
+    // useEffect(() => {
+    //   dispatch(getProductByLeadId({ lead_id: selectedLead?.id })); 
+    // }, [dispatch,selectedLead?.id]);
 
 
   useEffect(() => {
@@ -108,7 +113,7 @@ const MarketingManageData = () => {
     );
     dispatch(
       GenratedlistLeads({
-        id:id,
+        //id:id,
         page: currentPage,
         limit: leadPerPage,
         search: searchTerm,
@@ -247,7 +252,7 @@ const MarketingManageData = () => {
 
           setTimeout(() => {
             setIsAssignModalOpen(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleAddLeadFlashMessage(
             response?.message || "Something went wrong",
@@ -539,13 +544,14 @@ const MarketingManageData = () => {
         // Reset state
         setTimeout(() => {
           setIsLeadAssignPopup(false); // Make sure modal state name matches
-        }, 3000);
+        }, 1000);
         setSelectedPOAId(null);
         setSelectedLead("");
 
         // Refresh list
         dispatch(
           GenratedlistLeads({
+            //id:id,
             page: currentPage,
             limit: leadPerPage,
             search: searchTerm,
@@ -598,14 +604,13 @@ const MarketingManageData = () => {
   //   lead_id:""
   // });
   const [dealData, setDealData] = useState({
-    lead_id: selectedLead?.id || "",
+    //lead_id: selectedLead?.id || "",
     deals: [],
   });
   
 
   const [totalAdvanceAmount, setTotalAdvanceAmount] = useState(0);
   const [totalDealAmount, setTotalDealAmount] = useState(0);
-
 
   useEffect(() => {
     if (pductByleadId?.data?.length > 0) {
@@ -710,13 +715,14 @@ const MarketingManageData = () => {
     e.preventDefault();
     //if (validateDealForm()) {
       try {
-        //console.log("dealData", dealData);
+        console.log("dealData", dealData);
         const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
 
         if (response?.success) {
           handleAddDealFlashMessage(response?.message, "success");
 
-          dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+          // dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+          dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
 
           dispatch(
             GenratedlistLeads({
@@ -730,7 +736,7 @@ const MarketingManageData = () => {
 
           setTimeout(() => {
             setDealCreationOpenForm(false);
-          }, 3000);
+          }, 1000);
         } else {
           handleAddDealFlashMessage(
             response?.message || "Something went wrong",
@@ -772,8 +778,8 @@ const MarketingManageData = () => {
             if (response?.success) {
               //handleAddLeadFlashMessage(response?.message, "success");
               //dispatch(listCustomers());
-              dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
-    
+              //dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+              dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
               setLeadProductData({});
             } else {
               console.log(
@@ -802,6 +808,33 @@ const MarketingManageData = () => {
   };
 
   //end google calender (poa) event add
+
+  //start 
+
+  const handleRemoveProduct = async (product) => {
+    //console.log("product",product,selectedLead?.id);
+    
+    try {
+      const response = await dispatch(deleteProductFromLead({ product_id:product?.product_id })).unwrap();
+      //console.log(response);
+      if (response?.success) {
+        console.log("product deleted sucesssfully");
+        //handleAddLeadFlashMessage(response?.message, "success");
+        //dispatch(listCustomers());
+        dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
+        //setLeadProductData({});
+      } else {
+        console.log(
+          response?.message || "Something went wrong",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+};
+
+  //end handleRemoveProduct
 
   return (
     <div className="flex flex-col gap-[20px]">
@@ -1013,6 +1046,7 @@ const MarketingManageData = () => {
           handleSubmitAddProduct = {handleSubmitAddProduct}
           totalAdvanceAmount={totalAdvanceAmount}
           totalDealAmount={totalDealAmount}
+          handleRemoveProduct={handleRemoveProduct}
         />
       )}
         {isLeadAssignPopup && (

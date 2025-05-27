@@ -7,17 +7,17 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   const { communicationleadsList, totalPages, leadLoading, leadError } =
     useSelector((state) => state.lead);
 
-  //console.log("communicationleadsList", communicationleadsList?.data);
+  console.log("communicationleadsList", communicationleadsList?.data);
 
   useEffect(() => {
-    if (selectedCustomer?.id) {
+    if (selectedCustomer?.customer_id) {
       dispatch(
         leadCommunicationById({
-          leadId: selectedCustomer?.id,
+          customer_id: selectedCustomer?.customer_id,
         })
       );
     }
-  }, [dispatch, selectedCustomer?.id]);
+  }, [dispatch, selectedCustomer?.customer_id]);
 
   //console.log("selectedCustomer", selectedCustomer);
   return (
@@ -63,7 +63,6 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 value={selectedCustomer?.contactPerson?.name}
               />
 
-             
               <Detail
                 label="Primary Contact"
                 value={selectedCustomer?.customer?.primary_contact}
@@ -73,12 +72,10 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                 value={selectedCustomer?.customer?.email_id}
               />
 
-             
               <Detail
                 label="Pan No."
                 value={selectedCustomer?.customer?.pan_no}
               />
-             
             </div>
           </div>
 
@@ -106,7 +103,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Company Name
                   </th>
-                  
+
                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Communication
                   </th>
@@ -160,9 +157,12 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {user?.Customer?.company_name}
                       </td>
-                  
+
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 w-[300px]">
-                        {user?.lead_text}
+                        {/* {user?.lead_text} */}
+                        {user?.lead_text?.split("\n").map((line, index) => (
+                          <div key={index}>{line}</div>
+                        ))}
                       </td>
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {user?.lead_status}
