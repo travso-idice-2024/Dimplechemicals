@@ -117,7 +117,7 @@ const EditUserModal = ({
           </div>
 
           {/* New Code */}
-          {/* <div className="p-4 md:px-20  flex items-start md:items-center flex-col md:flex-row md:justify-between md:mt-8 relative w-full">
+          {/* <div className="p-4 md:px-20  flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  md:mt-8 relative w-full">
             {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
             {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">

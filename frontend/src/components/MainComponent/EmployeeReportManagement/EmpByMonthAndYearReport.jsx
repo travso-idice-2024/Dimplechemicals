@@ -90,9 +90,9 @@ const EmpByMonthAndYearReport = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div>
-              <h1 className="text-white text-[15.5px] font-semibold flex items-center">
+              <h1 className="text-white text-[14px] font-semibold flex items-center">
                 <svg
                   width="25"
                   height="25"
@@ -115,11 +115,12 @@ const EmpByMonthAndYearReport = () => {
             </div>
 
             <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">
+              <div className="flex items-center flex-row gap-[8px] md:gap-[5px]">
               <div>
                 <select
                   value={searchMonth}
                   onChange={(e) => setSearchMonth(e.target.value)}
-                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                  className="w-full rounded border text-newtextdata whitespace-nowrap border-[#473b33] bg-[#1e1e2d] px-3 py-1 text-white outline-none"
                 >
                   <option value="">Select Month</option>
                   <option value="01">January</option>
@@ -141,7 +142,7 @@ const EmpByMonthAndYearReport = () => {
                 <select
                   value={searchYear}
                   onChange={(e) => setSearchYear(e.target.value)}
-                  className="w-full rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-2 text-white outline-none"
+                  className="w-full rounded border text-newtextdata whitespace-nowrap border-[#473b33] bg-[#1e1e2d] px-3 py-1 text-white outline-none"
                 >
                   <option value="">Select Year</option>
                   {Array.from({ length: 101 }, (_, i) => 2000 + i).map(
@@ -153,9 +154,10 @@ const EmpByMonthAndYearReport = () => {
                   )}
                 </select>
               </div>
+              </div>
               <div>
                 <button
-                  className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  className="flex items-center text-newtextdata whitespace-nowrap whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.23rem]"
                   onClick={handleExportData}
                 >
                   <img
@@ -168,34 +170,35 @@ const EmpByMonthAndYearReport = () => {
               </div>
             </div>
           </div>
+          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">
               <table className="table-auto w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Id
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Emp Id
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Full Name
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Emil
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Phone
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Status
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Joining Date
                     </th>
                   </tr>
@@ -204,24 +207,24 @@ const EmpByMonthAndYearReport = () => {
                   {empData &&
                     empData?.data?.map((user, index) => (
                       <tr key={index + 1}>
-                        <td className="px-4 py-2 text-textdata">{index + 1}</td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{index + 1}</td>
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {user?.emp_id}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {user?.fullname}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {user?.email}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {user?.phone}
                         </td>
 
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {user?.status}
                         </td>
-                        <td className="px-4 py-2 text-textdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {new Date(
                             user?.jobDetail?.date_of_joining
                           )?.toLocaleDateString("en-GB", {
@@ -236,6 +239,7 @@ const EmpByMonthAndYearReport = () => {
               </table>
             </div>
             {/* {/------- Table Data End -------/} */}
+          </div>
           </div>
         </div>
       </div>

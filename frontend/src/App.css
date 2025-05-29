@@ -156,7 +156,7 @@ button {
 /* Tablets & smaller laptops (medium screens */
 @media screen and (max-width: 1200px) {
   .content {
-    width: 100%;
+    width: auto;
   }
 
   .heightfixalldevice{
@@ -168,7 +168,7 @@ button {
 /* Mobile view (landscape and portrait phones, small tablets) */
 @media screen and (max-width: 768px) {
   .content {
-    width: 100%;
+    width: auto;
   }
   .grid-c-title-text {
     font-weight: 500;
@@ -186,7 +186,7 @@ button {
 /* Extra small devices (iPhones, small Android phones) */
 @media screen and (max-width: 420px) {
   .content {
-    width: 100%;
+    width: auto;
   }
   .grid-c-title-text {
     font-weight: 500;

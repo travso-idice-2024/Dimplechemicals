@@ -45,7 +45,7 @@ export const LeadFollowList = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             {/* <div>
             <button onClick={() => navigate(-1)} className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]">
                 ⬅ Back

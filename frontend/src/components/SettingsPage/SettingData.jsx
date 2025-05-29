@@ -14,7 +14,7 @@ const SettingData = () => {
   return (
     <div className="main-content-holder max-h-[620px] overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
           <h1 className="text-white text-textdata whitespace-nowrap font-semibold">Settings</h1>
         </div>
         <div className="w-full flex flex-col md:flex-row gap-[20px]">

@@ -513,10 +513,10 @@ useEffect(() => {
       {leadDataShowNew && (
         <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="flex flex-col gap-[20px]">
-            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
               <div>
                 <h1
-                  class="text-white text-[15.5px] font-semibold flex items-center cursor-pointer"
+                  class="text-white text-[14px] font-semibold flex items-center cursor-pointer"
                   onClick={() => setLeadDataShowNew(false)}
                 >
                   <svg

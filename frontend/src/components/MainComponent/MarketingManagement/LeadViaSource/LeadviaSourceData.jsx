@@ -7,7 +7,7 @@ const LeadviaSourceData = () => {
     <div className="main-content">
       <ContentTop />
       <div className="flex flex-col gap-[20px]">
-        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+        <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
           <div>
             <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
               Lead Via Source Management
