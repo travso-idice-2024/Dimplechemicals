@@ -229,7 +229,7 @@ const AddProductModal = ({
             {/* Product Description */}
             <div className="col-span-2">
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                Product Description :
+                Consumption per Sq. Mtr. :
               </label>
               <textarea
                 name="product_description"

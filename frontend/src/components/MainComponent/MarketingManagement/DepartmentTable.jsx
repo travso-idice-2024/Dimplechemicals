@@ -396,6 +396,9 @@ const DepartmentTable = ({
                     <option value="ProposalSent">Proposal Sent</option>
                     <option value="Discussion">Discussion</option>
                     <option value="Lost">Lost</option>
+                    <option value="Lost">Demo Completed</option>
+                    <option value="Lost">Not interested</option>
+                    <option value="Lost">Order Confirmed</option>
                   </select>
                   {formErrors.lead_status && (
                     <p className="text-red-500 text-sm">

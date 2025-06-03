@@ -196,3 +196,14 @@ button {
   max-height: 100% !important;
 }
 }
+
+
+
+.css-13cymwt-control {
+    border: none !important;
+}
+
+
+.css-13cymwt-control:hover {
+box-shadow: 0 0 0 1px black;
+}
