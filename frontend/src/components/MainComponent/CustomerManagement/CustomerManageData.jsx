@@ -30,7 +30,7 @@ const CustomerManageData = () => {
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  //console.log("customers", customers);
+  console.log("customers", customers);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
@@ -190,6 +190,7 @@ const CustomerManageData = () => {
           setTimeout(() => {
             setAddCustomerModalOpen(false);
           }, 1000);
+          setFormData({});
         }
       } catch (error) {
         console.error("Error adding customer:", error);
@@ -267,7 +268,7 @@ const CustomerManageData = () => {
 
   // Update form data when a customer is selected for editing
   useEffect(() => {
-    console.log("selectedCustomer",selectedCustomer);
+    //console.log("selectedCustomer",selectedCustomer);
     if (selectedCustomer) {
       setEditFormData({
         company_name: selectedCustomer.company_name || "",
@@ -451,17 +452,39 @@ const CustomerManageData = () => {
   const handleAssociatePopup = () => {
     setAssociatePopup(true);
   };
+
+  const [newAssociateName, setNewAssociateName] = useState("");
+  const [newAssociatePhone, setNewAssociatePhone] = useState("");
+  const [newAssociateEmail, setNewAssociateEmail] = useState("");
+
   const handleUpdateAssociate = async () => {
     try {
       // ✅ Get token
       const token = getAuthToken();
 
+      // setEditFormData((prev) => ({
+      //   ...prev,
+      //   associate_name: {
+      //     associate_name: newAssociateName,
+      //     phone_no: newAssociatePhone,
+      //     email: newAssociateEmail,
+      //   },
+      // }));
+
+
+      const updatedAssociateObj = {
+        associate_name: newAssociateName,
+        phone_no: newAssociatePhone,
+        email: newAssociateEmail,
+      };
+      console.log("updatedAssociateObj",updatedAssociateObj);
+
       // Send the updated associate_name in the body (not in params)
       const response = await axios.put(
         `${API_URL}/auth/update-asssociates/${selectedCustomer?.id}`, // Use PUT or PATCH for updates
-        {
-          associate_name: editFormData?.associate_name, // Send data in the request body
-        },
+        
+          updatedAssociateObj, // Send data in the request body
+        
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -598,6 +621,12 @@ const CustomerManageData = () => {
               associatePopup={associatePopup} 
               setAssociatePopup={setAssociatePopup}
               handleAssociatePopup={handleAssociatePopup}
+              newAssociateName={newAssociateName}
+              setNewAssociateName={setNewAssociateName}
+              newAssociatePhone={newAssociatePhone}
+              setNewAssociatePhone={setNewAssociatePhone}
+              newAssociateEmail={newAssociateEmail}
+              setNewAssociateEmail={setNewAssociateEmail}
             />
           )}
           {/* View User Modal */}

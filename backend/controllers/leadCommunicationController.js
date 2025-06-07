@@ -163,7 +163,7 @@ const createLeadCommunication = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Meeting Started successfully",
-      data: newLead,
+      data: latestLead,
     });
   } catch (error) {
     console.error("Error inserting lead communication:", error);
@@ -180,7 +180,10 @@ const endMeeting = async (req, res) => {
       end_meeting_time,
       end_location, // to target the specific lead
       lead_id,
+      final_meeting = false,
     } = req.body;
+
+    //console.log("lead_text",lead_text);
 
     // Check user auth
     if (!req.user || !req.user.id) {
@@ -204,8 +207,9 @@ const endMeeting = async (req, res) => {
     });
 
     // Combine old and new lead_text and lead_status
-    //const updatedLeadText = `${latestLead.lead_text || ""}\n${lead_text}`;
-    const oldText = latestLead.lead_text ? latestLead.lead_text.trim() : "";
+    //const updatedLeadText = `${latestLead.lead_text || ""}\n${lead_text}`;const oldText = latestLead?.lead_text?.trim() || "";
+    const oldText = latestLead?.lead_text?.trim() || "";
+
 
     // Split old text into lines, or empty array if none
     const lines = oldText ? oldText.split("\n") : [];
@@ -220,7 +224,7 @@ const endMeeting = async (req, res) => {
     const updatedLeadText = oldText ? `${oldText}\n${newText}` : newText;
 
     const updatedLeadStatus = `${
-      latestLead.lead_status || ""
+      latestLead?.lead_status || ""
     } -> ${lead_status}`;
 
     if (!latestLead) {
@@ -236,6 +240,7 @@ const endMeeting = async (req, res) => {
       lead_date,
       end_meeting_time,
       end_location,
+      final_meeting: final_meeting === true || final_meeting === 'true',
     });
 
     //update next followu date in lead table

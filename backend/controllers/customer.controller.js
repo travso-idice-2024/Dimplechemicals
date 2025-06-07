@@ -49,7 +49,7 @@ const listCustomers = async (req, res) => {
             status: 1,
           },
           required: false, // so even customers without active associates are included
-          attributes: ['id', 'associate_name', 'status'] // whatever fields you need
+          attributes: ['id', 'associate_name', 'status','email', 'phone_no'] // whatever fields you need
         },
         {
           model: CustomerContactPerson,
@@ -78,6 +78,143 @@ const listCustomers = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// const addCustomer = async (req, res) => {
+//   //console.log("addcustomer backend", req.body);
+//   try {
+//     const {
+//       company_name,
+//       //client_name,
+//       //designation,
+//       primary_contact,
+//       secondary_contact,
+//       email_id,
+//       //address,
+//       //address_2,
+//       //address_3,
+//       //address_4,
+//       //location,
+//       //pincode,
+//       pan_no,
+//       associate_name,
+//       business_associate,
+//       contact_persons,
+//       company_address,
+//       gst_number,
+//     } = req.body;
+
+//     // Validation
+//     if (!company_name || !email_id) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Company name, client name, and email are required.",
+//       });
+//     }
+
+//     // Check if customer already exists
+//     const existingCustomer = await Customer.findOne({ where: { email_id } });
+//     if (existingCustomer) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Customer with this email already exists.",
+//       });
+//     }
+
+//     // Create new customer
+//     const newCustomer = await Customer.create({
+//       company_name,
+//       //client_name,
+//       //designation,
+//       primary_contact,
+//       secondary_contact,
+//       email_id,
+//      // address,
+//      // address_2,
+//       //address_3,
+//       //address_4,
+//       //location,
+//       //pincode,
+//       pan_no,
+//       business_associate,
+//       contact_persons,
+//       company_address,
+//       gst_number,
+//     });
+
+//     if (Array.isArray(contact_persons) && contact_persons.length > 0) {
+//       const contactEntries = contact_persons.map((person) => ({
+//         customer_id: newCustomer.id,
+//         name: person.name,
+//         email: person.email,
+//         phone_no: person.phone_no,
+//         designation: person.designation,
+//       }));
+
+//       await CustomerContactPerson.bulkCreate(contactEntries);
+//     }
+
+//     // Insert company addresses
+//     if (Array.isArray(company_address) && company_address.length > 0) {
+//       const addressEntries = company_address.map((addr) => ({
+//         customer_id: newCustomer.id,
+//         pincode: addr.pincode,
+//         location: addr.location,
+//         city: addr.city,
+//         address_type: addr.address_type,
+//       }));
+
+//       await CustomerAddress.bulkCreate(addressEntries);
+//     }
+
+//     // Create new business associate entry (with foreign key customer_id)
+//     // if (associate_name) {
+//     //   await BusinessAssociate.create({
+//     //     associate_name: associate_name,
+//     //     //code: `BA${newCustomer.id}`,
+//     //     status: true,
+//     //     customer_id: newCustomer.id, // <-- This fixes the foreign key issue
+//     //   });
+//     // }
+
+//     // Handle Business Associates (multiple, with one marked as status: true)
+//     if (Array.isArray(associate_name) && associate_name.length > 0) {
+//       const associateData = associate_name.map((name) => ({
+//         associate_name: name,
+//         status: name === business_associate, // true only for matched one
+//         customer_id: newCustomer.id,
+//       }));
+
+//       const createdAssociates = await BusinessAssociate.bulkCreate(associateData, { returning: true });
+
+//       // Add code for each: BA<ID>
+//       await Promise.all(
+//         createdAssociates.map((associate) => {
+//           const code = `BA${associate.id}`;
+//           return associate.update({ code });
+//         })
+//     );
+//     }
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Customer added successfully",
+//       data: newCustomer,
+//     });
+//   } catch (error) {
+//     if (error instanceof ValidationError) {
+//       const messages = error.errors.map((err) => err.message);
+//       console.error("Sequelize Validation Errors:", messages);
+//       return res.status(400).json({
+//         success: false,
+//         message: "Validation error",
+//         errors: messages,
+//       });
+//     }
+
+//     console.error("Error:", error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
 const addCustomer = async (req, res) => {
   //console.log("addcustomer backend", req.body);
@@ -147,6 +284,7 @@ const addCustomer = async (req, res) => {
         name: person.name,
         email: person.email,
         phone_no: person.phone_no,
+        alternate_no: person.alternate_no,
         designation: person.designation,
       }));
 
@@ -161,6 +299,7 @@ const addCustomer = async (req, res) => {
         location: addr.location,
         city: addr.city,
         address_type: addr.address_type,
+        full_address: addr.full_address,
       }));
 
       await CustomerAddress.bulkCreate(addressEntries);
@@ -170,7 +309,7 @@ const addCustomer = async (req, res) => {
     // if (associate_name) {
     //   await BusinessAssociate.create({
     //     associate_name: associate_name,
-    //     //code: `BA${newCustomer.id}`,
+    //     //code: BA${newCustomer.id},
     //     status: true,
     //     customer_id: newCustomer.id, // <-- This fixes the foreign key issue
     //   });
@@ -179,8 +318,10 @@ const addCustomer = async (req, res) => {
     // Handle Business Associates (multiple, with one marked as status: true)
     if (Array.isArray(associate_name) && associate_name.length > 0) {
       const associateData = associate_name.map((name) => ({
-        associate_name: name,
-        status: name === business_associate, // true only for matched one
+        associate_name: name.associate_name,
+        email: name.email,
+        phone_no: name.phone_no,
+        status: name.associate_name === business_associate, // true only for matched one
         customer_id: newCustomer.id,
       }));
 
@@ -212,7 +353,7 @@ const addCustomer = async (req, res) => {
     }
 
     console.error("Error:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message});
   }
 };
 
@@ -319,6 +460,7 @@ const updateCustomer = async (req, res) => {
         location: addr.location,
         city: addr.city,
         address_type: addr.address_type,
+        full_address: addr.full_address,
       }));
 
       await CustomerAddress.bulkCreate(addressEntries);
@@ -730,7 +872,8 @@ const getBuisnessAssociates = async (req, res) => {
 const updateBusinessAssociate = async (req, res) => {
   try {
     const { customer_id } = req.params;
-    const { associate_name } = req.body;
+    const { associate_name ,email, 
+      phone_no,} = req.body;
     //console.log("updatebussiness" ,customer_id,associate_name );
 
     if (!customer_id) {
@@ -793,9 +936,15 @@ const updateBusinessAssociate = async (req, res) => {
       const newAssociate = await BusinessAssociate.create({
         associate_name,
         customer_id: customer_id,
-        code: `BA${customer_id}`,
+        // code: `BA${customer_id}`,
+        email, 
+        phone_no,
         status: 1,
       });
+
+      const code = `BA${newAssociate.id}`;
+      // Step 3: Update the associate with the generated code
+      await newAssociate.update({code});
 
       return res.status(201).json({
         success: true,

@@ -208,6 +208,7 @@ const DepartmentTable = ({
     lead_text: "",
     lead_status: "",
     lead_date: "",
+    final_meeting:false
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -226,13 +227,30 @@ const DepartmentTable = ({
   };
 
   // Handle Input Change
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
+  //   setAttendeesEmails([userDeatail.email]); 
+  //   setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  // };
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    setAttendeesEmails([userDeatail.email]); // If you want an array of one email
-    // Clear error when user types
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+    const { name, value, type, checked } = e.target;
+  
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    if (name === "lead_date") {
+      setAttendeesEmails([userDeatail.email]); 
+    }
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
+  
 
   // Validate Inputs
   const validateInputs = () => {
@@ -266,10 +284,12 @@ const DepartmentTable = ({
               ...formData,
               end_location: locationName,
               end_meeting_time: currentTime,
-              lead_id:selectedPOA?.id
+              lead_id: selectedPOA?.id,
             };
 
             setFormData(updatedFormData); // optional, if you want to persist it
+
+            //console.log("formData", formData);
 
             const token = getAuthToken();
 
@@ -434,21 +454,30 @@ const DepartmentTable = ({
               </td>
               {userDeatail?.employeeRole?.role_id === 3 && (
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
-                  <button
-                    onClick={() => {
-                      handleToggle(user);
-                      setSelectedPOA(user);
-                    }}
-                    className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${
-                      isCheckedIn && activeLeadId === user.id
-                        ? "bg-red-600 hover:bg-red-800"
-                        : "bg-green-600 hover:bg-green-800"
-                    }`}
-                  >
-                    {isCheckedIn && activeLeadId === user.id
-                      ? "Meeting End"
-                      : "Meeting Start"}
-                  </button>
+                  {user?.meeting_end === false ? (
+                    <button
+                      onClick={() => {
+                        handleToggle(user);
+                        setSelectedPOA(user);
+                      }}
+                      className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${
+                        isCheckedIn && activeLeadId === user.id
+                          ? "bg-red-600 hover:bg-red-800"
+                          : "bg-green-600 hover:bg-green-800"
+                      }`}
+                    >
+                      {isCheckedIn && activeLeadId === user.id
+                        ? "Meeting End"
+                        : "Meeting Start"}
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className="float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 bg-red-600 opacity-50 cursor-not-allowed"
+                    >
+                      Meeting Done
+                    </button>
+                  )}
                 </td>
               )}
             </tr>
@@ -503,6 +532,23 @@ const DepartmentTable = ({
                 {formErrors.lead_date && (
                   <p className="text-red-500 text-sm">{formErrors.lead_date}</p>
                 )}
+              </div>
+
+              <div>
+                
+                <label className="font-poppins font-medium text-black text-[16px]">Final Meeting:</label>
+                <div className="flex items-center w-full h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
+                  <input
+                    type="checkbox"
+                    name="final_meeting"
+                    checked={formData.final_meeting}
+                    onChange={handleChange}
+                    className="form-checkbox h-5 w-5 text-[#473b33] border border-[#473b33]"
+                  />
+                  <span className="ml-2 font-poppins font-medium text-black text-[16px]">
+                    Final Meeting
+                  </span>
+                  </div>
               </div>
 
               <div>

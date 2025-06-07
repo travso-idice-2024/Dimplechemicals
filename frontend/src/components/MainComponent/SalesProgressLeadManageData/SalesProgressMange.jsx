@@ -35,6 +35,7 @@ import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import axios from "axios";
 import Calender from "../../calender/Calender";
 import { useNavigate } from "react-router-dom";
+import SalesPersonFollowUp from "../MarketingManagement/SalesFolllowUpForm/SalesPersonFollowUp";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -469,6 +470,10 @@ useEffect(() => {
             </div>
              
           </div>
+          <SalesPersonFollowUp/>
+
+
+          
           
            {/* show google map */}
              <div className="">

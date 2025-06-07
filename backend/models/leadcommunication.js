@@ -88,6 +88,10 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
+    final_meeting: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false,
+    },
   }, {
     tableName: 'leadcommunications',
     timestamps: true,

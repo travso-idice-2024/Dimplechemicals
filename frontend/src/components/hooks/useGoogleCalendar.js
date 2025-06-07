@@ -1,167 +1,207 @@
-import { useState, useEffect } from "react";
-import { gapi } from "gapi-script";
+import { useState, useEffect } from 'react';
 
-const CLIENT_ID = "55383078377-kpkl3r1n0qo8937ltrskk3ane2cvmoge.apps.googleusercontent.com";
-const SCOPES = "https://www.googleapis.com/auth/calendar";
+const CLIENT_ID = '369846641543-at9qrr9at1c3mfg3rqpk1valfoq9rn2t.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
 const useGoogleCalendar = () => {
+  const [accessToken, setAccessToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [events, setEvents] = useState([]);
 
-  // Load the Google API client
-  const loadGoogleApi = async () => {
-    try {
-      await new Promise((resolve) => {
-        gapi.load("client:auth2", resolve);
-      });
-
-      await gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: SCOPES,
-        discoveryDocs: [
-          "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-        ],
-      });
-
-      const authInstance = gapi.auth2.getAuthInstance();
-      setIsAuthenticated(authInstance.isSignedIn.get());
-      authInstance.isSignedIn.listen(setIsAuthenticated);
-    } catch (error) {
-      console.error("Error initializing Google API:", error);
-    }
-  };
-
   useEffect(() => {
-    loadGoogleApi();
+    /* global google */
+    const initializeGis = () => {
+      window.tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: (tokenResponse) => {
+          if (tokenResponse.error) {
+            console.error('Token Error:', tokenResponse);
+            return;
+          }
+          setAccessToken(tokenResponse.access_token);
+          setIsAuthenticated(true);
+        },
+      });
+    };
+
+    if (window.google && google.accounts && google.accounts.oauth2) {
+      initializeGis();
+    } else {
+      window.onload = initializeGis;
+    }
   }, []);
 
-  // Handle Google login
-  const handleLogin = async () => {
-    try {
-      const googleUser = await gapi.auth2.getAuthInstance().signIn();
-
-      if (googleUser.isSignedIn()) {
-        console.log("Login successful:", googleUser);
-        setIsAuthenticated(true);
-      } else {
-        console.error("Login failed: User not signed in.");
-      }
-    } catch (error) {
-      if (error.error === "popup_closed_by_user") {
-        alert("Login popup was closed. Please try again.");
-      } else {
-        console.error("Login failed:", error);
-        alert("Login failed. Please try again.");
-      }
+  const handleLogin = () => {
+    if (window.tokenClient) {
+      window.tokenClient.requestAccessToken();
+    } else {
+      console.error('Token client not initialized.');
     }
   };
 
-  // Handle Google logout
-  const handleLogout = async () => {
-    try {
-      await gapi.auth2.getAuthInstance().signOut();
-      setIsAuthenticated(false);
-      setEvents([]);
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
-
-  // Get Google Calendar events
-  const fetchEvents = async () => {
-    try {
-      //const timeMin = new Date().toISOString(); // current time — fetch upcoming events
-
-      const response = await gapi.client.calendar.events.list({
-        calendarId: "primary",
-        //timeMin,
-        singleEvents: true,
-        orderBy: "startTime",
-        maxResults: 100, // optional, fetch up to 100 events — adjust as needed
+  const handleLogout = () => {
+    if (accessToken) {
+      google.accounts.oauth2.revoke(accessToken, () => {
+        setAccessToken(null);
+        setIsAuthenticated(false);
+        setEvents([]);
       });
+    }
+  };
 
-      console.log(response.result.items);
+  const fetchEvents = async () => {
+    if (!accessToken) {
+      console.error('Access token is missing.');
+      return;
+    }
 
+    try {
+      const response = await fetch(
+        'https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=100&orderBy=startTime&singleEvents=true',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-      console.log("Fetched events response:", response);
-
-      if (response?.result?.items) {
-        setEvents(response.result.items);
+      const data = await response.json();
+      //setEvents(data.items || []);
+      console.log("events",data?.items);
+      if (data?.items) {
+        setEvents(data?.items);
       } else {
         console.log("No events found.");
       }
     } catch (error) {
-      console.error("Error fetching events: ", error);
+      console.error('Error fetching events:', error);
     }
   };
 
-  // Create an event on Google Calendar
-  
-   const createEvent = async (event) => {
-  const newEvent = {
-    summary: event.title,
-    location: event.location,
-    description: event.description,
-    start: {
-      dateTime: new Date(event.startDateTime).toISOString(), // ensure proper ISO format
-      timeZone: "UTC",
-    },
-    end: {
-      dateTime: new Date(event.endDateTime).toISOString(), // ensure proper ISO format
-      timeZone: "UTC",
-    },
-    attendees: event.attendeesEmails.map(email => ({ email })),
-    reminders: {
-      useDefault: true,
-    },
-  };
+  const createEvent = async (event) => {
+    if (!accessToken) {
+      console.error('Access token is missing.');
+      return;
+    }
 
-  try {
-    await gapi.client.calendar.events.insert({
-      calendarId: "primary",
-      resource: newEvent,
-      sendUpdates: "all"
-    });
-    fetchEvents(); // Refresh events after creating
-  } catch (error) {
-    console.error("Error creating event:", error);
-  }
-};
-
-//update event
-const updateGoogleEvent = (eventId, event) => {
-  gapi.client.calendar.events.update({
-    calendarId: 'primary',
-    eventId: eventId,
-    resource: {
+    const eventData = {
       summary: event.title,
       location: event.location,
       description: event.description,
       start: {
-        dateTime: event.start,
+        dateTime: new Date(event.startDateTime).toISOString(),
         timeZone: 'UTC',
       },
       end: {
-        dateTime: event.end,
+        dateTime: new Date(event.endDateTime).toISOString(),
         timeZone: 'UTC',
       },
-    },
-  }).then(response => {
-    console.log('Event updated:', response);
-  });
-};
+      attendees: event.attendeesEmails.map((email) => ({ email })),
+      reminders: {
+        useDefault: true,
+      },
+    };
 
+    try {
+      const response = await fetch(
+        'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(eventData),
+        }
+      );
 
-const deleteGoogleEvent = (eventId) => {
-  gapi.client.calendar.events.delete({
-    calendarId: 'primary',
-    eventId: eventId,
-  }).then(response => {
-    console.log('Event deleted:', response);
-  });
-};
+      if (response.ok) {
+        fetchEvents(); // Refresh events after creation
+      } else {
+        const errorData = await response.json();
+        console.error('Error creating event:', errorData);
+      }
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
+  };
 
+  const updateEvent = async (eventId, updatedEvent) => {
+    if (!accessToken) {
+      console.error('Access token is missing.');
+      return;
+    }
 
+    const eventData = {
+      summary: updatedEvent.title,
+      location: updatedEvent.location,
+      description: updatedEvent.description,
+      start: {
+        dateTime: new Date(updatedEvent.startDateTime).toISOString(),
+        timeZone: 'UTC',
+      },
+      end: {
+        dateTime: new Date(updatedEvent.endDateTime).toISOString(),
+        timeZone: 'UTC',
+      },
+      attendees: updatedEvent.attendeesEmails.map((email) => ({ email })),
+      reminders: {
+        useDefault: true,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(eventData),
+        }
+      );
+
+      if (response.ok) {
+        fetchEvents(); // Refresh events after update
+      } else {
+        const errorData = await response.json();
+        console.error('Error updating event:', errorData);
+      }
+    } catch (error) {
+      console.error('Error updating event:', error);
+    }
+  };
+
+  const deleteEvent = async (eventId) => {
+    if (!accessToken) {
+      console.error('Access token is missing.');
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        fetchEvents(); // Refresh events after deletion
+      } else {
+        const errorData = await response.json();
+        console.error('Error deleting event:', errorData);
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
+  };
 
   return {
     isAuthenticated,
@@ -170,6 +210,8 @@ const deleteGoogleEvent = (eventId) => {
     handleLogout,
     fetchEvents,
     createEvent,
+    updateEvent,
+    deleteEvent,
   };
 };
 

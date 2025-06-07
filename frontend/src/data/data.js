@@ -359,7 +359,8 @@ export const navigationLinks = [
     allowedRoles: []
   },
   { id: 13, title: "Calender", image: iconsImgs.Calender, path: "/calender" ,allowedRoles: [3]},
-  { id: 14, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
+  { id: 14, title: "Gmail", image: iconsImgs.Mail, path: "/gmailtest" ,allowedRoles: [3]},
+  { id: 15, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
 ];
 
 //------------ Own Data --------------//

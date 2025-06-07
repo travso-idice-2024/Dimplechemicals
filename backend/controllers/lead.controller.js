@@ -334,9 +334,9 @@ const updateLead = async (req, res) => {
   }
 };
 
+
 const getLeadList = async (req, res) => {
   try {
-    //console.log("userrole",req.user.userrole);
     const { poaType = "", page = 1, limit = 5, search = "", all } = req.query;
 
     const userId = req.user?.id;
@@ -345,13 +345,12 @@ const getLeadList = async (req, res) => {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
+    const todayDate = new Date().toISOString().split("T")[0];
+
     // Base filter with default active_status
     let whereCondition = {
-      //assigned_person_id: userId,
-      active_status: "active", // ✅ Default condition applied
+      active_status: "active",
     };
-
-    const todayDate = new Date().toISOString().split("T")[0];
 
     if (poaType === "todayPOA") {
       whereCondition[Op.or] = [
@@ -368,12 +367,10 @@ const getLeadList = async (req, res) => {
       ];
     }
 
-    // Non-admin users see only their assigned leads
     if (userRole !== 1) {
       whereCondition.assigned_person_id = userId;
     }
 
-    // Unified Search (Across multiple fields)
     if (search) {
       whereCondition[Op.or] = [
         { "$customer.company_name$": { [Op.like]: `%${search}%` } },
@@ -385,94 +382,120 @@ const getLeadList = async (req, res) => {
       ];
     }
 
-    // Fetch all leads if "all=true" (no pagination)
+    const includeOptions = [
+      {
+        model: Customer,
+        as: "customer",
+      },
+      { model: User, as: "leadOwner", attributes: ["fullname"] },
+      { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
+      {
+        model: CustomerContactPerson,
+        as: "contactPerson",
+        attributes: ["name"],
+      },
+      {
+        model: LeadAssignedHistory,
+        as: "assignmentHistory",
+        include: [
+          {
+            model: User,
+            as: "assignedPerson",
+            attributes: ["fullname"],
+          },
+          ...(all === "true"
+            ? [
+                {
+                  model: LeadCommunication,
+                  as: "communications",
+                  attributes: ["end_meeting_time", "start_meeting_time"],
+                },
+              ]
+            : []),
+        ],
+      },
+    ];
+
+    // Add communications directly when not "all"
+    if (all !== "true") {
+      includeOptions.push({
+        model: LeadCommunication,
+        as: "communications",
+        attributes: ["end_meeting_time", "start_meeting_time"],
+      });
+    }
+
     if (all === "true") {
       const leads = await Lead.findAll({
         where: whereCondition,
-        attributes: { exclude: [] }, // Fetches all attributes
-        include: [
-          {
-            model: Customer,
-            as: "customer",
-            // attributes: ["id", "company_name", "client_name"],
-          },
-          { model: User, as: "leadOwner", attributes: ["fullname"] },
-          { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
-          {
-            model: CustomerContactPerson,
-            as: "contactPerson",
-            attributes: ["name"],
-          },
-          {
-            model: LeadAssignedHistory,
-            as: "assignmentHistory", // ✅ Use the alias you defined in association
-            include: [
-              {
-                model: User,
-                as: "assignedPerson", // Same alias as in the association above
-                attributes: ["fullname"],
-              },
-            ],
-          },
-        ],
+        attributes: { exclude: [] },
+        include: includeOptions,
         order: [["createdAt", "DESC"]],
       });
 
-      return res.status(200).json({ success: true, data: leads });
+      const updatedLeads = leads.map((lead) => {
+        const hasOngoingMeeting = lead.communications?.some((comm) => {
+          const start = comm.start_meeting_time;
+          const end = comm.end_meeting_time;
+          return (start === null && end === null) || (start !== null && end === null);
+        });
+
+        return {
+          ...lead.toJSON(),
+          meeting_end: !hasOngoingMeeting,
+        };
+      });
+
+      return res.status(200).json({ success: true, data: updatedLeads });
     }
 
-    // Convert page & limit to integers for pagination
     const pageNumber = parseInt(page, 10);
     const pageSize = parseInt(limit, 10);
     const offset = (pageNumber - 1) * pageSize;
 
-    // Fetch paginated leads
     const { count, rows } = await Lead.findAndCountAll({
       where: whereCondition,
       limit: pageSize,
       offset,
-      attributes: { exclude: [] }, // Fetches all attributes
-      include: [
-        {
-          model: Customer,
-          as: "customer",
-          //attributes: ["id", "company_name", "client_name"],
-        },
-        { model: User, as: "leadOwner", attributes: ["fullname"] },
-        { model: User, as: "assignedPerson", attributes: ["id", "fullname"] },
-        {
-          model: CustomerContactPerson,
-          as: "contactPerson",
-          attributes: ["name"],
-        },
-        {
-          model: LeadAssignedHistory,
-          as: "assignmentHistory", // ✅ Use the alias you defined in association
-          include: [
-            {
-              model: User,
-              as: "assignedPerson", // Same alias as in the association above
-              attributes: ["fullname"],
-            },
-          ],
-        },
-      ],
+      attributes: { exclude: [] },
+      include: includeOptions,
       order: [["createdAt", "DESC"]],
       distinct: true,
     });
 
+    const updatedRows = rows.map((lead) => {
+      const hasOngoingMeeting = lead.communications?.some((comm) => {
+        const start = comm.start_meeting_time;
+        const end = comm.end_meeting_time;
+
+        const isLeadDateToday =
+          lead.lead_date?.toISOString().split("T")[0] === todayDate;
+        const hasEndedToday = isLeadDateToday && end !== null;
+
+        return (
+          ((start === null && end === null) ||
+            (start !== null && end === null)) &&
+          !hasEndedToday
+        );
+      });
+
+      return {
+        ...lead.toJSON(),
+        meeting_end: !hasOngoingMeeting,
+      };
+    });
+
     res.status(200).json({
       success: true,
-      data: rows,
+      data: updatedRows,
       currentPage: pageNumber,
       totalPages: Math.ceil(count / pageSize),
       totalItems: count,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message});
   }
 };
-
 
 const getleadaftermeeting = async (req, res) => {
   try {

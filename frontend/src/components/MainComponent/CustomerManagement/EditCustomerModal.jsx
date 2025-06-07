@@ -30,8 +30,14 @@ const EditUserModal = ({
   associatePopup,
   setAssociatePopup,
   handleAssociatePopup,
+  newAssociateName,
+  setNewAssociateName,
+  newAssociatePhone,
+  setNewAssociatePhone,
+  newAssociateEmail,
+  setNewAssociateEmail,
 }) => {
-  //console.log("editFormData", editFormData?.company_address);
+  console.log("editFormData", editFormData);
   const dispatch = useDispatch();
   const { allPincodes, allAreas, allCity } = useSelector(
     (state) => state.customer
@@ -45,23 +51,6 @@ const EditUserModal = ({
   }, [dispatch]);
   //  const [associatePopup, setAssociatePopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
-
-  // const handleAddAssociate = () => {
-
-  //   // Save associate_name to business_associate field (if needed)
-  //   // setEditFormData((prev) => ({
-  //   //   ...prev,
-  //   //   associate_name: prev.associate_name, // Clear input field
-  //   // }));
-
-  //   // ✅ Show success message
-  //   setSuccessMessage("Business Associate added successfully!");
-
-  //   // ✅ Clear message after 3 seconds
-  //   setTimeout(() => {setSuccessMessage("");
-  //     handleAssociatePopup();
-  //   }, 3000);
-  // };
 
   const handleEditContactPersonChange = (index, e) => {
     const { name, value } = e.target;
@@ -111,15 +100,15 @@ const EditUserModal = ({
   // Handle input changes for addresses
   const handleEditAddressChange = (index, e) => {
     const { name, value } = e.target;
-  
+
     // Clone the array of addresses
     const newAddresses = [...editFormData.company_address];
-  
+
     // Clone the specific address object before modifying
     const updatedAddress = { ...newAddresses[index], [name]: value };
-  
+
     newAddresses[index] = updatedAddress;
-  
+
     // If location changes, fetch city and update city field
     if (name === "location") {
       dispatch(getCityByAreaname({ areaname: value }))
@@ -131,9 +120,9 @@ const EditUserModal = ({
               ...newAddresses[index],
               city: res?.data[0]?.district,
             };
-  
+
             newAddresses[index] = updatedAddressWithCity;
-  
+
             setEditFormData((prevFormData) => ({
               ...prevFormData,
               company_address: newAddresses,
@@ -141,40 +130,13 @@ const EditUserModal = ({
           }
         });
     }
-  
+
     // Finally update form data state
     setEditFormData((prevData) => ({
       ...prevData,
       company_address: newAddresses,
     }));
   };
-  
-  // const handleEditAddressChange = (index, e) => {
-  //   const { name, value } = e.target;
-  //   const newAddresses = [...editFormData.company_address];
-  //   newAddresses[index][name] = value;
-
-  //   // If location (areaname) changes — dispatch to get city
-  //   if (name === "location") {
-  //     dispatch(getCityByAreaname({ areaname: value }))
-  //       .unwrap()
-  //       .then((res) => {
-  //         //console.log("res?.data[0]?.district", res?.data[0]?.district);
-  //         if (res?.data[0]?.district) {
-  //           newAddresses[index]["city"] = res?.data[0]?.district;
-  //           setEditFormData((prevFormData) => ({
-  //             ...prevFormData,
-  //             company_address: newAddresses,
-  //           }));
-  //         }
-  //       });
-  //   }
-
-  //   setEditFormData((prevData) => ({
-  //     ...prevData,
-  //     company_address: newAddresses,
-  //   }));
-  // };
 
   // Add a new blank address
   const addEditAddress = () => {
@@ -182,7 +144,7 @@ const EditUserModal = ({
       ...prevData,
       company_address: [
         ...prevData.company_address,
-        { pincode: "", location: "", city: "", address_type: "" },
+        { pincode: "", location: "", city: "", address_type: "" , full_address: ""},
       ],
     }));
   };
@@ -249,7 +211,7 @@ const EditUserModal = ({
                     bussinesasociatedata?.length > 0 &&
                     bussinesasociatedata?.map((item) => (
                       <option key={item.id} value={item.id}>
-                        {item.associate_name}
+                        {`${item.associate_name} - ${item.email}`}
                       </option>
                     ))}
                 </select>
@@ -521,19 +483,6 @@ const EditUserModal = ({
                 >
                   <div>
                     <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                      Designation:{index + 1}
-                    </label>
-                    <input
-                      type="text"
-                      name="designation"
-                      placeholder="Contact Person Designation"
-                      value={person.designation}
-                      onChange={(e) => handleEditContactPersonChange(index, e)}
-                      className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                       Name:{index + 1}
                     </label>
                     <input
@@ -541,6 +490,19 @@ const EditUserModal = ({
                       name="name"
                       placeholder="Contact Person Name"
                       value={person.name}
+                      onChange={(e) => handleEditContactPersonChange(index, e)}
+                      className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                      Designation:{index + 1}
+                    </label>
+                    <input
+                      type="text"
+                      name="designation"
+                      placeholder="Contact Person Designation"
+                      value={person.designation}
                       onChange={(e) => handleEditContactPersonChange(index, e)}
                       className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                     />
@@ -708,6 +670,19 @@ const EditUserModal = ({
                     </select>
                   </div>
 
+                  <div>
+                    <label className="font-poppins text-bgData">
+                      Detailed Address: {index + 1}
+                    </label>
+                    <textarea
+                      name="full_address"
+                      onChange={(e) => handleEditAddressChange(index, e)}
+                      placeholder="Detailed Address"
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                      value={address.full_address}
+                    />
+                  </div>
+
                   <div className="flex items-end">
                     <button
                       type="button"
@@ -757,11 +732,11 @@ const EditUserModal = ({
       {/* Associate Popup Design */}
       {associatePopup && (
         <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white w-full md:w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+          <div className="bg-white w-full md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
             <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
               Add New Associate
             </h2>
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Associate Name :
@@ -769,8 +744,34 @@ const EditUserModal = ({
                 <input
                   type="text"
                   name="associate_name"
-                  value={editFormData?.associate_name}
-                  onChange={handleEditChange}
+                  value={newAssociateName}
+                  onChange={(e) => setNewAssociateName(e.target.value)}
+                  placeholder="associate name"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Phone no. :
+                </label>
+                <input
+                  type="number"
+                  name="phone_no"
+                  value={newAssociatePhone}
+                  onChange={(e) => setNewAssociatePhone(e.target.value)}
+                  placeholder="Phone no."
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Email ID :
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={newAssociateEmail}
+                  onChange={(e) => setNewAssociateEmail(e.target.value)}
                   placeholder="associate name"
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
