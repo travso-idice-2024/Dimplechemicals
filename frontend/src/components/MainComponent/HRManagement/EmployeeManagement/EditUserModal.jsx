@@ -621,12 +621,31 @@ const EditUserModal = ({
                 </p>
               )}
             </div>
+            {userDeatail?.employeeRole?.role_id === 1 && (
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Date Of Exit:
+                </label>
+                <input
+                  type="date"
+                  name="date_of_exit"
+                  value={updateFormData.date_of_exit}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+                />
+                {updateFormErrors.date_of_exit && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.date_of_exit}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
           {/* )} */}
 
           {/* Step 2: Job Details */}
           {/* {currentUpdateStep === 2 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
+            {/* <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]"> */}
               {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Basic Salary:
@@ -719,25 +738,7 @@ const EditUserModal = ({
                   </p>
                 )}
               </div> */}
-            {userDeatail?.employeeRole?.role_id === 1 && (
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Date Of Exit:
-                </label>
-                <input
-                  type="date"
-                  name="date_of_exit"
-                  value={updateFormData.date_of_exit}
-                  onChange={handleUpdateChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                />
-                {updateFormErrors.date_of_exit && (
-                  <p className="text-red-500 text-sm">
-                    {updateFormErrors.date_of_exit}
-                  </p>
-                )}
-              </div>
-            )}
+            
 
             {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -862,7 +863,7 @@ const EditUserModal = ({
                   </p>
                 )}
               </div> */}
-          </div>
+          {/* </div> */}
           {/* )} */}
 
           {/* Step 3: Bank Details */}
