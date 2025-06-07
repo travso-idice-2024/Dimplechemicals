@@ -41,6 +41,11 @@ const CustomerManageData = () => {
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditCustomerModalOpen, setEditCustomerModalOpen] = useState(false);
 
+    //-------- New Pagination Code Start --------//
+    const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(5);
+    //-------- New Pagination Code End --------//
+    
+
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -563,6 +568,45 @@ const CustomerManageData = () => {
         </div>
         <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+           {/*--------- New Pagination Code Start  ---------*/}
+          <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
+            <div className="flex items-center">
+              <span className="text-sm text-white bg-[#473b33] rounded-l-[5px] flex items-center text-center px-3 h-8">
+                Show Data
+              </span>
+              <div className="relative cursor-pointer">
+                <select
+                  className="appearance-none cursor-pointer h-8 pr-8 pl-5 rounded-r-[5px] bg-[#3d3d57] text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                  value={entriesPerPageNewData}
+                  onChange={(e) =>
+                    setEntriesPerPageNewData(Number(e.target.value))
+                  }
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                  <option value={20}>20</option>
+                </select>
+                <div className="cursor-pointer absolute inset-y-0 right-2 flex items-center text-gray-300">
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          {/*--------- New Pagination Code End  ---------*/}
             {/*------- Table Data Start -------*/}
             <CustomerTable
               customers={customers?.data}
