@@ -138,7 +138,7 @@ const AddEmployeeModal = ({
               )}
             </div>
 
-            {/* <div>
+            <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter Date of Birth:
                 </label>
@@ -160,7 +160,7 @@ const AddEmployeeModal = ({
                     {formErrors.date_of_birth}
                   </p>
                 )}
-              </div> */}
+              </div>
 
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

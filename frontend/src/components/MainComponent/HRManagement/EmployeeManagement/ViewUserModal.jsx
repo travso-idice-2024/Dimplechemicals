@@ -61,6 +61,10 @@ const ViewUserModal = ({
                     label="Email"
                     value={selectedEmployee?.email}
                   />
+                  <TableRow
+                    label="DOB"
+                    value={selectedEmployee?.date_of_birth?.split("T")[0] || ""}
+                  />
                    <TableRow
                     label="Username"
                     value={selectedEmployee?.username}
