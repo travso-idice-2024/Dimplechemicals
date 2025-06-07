@@ -92,6 +92,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue:false,
     },
+    lead_type: {
+      type: DataTypes.STRING,
+      allowNull:true,
+    },
   }, {
     tableName: 'leadcommunications',
     timestamps: true,

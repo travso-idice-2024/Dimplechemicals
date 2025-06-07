@@ -478,9 +478,9 @@ const EmployeeManageData = () => {
         //confirm_password: "",
         phone: selectedEmployee.phone || "",
         emergency_contact: selectedEmployee.emergency_contact || "",
-        // date_of_birth: selectedEmployee.date_of_birth
-        //   ? selectedEmployee.date_of_birth.split("T")[0]
-        //   : "",
+        date_of_birth: selectedEmployee.date_of_birth
+          ? selectedEmployee.date_of_birth.split("T")[0]
+          : "",
         // gender: selectedEmployee.gender || "",
         // profile_image: selectedEmployee.profile_image || "",
         fullname: selectedEmployee.fullname || "",

@@ -181,6 +181,7 @@ const endMeeting = async (req, res) => {
       end_location, // to target the specific lead
       lead_id,
       final_meeting = false,
+      lead_type
     } = req.body;
 
     //console.log("lead_text",lead_text);
@@ -243,6 +244,7 @@ const endMeeting = async (req, res) => {
       end_meeting_time,
       end_location,
       final_meeting: final_meeting === true || final_meeting === 'true',
+      lead_type
     });
 
     //update next followu date in lead table

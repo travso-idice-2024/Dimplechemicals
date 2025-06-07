@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function ProductMultiSelect({ allProducts, poaData, setPoaData }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleProduct = (id) => {
     const selected = poaData.product_ids || [];
@@ -18,8 +19,21 @@ function ProductMultiSelect({ allProducts, poaData, setPoaData }) {
     }
   };
 
+  // 📌 Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative block w-full mb-2 rounded-[5px] border border-[#473b33]">
+    <div className="relative block w-full mb-2 rounded-[5px] border border-[#473b33]"  ref={dropdownRef}>
       <button
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="block w-full border px-3 py-2 rounded-[5px] text-left block w-full rounded-[5px] border border-[#473b33] px-3 py-2"

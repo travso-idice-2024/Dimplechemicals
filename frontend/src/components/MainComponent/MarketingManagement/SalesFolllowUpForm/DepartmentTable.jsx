@@ -207,6 +207,7 @@ const DepartmentTable = ({
     end_meeting_time: "",
     lead_text: "",
     lead_status: "",
+    lead_type:"",
     lead_date: "",
     final_meeting:false
   });
@@ -257,7 +258,7 @@ const DepartmentTable = ({
     let errors = {};
     if (!formData.lead_text.trim()) errors.lead_text = "*Lead text is required";
     if (!formData.lead_status.trim())
-      errors.lead_status = "*Lead status is required";
+      errors.lead_status = "*Lead stage is required";
     //if (!formData.lead_date.trim()) errors.lead_date = "*Lead date is required";
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -494,7 +495,7 @@ const DepartmentTable = ({
             <div className="mt-5 md:mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
               <div>
                 <label className="font-poppins font-medium text-black text-[16px]">
-                  Lead Status :
+                  Lead Stage :
                 </label>
                 <select
                   name="lead_status"
@@ -502,17 +503,42 @@ const DepartmentTable = ({
                   onChange={handleChange}
                   className="block w-full mb-2 rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-1 py-[9px]"
                 >
-                  <option>Select the Status</option>
+                  <option>Select the Stage</option>
                   <option value="Meeting">Meeting Done</option>
                   <option value="Revisit">Revisit</option>
                   <option value="Queries">Queries</option>
+                  <option value="In discussion">In Discussion</option>
                   <option value="ProposalSent">Proposal Sent</option>
-                  <option value="Discussion">Discussion</option>
+                  <option value="In discussion">Demo Completed</option>
                   <option value="Lost">Lost</option>
                 </select>
                 {formErrors.lead_status && (
                   <p className="text-red-500 text-sm">
                     {formErrors.lead_status}
+                  </p>
+                )}
+              </div>
+
+
+              <div>
+                <label className="font-poppins font-medium text-black text-[16px]">
+                  Lead Status :
+                </label>
+                <select
+                  name="lead_type"
+                  value={formData.lead_type}
+                  onChange={handleChange}
+                  className="block w-full mb-2 rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-1 py-[9px]"
+                >
+                  <option>Select the Status</option>
+                  <option value="Hot">Hot</option>
+                  <option value="Warm">Warm</option>
+                  <option value="Cold">Cold</option>
+                  <option value="Order Confirmed">Order Confirmed</option>
+                </select>
+                {formErrors.lead_type && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.lead_type}
                   </p>
                 )}
               </div>
