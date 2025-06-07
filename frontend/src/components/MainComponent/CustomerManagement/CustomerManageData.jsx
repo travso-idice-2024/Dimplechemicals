@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CustomerManageData.css";
 import { iconsImgs } from "../../../utils/images";
@@ -44,7 +44,7 @@ const CustomerManageData = () => {
     //-------- New Pagination Code Start --------//
     const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(5);
     //-------- New Pagination Code End --------//
-    
+
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
@@ -587,7 +587,7 @@ const CustomerManageData = () => {
                   <option value={15}>15</option>
                   <option value={20}>20</option>
                 </select>
-                <div className="cursor-pointer absolute inset-y-0 right-2 flex items-center text-gray-300">
+                <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
                   <svg
                     className="w-4 h-4"
                     fill="none"
