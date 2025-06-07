@@ -531,7 +531,7 @@ exports.addEmployee = async (req, res) => {
       password,
       phone,
       emergency_contact,
-      //date_of_birth,
+      date_of_birth,
       //gender,
       fullname,
       address,
@@ -570,7 +570,7 @@ exports.addEmployee = async (req, res) => {
         password: await bcrypt.hash(password, 10),
         phone,
         emergency_contact,
-        //date_of_birth,
+        date_of_birth,
         //gender,
         //profile_image,
         fullname,
@@ -658,7 +658,7 @@ exports.addEmployee = async (req, res) => {
 
 exports.updateEmployee = async (req, res) => {
   try {
-    console.log("req.body", req.body);
+    //console.log("req.body", req.body);
     const { id } = req.params; // Employee ID to update
     
     const {
@@ -666,7 +666,7 @@ exports.updateEmployee = async (req, res) => {
       email,
       phone,
       emergency_contact,
-      //date_of_birth,
+      date_of_birth,
       //gender,
       fullname,
       address,
@@ -716,7 +716,7 @@ exports.updateEmployee = async (req, res) => {
       email,
       phone,
       emergency_contact,
-      //date_of_birth,
+      date_of_birth,
       //gender,
       fullname,
       address,

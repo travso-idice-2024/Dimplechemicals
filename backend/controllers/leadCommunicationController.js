@@ -222,6 +222,8 @@ const endMeeting = async (req, res) => {
 
     // Combine old lines + new text
     const updatedLeadText = oldText ? `${oldText}\n${newText}` : newText;
+    const leadDateValue = lead_date ? new Date(lead_date) : new Date();
+
 
     const updatedLeadStatus = `${
       latestLead?.lead_status || ""
@@ -237,7 +239,7 @@ const endMeeting = async (req, res) => {
     await latestLead.update({
       lead_text: updatedLeadText,
       lead_status: updatedLeadStatus,
-      lead_date,
+      lead_date:leadDateValue,
       end_meeting_time,
       end_location,
       final_meeting: final_meeting === true || final_meeting === 'true',

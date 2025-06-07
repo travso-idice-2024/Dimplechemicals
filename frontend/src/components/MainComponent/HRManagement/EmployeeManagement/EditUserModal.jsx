@@ -208,7 +208,7 @@ const EditUserModal = ({
               )}
             </div>
 
-            {/* <div>
+            <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter Date of Birth:
                 </label>
@@ -230,7 +230,7 @@ const EditUserModal = ({
                     {updateFormErrors.date_of_birth}
                   </p>
                 )}
-              </div> */}
+              </div>
 
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
