@@ -59,7 +59,7 @@ const EditUserModal = ({
             )}
           </div>
 
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-fit">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-[380px]">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Client Name :
@@ -333,7 +333,7 @@ const EditUserModal = ({
             )}
 
             <div>
-              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Interest Product/Service:
                 </label>
@@ -390,7 +390,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Budget:
                 </label>
@@ -448,7 +448,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Quantity:
                 </label>

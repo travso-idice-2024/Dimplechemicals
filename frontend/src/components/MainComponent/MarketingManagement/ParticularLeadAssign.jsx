@@ -33,15 +33,7 @@ const ParticularLeadAssign = ({
           <h2 className="text-white text-[18px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Assign Sales Person
           </h2>
-          <div className="fixed top-5 right-5 z-50">
-            {updateLeadFlashMessage && updateLeadFlashMsgType === "success" && (
-              <SuccessMessage message={updateLeadFlashMessage} />
-            )}
-            {updateLeadFlashMessage && updateLeadFlashMsgType === "error" && (
-              <ErrorMessage message={updateLeadFlashMessage} />
-            )}
-          </div>
-          <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto md:h-fit max-w-full">
+          <div className="mt-5 md:mt-5 px-4 flex flex-col gap-2 overflow-y-auto md:h-[380px] max-w-full">
             {/* Sales Person */}
             <div>
               <label>Select Sales Person</label>

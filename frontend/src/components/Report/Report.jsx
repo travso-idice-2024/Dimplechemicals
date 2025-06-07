@@ -13,13 +13,9 @@ const Report = () => {
       { name: "SALES", data: [7, 10, 8, 10, 5] },
     ],
     options: {
-      chart: {
-        type: "bar",
-        height: 430,
-        toolbar: {
-          show: false, // <-- Add this line to hide the 3 lines toolbar
-        },
-      },
+      chart: { type: "bar", height: 430, toolbar: {
+      show: false,  // <-- Add this line to hide the 3 lines toolbar
+    } },
       colors: [colordata[0], colordata[1]], // Red for Marketing, Green for Sales
       plotOptions: {
         bar: { horizontal: true, dataLabels: { position: "top" } },

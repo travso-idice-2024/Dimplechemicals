@@ -90,9 +90,9 @@ const LeadByStatusReport = () => {
       <ContentTop />
       <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div className="mb-5 md:mb-0">
-              <h1 className="text-white text-[15.5px] font-semibold flex items-center">
+              <h1 className="text-white text-[14px] font-semibold flex items-center">
                 <svg
                   width="25"
                   height="25"
@@ -127,7 +127,7 @@ const LeadByStatusReport = () => {
                   name="lead_status"
                   value={searchStatus}
                   onChange={handleLeadStatusChange}
-                  className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-[#473b33] bg-[#1e1e2d] bg-clip-padding px-3 py-[0.40rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:bg-[#1e1e2d] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
+                  className="relative m-0 block w-full min-w-0 flex-auto rounded text-textdata border border-solid border-[#473b33] bg-[#1e1e2d] bg-clip-padding px-3 py-[0.30rem] text-base font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-[#473b33] focus:bg-[#1e1e2d] focus:text-white focus:shadow-[#473b33] focus:outline-none dark:border-[#473b33] dark:text-white dark:placeholder:text-white dark:focus:border-[#473b33]"
                 >
                   <option value="" className="text-white">
                     Select the Lead Status
@@ -164,7 +164,7 @@ const LeadByStatusReport = () => {
                 </div>
                 <div>
                   <button
-                    className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                    className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.18rem]"
                     onClick={handleExportData}
                   >
                     <img
@@ -185,58 +185,62 @@ const LeadByStatusReport = () => {
                Export Data
               </button> */}
           </div>
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
-            {/* {/------- Table Data Start -------/} */}
-            <div className="overflow-x-auto">
-              <table className="table-auto w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-[#473b33] rounded-[8px]">
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Id
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Lead Status
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Lead Source
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Company
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Lead Owner
-                    </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-textdata">
-                      Address
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allfilterleads &&
-                    allfilterleads?.data?.map((lead, index) => (
-                      <tr key={index + 1}>
-                        <td className="px-4 py-2 text-textdata">{index + 1}</td>
-                        <td className="px-4 py-2 text-textdata">
-                          {lead?.lead_status}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {lead?.lead_source}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {lead?.customer?.company_name}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {lead?.leadOwner?.fullname}
-                        </td>
-                        <td className="px-4 py-2 text-textdata">
-                          {lead?.customer?.address}
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
+            <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 mb-4 overflow-auto mb-3">
+              {/* {/------- Table Data Start -------/} */}
+              <div className="overflow-x-auto">
+                <table className="table-auto w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-[#473b33] rounded-[8px]">
+                      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+                        Id
+                      </th>
+                      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+                        Lead Status
+                      </th>
+                      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+                        Lead Source
+                      </th>
+                      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+                        Company
+                      </th>
+                      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+                        Lead Owner
+                      </th>
+                      <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
+                        Address
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allfilterleads &&
+                      allfilterleads?.data?.map((lead, index) => (
+                        <tr key={index + 1}>
+                          <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
+                            {index + 1}
+                          </td>
+                          <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
+                            {lead?.lead_status}
+                          </td>
+                          <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
+                            {lead?.lead_source}
+                          </td>
+                          <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
+                            {lead?.customer?.company_name}
+                          </td>
+                          <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
+                            {lead?.leadOwner?.fullname}
+                          </td>
+                          <td className="px-4 py-2 text-newtextdata w-[400px]">
+                            {lead?.customer?.address}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+              {/* {/------- Table Data End -------/} */}
             </div>
-            {/* {/------- Table Data End -------/} */}
           </div>
         </div>
       </div>

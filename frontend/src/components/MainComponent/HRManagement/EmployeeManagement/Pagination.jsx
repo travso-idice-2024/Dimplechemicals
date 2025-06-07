@@ -2,7 +2,7 @@ import React from 'react'
 
 const Pagination = ({currentPage, handlePageChange, totalPages}) => {
   return (
-    <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-3 flex justify-center items-center space-x-2">
+    <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-3 flex justify-center items-center space-x-2 mb-3">
           <button
             disabled={currentPage === 1}
             onClick={() => handlePageChange(currentPage - 1)}

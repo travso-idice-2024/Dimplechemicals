@@ -194,7 +194,7 @@ const SalesViewLeadData = () => {
       </div>
       <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
-          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between">
+          <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div>
               <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center">
                 <svg
@@ -233,7 +233,7 @@ const SalesViewLeadData = () => {
                   <h2 className="text-white text-textdata whitespace-nowrap font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                     Follow Up Form
                   </h2>
-                  <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-fit">
+                  <div className="px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-[380px]">
                     <div>
                       <label className="font-poppins font-medium text-black text-[16px]">
                         Description :

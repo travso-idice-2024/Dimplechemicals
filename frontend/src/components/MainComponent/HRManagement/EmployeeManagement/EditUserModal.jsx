@@ -117,7 +117,7 @@ const EditUserModal = ({
           </div>
 
           {/* New Code */}
-          {/* <div className="p-4 md:px-20  flex items-start md:items-center flex-col md:flex-row md:justify-between md:mt-8 relative w-full">
+          {/* <div className="p-4 md:px-20  flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  md:mt-8 relative w-full">
             {["Personal", "Job", "Bank", "Documents"].map((step, index) => (
             {["Personal", "Job"].map((step, index) => (
               <div key={index} className="flex items-center w-full relative">
@@ -154,26 +154,26 @@ const EditUserModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentUpdateStep === 1 && ( */}
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-fit">
-            <div>
-              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                Name :
-              </label>
-              <input
-                type="text"
-                name="fullname"
-                placeholder="name"
-                value={updateFormData.fullname}
-                onChange={handleUpdateChange}
-                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-              />
-              {updateFormErrors.fullname && (
-                <p className="text-red-500 text-sm">
-                  {updateFormErrors.fullname}
-                </p>
-              )}
-            </div>
-            {/* <div>
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-[380px]">
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Name :
+                </label>
+                <input
+                  type="text"
+                  name="fullname"
+                  placeholder="name"
+                  value={updateFormData.fullname}
+                  onChange={handleUpdateChange}
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+                {updateFormErrors.fullname && (
+                  <p className="text-red-500 text-sm">
+                    {updateFormErrors.fullname}
+                  </p>
+                )}
+              </div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Username :
                 </label>
@@ -626,8 +626,8 @@ const EditUserModal = ({
 
           {/* Step 2: Job Details */}
           {/* {currentUpdateStep === 2 && ( */}
-          <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
-            {/* <div>
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Basic Salary:
                 </label>
@@ -867,7 +867,7 @@ const EditUserModal = ({
 
           {/* Step 3: Bank Details */}
           {/* {currentUpdateStep === 3 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Bank Name:
@@ -969,7 +969,7 @@ const EditUserModal = ({
 
           {/* Step 4: Document Upload */}
           {/* {currentUpdateStep === 4 && (
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-fit">
+            <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]">
              
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

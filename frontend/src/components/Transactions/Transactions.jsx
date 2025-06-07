@@ -19,7 +19,6 @@ const Transactions = () => {
         enabled: true,
         style: {
           colors: ["#ffffff"], // White text for data labels
-          fontSize: "14px",
           fontWeight: "bold",
         },
         formatter: (value, { seriesIndex, w }) => {

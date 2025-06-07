@@ -17,18 +17,32 @@ const AssignLeadModal = ({
   //console.log("selectedCustomer", selectedCustomer);
   return (
     <>
-      <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[850px] pt-0 pb-4 rounded-[6px] flex flex-col">
-          <h2 className="text-white text-textdata whitespace-nowrap font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
-            Add New Lead
-          </h2>
-          <div className="fixed top-5 right-5 z-50">
-            {addLeadFlashMessage && addLeadFlashMsgType === "success" && (
-              <SuccessMessage message={addLeadFlashMessage} />
-            )}
-            {addLeadFlashMessage && addLeadFlashMsgType === "error" && (
-              <ErrorMessage message={addLeadFlashMessage} />
-            )}
+    <div className="fixed top-5 right-5 z-50">
+     {addLeadFlashMessage && addLeadFlashMsgType === "success" && <SuccessMessage message={addLeadFlashMessage} />}
+     {addLeadFlashMessage && addLeadFlashMsgType === "error" && <ErrorMessage message={addLeadFlashMessage} />}
+   </div>
+    <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white w-full md:w-[850px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <h2 className="text-white text-textdata whitespace-nowrap font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+          Add New Lead
+        </h2>
+        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-[350px] md:h-[380px]">
+          <div>
+            <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+               Lead Source :
+            </label>
+            <select 
+             name="lead_source"
+             value={leadData.lead_source}
+             onChange={handleLeadChange}
+            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
+              <option>Select the lead source</option>
+              <option value="Marketing">Marketing</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Reference">Reference</option>
+                  <option value="Direct">Direct</option>
+            </select>
+            {addLeadFormErrors.lead_source && <p className="text-red-500">{addLeadFormErrors.lead_source}</p>}
           </div>
           <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto h-[350px] md:h-fit">
             <div>
@@ -149,6 +163,7 @@ const AssignLeadModal = ({
             </button>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

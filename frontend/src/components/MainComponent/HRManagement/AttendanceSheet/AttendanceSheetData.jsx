@@ -127,7 +127,7 @@ const AttendanceSheetData = () => {
       <div className="flex flex-col gap-[20px]">
         <div className="flex flex-col items-start md:flex-row md:items-center justify-between newdatafewitem">
           <div className="newdatafewitem1">
-            <h1 className="text-white text-[15.5px] font-semibold flex items-center">
+            <h1 className="text-white text-[14px] font-semibold flex items-center">
               {/* <svg
                   width="25"
                   height="25"
@@ -151,7 +151,7 @@ const AttendanceSheetData = () => {
 
           <div className="flex flex-col items-start md:flex-row md:items-center gap-[10px] md:gap-[5px]">
             <div className="my-3 md:my-0">
-              <span className="text-green-600 text-newtextdata ">
+              <span className="text-green-600 text-newtextdata whitespace-nowrap ">
                 Total Time: {workingTime}
               </span>
             </div>
@@ -163,7 +163,7 @@ const AttendanceSheetData = () => {
                     onChange={(e) => setSearchMonth(e.target.value)}
                     className="w-full text-[16px] rounded border border-[#473b33] bg-[#1e1e2d] px-3 py-[0.15rem] text-white outline-none text-textdata"
                   >
-                    <option className="text-newtextdata" value="">
+                    <option className="text-newtextdata whitespace-nowrap" value="">
                       Select Month
                     </option>
                     {Array.from({ length: 12 }, (_, i) => (
@@ -228,33 +228,33 @@ const AttendanceSheetData = () => {
           </div>
         </div>
         <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto mb-3">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">
-              <table className="table-auto w-full text-left border-collapse">
+              <table className="table-auto w-full text-center border-collapse">
                 <thead>
                   <tr className="bg-[#473b33] rounded-[8px]">
-                    {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    {/* <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap">
                       Id
                     </th> */}
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap">
                       Date
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap">
                       Name
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap">
                       CheckIn Time
                     </th>
 
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap">
                       Checkout Time
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       CheckIn Location
                     </th>
-                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata">
+                    <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">
                       Checkout Location
                     </th>
                   </tr>
@@ -263,20 +263,20 @@ const AttendanceSheetData = () => {
                   {empCinCotData &&
                     empCinCotData?.records?.map((user, index) => (
                       <tr key={index + 1}>
-                        {/* <td className="px-4 py-2 text-newtextdata">
+                        {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {index + 1}
                         </td> */}
-                        <td className="px-4 py-2 text-newtextdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {new Date(user?.data)?.toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric",
                           })}
                         </td>
-                        <td className="px-4 py-2 text-newtextdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {user?.fullname}
                         </td>
-                        <td className="px-4 py-2 text-newtextdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {
                             user?.check_in_time
                               ? new Date(user.check_in_time).toLocaleTimeString(
@@ -290,7 +290,7 @@ const AttendanceSheetData = () => {
                               : "00:00" // Or any other placeholder you want to display
                           }
                         </td>
-                        <td className="px-4 py-2 text-newtextdata">
+                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {
                             user?.check_out_time
                               ? new Date(
@@ -303,10 +303,10 @@ const AttendanceSheetData = () => {
                               : "00:00" // Or any other placeholder you want to display
                           }
                         </td>
-                        <td className="px-4 py-2 text-newtextdata">
+                        <td className="px-4 py-2 text-newtextdata md:w-[400px] text-left">
                           {user?.checkin_location}
                         </td>
-                        <td className="px-4 py-2 text-newtextdata">
+                        <td className="px-4 py-2 text-newtextdata md:w-[400px] text-left">
                           {user?.checkout_location}
                         </td>
                       </tr>
@@ -317,7 +317,7 @@ const AttendanceSheetData = () => {
 
             {/* Scrollable Body */}
             {/* <div className="overflow-y-auto max-h-[420px]">
-              <table className="table-auto w-full text-left border-collapse">
+              <table className="table-auto w-full text-center border-collapse">
               
               </table>
             </div> */}

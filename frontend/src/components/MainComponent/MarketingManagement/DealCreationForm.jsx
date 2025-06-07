@@ -86,7 +86,7 @@ const DealCreationForm = ({
             <label className="font-poppins font-medium text-[16px] text-bgData">
               Select and Add Product:
             </label>
-            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-4">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  gap-4">
               <div className="flex-[6]">
                 <ProductMultiSelect
                   allProducts={allProducts}

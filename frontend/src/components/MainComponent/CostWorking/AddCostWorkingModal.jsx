@@ -176,7 +176,6 @@ const AddCostWorkingModal = ({
   return (
     <>
       {/* Flash Messages */}
-      
 
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
@@ -185,13 +184,14 @@ const AddCostWorkingModal = ({
             Add Cost Working
           </h2>
           <div className="fixed top-5 right-5 z-50">
-        {costWorkingFlashMessage && costWorkingFlashMsgType === "success" && (
-          <SuccessMessage message={costWorkingFlashMessage} />
-        )}
-        {costWorkingFlashMessage && costWorkingFlashMsgType === "error" && (
-          <ErrorMessage message={costWorkingFlashMessage} />
-        )}
-      </div>
+            {costWorkingFlashMessage &&
+              costWorkingFlashMsgType === "success" && (
+                <SuccessMessage message={costWorkingFlashMessage} />
+              )}
+            {costWorkingFlashMessage && costWorkingFlashMsgType === "error" && (
+              <ErrorMessage message={costWorkingFlashMessage} />
+            )}
+          </div>
 
           <div className="p-4 mt-5 overflow-y-auto h-[440px]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-2">

@@ -248,7 +248,7 @@ const [labelToDelete, setLabelToDelete] = useState(null);
         {isAuthenticated ? (
           <>
             {/* User Topbar */}
-            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between mb-6">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  mb-6">
               <div className="flex items-center space-x-4">
                 <img
                   src={userProfile?.picture}
