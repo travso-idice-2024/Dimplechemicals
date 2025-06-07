@@ -358,8 +358,9 @@ export const navigationLinks = [
     path: "/plan-of-action-for-day/:poaType",
     allowedRoles: []
   },
-  { id: 13, title: "Calender", image: iconsImgs.Calender, path: "/calender" ,allowedRoles: [3]},
-  { id: 14, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
+  { id: 13, title: "Annual Buisness Plan", image: iconsImgs.Calender, path: "/annual-buisness-plan" ,allowedRoles: [3]},
+  { id: 14, title: "Calender", image: iconsImgs.Calender, path: "/calender" ,allowedRoles: [3]},
+  { id: 15, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
 ];
 
 //------------ Own Data --------------//
