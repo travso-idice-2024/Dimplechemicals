@@ -88,7 +88,7 @@ const CostWorkingTable = ({
                   {user?.revision_no}
                 </td>
                 <td className="px-4 py-2 text-newtextdata">
-                  {user?.revision_date.split("T")[0]}
+                {user?.revision_date ? user.revision_date.split("T")[0] : ""}
                 </td>
 
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap flex items-center space-x-2 text-center">

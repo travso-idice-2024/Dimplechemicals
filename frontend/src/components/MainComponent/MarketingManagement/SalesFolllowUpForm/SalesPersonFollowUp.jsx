@@ -25,13 +25,18 @@ import {
 import {addLead , listLeads} from "../../../../redux/leadSlice";
 import {fetchCurrentUser } from "../../../../redux/authSlice";
 import useGoogleCalendar from "../../../../components/hooks/useGoogleCalendar";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 
 
 
 const SalesPersonFollowUp = () => {
   const { poaType } = useParams();
+
+  const location = useLocation();
+  const pathSegment = location.pathname.split("/")[1];
+
+ // console.log(pathSegment); // "lead-sales"
   //console.log("SalesPersonFollowUp com
   // ponent mounted");
   const {
@@ -91,7 +96,7 @@ const SalesPersonFollowUp = () => {
         roleId: 3,
       })
     );
-    if(poaType){
+    if(poaType || pathSegment == "lead-sales"){
       dispatch(
         listLeads({
           poaType:"todayPOA",
@@ -235,13 +240,31 @@ const SalesPersonFollowUp = () => {
         if (response?.success) {
           handlePoaFlashMessage(response?.message, "success");
 
-          dispatch(
-            listLeads({
-              page: currentPage,
-              limit: poaPerPage,
-              search: searchTerm,
-            })
-          );
+          // dispatch(
+          //   listLeads({
+          //     page: currentPage,
+          //     limit: poaPerPage,
+          //     search: searchTerm,
+          //   })
+          // );
+          if(poaType || pathSegment == "lead-sales"){
+            dispatch(
+              listLeads({
+                poaType:"todayPOA",
+                page: currentPage,
+                limit: poaPerPage,
+                search: searchTerm,
+              })
+            );
+          }else{
+            dispatch(
+              listLeads({
+                page: currentPage,
+                limit: poaPerPage,
+                search: searchTerm,
+              })
+            );
+          }
 
           setPoaData({});
 
@@ -350,14 +373,12 @@ const SalesPersonFollowUp = () => {
 
   return (
     <div className="main-content">
-      <ContentTop />
+   {pathSegment !== "lead-sales" && <ContentTop />} 
       <div className="flex flex-col gap-[20px]">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between"> 
           <div>
             <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
-            {poaType === "todayPOA" ? "Today's Plan of Action (POA)" : "Visit Plan (POA)"}
-
-            
+            {poaType === "todayPOA" || pathSegment == "lead-sales" ? "Today's Plan of Action (POA)" : "Visit Plan (POA)"}
             </h1>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">

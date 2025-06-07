@@ -27,7 +27,15 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
-    }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    phone_no: {
+      type: DataTypes.STRING,
+      aLlowNull:true,
+  },
   }, {
     sequelize,
     modelName: 'BusinessAssociate',

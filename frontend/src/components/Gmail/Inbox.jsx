@@ -4,11 +4,16 @@ import { faEnvelope, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-const Inbox = ({  accessToken, fetchInboxMessages, labelName = "INBOX",getMessageDetail}) => {
+const Inbox = ({
+  accessToken,
+  fetchInboxMessages,
+  labelName = "INBOX",
+  getMessageDetail,
+}) => {
   //console.log("labelName" ,labelName);
   const [emails, setEmails] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedMessage , setSelectedMessage] = useState({});
+  const [selectedMessage, setSelectedMessage] = useState({});
 
   const getInbox = async () => {
     try {
@@ -21,8 +26,7 @@ const Inbox = ({  accessToken, fetchInboxMessages, labelName = "INBOX",getMessag
     }
   };
 
-
-const getMessageFullDetail = async (msgid) => {
+  const getMessageFullDetail = async (msgid) => {
     try {
       const msgs = await getMessageDetail(msgid);
       setSelectedMessage(msgs);
@@ -32,38 +36,37 @@ const getMessageFullDetail = async (msgid) => {
       setLoading(false);
     }
   };
-//console.log("emails",emails);
+  //console.log("emails",emails);
 
   useEffect(() => {
     if (accessToken) {
       getInbox();
     }
-  }, [accessToken,labelName]);
+  }, [accessToken, labelName]);
 
-
-function getHeader(headers, name) {
-  if (!headers) return "";
-  const header = headers.find((h) => h.name === name);
-  return header ? header.value : "";
-}
-
-function getBody(payload) {
-  if (!payload) return "No content available";
-
-  let encodedBody = "";
-  if (payload.parts) {
-    const htmlPart = payload.parts.find((part) => part.mimeType === "text/html");
-    encodedBody = htmlPart?.body?.data;
-  } else {
-    encodedBody = payload.body?.data;
+  function getHeader(headers, name) {
+    if (!headers) return "";
+    const header = headers.find((h) => h.name === name);
+    return header ? header.value : "";
   }
 
-  if (!encodedBody) return "No content";
+  function getBody(payload) {
+    if (!payload) return "No content available";
 
-  return atob(encodedBody.replace(/-/g, "+").replace(/_/g, "/"));
-}
+    let encodedBody = "";
+    if (payload.parts) {
+      const htmlPart = payload.parts.find(
+        (part) => part.mimeType === "text/html"
+      );
+      encodedBody = htmlPart?.body?.data;
+    } else {
+      encodedBody = payload.body?.data;
+    }
 
+    if (!encodedBody) return "No content";
 
+    return atob(encodedBody.replace(/-/g, "+").replace(/_/g, "/"));
+  }
 
   return (
     <div className="p-4">
@@ -74,25 +77,51 @@ function getBody(payload) {
 
       {loading ? (
         <p>Loading emails...</p>
+      ) : selectedMessage && selectedMessage.payload ? (
+        // Show the full message details if a message is selected
+        <div className="mt-6 p-4 bg-white rounded-lg shadow">
+          <button
+            className="back-button text-blue-600"
+            onClick={() => setSelectedMessage(null)} // Set to null to go back to the list
+          >
+            ← Back to inbox
+          </button>
+          <h3 className="text-xl font-bold mb-2">
+            {getHeader(selectedMessage.payload.headers, "Subject")}
+          </h3>
+          <p>
+            <strong>From:</strong>{" "}
+            {getHeader(selectedMessage.payload.headers, "From")}
+          </p>
+          <p>
+            <strong>Date:</strong>{" "}
+            {getHeader(selectedMessage.payload.headers, "Date")}
+          </p>
+          <div
+            className="mt-4 border-t pt-4"
+            dangerouslySetInnerHTML={{
+              __html: getBody(selectedMessage.payload),
+            }}
+          ></div>
+        </div>
       ) : (
+        // Show the list of emails when no message is selected
         <div className="border rounded-lg bg-white divide-y">
           {emails?.map((email) => (
             <div
               key={email.id}
-              onClick={() => getMessageFullDetail(email.id)}
+              onClick={() => {
+                console.log("Clicked inbox message id:", email.id);
+                getMessageFullDetail(email.id); // Fetch message details on click
+                setSelectedMessage(email); // Set the selected email
+              }}
               className="flex items-center justify-between px-4 py-3 hover:bg-gray-100 transition cursor-pointer"
             >
               {/* Left icons */}
               <div className="flex items-center gap-3">
                 <input type="checkbox" className="form-checkbox" />
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className="text-blue-500"
-                />
-                <FontAwesomeIcon
-                  icon={faStar}
-                  className="text-yellow-400"
-                />
+                <FontAwesomeIcon icon={faEnvelope} className="text-blue-500" />
+                <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
               </div>
 
               {/* Email content */}
@@ -101,8 +130,8 @@ function getBody(payload) {
                   {email?.from}
                 </div>
                 <div className="truncate flex-1">
-                  <span className="font-semibold">{email?.subject}</span>{" "}
-                  - <span className="text-gray-600">{email?.snippet}</span>
+                  <span className="font-semibold">{email?.subject}</span> -{" "}
+                  <span className="text-gray-600">{email?.snippet}</span>
                 </div>
               </div>
 
@@ -114,22 +143,6 @@ function getBody(payload) {
           ))}
         </div>
       )}
-      
-      {selectedMessage && selectedMessage.payload && (
-  <div className="mt-6 p-4 bg-white rounded-lg shadow">
-    <h3 className="text-xl font-bold mb-2">{getHeader(selectedMessage.payload.headers, "Subject")}</h3>
-    <p><strong>From:</strong> {getHeader(selectedMessage.payload.headers, "From")}</p>
-    <p><strong>Date:</strong> {getHeader(selectedMessage.payload.headers, "Date")}</p>
-    <div
-      className="mt-4 border-t pt-4"
-      dangerouslySetInnerHTML={{
-        __html: getBody(selectedMessage.payload),
-      }}
-    ></div>
-  </div>
-)}
-
-
     </div>
   );
 };

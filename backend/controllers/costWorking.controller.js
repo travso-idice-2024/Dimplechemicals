@@ -25,6 +25,13 @@ const createCostWorking = async (req, res) => {
   } = req.body;
 
   try {
+
+    const parsedRevisionDate = revision_date && !isNaN(new Date(revision_date)) ? new Date(revision_date):null;
+
+    const toNullableNumber = (value) => {
+      return value === '' || value === undefined ? null : Number(value);
+    };
+    
     // Step 1: Insert record with revision_no = 1
     const costWorking = await CostWorking.create({
       company_name,
@@ -33,20 +40,22 @@ const createCostWorking = async (req, res) => {
       technology_used,
       estimate_no,
       estimate_date,
-      revision_no: 1, // 👈 Hardcoded to 1 for first record
-      revision_date,
-      area_to_be_coated,
-      thickness_in_mm,
-      labour_cost,
-      cunsumable_cost,
-      transport_cost,
-      supervision_cost,
-      contractor_profit,
-      over_head_charges,
-      total_application_labour_cost,
-      total_project_cost,
-      total_material_cost,
+      revision_no: 1,
+      revision_date: parsedRevisionDate,
+      area_to_be_coated: toNullableNumber(area_to_be_coated),
+      thickness_in_mm: toNullableNumber(thickness_in_mm),
+      labour_cost: toNullableNumber(labour_cost),
+      cunsumable_cost: toNullableNumber(cunsumable_cost),
+      transport_cost: toNullableNumber(transport_cost),
+      supervision_cost: toNullableNumber(supervision_cost),
+      contractor_profit: toNullableNumber(contractor_profit),
+      over_head_charges: toNullableNumber(over_head_charges),
+      total_application_labour_cost: toNullableNumber(total_application_labour_cost),
+      total_project_cost: toNullableNumber(total_project_cost),
+      total_material_cost: toNullableNumber(total_material_cost),
     });
+    
+    
 
     const cost_working_id = costWorking.id;
 

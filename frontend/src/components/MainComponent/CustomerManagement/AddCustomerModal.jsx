@@ -43,36 +43,61 @@ const AddCustomerModal = ({
   const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
   const [areasByIndex, setAreasByIndex] = useState({});
 
+  // const [newAssociateName, setNewAssociateName] = useState("");
   const [newAssociateName, setNewAssociateName] = useState("");
-  const handleNewAssociateChange = (e) => {
-    setNewAssociateName(e.target.value);
-  };
+  const [newAssociatePhone, setNewAssociatePhone] = useState("");
+  const [newAssociateEmail, setNewAssociateEmail] = useState("");
+
+  // const handleNewAssociateChange = (e) => {
+  //   setNewAssociateName(e.target.value);
+  // };
+
+  // const handleAddAssociate = () => {
+  //   if (newAssociateName.trim() === "") return;
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     associate_name: [...prev.associate_name, newAssociateName],
+  //   }));
+
+  //   setNewAssociateName(""); // clear input
+
+  //   handleFlashMessage("Business Associate added successfully!", "success");
+  //   setNewAssociateName(""); // clear input field after adding
+
+  //   setTimeout(() => {
+  //     setAssociatePopup(false);
+  //   }, 1000);
+  // };
+
+  //console.log("dsfds", formData.associate_name);
 
   const handleAddAssociate = () => {
     if (newAssociateName.trim() === "") return;
 
     setFormData((prev) => ({
       ...prev,
-      associate_name: [...prev.associate_name, newAssociateName],
+      associate_name: [
+        ...prev.associate_name,
+        {
+          associate_name: newAssociateName,
+          phone_no: newAssociatePhone,
+          email: newAssociateEmail,
+        },
+      ],
     }));
-
-    setNewAssociateName(""); // clear input
 
     handleFlashMessage("Business Associate added successfully!", "success");
 
-    //setSuccessMessage("Business Associate added successfully!");
-
-    // setTimeout(() => {
-    //   setSuccessMessage("");
-    // }, 2000);
-    setNewAssociateName(""); // clear input field after adding
+    // Clear inputs
+    setNewAssociateName("");
+    setNewAssociatePhone("");
+    setNewAssociateEmail("");
 
     setTimeout(() => {
       setAssociatePopup(false);
     }, 1000);
   };
-
-  //console.log("dsfds", formData.associate_name);
 
   const handleAssociatePopup = () => {
     setAssociatePopup(true);
@@ -142,7 +167,13 @@ const AddCustomerModal = ({
       ...prevFormData,
       company_address: [
         ...prevFormData.company_address,
-        { pincode: "", location: "", city: "", address_type: "" },
+        {
+          pincode: "",
+          location: "",
+          city: "",
+          address_type: "",
+          full_address: "",
+        },
       ],
     }));
   };
@@ -153,7 +184,7 @@ const AddCustomerModal = ({
   };
   //end add more address
 
-  //console.log("formData", formData);
+  console.log("formData", formData);
 
   return (
     <>
@@ -217,8 +248,8 @@ const AddCustomerModal = ({
                   {formData?.associate_name &&
                     formData?.associate_name.length > 0 &&
                     formData?.associate_name.map((item) => (
-                      <option key={item.id} value={item}>
-                        {item}
+                      <option key={item.id} value={item.associate_name}>
+                        {`${item.associate_name} - ${item.email}`}
                       </option>
                     ))}
                 </select>
@@ -241,11 +272,11 @@ const AddCustomerModal = ({
               {/* Associate Popup Design */}
               {associatePopup && (
                 <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-                  <div className="bg-white w-full md:w-[350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+                  <div className="bg-white w-full md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
                     <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                       Add New Associate
                     </h2>
-                    <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-[380px]">
+                    <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-[350px]">
                       <div>
                         <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                           Associate Name :
@@ -254,8 +285,34 @@ const AddCustomerModal = ({
                           type="text"
                           name="associate_name"
                           value={newAssociateName}
-                          onChange={handleNewAssociateChange}
+                          onChange={(e) => setNewAssociateName(e.target.value)}
                           placeholder="associate name"
+                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                        />
+                      </div>
+                      <div>
+                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                          Phone no. :
+                        </label>
+                        <input
+                          type="number"
+                          name="phone_no"
+                          value={newAssociatePhone}
+                          onChange={(e) => setNewAssociatePhone(e.target.value)}
+                          placeholder="Phone no."
+                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                        />
+                      </div>
+                      <div>
+                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                          Email ID :
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={newAssociateEmail}
+                          onChange={(e) => setNewAssociateEmail(e.target.value)}
+                          placeholder="Email"
                           className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                         />
                       </div>
@@ -498,24 +555,11 @@ const AddCustomerModal = ({
               Contact Person's
             </h3>
 
-            {formData.contact_persons.map((person, index) => (
+            {formData?.contact_persons?.map((person, index) => (
               <div
                 key={index}
                 className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-4 mb-4 rounded-md"
               >
-                <div>
-                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                    Designation: {index + 1}
-                  </label>
-                  <input
-                    type="text"
-                    name="designation"
-                    placeholder="Contact Person Designation"
-                    value={person.designation}
-                    onChange={(e) => handleContactPersonChange(index, e)}
-                    className="w-full border border-gray-400 rounded px-3 py-2"
-                  />
-                </div>
                 <div>
                   <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                     Name: {index + 1}
@@ -525,6 +569,19 @@ const AddCustomerModal = ({
                     name="name"
                     placeholder="Contact Person Name"
                     value={person.name}
+                    onChange={(e) => handleContactPersonChange(index, e)}
+                    className="w-full border border-gray-400 rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                    Designation: {index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    name="designation"
+                    placeholder="Contact Person Designation"
+                    value={person.designation}
                     onChange={(e) => handleContactPersonChange(index, e)}
                     className="w-full border border-gray-400 rounded px-3 py-2"
                   />
@@ -592,7 +649,7 @@ const AddCustomerModal = ({
                 Add Address
               </h3>
 
-              {formData.company_address.map((address, index) => (
+              {formData?.company_address?.map((address, index) => (
                 <div
                   key={index}
                   className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-4 mb-4 rounded-md"
@@ -688,6 +745,19 @@ const AddCustomerModal = ({
                         </option>
                       ))}
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="font-poppins text-bgData">
+                      Detailed Address: {index + 1}
+                    </label>
+                    <textarea
+                      name="full_address"
+                      placeholder="Full Address"
+                      onChange={(e) => handleAddressChange(index, e)}
+                      className="w-full border border-gray-400 rounded px-3 py-2"
+                      value={address.full_address}
+                    />
                   </div>
 
                   <div className="flex items-end">
