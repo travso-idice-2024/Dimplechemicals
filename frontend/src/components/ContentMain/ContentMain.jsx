@@ -81,7 +81,7 @@ const ContentMain = () => {
   }, [dispatch]);
 
   return (
-    <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
+    <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
       <div className="space-y-3">
         {/* Flex row for 4 divs */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

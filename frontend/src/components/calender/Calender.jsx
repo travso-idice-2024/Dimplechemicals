@@ -3,6 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import useGoogleCalendar from "../../components/hooks/useGoogleCalendar";
+import ContentTop from "../ContentTop/ContentTop"
 import "./Calender.css";
 import EventDetailModal from "./EventDetailModal";
 const Calender = () => {
@@ -63,7 +64,8 @@ const Calender = () => {
   };
 
   return (
-    <>
+    <div className="main-content">
+      <ContentTop />
       {/* {!isAuthenticated ? (
         <div className="flex justify-center items-center min-h-screen bg-gray-400">
           <button
@@ -74,10 +76,10 @@ const Calender = () => {
           </button>
         </div>
       ) : ( */}
-      <div className="bg-[#1e1e2d] text-white p-4 h-screen">
+      <div className="text-white p-4 h-screen">
         {!isAuthenticated ? (
-          <div className="flex flex-col justify-center items-center">
-            <h3 class="mt-12 mb-1 text-bgDataNew font-poppins border border-[#473b33] w-fit px-4 py-2 bg-[#473b33] rounded-[2px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
+          <div className="mt-12 flex flex-col justify-center items-center">
+            <h3 class="mb-1 text-bgDataNew font-poppins border border-[#473b33] w-fit px-4 py-2 bg-[#473b33] rounded-[2px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
               Important Events With Google Calender *{" "}
               <span className="text-[14px] mb-12 text-white font-poppins font-medium py-1 text-bgData mb-0 text-center mx-auto">
                 By clicking on SignIn Button You will be redirect to Google
@@ -136,7 +138,7 @@ const Calender = () => {
         onClose={closeModal}
         event={selectedEvent}
       />
-    </>
+    </div>
   );
 };
 

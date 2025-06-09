@@ -88,7 +88,7 @@ const EmpByMonthAndYearReport = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
+      <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div>
@@ -170,7 +170,7 @@ const EmpByMonthAndYearReport = () => {
               </div>
             </div>
           </div>
-          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
+          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">

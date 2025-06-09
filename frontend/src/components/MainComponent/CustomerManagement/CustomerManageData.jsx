@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./CustomerManageData.css";
 import { iconsImgs } from "../../../utils/images";
@@ -44,7 +44,7 @@ const CustomerManageData = () => {
     //-------- New Pagination Code Start --------//
     const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
     //-------- New Pagination Code End --------//
-    
+
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
@@ -568,7 +568,7 @@ const CustomerManageData = () => {
 
           </div>
         </div>
-        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
+        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
            {/*--------- New Pagination Code Start  ---------*/}
           <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
