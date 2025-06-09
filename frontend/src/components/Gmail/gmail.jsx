@@ -20,6 +20,7 @@ import ComposeEmail from "./ComposeEmail";
 import Inbox from "./Inbox";
 import CreateLabelForm from "./CreateLabelForm";
 import LabelEmailForm from "./LabelEmailForm";
+import ContentTop from "../ContentTop/ContentTop"
 
 const Gmail = () => {
   const {
@@ -98,7 +99,9 @@ const Gmail = () => {
       }
 
       await Promise.all(
-        messages?.map((msg) => applyLabelToMessage(accessToken, msg?.id, labelId))
+        messages?.map((msg) =>
+          applyLabelToMessage(accessToken, msg?.id, labelId)
+        )
       );
 
       alert(`Assigned label to ${messages?.length} messages from ${email}`);
@@ -108,12 +111,12 @@ const Gmail = () => {
     }
   };
 
-
   const [showConfirm, setShowConfirm] = useState(false);
-const [labelToDelete, setLabelToDelete] = useState(null);
-
+  const [labelToDelete, setLabelToDelete] = useState(null);
 
   return (
+     <div className="main-content">
+      <ContentTop />
     <div className="flex h-screen font-sans">
       {/* Sidebar */}
       {isAuthenticated && (
@@ -212,36 +215,34 @@ const [labelToDelete, setLabelToDelete] = useState(null);
         </aside>
       )}
 
-
-{showConfirm && (
-  <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-    <div className="bg-white rounded-xl p-6 w-80 shadow-lg">
-      <h2 className="text-lg font-semibold mb-4">Remove label</h2>
-      <p className="mb-6">
-        Delete the label{" "}
-        <span className="font-medium">"{labelToDelete.name}"</span>?
-      </p>
-      <div className="flex justify-end space-x-4">
-        <button
-          onClick={() => setShowConfirm(false)}
-          className="text-gray-600 hover:text-gray-800"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={() => {
-            handleRemoveLabel(labelToDelete.id);
-            setShowConfirm(false);
-          }}
-          className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-80 shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Remove label</h2>
+            <p className="mb-6">
+              Delete the label{" "}
+              <span className="font-medium">"{labelToDelete.name}"</span>?
+            </p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  handleRemoveLabel(labelToDelete.id);
+                  setShowConfirm(false);
+                }}
+                className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="flex-1 p-6 overflow-y-auto">
@@ -280,7 +281,7 @@ const [labelToDelete, setLabelToDelete] = useState(null);
           </>
         ) : (
           <div className="text-center mt-32">
-            <h2 className="text-3xl font-bold mb-6 text-white">
+            <h2 className="text-2xl font-bold mb-6 text-white">
               📧 Gmail Integration
             </h2>
             <button
@@ -300,6 +301,7 @@ const [labelToDelete, setLabelToDelete] = useState(null);
           onClose={() => setShowCompose(false)}
         />
       )}
+    </div>
     </div>
   );
 };

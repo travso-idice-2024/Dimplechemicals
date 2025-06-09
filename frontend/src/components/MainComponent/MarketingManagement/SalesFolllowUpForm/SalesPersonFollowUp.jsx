@@ -22,13 +22,10 @@ import {
   fetchAllPoaReports,
 } from "../../../../redux/poaSlice";
 
-import {addLead , listLeads} from "../../../../redux/leadSlice";
-import {fetchCurrentUser } from "../../../../redux/authSlice";
+import { addLead, listLeads } from "../../../../redux/leadSlice";
+import { fetchCurrentUser } from "../../../../redux/authSlice";
 import useGoogleCalendar from "../../../../components/hooks/useGoogleCalendar";
 import { useParams, useLocation } from "react-router-dom";
-
-
-
 
 const SalesPersonFollowUp = () => {
   const { poaType } = useParams();
@@ -36,13 +33,10 @@ const SalesPersonFollowUp = () => {
   const location = useLocation();
   const pathSegment = location.pathname.split("/")[1];
 
- // console.log(pathSegment); // "lead-sales"
+  // console.log(pathSegment); // "lead-sales"
   //console.log("SalesPersonFollowUp com
   // ponent mounted");
-  const {
-    isAuthenticated,
-    createEvent,
-  } = useGoogleCalendar();
+  const { isAuthenticated, createEvent } = useGoogleCalendar();
 
   const dispatch = useDispatch();
 
@@ -64,7 +58,7 @@ const SalesPersonFollowUp = () => {
     (state) => state.customer
   );
   //console.log("customerAddress", customerAddress);
-  
+
   const [selectedPOA, setSelectedPOA] = useState({});
 
   //console.log("selectedPOA",selectedPOA);
@@ -96,16 +90,16 @@ const SalesPersonFollowUp = () => {
         roleId: 3,
       })
     );
-    if(poaType || pathSegment == "lead-sales"){
+    if (poaType || pathSegment == "lead-sales") {
       dispatch(
         listLeads({
-          poaType:"todayPOA",
+          poaType: "todayPOA",
           page: currentPage,
           limit: poaPerPage,
           search: searchTerm,
         })
       );
-    }else{
+    } else {
       dispatch(
         listLeads({
           page: currentPage,
@@ -114,7 +108,6 @@ const SalesPersonFollowUp = () => {
         })
       );
     }
-   
   }, [dispatch, currentPage, searchTerm]);
 
   // Handle search input change
@@ -134,7 +127,7 @@ const SalesPersonFollowUp = () => {
     customer_id: "",
     lead_address: "",
     contact_person_name: "",
-    assigned_person_id:"",
+    assigned_person_id: "",
     assign_date: new Date().toISOString().split("T")[0],
     meeting_type: "",
     lead_summary: "",
@@ -142,15 +135,15 @@ const SalesPersonFollowUp = () => {
     total_material_qty: "",
     approx_business: "",
     project_name: "",
-    meeting_time:"",
-    product_ids:[]
+    meeting_time: "",
+    product_ids: [],
   });
 
   useEffect(() => {
     if (userDeatail?.id) {
-      setPoaData(prev => ({
+      setPoaData((prev) => ({
         ...prev,
-        assigned_person_id: userDeatail.id
+        assigned_person_id: userDeatail.id,
       }));
     }
   }, [userDeatail]);
@@ -162,25 +155,24 @@ const SalesPersonFollowUp = () => {
 
   const handlePoaChange = (e) => {
     const { name, value } = e.target;
-  
+
     setPoaData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  
+
     if (name === "assigned_person_id") {
       const selectedUser = userDataWithRole?.data.find(
         (item) => item.id === parseInt(value)
       );
-  
+
       if (selectedUser) {
-        setAttendeesEmails([selectedUser.email,userDeatail.email]); // If you want an array of one email
+        setAttendeesEmails([selectedUser.email, userDeatail.email]); // If you want an array of one email
       } else {
         setAttendeesEmails([]); // Clear if no match found
       }
     }
   };
-  
 
   // Customer change handler
   const handlePoaCustomerChange = (e) => {
@@ -211,8 +203,7 @@ const SalesPersonFollowUp = () => {
     //   errors.contact_person_name = "Contact Person Name is required.";
     if (!poaData.assigned_person_id)
       errors.assigned_person_id = "Sales Person is required.";
-    if (!poaData.assign_date)
-      errors.assign_date = "Meeting Date is required.";
+    if (!poaData.assign_date) errors.assign_date = "Meeting Date is required.";
     if (!poaData.meeting_type)
       errors.meeting_type = "Meeting Type is required.";
     if (!poaData.lead_summary)
@@ -236,7 +227,7 @@ const SalesPersonFollowUp = () => {
     if (validatePoaForm()) {
       try {
         const response = await dispatch(addLead(poaData)).unwrap();
-        console.log("response",response);
+        console.log("response", response);
         if (response?.success) {
           handlePoaFlashMessage(response?.message, "success");
 
@@ -247,16 +238,16 @@ const SalesPersonFollowUp = () => {
           //     search: searchTerm,
           //   })
           // );
-          if(poaType || pathSegment == "lead-sales"){
+          if (poaType || pathSegment == "lead-sales") {
             dispatch(
               listLeads({
-                poaType:"todayPOA",
+                poaType: "todayPOA",
                 page: currentPage,
                 limit: poaPerPage,
                 search: searchTerm,
               })
             );
-          }else{
+          } else {
             dispatch(
               listLeads({
                 page: currentPage,
@@ -268,7 +259,7 @@ const SalesPersonFollowUp = () => {
 
           setPoaData({});
 
-          //add google calender event 
+          //add google calender event
           if (isAuthenticated) {
             handleAddEvent(poaData);
           }
@@ -354,15 +345,15 @@ const SalesPersonFollowUp = () => {
   };
 
   //
-  //google calender (poa) event add 
+  //google calender (poa) event add
   const handleAddEvent = (poaData) => {
     const event = {
-       title: "Meeting Sheduled",
-       location: poaData?.lead_address,
-       description: poaData?.lead_summary,
-       startDateTime: poaData?.assign_date,
-       endDateTime: poaData?.assign_date,
-       attendeesEmails: attendeesEmails,
+      title: "Meeting Sheduled",
+      location: poaData?.lead_address,
+      description: poaData?.lead_summary,
+      startDateTime: poaData?.assign_date,
+      endDateTime: poaData?.assign_date,
+      attendeesEmails: attendeesEmails,
     };
     console.log("event", event);
     createEvent(event);
@@ -370,15 +361,20 @@ const SalesPersonFollowUp = () => {
 
   //end google calender (poa) event add
 
-
   return (
-    <div className="main-content">
-   {pathSegment !== "lead-sales" && <ContentTop />} 
+    <div
+      className={`${
+        poaType || pathSegment !== "lead-sales" ? "main-content" : ""
+      }`}
+    >
+      {pathSegment !== "lead-sales" && <ContentTop />}
       <div className="flex flex-col gap-[20px]">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between"> 
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
           <div>
             <h1 className="text-white text-textdata whitespace-nowrap font-semibold">
-            {poaType === "todayPOA" || pathSegment == "lead-sales" ? "Today's Plan of Action (POA)" : "Visit Plan (POA)"}
+              {poaType === "todayPOA" || pathSegment == "lead-sales"
+                ? "Today's Plan of Action (POA)"
+                : "Visit Plan (POA)"}
             </h1>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">
@@ -392,38 +388,38 @@ const SalesPersonFollowUp = () => {
               />
             </div>
             <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
-            {userDeatail?.employeeRole?.role_id === 1 && (
-            <div>
-              <button
-                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={() => {
-                  allsetSelectedPOA(poaList?.data);
-                  setAllEmpPlanOfActionReport(true);
-                }}
-              >
-                All Employee POA
-              </button>
-            </div>
-            )}
-            {userDeatail?.employeeRole?.role_id === 3 && (
-            <div>
-              <button
-                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={() => setAddUserModalOpen(true)}
-              >
-                <img
-                  src={iconsImgs.plus}
-                  alt="plus icon"
-                  className="w-[18px] mr-1"
-                />{" "}
-                POA for Day
-              </button>
-            </div>
-            )}
+              {userDeatail?.employeeRole?.role_id === 1 && (
+                <div>
+                  <button
+                    className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                    onClick={() => {
+                      allsetSelectedPOA(poaList?.data);
+                      setAllEmpPlanOfActionReport(true);
+                    }}
+                  >
+                    All Employee POA
+                  </button>
+                </div>
+              )}
+              {userDeatail?.employeeRole?.role_id === 3 && (
+                <div>
+                  <button
+                    className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                    onClick={() => setAddUserModalOpen(true)}
+                  >
+                    <img
+                      src={iconsImgs.plus}
+                      alt="plus icon"
+                      className="w-[18px] mr-1"
+                    />{" "}
+                    POA for Day
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide">
+        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <DepartmentTable
