@@ -23,11 +23,11 @@ import LabelEmailForm from "./LabelEmailForm";
 
 const Gmail = () => {
   const {
-    isAuthenticated,
+    gmailisAuthenticated,
     signIn,
     signOut,
     userProfile,
-    accessToken,
+    gmailAccessToken,
     fetchInboxMessages,
     labels,
     fetchLabels,
@@ -38,11 +38,14 @@ const Gmail = () => {
     handleRemoveLabel,
   } = useGmailAuth();
 
+  //console.log("Token for profile:", gmailAccessToken);
+
+  //console.log("userProfile", userProfile?.picture);
   useEffect(() => {
-    if (isAuthenticated && accessToken) {
-      fetchLabels(accessToken);
+    if (gmailisAuthenticated && gmailAccessToken) {
+      fetchLabels(gmailAccessToken);
     }
-  }, [isAuthenticated, accessToken]);
+  }, [gmailisAuthenticated, gmailAccessToken]);
 
   const [showCompose, setShowCompose] = useState(false);
   const [activeView, setActiveView] = useState("INBOX"); // 📌 default open
@@ -51,7 +54,7 @@ const Gmail = () => {
   const systemLabels = ["INBOX", "STARRED", "SNOOZED", "SENT", "DRAFT"];
 
   // Map of system label names to their IDs
-  const labelIdMap = labels.reduce((acc, label) => {
+  const labelIdMap = labels?.reduce((acc, label) => {
     if (systemLabels.includes(label.name)) {
       acc[label.name] = label.id;
     }
@@ -63,7 +66,7 @@ const Gmail = () => {
       case labelIdMap.INBOX:
         return (
           <Inbox
-            accessToken={accessToken}
+            gmailAccessToken={gmailAccessToken}
             fetchInboxMessages={fetchInboxMessages}
             labelName={activeView}
             getMessageDetail={getMessageDetail}
@@ -80,7 +83,7 @@ const Gmail = () => {
       default:
         return (
           <Inbox
-            accessToken={accessToken}
+            gmailAccessToken={gmailAccessToken}
             fetchInboxMessages={fetchInboxMessages}
             labelName={activeView}
             getMessageDetail={getMessageDetail}
@@ -91,14 +94,14 @@ const Gmail = () => {
 
   const handleAssignLabelToEmail = async (email, labelId) => {
     try {
-      const messages = await getMessagesBySender(accessToken, email);
+      const messages = await getMessagesBySender(gmailAccessToken, email);
       if (messages?.length === 0) {
         alert("No emails found from this sender.");
         return;
       }
 
       await Promise.all(
-        messages?.map((msg) => applyLabelToMessage(accessToken, msg?.id, labelId))
+        messages?.map((msg) => applyLabelToMessage(gmailAccessToken, msg?.id, labelId))
       );
 
       alert(`Assigned label to ${messages?.length} messages from ${email}`);
@@ -116,7 +119,7 @@ const [labelToDelete, setLabelToDelete] = useState(null);
   return (
     <div className="flex h-screen font-sans">
       {/* Sidebar */}
-      {isAuthenticated && (
+      {gmailisAuthenticated && (
         <aside className="w-64 bg-gray-100 border-r border-gray-300 p-4 space-y-3">
           <button
             onClick={() => setShowCompose(true)}
@@ -130,21 +133,21 @@ const [labelToDelete, setLabelToDelete] = useState(null);
             <MenuItem
               icon={faInbox}
               label="Inbox"
-              labelId={labels.find((l) => l.name === "INBOX")?.id}
+              labelId={labels?.find((l) => l.name === "INBOX")?.id}
               activeView={activeView}
               setActiveView={setActiveView}
             />
             <MenuItem
               icon={faStar}
               label="Starred"
-              labelId={labels.find((l) => l.name === "STARRED")?.id}
+              labelId={labels?.find((l) => l.name === "STARRED")?.id}
               activeView={activeView}
               setActiveView={setActiveView}
             />
             <MenuItem
               icon={faPaperPlane}
               label="Sent"
-              labelId={labels.find((l) => l.name === "SENT")?.id}
+              labelId={labels?.find((l) => l.name === "SENT")?.id}
               activeView={activeView}
               setActiveView={setActiveView}
             />
@@ -245,7 +248,7 @@ const [labelToDelete, setLabelToDelete] = useState(null);
 
       {/* Main Content */}
       <main className="flex-1 p-6 overflow-y-auto">
-        {isAuthenticated ? (
+        {gmailisAuthenticated ? (
           <>
             {/* User Topbar */}
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  mb-6">
@@ -296,7 +299,7 @@ const [labelToDelete, setLabelToDelete] = useState(null);
       {/* Compose Email Modal */}
       {showCompose && (
         <ComposeEmail
-          accessToken={accessToken}
+          gmailAccessToken={gmailAccessToken}
           onClose={() => setShowCompose(false)}
         />
       )}

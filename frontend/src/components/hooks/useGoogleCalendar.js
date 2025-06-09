@@ -4,8 +4,8 @@ const CLIENT_ID = '369846641543-at9qrr9at1c3mfg3rqpk1valfoq9rn2t.apps.googleuser
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
 const useGoogleCalendar = () => {
-  const [accessToken, setAccessToken] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null);
+  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("isAuthenticated") === "true");
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,9 @@ const useGoogleCalendar = () => {
             return;
           }
           setAccessToken(tokenResponse.access_token);
+          localStorage.setItem("accessToken", tokenResponse.access_token);
           setIsAuthenticated(true);
+          localStorage.setItem("isAuthenticated", "true");
         },
       });
     };
@@ -45,12 +47,15 @@ const useGoogleCalendar = () => {
       google.accounts.oauth2.revoke(accessToken, () => {
         setAccessToken(null);
         setIsAuthenticated(false);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("isAuthenticated");
         setEvents([]);
       });
     }
   };
 
   const fetchEvents = async () => {
+    //console.log("accessToken",accessToken);
     if (!accessToken) {
       console.error('Access token is missing.');
       return;
@@ -68,7 +73,7 @@ const useGoogleCalendar = () => {
 
       const data = await response.json();
       //setEvents(data.items || []);
-      console.log("events",data?.items);
+      console.log("events",data);
       if (data?.items) {
         setEvents(data?.items);
       } else {
@@ -80,6 +85,7 @@ const useGoogleCalendar = () => {
   };
 
   const createEvent = async (event) => {
+    console.log("event added sucessfully");
     if (!accessToken) {
       console.error('Access token is missing.');
       return;

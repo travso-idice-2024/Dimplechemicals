@@ -166,7 +166,7 @@ const AddCustomerModal = ({
     setFormData((prevFormData) => ({
       ...prevFormData,
       company_address: [
-        ...prevFormData.company_address,
+        ...(prevFormData.company_address || []),
         {
           pincode: "",
           location: "",
@@ -179,8 +179,13 @@ const AddCustomerModal = ({
   };
 
   const removeAddress = (index) => {
-    const newAddresses = company_address.filter((_, i) => i !== index);
-    setFormData(newAddresses);
+    //console.log("index",index);
+    // const newAddresses = formData?.company_address?.filter((_, i) => i !== index);
+    // setFormData(newAddresses);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      company_address: prevFormData.company_address.filter((_, i) => i !== index),
+    }));
   };
   //end add more address
 
@@ -276,7 +281,7 @@ const AddCustomerModal = ({
                     <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
                       Add New Associate
                     </h2>
-                    <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-1 gap-4 overflow-y-auto md:h-[350px]">
+                    <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[100px]">
                       <div>
                         <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                           Associate Name :

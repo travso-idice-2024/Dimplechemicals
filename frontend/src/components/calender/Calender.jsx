@@ -21,28 +21,29 @@ const Calender = () => {
     }
   }, [isAuthenticated]);
 
-  const handleAddEvent = () => {
-    const event = {
-      title: "Meeting Sheduled",
-      location: "Indore",
-      description: "Test meeting via Zoom",
-      startDateTime: "2025-05-01T06:30:00", // ISO dateTime format
-      endDateTime: "2025-05-01T06:45:00",
-      attendeesEmails: [
-        "nikhilpatankar74@gmail.com",
-        "umasharma0821@gmail.com",
-        "nikhil02.1998@gmail.com",
-      ],
-    };
-    createEvent(event);
-  };
+  // const handleAddEvent = () => {
+  //   const event = {
+  //     title: "Meeting Sheduled",
+  //     location: "Indore",
+  //     description: "Test meeting via Zoom",
+  //     startDateTime: "2025-05-01T06:30:00", // ISO dateTime format
+  //     endDateTime: "2025-05-01T06:45:00",
+  //     attendeesEmails: [
+  //       "nikhilpatankar74@gmail.com",
+  //       "umasharma0821@gmail.com",
+  //       "nikhil02.1998@gmail.com",
+  //     ],
+  //   };
+  //   createEvent(event);
+  // };
 
   // Convert Google Calendar events to FullCalendar format
+  
   const eventsData = events.map((event) => ({
     id: event.id,
     title: event.summary,
     start: event.start.dateTime,
-    end: event.end.dateTime,
+    end: event.end?.dateTime,
     extendedProps: {
       description: event.description,
       location: event.location,

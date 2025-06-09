@@ -96,6 +96,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:true,
     },
+    meeting_done: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false,
+    },
   }, {
     tableName: 'leadcommunications',
     timestamps: true,

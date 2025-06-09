@@ -5,7 +5,7 @@ import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const Inbox = ({
-  accessToken,
+  gmailAccessToken,
   fetchInboxMessages,
   labelName = "INBOX",
   getMessageDetail,
@@ -39,10 +39,10 @@ const Inbox = ({
   //console.log("emails",emails);
 
   useEffect(() => {
-    if (accessToken) {
+    if (gmailAccessToken) {
       getInbox();
     }
-  }, [accessToken, labelName]);
+  }, [gmailAccessToken, labelName]);
 
   function getHeader(headers, name) {
     if (!headers) return "";

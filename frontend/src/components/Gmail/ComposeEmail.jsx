@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const ComposeEmail = ({ accessToken, onClose }) => {
+const ComposeEmail = ({ gmailAccessToken, onClose }) => {
   const [composeData, setComposeData] = useState({
     to: "",
     subject: "",
@@ -34,7 +34,7 @@ const ComposeEmail = ({ accessToken, onClose }) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ raw: base64EncodedEmail }),

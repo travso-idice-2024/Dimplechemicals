@@ -26,9 +26,10 @@ const DepartmentTable = ({
   selectedPOAId,
   poaReportOpen,
   setpoaReportOpen,
+  listLeads,
 }) => {
   const { poaType } = useParams();
-  console.log("selectedPOA", selectedPOA);
+  //console.log("poaList", poaList);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
 
@@ -193,7 +194,7 @@ const DepartmentTable = ({
   const navigate = useNavigate();
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  console.log("userDeatail", userDeatail);
+  //console.log("userDeatail", userDeatail);
 
   const [leadStatusProgress, setLeadStatusProgress] = useState(false);
 
@@ -207,9 +208,9 @@ const DepartmentTable = ({
     end_meeting_time: "",
     lead_text: "",
     lead_status: "",
-    lead_type:"",
-    lead_date: "",
-    final_meeting:false
+    lead_type: "",
+    lead_date: null,
+    final_meeting: false,
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -231,27 +232,26 @@ const DepartmentTable = ({
   // const handleChange = (e) => {
   //   const { name, value } = e.target;
   //   setFormData((prevData) => ({ ...prevData, [name]: value }));
-  //   setAttendeesEmails([userDeatail.email]); 
+  //   setAttendeesEmails([userDeatail.email]);
   //   setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   // };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-  
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
 
     if (name === "lead_date") {
-      setAttendeesEmails([userDeatail.email]); 
+      setAttendeesEmails([userDeatail.email]);
     }
     setFormErrors((prevErrors) => ({
       ...prevErrors,
       [name]: "",
     }));
   };
-  
 
   // Validate Inputs
   const validateInputs = () => {
@@ -308,6 +308,11 @@ const DepartmentTable = ({
                 "success"
               );
 
+              //refresh the lead poa list
+              dispatch(
+                listLeads()
+              );
+
               setFormData({});
               setIsCheckedIn(false);
               setActiveLeadId(null);
@@ -342,15 +347,19 @@ const DepartmentTable = ({
 
   //google calender (poa) event add
   const handleAddEvent = (formData) => {
+    const startDateTime = new Date(`${formData?.lead_date}`);
+    const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
     const event = {
       title: "Meeting Sheduled",
       location: selectedPOA?.lead_address,
       description: formData?.lead_text,
-      startDateTime: formData?.lead_date,
-      endDateTime: formData?.lead_date,
+      // startDateTime: formData?.lead_date,
+      // endDateTime: formData?.lead_date,
+      startDateTime: startDateTime.toISOString(),
+      endDateTime: endDateTime.toISOString(),
       attendeesEmails: attendeesEmails,
     };
-    console.log("event", event);
+    //console.log("event", event);
     createEvent(event);
   };
   //end google calender (poa) event add
@@ -455,7 +464,7 @@ const DepartmentTable = ({
               </td>
               {userDeatail?.employeeRole?.role_id === 3 && (
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
-                  {user?.meeting_end === false ? (
+                  {user?.communications?.[0]?.meeting_done === false ? (
                     <button
                       onClick={() => {
                         handleToggle(user);
@@ -519,7 +528,6 @@ const DepartmentTable = ({
                 )}
               </div>
 
-
               <div>
                 <label className="font-poppins font-medium text-black text-[16px]">
                   Lead Status :
@@ -537,9 +545,7 @@ const DepartmentTable = ({
                   <option value="Order Confirmed">Order Confirmed</option>
                 </select>
                 {formErrors.lead_type && (
-                  <p className="text-red-500 text-sm">
-                    {formErrors.lead_type}
-                  </p>
+                  <p className="text-red-500 text-sm">{formErrors.lead_type}</p>
                 )}
               </div>
 
@@ -561,8 +567,9 @@ const DepartmentTable = ({
               </div>
 
               <div>
-                
-                <label className="font-poppins font-medium text-black text-[16px]">Final Meeting:</label>
+                <label className="font-poppins font-medium text-black text-[16px]">
+                  Final Meeting:
+                </label>
                 <div className="flex items-center w-full h-[40px] rounded-[5px] text-black border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
                   <input
                     type="checkbox"
@@ -574,7 +581,7 @@ const DepartmentTable = ({
                   <span className="ml-2 font-poppins font-medium text-black text-[16px]">
                     Final Meeting
                   </span>
-                  </div>
+                </div>
               </div>
 
               <div>

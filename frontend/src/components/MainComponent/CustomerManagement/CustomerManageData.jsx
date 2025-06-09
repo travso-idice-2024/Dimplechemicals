@@ -42,14 +42,16 @@ const CustomerManageData = () => {
   const [isEditCustomerModalOpen, setEditCustomerModalOpen] = useState(false);
 
     //-------- New Pagination Code Start --------//
-    const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(5);
+    const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
     //-------- New Pagination Code End --------//
     
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = 20;
+  const customersPerPage = entriesPerPageNewData? entriesPerPageNewData : 20 ;
+
+  //console.log("customersPerPage",customersPerPage);
 
   // Fetch customers whenever searchTerm or currentPage changes
   //console.log("selectedCustomer",selectedCustomer?.id);
@@ -63,7 +65,7 @@ const CustomerManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm, selectedCustomer?.id]);
+  }, [dispatch, currentPage, searchTerm, selectedCustomer?.id,entriesPerPageNewData]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -578,16 +580,17 @@ const CustomerManageData = () => {
                 <select
                   className="appearance-none cursor-pointer h-8 pr-8 pl-5 rounded-r-[5px] bg-[#3d3d57] text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                   value={entriesPerPageNewData}
-                  onChange={(e) =>
-                    setEntriesPerPageNewData(Number(e.target.value))
+                  onChange={(e) =>{
+                    setEntriesPerPageNewData(Number(e.target.value));
+                  }
                   }
                 >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={15}>15</option>
-                  <option value={20}>20</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={75}>75</option>
+                  <option value={100}>100</option>
                 </select>
-                <div className="cursor-pointer absolute inset-y-0 right-2 flex items-center text-gray-300">
+                <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
                   <svg
                     className="w-4 h-4"
                     fill="none"

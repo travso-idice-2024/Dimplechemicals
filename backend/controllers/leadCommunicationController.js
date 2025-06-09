@@ -244,6 +244,7 @@ const endMeeting = async (req, res) => {
       end_meeting_time,
       end_location,
       final_meeting: final_meeting === true || final_meeting === 'true',
+      meeting_done: true,
       lead_type
     });
 

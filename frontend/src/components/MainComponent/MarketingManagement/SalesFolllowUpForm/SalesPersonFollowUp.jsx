@@ -159,6 +159,7 @@ const SalesPersonFollowUp = () => {
   const [poaFlashMessage, setPoaFlashMessage] = useState("");
   const [poaFlashMsgType, setPoaFlashMsgType] = useState("");
   const [attendeesEmails, setAttendeesEmails] = useState([]);
+  console.log("attendeesEmails",attendeesEmails);
 
   const handlePoaChange = (e) => {
     const { name, value } = e.target;
@@ -167,6 +168,10 @@ const SalesPersonFollowUp = () => {
       ...prevData,
       [name]: value,
     }));
+
+
+
+    setAttendeesEmails([userDeatail.email]);
   
     if (name === "assigned_person_id") {
       const selectedUser = userDataWithRole?.data.find(
@@ -179,6 +184,7 @@ const SalesPersonFollowUp = () => {
         setAttendeesEmails([]); // Clear if no match found
       }
     }
+    
   };
   
 
@@ -271,6 +277,8 @@ const SalesPersonFollowUp = () => {
           //add google calender event 
           if (isAuthenticated) {
             handleAddEvent(poaData);
+          }else{
+            console.log("not authenticated");
           }
           setTimeout(() => {
             setAddUserModalOpen(false); // Make sure modal state name matches
@@ -356,15 +364,17 @@ const SalesPersonFollowUp = () => {
   //
   //google calender (poa) event add 
   const handleAddEvent = (poaData) => {
+    const startDateTime = new Date(`${poaData.assign_date}T${poaData.meeting_time}`);
+    const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
     const event = {
        title: "Meeting Sheduled",
        location: poaData?.lead_address,
        description: poaData?.lead_summary,
-       startDateTime: poaData?.assign_date,
-       endDateTime: poaData?.assign_date,
+       startDateTime: startDateTime.toISOString(),
+       endDateTime: endDateTime.toISOString(),
        attendeesEmails: attendeesEmails,
     };
-    console.log("event", event);
+    //console.log("event111111111111", event);
     createEvent(event);
   };
 
@@ -438,6 +448,7 @@ const SalesPersonFollowUp = () => {
               selectedPOAId={selectedPOAId}
               poaReportOpen={poaReportOpen}
               setpoaReportOpen={setpoaReportOpen}
+              listLeads={listLeads}
             />
           </div>
 

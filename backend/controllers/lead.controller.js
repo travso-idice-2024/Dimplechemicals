@@ -334,7 +334,6 @@ const updateLead = async (req, res) => {
   }
 };
 
-
 const getLeadList = async (req, res) => {
   try {
     const { poaType = "", page = 1, limit = 5, search = "", all } = req.query;
@@ -347,25 +346,83 @@ const getLeadList = async (req, res) => {
 
     const todayDate = new Date().toISOString().split("T")[0];
 
+    // 1️⃣ Case: lead_date === today && end_meeting_time != null
+    await LeadCommunication.update(
+      { meeting_done: true },
+      {
+        where: {
+          [Op.and]: [
+            Sequelize.where(
+              Sequelize.fn("DATE", Sequelize.col("lead_date")),
+              "=",
+              todayDate
+            ),
+            { end_meeting_time: { [Op.ne]: null } },
+          ],
+        },
+      }
+    );
+
+    // 2️⃣ Case: lead_date === today && end_meeting_time == null
+    await LeadCommunication.update(
+      { meeting_done: false },
+      {
+        where: {
+          [Op.and]: [
+            Sequelize.where(
+              Sequelize.fn("DATE", Sequelize.col("lead_date")),
+              "=",
+              todayDate
+            ),
+            { end_meeting_time: null },
+          ],
+        },
+      }
+    );
+
+    // 3️⃣ Case: lead_date < today — set meeting_done = true
+    await LeadCommunication.update(
+      { meeting_done: true },
+      {
+        where: Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("lead_date")),
+          "<",
+          todayDate
+        ),
+      }
+    );
+
+    // 4️⃣ Case: lead_date > today — set meeting_done = false
+    await LeadCommunication.update(
+      { meeting_done: false },
+      {
+        where: Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("lead_date")),
+          ">",
+          todayDate
+        ),
+      }
+    );
+
     // Base filter with default active_status
     let whereCondition = {
       active_status: "active",
     };
 
-    if (poaType === "todayPOA") {
-      whereCondition[Op.or] = [
-        Sequelize.where(
-          Sequelize.fn("DATE", Sequelize.col("assign_date")),
-          "=",
-          todayDate
-        ),
-        Sequelize.where(
-          Sequelize.fn("DATE", Sequelize.col("next_followup")),
-          "=",
-          todayDate
-        ),
-      ];
-    }
+    // if (poaType === "todayPOA") {
+    //   whereCondition[Op.or] = [
+    //     Sequelize.where(
+    //       Sequelize.fn("DATE", Sequelize.col("assign_date")),
+    //       "=",
+    //       todayDate
+    //     ),
+    //     Sequelize.where(
+    //       Sequelize.fn("DATE", Sequelize.col("next_followup")),
+    //       "=",
+    //       todayDate
+    //     ),
+    //   ];
+    // }
 
     if (userRole !== 1) {
       whereCondition.assigned_person_id = userId;
@@ -408,7 +465,11 @@ const getLeadList = async (req, res) => {
                 {
                   model: LeadCommunication,
                   as: "communications",
-                  attributes: ["end_meeting_time", "start_meeting_time"],
+                  attributes: [
+                    "end_meeting_time",
+                    "start_meeting_time",
+                    "meeting_done",
+                  ],
                 },
               ]
             : []),
@@ -417,12 +478,27 @@ const getLeadList = async (req, res) => {
     ];
 
     // Add communications directly when not "all"
+    // if (all !== "true") {
+    //   includeOptions.push({
+    //     model: LeadCommunication,
+    //     as: "communications",
+    //     attributes: ["end_meeting_time", "start_meeting_time", "meeting_done"],
+    //   });
+    // }
+
+    // Add communications directly when not "all"
     if (all !== "true") {
       includeOptions.push({
         model: LeadCommunication,
         as: "communications",
-        attributes: ["end_meeting_time", "start_meeting_time"],
-      });
+        attributes: ["end_meeting_time", "start_meeting_time", "meeting_done"],
+        required: true, // ensures only leads with matching communication are included
+        where: Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("communications.lead_date")),
+          "=",
+          todayDate
+        ),
+    });
     }
 
     if (all === "true") {
@@ -437,7 +513,9 @@ const getLeadList = async (req, res) => {
         const hasOngoingMeeting = lead.communications?.some((comm) => {
           const start = comm.start_meeting_time;
           const end = comm.end_meeting_time;
-          return (start === null && end === null) || (start !== null && end === null);
+          return (
+            (start === null && end === null) || (start !== null && end === null)
+          );
         });
 
         return {
@@ -493,7 +571,7 @@ const getLeadList = async (req, res) => {
       totalItems: count,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message});
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -511,9 +589,7 @@ const getleadaftermeeting = async (req, res) => {
 
     // Step 1: Fetch latest lead IDs per customer
     const latestLeadIds = await Lead.findAll({
-      attributes: [
-        [Sequelize.fn("MAX", Sequelize.col("id")), "latest_id"],
-      ],
+      attributes: [[Sequelize.fn("MAX", Sequelize.col("id")), "latest_id"]],
       where: {
         ...(userId !== 33 && { assigned_person_id: userId }),
         active_status: "active",
@@ -528,7 +604,7 @@ const getleadaftermeeting = async (req, res) => {
       raw: true,
     });
 
-    const leadIds = latestLeadIds.map(item => item.latest_id);
+    const leadIds = latestLeadIds.map((item) => item.latest_id);
 
     if (leadIds.length === 0) {
       return res.status(200).json({
@@ -606,7 +682,6 @@ const getleadaftermeeting = async (req, res) => {
     });
   }
 };
-
 
 //26/05/25
 

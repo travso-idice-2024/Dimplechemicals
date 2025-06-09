@@ -14,8 +14,12 @@ const SCOPES = [
 ].join(" ");
 
 const useGmailAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [accessToken, setAccessToken] = useState(null);
+  const [gmailisAuthenticated, setgmailisAuthenticated] = useState(
+    localStorage.getItem("gmailisAuthenticated") === "true"
+  );
+  const [gmailAccessToken, setgmailAccessToken] = useState(
+    localStorage.getItem("gmailAccessToken") || null
+  );
   const [userProfile, setUserProfile] = useState(null);
   const [labels, setLabels] = useState([]);
 
@@ -31,32 +35,41 @@ const useGmailAuth = () => {
             console.error("Token Error:", tokenResponse);
             return;
           }
-          setAccessToken(tokenResponse.access_token);
-          setIsAuthenticated(true);
+          setgmailAccessToken(tokenResponse.access_token);
+          localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
+          setgmailisAuthenticated(true);
+          localStorage.setItem("gmailisAuthenticated", "true");
           // Now, fetch user profile details (using token)
           fetchUserProfile(tokenResponse.access_token);
         },
       });
 
-      // Check if already signed in
-      if (window.google && google.accounts && google.accounts.oauth2) {
-        const tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: CLIENT_ID,
-          scope: SCOPES,
-          callback: (tokenResponse) => {
-            if (tokenResponse.error) {
-              console.error("Token error:", tokenResponse);
-              return;
-            }
-            // Access token and user profile handling
-            setAccessToken(tokenResponse.access_token);
-            setIsAuthenticated(true);
-            fetchUserProfile(tokenResponse.access_token);
-          },
-        });
-
-        tokenClient.requestAccessToken();
+      // Request token if expired / not set
+      if (!localStorage.getItem("gmailAccessToken")) {
+        window.tokenClient.requestAccessToken();
       }
+
+      // Check if already signed in
+      // if (window.google && google.accounts && google.accounts.oauth2) {
+      //   const tokenClient = google.accounts.oauth2.initTokenClient({
+      //     client_id: CLIENT_ID,
+      //     scope: SCOPES,
+      //     callback: (tokenResponse) => {
+      //       if (tokenResponse.error) {
+      //         console.error("Token error:", tokenResponse);
+      //         return;
+      //       }
+      //       // Access token and user profile handling
+      //       setgmailAccessToken(tokenResponse.access_token);
+      //       localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
+      //       setgmailisAuthenticated(true);
+      //       localStorage.setItem("gmailisAuthenticated", "true");
+      //       fetchUserProfile(tokenResponse.access_token);
+      //     },
+      //   });
+
+      //   tokenClient.requestAccessToken();
+      // }
     };
 
     if (window.google && google.accounts && google.accounts.oauth2) {
@@ -66,13 +79,25 @@ const useGmailAuth = () => {
     }
   }, []);
 
-  const fetchUserProfile = async (accessToken) => {
+  useEffect(() => {
+    const storedToken = localStorage.getItem("gmailAccessToken");
+    const isAuth = localStorage.getItem("gmailisAuthenticated");
+
+    if (storedToken && isAuth === "true") {
+      setgmailAccessToken(storedToken);
+      setgmailisAuthenticated(true);
+      fetchUserProfile(storedToken);
+    }
+  }, []);
+
+  const fetchUserProfile = async (gmailAccessToken) => {
+    //console.log("gmailAccessToken",gmailAccessToken);
     try {
       const response = await fetch(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
           },
         }
       );
@@ -96,10 +121,12 @@ const useGmailAuth = () => {
 
   // Logout function
   const signOut = () => {
-    if (accessToken) {
-      google.accounts.oauth2.revoke(accessToken, () => {
-        setAccessToken(null);
-        setIsAuthenticated(false);
+    if (gmailAccessToken) {
+      google.accounts.oauth2.revoke(gmailAccessToken, () => {
+        setgmailAccessToken(null);
+        setgmailisAuthenticated(false);
+        localStorage.removeItem("gmailAccessToken");
+        localStorage.removeItem("gmailisAuthenticated");
         setEvents([]);
       });
     }
@@ -108,10 +135,10 @@ const useGmailAuth = () => {
   // Fetch Inbox Messages Function
   const fetchInboxMessages = async (label = "INBOX") => {
     //console.log("This message function is calling", label);
-    //console.log("Label", label);
+    //console.log("gmailAccessToken", gmailAccessToken);
 
     try {
-      if (!accessToken) {
+      if (!gmailAccessToken) {
         throw new Error("User not authenticated");
       }
 
@@ -131,7 +158,7 @@ const useGmailAuth = () => {
         `https://gmail.googleapis.com/gmail/v1/users/me/messages?${queryParams.toString()}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
           },
         }
       );
@@ -146,7 +173,7 @@ const useGmailAuth = () => {
             `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}`,
             {
               headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${gmailAccessToken}`,
               },
             }
           );
@@ -201,7 +228,7 @@ const useGmailAuth = () => {
 
   const fetchLabels = async () => {
     try {
-      if (!accessToken) {
+      if (!gmailAccessToken) {
         throw new Error("User not authenticated");
       }
 
@@ -209,7 +236,7 @@ const useGmailAuth = () => {
         "https://gmail.googleapis.com/gmail/v1/users/me/labels",
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
           },
         }
       );
@@ -224,14 +251,14 @@ const useGmailAuth = () => {
   // ✅ Create Label Function
   const createLabel = async (labelName) => {
     try {
-      if (!accessToken) throw new Error("User not authenticated");
+      if (!gmailAccessToken) throw new Error("User not authenticated");
 
       const response = await fetch(
         "https://gmail.googleapis.com/gmail/v1/users/me/labels",
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -260,13 +287,13 @@ const useGmailAuth = () => {
   //get message details
   const getMessageDetail = async (messageId) => {
     try {
-      if (!accessToken) throw new Error("User not authenticated");
+      if (!gmailAccessToken) throw new Error("User not authenticated");
 
       const response = await fetch(
         `https://gmail.googleapis.com/gmail/v1/users/me/messages/${messageId}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
           },
         }
       );
@@ -286,7 +313,7 @@ const useGmailAuth = () => {
 
   //get message by sender
 
-  const getMessagesBySender = async (accessToken, senderEmail) => {
+  const getMessagesBySender = async (gmailAccessToken, senderEmail) => {
     const query = `from:${senderEmail}`;
     const url = `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(
       query
@@ -296,7 +323,7 @@ const useGmailAuth = () => {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${gmailAccessToken}`,
           Accept: "application/json",
         },
       });
@@ -316,16 +343,16 @@ const useGmailAuth = () => {
 
   //applyLabelto message
 
-  const applyLabelToMessage = async (accessToken, messageId, labelId) => {
+  const applyLabelToMessage = async (gmailAccessToken, messageId, labelId) => {
     try {
-      if (!accessToken) throw new Error("User not authenticated");
+      if (!gmailAccessToken) throw new Error("User not authenticated");
 
       const response = await fetch(
         `https://gmail.googleapis.com/gmail/v1/users/me/messages/${messageId}/modify`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -352,7 +379,7 @@ const useGmailAuth = () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${gmailAccessToken}`,
             "Content-Type": "application/json",
           },
         }
@@ -372,8 +399,8 @@ const useGmailAuth = () => {
   };
 
   return {
-    isAuthenticated,
-    accessToken,
+    gmailisAuthenticated,
+    gmailAccessToken,
     userProfile,
     signIn,
     signOut,

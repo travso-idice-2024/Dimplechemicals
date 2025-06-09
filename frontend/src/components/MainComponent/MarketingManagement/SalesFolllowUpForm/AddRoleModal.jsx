@@ -25,7 +25,7 @@ const AddRoleModal = ({
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
-  console.log("poaData", poaData);
+  //console.log("poaData", poaData);
   //console.log("allProducts", allProducts);
 
   useEffect(() => {

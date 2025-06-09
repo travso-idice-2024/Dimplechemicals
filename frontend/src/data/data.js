@@ -360,7 +360,8 @@ export const navigationLinks = [
   },
   { id: 13, title: "Annual Buisness Plan", image: iconsImgs.Calender, path: "/annual-buisness-plan" ,allowedRoles: [3]},
   { id: 14, title: "Calender", image: iconsImgs.Calender, path: "/calender" ,allowedRoles: [3]},
-  { id: 15, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
+  { id: 15, title: "Gmail", image: iconsImgs.Mail, path: "/gmailtest" ,allowedRoles: [3]},
+  { id: 16, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},
 ];
 
 //------------ Own Data --------------//

@@ -8,7 +8,7 @@ const { ValidationError } = require("sequelize");
 const listCustomers = async (req, res) => {
   
   try {
-    const { page = 1, limit = 6 , search = "", all } = req.query;
+    const { page = 1, limit = 20 , search = "", all } = req.query;
 
     // Base filter: Only fetch active customers
     let whereCondition = { active_status: "active" };
