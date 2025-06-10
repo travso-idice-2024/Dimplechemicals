@@ -409,20 +409,20 @@ const getLeadList = async (req, res) => {
       active_status: "active",
     };
 
-    // if (poaType === "todayPOA") {
-    //   whereCondition[Op.or] = [
-    //     Sequelize.where(
-    //       Sequelize.fn("DATE", Sequelize.col("assign_date")),
-    //       "=",
-    //       todayDate
-    //     ),
-    //     Sequelize.where(
-    //       Sequelize.fn("DATE", Sequelize.col("next_followup")),
-    //       "=",
-    //       todayDate
-    //     ),
-    //   ];
-    // }
+    if (poaType === "todayPOA") {
+      whereCondition[Op.or] = [
+        Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("assign_date")),
+          "=",
+          todayDate
+        ),
+        Sequelize.where(
+          Sequelize.fn("DATE", Sequelize.col("next_followup")),
+          "=",
+          todayDate
+        ),
+      ];
+    }
 
     if (userRole !== 1) {
       whereCondition.assigned_person_id = userId;
@@ -478,28 +478,28 @@ const getLeadList = async (req, res) => {
     ];
 
     // Add communications directly when not "all"
-    // if (all !== "true") {
-    //   includeOptions.push({
-    //     model: LeadCommunication,
-    //     as: "communications",
-    //     attributes: ["end_meeting_time", "start_meeting_time", "meeting_done"],
-    //   });
-    // }
-
-    // Add communications directly when not "all"
     if (all !== "true") {
       includeOptions.push({
         model: LeadCommunication,
         as: "communications",
         attributes: ["end_meeting_time", "start_meeting_time", "meeting_done"],
-        required: true, // ensures only leads with matching communication are included
-        where: Sequelize.where(
-          Sequelize.fn("DATE", Sequelize.col("communications.lead_date")),
-          "=",
-          todayDate
-        ),
-    });
+      });
     }
+
+    // Add communications directly when not "all"
+    // if (all !== "true") {
+    //   includeOptions.push({
+    //     model: LeadCommunication,
+    //     as: "communications",
+    //     attributes: ["end_meeting_time", "start_meeting_time", "meeting_done"],
+    //     required: true, // ensures only leads with matching communication are included
+    //     where: Sequelize.where(
+    //       Sequelize.fn("DATE", Sequelize.col("communications.lead_date")),
+    //       "=",
+    //       todayDate
+    //     ),
+    // });
+    // }
 
     if (all === "true") {
       const leads = await Lead.findAll({
@@ -2276,6 +2276,113 @@ const getLeadListofAll = async (req, res) => {
   }
 };
 
+const exportLeadsAfterMeetingToExcel = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    const userId = req.user.id;
+    const { search = "" } = req.query;
+
+    // Step 1: Get latest lead IDs per customer
+    const latestLeadIds = await Lead.findAll({
+      attributes: [[Sequelize.fn("MAX", Sequelize.col("id")), "latest_id"]],
+      where: {
+        ...(userId !== 33 && { assigned_person_id: userId }),
+        active_status: "active",
+        ...(search && {
+          [Op.or]: [
+            { assign_date: { [Op.like]: `%${search}%` } },
+            { lead_status: { [Op.like]: `%${search}%` } },
+          ],
+        }),
+      },
+      group: ["customer_id"],
+      raw: true,
+    });
+
+    const leadIds = latestLeadIds.map((item) => item.latest_id);
+
+    if (leadIds.length === 0) {
+      return res.status(200).json({ success: true, message: "No data", data: [] });
+    }
+
+    // Step 2: Get full leads with communication
+    const leads = await Lead.findAll({
+      where: { id: { [Op.in]: leadIds } },
+      attributes: ["id", "meeting_type"],
+      include: [
+        {
+          model: Customer,
+          as: "customer",
+          attributes: ["company_name", "primary_contact", "email_id"],
+        },
+        { model: User, as: "leadOwner", attributes: ["fullname"] },
+        { model: User, as: "assignedPerson", attributes: ["fullname"] },
+        {
+          model: CustomerContactPerson,
+          as: "contactPerson",
+          attributes: ["name"],
+        },
+        {
+          model: LeadCommunication,
+          as: "communications",
+          where: { end_meeting_time: { [Op.ne]: null } },
+          required: true,
+          order: [["id", "ASC"]],
+        },
+      ],
+    });
+
+    // Create Excel workbook
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Leads After Meeting");
+
+    // Define columns
+    worksheet.columns = [
+      { header: "Lead ID", key: "id", width: 10 },
+      { header: "Company", key: "company_name", width: 25 },
+      { header: "Contact Person", key: "contact_person", width: 20 },
+      { header: "Primary Contact", key: "primary_contact", width: 15 },
+      { header: "Email", key: "email", width: 25 },
+      { header: "Lead Owner", key: "lead_owner", width: 20 },
+      { header: "Assigned Person", key: "assigned_person", width: 20 },
+      { header: "Meeting Type", key: "meeting_type", width: 20 },
+      { header: "Last Meeting End Time", key: "meeting_end", width: 25 },
+    ];
+
+    // Add rows
+    leads.forEach((lead) => {
+      const communication = lead.communications?.[lead.communications.length - 1]; // Last meeting
+
+      worksheet.addRow({
+        id: lead.id,
+        company_name: lead.customer?.company_name || "N/A",
+        contact_person: lead.contactPerson?.name || "N/A",
+        primary_contact: lead.customer?.primary_contact || "N/A",
+        email: lead.customer?.email_id || "N/A",
+        lead_owner: lead.leadOwner?.fullname || "N/A",
+        assigned_person: lead.assignedPerson?.fullname || "N/A",
+        meeting_type: lead.meeting_type || "N/A",
+        meeting_end: communication?.end_meeting_time || "N/A",
+      });
+    });
+
+    // Save Excel file
+    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+    const filePath = path.join(__dirname, `../exports/Leads_After_Meeting_${timestamp}.xlsx`);
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    await workbook.xlsx.writeFile(filePath);
+
+    // Download
+    res.download(filePath, `Leads_After_Meeting_${timestamp}.xlsx`);
+  } catch (error) {
+    console.error("Export Error:", error);
+    res.status(500).json({ success: false, message: "Export failed", error: error.message});
+  }
+};
+
 module.exports = {
   addLead,
   getLeadList,
@@ -2298,4 +2405,5 @@ module.exports = {
   addProductsToLead,
   getLeadListofAll,
   deleteProductFromLead,
+  exportLeadsAfterMeetingToExcel
 };

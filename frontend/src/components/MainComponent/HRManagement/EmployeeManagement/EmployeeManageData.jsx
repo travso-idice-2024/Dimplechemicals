@@ -41,13 +41,13 @@ const EmployeeManageData = () => {
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
 
   //-------- New Pagination Code Start --------//
-  const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(5);
+  const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
   //-------- New Pagination Code End --------//
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const employeePerPage = 6;
+  const employeePerPage = entriesPerPageNewData? entriesPerPageNewData : 20 ;
 
   // Fetch departments whenever searchTerm or currentPage changes
   useEffect(() => {
@@ -58,7 +58,7 @@ const EmployeeManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm]);
+  }, [dispatch, currentPage, searchTerm,entriesPerPageNewData]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -798,10 +798,10 @@ const EmployeeManageData = () => {
                     setEntriesPerPageNewData(Number(e.target.value))
                   }
                 >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={15}>15</option>
-                  <option value={20}>20</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={75}>75</option>
+                  <option value={100}>100</option>
                 </select>
                 <div className="cursor-pointer absolute inset-y-0 right-2 flex items-center text-gray-300">
                   <svg

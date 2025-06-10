@@ -1,5 +1,8 @@
 const { CostWorking, CostWorkingProduct, Product,Customer } = require("../models");
 const { Op } = require("sequelize");
+const ExcelJS = require("exceljs");
+const path = require("path");
+const fs =require("fs");
 
 const createCostWorking = async (req, res) => {
   const {
@@ -251,6 +254,104 @@ const updateCostWorking = async (req, res) => {
  };
 
 
+ const exportCostWorkingListToExcel = async (req, res) => {
+  try {
+    const { search = "", all = false } = req.query;
+
+    const whereCondition = {
+      [Op.or]: [
+        { estimate_no: { [Op.like]: `%${search}%` } },
+        { location: { [Op.like]: `%${search}%` } },
+      ],
+    };
+
+    const records = await CostWorking.findAll({
+      where: whereCondition,
+      include: [
+        {
+          model: CostWorkingProduct,
+          as: "products",
+          include: [
+            {
+              model: Product,
+              attributes: ["product_name", "HSN_code"],
+            },
+          ],
+        },
+        {
+          model: Customer,
+          as: "company",
+          attributes: ["company_name"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    const grouped = {};
+    records.forEach((item) => {
+      const cr_id = item.cr_id;
+      if (!grouped[cr_id]) grouped[cr_id] = [];
+      grouped[cr_id].push(item);
+    });
+
+    const latestVersions = [];
+    for (const cr_id in grouped) {
+      const sorted = grouped[cr_id].sort((a, b) => b.revision_no - a.revision_no);
+      latestVersions.push(sorted[0]);
+    }
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Cost Working Report");
+
+ 
+    worksheet.columns = [
+      { header: "Company Name", key: "company_name", width: 25 },
+      { header: "Estimate No", key: "estimate_no", width: 20 },
+      { header: "Estimate Date", key: "estimate_date ", width: 20 },
+      { header: "Nature of Work", key: "nature_of_work ", width: 20 },
+      { header: "Technology Used", key: "technology_used", width: 20 },
+      { header: "Location", key: "location", width: 20 },
+      { header: "Revision No", key: "revision_no", width: 15 },
+      { header: "Revision Date", key: "revision_date ", width: 15 },
+      { header: "Products", key: "products", width: 50 },
+      { header: "Created Date", key: "created_at", width: 20 },
+    ];
+
+    latestVersions.forEach((item) => {
+      worksheet.addRow({
+        company_name: item.company?.company_name || "N/A",
+        estimate_no: item.estimate_no || "N/A",
+        estimate_date: item.estimate_date ? new Date(item.estimate_date).toLocaleDateString() : "N/A",
+        nature_of_work: item.nature_of_work || "N/A",
+        technology_used: item.technology_used || "N/A",
+        revision_date: item.revision_date ? new Date(item.revision_date).toLocaleDateString() : "N/A",
+        estimate_no: item.estimate_no,
+        location: item.location,
+        company_name: item.company?.company_name || "N/A",
+        revision_no: item.revision_no,
+        // products: item.products.map(p => `${p.product?.product_name} (${p.product?.HSN_code})`).join(", "),
+        products: item.products
+          .filter((p) => p.product && p.product.product_name)
+          .map((p) => p.product.product_name)
+        .join(","),
+        created_at: item.createdAt.toLocaleDateString(),
+      });
+    });
+
+    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
+    const filePath = path.join(__dirname, `../exports/CostWorking_Report_${timestamp}.xlsx`);
+
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    await workbook.xlsx.writeFile(filePath);
+
+    res.download(filePath, `CostWorking_Report_${timestamp}.xlsx`);
+  } catch (error) {
+    console.error("Export Error:", error);
+    res.status(500).json({ success: false, message: "Failed to export", error: error.message});
+  }
+};
+
+
 module.exports = {
-  createCostWorking, getCostWorking ,updateCostWorking
+  createCostWorking, getCostWorking ,updateCostWorking , exportCostWorkingListToExcel
 };

@@ -21,6 +21,12 @@ import {
   getAllAddressByCustomerId,
 } from "../../../redux/customerSlice";
 
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
+
 const CostWorkingManageData = () => {
   const dispatch = useDispatch();
   const { costWorkings, totalPages, costWorkingLoading, costWorkingError } =
@@ -41,10 +47,15 @@ const CostWorkingManageData = () => {
     useState(false);
   const [isCostWorkingModalOpen, setIsCostWorkingModalOpen] = useState(false);
 
+
+    //-------- New Pagination Code Start --------//
+    const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
+    //-------- New Pagination Code End --------//
+
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const costWorkingPerPage = 8;
+  const costWorkingPerPage = entriesPerPageNewData ? entriesPerPageNewData : 20;
 
   // Fetch departments whenever searchTerm or currentPage changes
   useEffect(() => {
@@ -61,7 +72,7 @@ const CostWorkingManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm, costWorkingPerPage]);
+  }, [dispatch, currentPage, searchTerm, costWorkingPerPage,entriesPerPageNewData]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -505,6 +516,45 @@ const CostWorkingManageData = () => {
   };
 
   //end delete lead======================================================
+
+  const handleExportData = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        `${API_URL}/auth/costworking/export`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            search: searchTerm,
+          },
+          responseType: "blob", // ✅ Important to keep it here
+        }
+      );
+
+      // ✅ Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // ✅ Create a temporary <a> tag to download the file
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "CostWorkingManage.xlsx"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // ✅ Cleanup after download
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
+  };
+
+
   return (
     <div className="main-content">
       <ContentTop />
@@ -538,10 +588,56 @@ const CostWorkingManageData = () => {
                 Add New Cost
               </button>
             </div>
+            <div>
+              <button
+                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={handleExportData}
+              >
+                Export Data
+              </button>
+            </div>
           </div>
         </div>
         <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+           {/*--------- New Pagination Code Start  ---------*/}
+           <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
+                <div className="flex items-center">
+                  <span className="text-sm text-white bg-[#473b33] rounded-l-[5px] flex items-center text-center px-3 h-8">
+                    Show Data
+                  </span>
+                  <div className="relative cursor-pointer">
+                    <select
+                      className="appearance-none cursor-pointer h-8 pr-8 pl-5 rounded-r-[5px] bg-[#3d3d57] text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                      value={entriesPerPageNewData}
+                      onChange={(e) =>
+                        setEntriesPerPageNewData(Number(e.target.value))
+                      }
+                    >
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={75}>75</option>
+                      <option value={100}>100</option>
+                    </select>
+                    <div className="cursor-pointer absolute inset-y-0 right-2 flex items-center text-gray-300">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/*--------- New Pagination Code End  ---------*/}
             {/*------- Table Data Start -------*/}
             <CostWorkingTable
               setEditCostWorkingModalOpen={setEditCostWorkingModalOpen}

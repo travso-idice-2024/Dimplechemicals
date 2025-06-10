@@ -8,6 +8,8 @@ import productReducer from "./productSlice";
 import costWorkingReducer from "./costWorkingSlice";
 import poaReducer from "./poaSlice";
 import categoryReducer from "./categorySlice";
+import googleCalenderAuthReducer from "./googleCalenderAuthSlice";
+import googleGmailAuthReducer from "./googleGmailAuthSlice";
 
 const store = configureStore({
   reducer: {
@@ -19,7 +21,9 @@ const store = configureStore({
     product: productReducer,  // add product reducer here...
     costWorking: costWorkingReducer,
     poa:poaReducer,
-    category:categoryReducer
+    category:categoryReducer,
+    googleCalenderAuth:googleCalenderAuthReducer,
+    googleGmailAuth:googleGmailAuthReducer
     // add other reducers here as needed...
   },
 });

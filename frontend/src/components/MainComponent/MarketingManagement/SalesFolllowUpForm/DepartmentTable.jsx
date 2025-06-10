@@ -411,7 +411,7 @@ const DepartmentTable = ({
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Approx Business Potential
             </th> */}
-            {userDeatail?.employeeRole?.role_id === 3 && (
+            {userDeatail?.employeeRole?.role_id === 3 && poaType === "todayPOA" &&  (
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
@@ -467,7 +467,10 @@ const DepartmentTable = ({
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap w-[480px] ">
                 {user?.lead_summary}
               </td>
-              {userDeatail?.employeeRole?.role_id === 3 && (
+              {/* {poaType === "todayPOA" || pathSegment == "lead-sales"
+                ? "Today's Plan of Action (POA)"
+                : "Visit Plan (POA)"} */}
+              {userDeatail?.employeeRole?.role_id === 3 && poaType === "todayPOA" && (
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user?.communications?.[0]?.meeting_done === false ? (
                     <button

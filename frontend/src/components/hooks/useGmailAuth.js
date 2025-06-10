@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { setgmailAccessToken, setgmailisAuthenticated, clearAuth } from '../../redux/googleGmailAuthSlice';
 import { gapi } from "gapi-script";
 import { jwtDecode } from "jwt-decode";
 
@@ -14,14 +16,39 @@ const SCOPES = [
 ].join(" ");
 
 const useGmailAuth = () => {
-  const [gmailisAuthenticated, setgmailisAuthenticated] = useState(
-    localStorage.getItem("gmailisAuthenticated") === "true"
-  );
-  const [gmailAccessToken, setgmailAccessToken] = useState(
-    localStorage.getItem("gmailAccessToken") || null
-  );
+  // const [gmailisAuthenticated, setgmailisAuthenticated] = useState(
+  //   localStorage.getItem("gmailisAuthenticated") === "true"
+  // );
+  // const [gmailAccessToken, setgmailAccessToken] = useState(
+  //   localStorage.getItem("gmailAccessToken") || null
+  // );
+  const dispatch = useDispatch();
+  const gmailAccessToken = useSelector((state) => state.googleGmailAuth.gmailAccessToken);
+  const gmailisAuthenticated = useSelector((state) => state.googleGmailAuth.gmailisAuthenticated);
+
   const [userProfile, setUserProfile] = useState(null);
   const [labels, setLabels] = useState([]);
+
+
+  useEffect(() => {
+    if (!gmailAccessToken) return;
+  
+    const tokenExpiry = localStorage.getItem('gmailtokenExpiry');
+    const remainingTime = tokenExpiry - Date.now();
+  
+    if (remainingTime <= 0) {
+      // Token expired, get a new one silently
+      console.log("Access token expired — requesting new one...");
+      window.tokenClient.requestAccessToken();
+    } else {
+      const timer = setTimeout(() => {
+        console.log("Access token about to expire — requesting new one...");
+        window.tokenClient.requestAccessToken();
+      }, remainingTime - 5000); // refresh 5s before expiry
+  
+      return () => clearTimeout(timer);
+    }
+  }, [gmailAccessToken]);
 
   // Initialize GIS SDK
   useEffect(() => {
@@ -35,19 +62,22 @@ const useGmailAuth = () => {
             console.error("Token Error:", tokenResponse);
             return;
           }
-          setgmailAccessToken(tokenResponse.access_token);
-          localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
-          setgmailisAuthenticated(true);
-          localStorage.setItem("gmailisAuthenticated", "true");
+          // setgmailAccessToken(tokenResponse.access_token);
+          // localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
+          // setgmailisAuthenticated(true);
+          // localStorage.setItem("gmailisAuthenticated", "true");
+          const expiry = Date.now() + 60 * 60 * 1000; // 1 hour expiry
+          dispatch(setgmailAccessToken({ token: tokenResponse.access_token, expiry}));
+          dispatch(setgmailisAuthenticated(true));
           // Now, fetch user profile details (using token)
           fetchUserProfile(tokenResponse.access_token);
         },
       });
 
-      // Request token if expired / not set
-      if (!localStorage.getItem("gmailAccessToken")) {
-        window.tokenClient.requestAccessToken();
-      }
+      // // Request token if expired / not set
+      // if (!localStorage.getItem("gmailAccessToken")) {
+      //   window.tokenClient.requestAccessToken();
+      // }
 
       // Check if already signed in
       // if (window.google && google.accounts && google.accounts.oauth2) {
@@ -125,8 +155,9 @@ const useGmailAuth = () => {
       google.accounts.oauth2.revoke(gmailAccessToken, () => {
         setgmailAccessToken(null);
         setgmailisAuthenticated(false);
-        localStorage.removeItem("gmailAccessToken");
-        localStorage.removeItem("gmailisAuthenticated");
+        dispatch(clearAuth());
+        // localStorage.removeItem("gmailAccessToken");
+        // localStorage.removeItem("gmailisAuthenticated");
         setEvents([]);
       });
     }
@@ -135,7 +166,7 @@ const useGmailAuth = () => {
   // Fetch Inbox Messages Function
   const fetchInboxMessages = async (label = "INBOX") => {
     //console.log("This message function is calling", label);
-    //console.log("gmailAccessToken", gmailAccessToken);
+    console.log("gmailAccessToken", gmailAccessToken);
 
     try {
       if (!gmailAccessToken) {
