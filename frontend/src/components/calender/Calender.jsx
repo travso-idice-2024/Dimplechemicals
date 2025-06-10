@@ -121,7 +121,7 @@ const Calender = () => {
                     events={eventsData}
                     dateClick={(info) => openModalForNewEvent(info.dateStr)}
                     eventClick={handleEventClick}
-                    height="auto"
+                    height="400"
                   />
                 </div>
               </div>

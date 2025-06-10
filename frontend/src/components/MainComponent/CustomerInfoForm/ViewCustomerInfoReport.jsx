@@ -10,7 +10,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
           DIMPLE CHEMICALS & SERVICES PVT. LTD.
         </h2>
 
-        <div className="p-4 mt-5 overflow-y-auto h-[380px]">
+        <div className="p-4 mt-5 overflow-y-auto h-[480px]">
           {/* Logo + Meta */}
           <div className="flex justify-between items-center mb-4 pr-1">
             <img src={dcpllogo} alt="DC Logo" className="h-14" />

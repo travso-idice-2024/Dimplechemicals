@@ -4,25 +4,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const ViewAnnualReport = ({ setIsAnnualListTable }) => {
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  
-    const profileRef = useRef(null);
-  
-    // ✅ Close dropdown when clicking outside
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (profileRef.current && !profileRef.current.contains(event.target)) {
-          setIsProfileOpen(false);
-        }
+  const profileRef = useRef(null);
+
+  // ✅ Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
       }
-  
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []);
+    }
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const countryOptions = [
     { value: "india", label: "India" },
@@ -62,12 +60,12 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
     <>
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1100px]  rounded-[6px]">
+        <div className="bg-white w-full md:w-[1200px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             View Report
           </h2>
 
-          <div className="p-4 mt-2 overflow-y-auto h-[440px]">
+          <div className="p-4 mt-2 overflow-y-auto h-[540px]">
             <h3 className="mt-2 mb-2 text-bgDataNew font-poppins border border-gray-300 w-[300px] font-medium text-[20px] mb-0 text-center mx-auto">
               Annual Business Plan
             </h3>
@@ -112,48 +110,48 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                 </table>
               </div>
               <div className=" relative inline-block" ref={profileRef}>
-                              <button
-                                className="notification-btn content-top-btns bg-gray-600 p-1 px-3 rounded-[5px] flex items-center gap-2 w-fit"
-                                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <div className="flex flex-col items-start">
-                                    <h2 className="font-bai text-[12px] text-white datashowname">
-                                      <span className="full-name whitespace-nowrap">
-                                        3 month
-                                      </span>
-                                    </h2>
-                                  </div>
-                                  <div>
-                                    <FontAwesomeIcon
-                                      icon={faChevronDown}
-                                      className="text-white text-[12px] mb-[2px]"
-                                    />
-                                  </div>
-                                </div>
-              
-                                {/* <span className="notification-btn-dot"></span> */}
-                              </button>
-              
-                              {isProfileOpen && (
-                                <div className="absolute right-0 w-fit bg-white bordernewdata shadow-lg rounded-[5px] p-2 mt-1 z-10">
-                                  <div className="border-b">
-                                    <h2 className="font-bai text-[12px] text-black">
-                                      <span className="full-name">3 month</span>
-                                    </h2>
-                                    <h2 className="font-bai text-[12px] text-black">
-                                      <span className="full-name">6 month</span>
-                                    </h2>
-                                    <h2 className="font-bai text-[12px] text-black">
-                                      <span className="full-name">9 month</span>
-                                    </h2>
-                                    <h2 className="font-bai text-[12px] text-black">
-                                      <span className="full-name">12 month</span>
-                                    </h2>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
+                <button
+                  className="notification-btn content-top-btns bg-gray-600 p-1 px-3 rounded-[5px] flex items-center gap-2 w-fit"
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="flex flex-col items-start">
+                      <h2 className="font-bai text-[12px] text-white datashowname">
+                        <span className="full-name whitespace-nowrap">
+                          3 month
+                        </span>
+                      </h2>
+                    </div>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className="text-white text-[12px] mb-[2px]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* <span className="notification-btn-dot"></span> */}
+                </button>
+
+                {isProfileOpen && (
+                  <div className="absolute right-0 w-fit bg-white bordernewdata shadow-lg rounded-[5px] p-2 mt-1 z-10">
+                    <div className="border-b">
+                      <h2 className="font-bai text-[12px] text-black">
+                        <span className="full-name">3 month</span>
+                      </h2>
+                      <h2 className="font-bai text-[12px] text-black">
+                        <span className="full-name">6 month</span>
+                      </h2>
+                      <h2 className="font-bai text-[12px] text-black">
+                        <span className="full-name">9 month</span>
+                      </h2>
+                      <h2 className="font-bai text-[12px] text-black">
+                        <span className="full-name">12 month</span>
+                      </h2>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="mt-4 px-1 overflow-auto">
@@ -162,149 +160,219 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                 Customer Details
               </h3>
               <div class="px-[1px] overflow-x-auto">
-                <table class="table-auto w-full text-left border-collapse border border-gray-400">
+                {/* First Table */}
+                <table className="table-fixed w-full text-left border-collapse border border-gray-400">
+                  {/* 8 columns, each 12.5% */}
+                  <colgroup>
+                    <col span="8" style={{ width: "12.5%" }} />
+                  </colgroup>
                   <tbody>
-                    <tr class="text-center">
+                    <tr className="text-center">
+                      {/* colspan values sum to 8 */}
                       <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Country
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="1"
-                      >
-                        State
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="1"
-                      >
-                        City
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
                         Customer Name
                       </td>
                       <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
                       >
-                        Contact Person
+                        State
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
+                      >
+                        City
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Location
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Country
                       </td>
                     </tr>
-
-                    <tr class="text-center">
+                    <tr className="text-center">
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
-                        India
+                        Rohan Gupta
                       </td>
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="1"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
                       >
                         Maharashtra
                       </td>
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="1"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
                       >
                         Mumbai
                       </td>
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
-                        Halides Chemicals
+                        Kalyaan
                       </td>
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
-                        +91 9552580185
+                        India
                       </td>
                     </tr>
                   </tbody>
                 </table>
+
                 {/* Second Table */}
-                <table class="table-auto w-full text-left border-collapse border border-gray-400 mt-2">
+                <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
+                  {/* Same colgroup: 8 columns of 12.5% each */}
+                  <colgroup>
+                    <col span="8" style={{ width: "12.5%" }} />
+                  </colgroup>
                   <tbody>
-                    {/* 2nd Part */}
-                    <tr>
+                    <tr className="text-center">
                       <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Contact Person
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Conatct no.
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
+                      >
+                        Department
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
                       >
                         Designation
                       </td>
                       <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
-                        Phone No.
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Email ID
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Technology
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Approx Area in SqM
+                       Email Id
                       </td>
                     </tr>
-                    {/* 2nd Part */}
-                    <tr>
+                    <tr className="text-center">
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
-                        Mr. Rajesh Mehta
+                        Ravi Kumar
                       </td>
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
-                        Purchase Head
+                        +91 9852456981
                       </td>
-
                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
+                      >
+                        IT
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={1}
+                      >
+                        Indore
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
                       >
                         info@halideschemicals.com
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Epoxy
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        2500
                       </td>
                     </tr>
                   </tbody>
                 </table>
                 {/* Third Table */}
-                <table class="table-auto w-full text-left border-collapse border border-gray-400 mt-2">
+                 <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
+                  {/* Same colgroup: 8 columns of 12.5% each */}
+                  <colgroup>
+                    <col span="8" style={{ width: "12.5%" }} />
+                  </colgroup>
+                  <tbody>
+                    <tr className="text-center">
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                         Project Name
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        App Area in sq mtr
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Buisness Potential
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Technology
+                      </td>
+                      
+                     
+                    </tr>
+                    <tr className="text-center">
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        High CHemicals
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        500
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        High
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        React and AI
+                      </td>
+                      
+                    </tr>
+                  </tbody>
+                </table>
+                {/* <table class="table-auto w-full text-left border-collapse border border-gray-400 mt-2">
                   <tbody>
                     <tr className="text-center">
                       <td
@@ -359,7 +427,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table> */}
               </div>
             </div>
 
@@ -467,7 +535,6 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
           </div>
 
           <div className="flex items-end justify-end gap-2 px-4 my-4">
-            
             <button
               type="button"
               className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
