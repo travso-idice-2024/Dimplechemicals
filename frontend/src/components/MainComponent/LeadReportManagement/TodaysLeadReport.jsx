@@ -56,7 +56,7 @@ const TodaysLeadReport = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+      <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-row md:flex-row justify-between">
             <div>
@@ -88,7 +88,7 @@ const TodaysLeadReport = () => {
               Export Data
             </button>
           </div>
-          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+          <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">

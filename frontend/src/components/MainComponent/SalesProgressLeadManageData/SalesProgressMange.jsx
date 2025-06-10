@@ -359,13 +359,13 @@ useEffect(() => {
       />
 
       {!leadDataShowNew && (
-        <div className="main-content-holder max-h-[615px] overflow-y-auto scrollbar-hide">
+        <div className="main-content-holder max-h-[515px] overflow-y-auto scrollbar-hide">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {/* chech in check out  */}
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
                 icon={faClock}
-                className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                className="text-2xl md:text-3xl text-bgDataNew mb-2"
               />
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">
                 {" "}
@@ -410,7 +410,7 @@ useEffect(() => {
               <div className="relative">
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                  className="text-2xl md:text-3xl text-bgDataNew mb-2"
                 />
                 <span className="absolute -top-2 -right-3 bg-red-500 text-white text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full">
                   {allLeadsCount?.assignedLeadsCount}
@@ -428,7 +428,7 @@ useEffect(() => {
               <div className="relative">
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                  className="text-2xl md:text-3xl text-bgDataNew mb-2"
                 />
                 {/* <span className="absolute -top-2 -right-3 bg-red-500 text-white text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full">
                   {allLeadsCount?.assignedLeadsCount}
@@ -440,11 +440,11 @@ useEffect(() => {
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               {/* <FontAwesomeIcon
                 icon={faDollarSign}
-                className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                className="text-2xl md:text-3xl text-bgDataNew mb-2"
               /> */}
               <FontAwesomeIcon
                 icon={faIndianRupeeSign}
-                className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                className="text-2xl md:text-3xl text-bgDataNew mb-2"
               />
 
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Total Sales</h2>
@@ -453,7 +453,7 @@ useEffect(() => {
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
                 icon={faPhone}
-                className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                className="text-2xl md:text-3xl text-bgDataNew mb-2"
               />
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">
                 Pending Follow-Ups
@@ -463,7 +463,7 @@ useEffect(() => {
             <div className="bg-bgData flex flex-col items-center justify-center rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 cursor-pointer">
               <FontAwesomeIcon
                 icon={faHandshake}
-                className="text-3xl md:text-4xl text-bgDataNew mb-2"
+                className="text-2xl md:text-3xl text-bgDataNew mb-2"
               />
               <h2 className="text-[12px] md:text-textdata whitespace-nowrap font-semibold">Closed Deals</h2>
               <p className="text-[12px]">3 Successful Sales</p>
@@ -476,7 +476,7 @@ useEffect(() => {
           
           
            {/* show google map */}
-             <div className="mb-10">
+             <div className="">
               <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
@@ -516,7 +516,7 @@ useEffect(() => {
         </div>
       )}
       {leadDataShowNew && (
-        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+        <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="flex flex-col gap-[20px]">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
               <div>

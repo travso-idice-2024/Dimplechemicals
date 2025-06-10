@@ -15,16 +15,15 @@ import {
   removeProduct,
 } from "../../../redux/productSlice";
 
-
-import {fetchCurrentUser} from "../../../redux/authSlice";
+import { fetchCurrentUser } from "../../../redux/authSlice";
 
 const ProductManageData = () => {
   const dispatch = useDispatch();
   const { products, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
- 
-  const {user:userDeatail}  = useSelector((state) => state.auth);
+
+  const { user: userDeatail } = useSelector((state) => state.auth);
 
   //console.log("login user", userDataWithRole);
 
@@ -44,7 +43,7 @@ const ProductManageData = () => {
   // Fetch Products whenever searchTerm or currentPage changes
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-   
+
     dispatch(
       listProducts({
         page: currentPage,
@@ -74,7 +73,7 @@ const ProductManageData = () => {
     rate: "",
     product_description: "",
     status: "",
-    category_id:""
+    category_id: "",
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -101,26 +100,21 @@ const ProductManageData = () => {
 
   const validateInputs = () => {
     let errors = {};
-  
+
     if (!formData.product_name.trim())
       errors.product_name = "*Product name is required";
-    if (!formData.HSN_code.trim()) 
-      errors.HSN_code = "*HSN Code is required";
-    if (!formData.stock.trim()) 
-      errors.stock = "*Stock is required";
-    if (!formData.unit.trim()) 
-      errors.unit = "*Unit is required";
-    if (!formData.rate.trim()) 
-      errors.rate = "*Rate is required";
-    if (!formData.product_description.trim()) 
+    if (!formData.HSN_code.trim()) errors.HSN_code = "*HSN Code is required";
+    if (!formData.stock.trim()) errors.stock = "*Stock is required";
+    if (!formData.unit.trim()) errors.unit = "*Unit is required";
+    if (!formData.rate.trim()) errors.rate = "*Rate is required";
+    if (!formData.product_description.trim())
       errors.product_description = "*Product description is required";
-    if (!formData.status.trim()) 
-      errors.status = "*Status is required";
-  
+    if (!formData.status.trim()) errors.status = "*Status is required";
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
+
   const handleSubmitAddProduct = async (e) => {
     e.preventDefault();
     if (validateInputs()) {
@@ -165,7 +159,7 @@ const ProductManageData = () => {
     rate: "",
     product_description: "",
     status: "",
-    category_id:""
+    category_id: "",
   });
 
   const [editFormErrors, setEditFormErrors] = useState({});
@@ -183,11 +177,10 @@ const ProductManageData = () => {
         rate: selectedProduct.rate || "",
         product_description: selectedProduct.product_description || "",
         status: selectedProduct.status || "",
-        category_id:selectedProduct.category_id || ""
+        category_id: selectedProduct.category_id || "",
       });
     }
   }, [selectedProduct]);
-  
 
   const handleEditFlashMessage = (message, type) => {
     setEditFlashMessage(message);
@@ -206,26 +199,20 @@ const ProductManageData = () => {
 
   const validateEditInputs = () => {
     let errors = {};
-  
+
     if (!editFormData.product_name.trim())
       errors.product_name = "*Product name is required";
-    if (!editFormData.HSN_code)
-      errors.HSN_code = "*HSN code is required";
-    if (!editFormData.stock)
-      errors.stock = "*Stock is required";
-    if (!editFormData.unit.trim())
-      errors.unit = "*Unit is required";
-    if (!editFormData.rate)
-      errors.rate = "*Rate is required";
+    if (!editFormData.HSN_code) errors.HSN_code = "*HSN code is required";
+    if (!editFormData.stock) errors.stock = "*Stock is required";
+    if (!editFormData.unit.trim()) errors.unit = "*Unit is required";
+    if (!editFormData.rate) errors.rate = "*Rate is required";
     if (!editFormData.product_description.trim())
       errors.product_description = "*Product description is required";
-    if (!editFormData.status)
-      errors.status = "*Status is required";
-  
+    if (!editFormData.status) errors.status = "*Status is required";
+
     setEditFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
@@ -297,7 +284,7 @@ const ProductManageData = () => {
   //     );
   //   }
   // };
-  
+
   //end delete Product ========================================================================
 
   const handleDeactive = async (id) => {
@@ -315,15 +302,13 @@ const ProductManageData = () => {
     }
   };
 
- 
-
   //if (ProductLoading) return <p>Loading...</p>;
   //if (ProductError) return <p>{ProductError}</p>;
 
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+      <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div className="md:mb-0 mb-2">
@@ -356,31 +341,31 @@ const ProductManageData = () => {
               </div>
             </div>
           </div>
-          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
-          <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
-            {/*------- Table Data Start -------*/}
-            <ProductTable
-              Products={products?.data}
-              setEditProductModalOpen={setEditProductModalOpen}
-              setViewModalOpen={setViewModalOpen}
-              selectedProduct={selectedProduct}
-              setSelectedProduct={setSelectedProduct}
-              setIsAssignModalOpen={setIsAssignModalOpen}
-              // deleteFlashMessage={deleteFlashMessage}
-              // deleteFlashMsgType={deleteFlashMsgType}
-              // handleDeleteFlashMessage={handleDeleteFlashMessage}
-              handleDeactive={handleDeactive}
-            />
+          <div className="main-content-holder max-h-[460px] heightfixalldevice overflow-y-auto scrollbar-hide">
+            <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+              {/*------- Table Data Start -------*/}
+              <ProductTable
+                Products={products?.data}
+                setEditProductModalOpen={setEditProductModalOpen}
+                setViewModalOpen={setViewModalOpen}
+                selectedProduct={selectedProduct}
+                setSelectedProduct={setSelectedProduct}
+                setIsAssignModalOpen={setIsAssignModalOpen}
+                // deleteFlashMessage={deleteFlashMessage}
+                // deleteFlashMsgType={deleteFlashMsgType}
+                // handleDeleteFlashMessage={handleDeleteFlashMessage}
+                handleDeactive={handleDeactive}
+              />
 
-            {/*------- Table Data End -------*/}
+              {/*------- Table Data End -------*/}
+            </div>
           </div>
-          {/* Pagination Controls with Number */}
+           {/* Pagination Controls with Number */}
           <Pagination
             currentPage={currentPage}
             handlePageChange={handlePageChange}
             totalPages={totalPages}
           />
-          </div>
         </div>
 
         {/* Add User Modal */}
@@ -428,7 +413,6 @@ const ProductManageData = () => {
         )}
 
         {/* Assign Product Modal */}
-       
       </div>
     </div>
   );

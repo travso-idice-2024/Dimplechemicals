@@ -17,29 +17,29 @@ const DepartmentTable = ({
 
   return (
     <div className={`overflow-x-auto`}>
-      <table className="table-auto w-full text-center border-collapse">
+      <table className="table-auto w-full text-left border-collapse">
         <thead>
           <tr className="bg-[#473b33] rounded-[8px]">
-            {/* <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
+            {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Id
             </th> */}
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Company Name
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Deal Amount
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Advance Amount
             </th>
-            <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
+            <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  whitespace-nowrap ">
               Action
             </th>
           </tr>
         </thead>
         <tbody>
         {finalizeDealsListData?.map((user, index) => (
-          <tr  key={index} className="text-center">
+          <tr  key={index} className="text-left">
             {/* <td className="px-4 py-2 text-newtextdata">{index + 1}</td> */}
             <td className="px-4 py-2 text-newtextdata">{user?.company_name}</td>
             <td className="px-4 py-2 text-newtextdata">₹{user?.total_deal_amount}</td>

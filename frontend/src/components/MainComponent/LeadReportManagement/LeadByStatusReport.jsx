@@ -88,7 +88,7 @@ const LeadByStatusReport = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+      <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div className="mb-5 md:mb-0">
@@ -185,7 +185,7 @@ const LeadByStatusReport = () => {
                Export Data
               </button> */}
           </div>
-          <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+          <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
             <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 mb-4 overflow-auto mb-3">
               {/* {/------- Table Data Start -------/} */}
               <div className="overflow-x-auto">
