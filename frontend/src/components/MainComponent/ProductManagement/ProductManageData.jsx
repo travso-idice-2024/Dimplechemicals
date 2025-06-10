@@ -74,7 +74,8 @@ const ProductManageData = () => {
     rate: "",
     product_description: "",
     status: "",
-    category_id:""
+    category_id:"",
+    area_mtr2:""
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -165,7 +166,8 @@ const ProductManageData = () => {
     rate: "",
     product_description: "",
     status: "",
-    category_id:""
+    category_id:"",
+    area_mtr2:""
   });
 
   const [editFormErrors, setEditFormErrors] = useState({});
@@ -183,7 +185,8 @@ const ProductManageData = () => {
         rate: selectedProduct.rate || "",
         product_description: selectedProduct.product_description || "",
         status: selectedProduct.status || "",
-        category_id:selectedProduct.category_id || ""
+        category_id:selectedProduct.category_id || "",
+        area_mtr2:selectedProduct.area_mtr2 || ""
       });
     }
   }, [selectedProduct]);

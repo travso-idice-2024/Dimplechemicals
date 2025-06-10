@@ -181,7 +181,7 @@ const endMeeting = async (req, res) => {
       end_location, // to target the specific lead
       lead_id,
       final_meeting = false,
-      lead_type
+      lead_type,
     } = req.body;
 
     //console.log("lead_text",lead_text);
@@ -211,7 +211,6 @@ const endMeeting = async (req, res) => {
     //const updatedLeadText = `${latestLead.lead_text || ""}\n${lead_text}`;const oldText = latestLead?.lead_text?.trim() || "";
     const oldText = latestLead?.lead_text?.trim() || "";
 
-
     // Split old text into lines, or empty array if none
     const lines = oldText ? oldText.split("\n") : [];
 
@@ -223,8 +222,11 @@ const endMeeting = async (req, res) => {
 
     // Combine old lines + new text
     const updatedLeadText = oldText ? `${oldText}\n${newText}` : newText;
-    const leadDateValue = lead_date ? new Date(lead_date) : new Date();
-
+    // const leadDateValue = lead_date ? new Date(lead_date) : new Date();
+    const leadDateValue =
+      lead_date && !isNaN(Date.parse(lead_date))
+        ? new Date(lead_date)
+        : new Date();
 
     const updatedLeadStatus = `${
       latestLead?.lead_status || ""
@@ -240,12 +242,12 @@ const endMeeting = async (req, res) => {
     await latestLead.update({
       lead_text: updatedLeadText,
       lead_status: updatedLeadStatus,
-      lead_date:leadDateValue,
+      lead_date: leadDateValue,
       end_meeting_time,
       end_location,
-      final_meeting: final_meeting === true || final_meeting === 'true',
+      final_meeting: final_meeting,
       meeting_done: true,
-      lead_type
+      lead_type,
     });
 
     //update next followu date in lead table

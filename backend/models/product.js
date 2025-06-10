@@ -45,7 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 1,
       },
-      category_id: DataTypes.INTEGER // 👈 Add this line
+      category_id: DataTypes.INTEGER, // 👈 Add this line
+      area_mtr2:{
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       sequelize,

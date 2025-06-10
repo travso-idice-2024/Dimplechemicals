@@ -226,10 +226,29 @@ const AddProductModal = ({
               )}
             </div>
 
-            {/* Product Description */}
-            <div className="col-span-2">
+            <div className="">
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Consumption per Sq. Mtr. :
+              </label>
+              <input
+                name="area_mtr2"
+                placeholder=" Consumption per Sq. Mtr."
+                value={formData.area_mtr2}
+                onChange={handleChange}
+                type="number"
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] px-3 py-2"
+              />
+              {formErrors.area_mtr2 && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.area_mtr2}
+                </p>
+              )}
+            </div>
+
+            {/* Product Description */}
+            <div className="">
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Product Description :
               </label>
               <textarea
                 name="product_description"

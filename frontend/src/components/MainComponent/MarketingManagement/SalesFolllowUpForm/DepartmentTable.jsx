@@ -347,8 +347,13 @@ const DepartmentTable = ({
 
   //google calender (poa) event add
   const handleAddEvent = (formData) => {
-    const startDateTime = new Date(`${formData?.lead_date}`);
-    const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
+    const leadDateValue = formData?.lead_date && !isNaN(Date.parse(formData.lead_date))
+    ? new Date(formData.lead_date)
+    : new Date(); // fallback to today
+
+  const startDateTime = leadDateValue;
+  const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
+  
     const event = {
       title: "Meeting Sheduled",
       location: selectedPOA?.lead_address,
@@ -519,7 +524,6 @@ const DepartmentTable = ({
                   <option value="In discussion">In Discussion</option>
                   <option value="ProposalSent">Proposal Sent</option>
                   <option value="In discussion">Demo Completed</option>
-                  <option value="Lost">Lost</option>
                 </select>
                 {formErrors.lead_status && (
                   <p className="text-red-500 text-sm">
@@ -543,6 +547,7 @@ const DepartmentTable = ({
                   <option value="Warm">Warm</option>
                   <option value="Cold">Cold</option>
                   <option value="Order Confirmed">Order Confirmed</option>
+                  <option value="Lost">Lost</option>
                 </select>
                 {formErrors.lead_type && (
                   <p className="text-red-500 text-sm">{formErrors.lead_type}</p>

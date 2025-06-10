@@ -92,7 +92,7 @@ const ProductTable = ({
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{product.unit}</td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap">{product.rate}</td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
-                  {product.product_description}
+                  {product.area_mtr2}
                 </td>
                 <td className="text-center"><button
                     className={`${

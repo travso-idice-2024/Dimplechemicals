@@ -205,6 +205,9 @@ const DepartmentTable = ({
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Type
               </th>
+              <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
+                Lead Status
+              </th>
               {/* <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Meeting Summary
               </th> */}
@@ -278,6 +281,9 @@ const DepartmentTable = ({
                 </td> */}
                 <td className="px-4 py-2 text-newtextdata">
                   {user?.meeting_type}
+                </td>
+                <td className="px-4 py-2 text-newtextdata">
+                  {user?.communications[0]?.lead_type}
                 </td>
                 {/* <td className="px-4 py-2 text-newtextdata"> */}
                   {/* {user?.lead_summary} */}

@@ -28,6 +28,7 @@ const ViewProductModal = ({ setViewModalOpen, selectedProduct }) => {
               <TableRow label="Stock" value={selectedProduct?.stock} />
               <TableRow label="Unit" value={selectedProduct?.unit} />
               <TableRow label="Rate" value={selectedProduct?.rate} />
+              <TableRow label="Consumption per Sq. Mtr." value={selectedProduct?.area_mtr2} />
               <TableRow label="Description" value={selectedProduct?.product_description} />
               <TableRow
                 label="Status"

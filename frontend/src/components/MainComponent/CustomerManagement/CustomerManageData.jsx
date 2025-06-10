@@ -30,7 +30,7 @@ const CustomerManageData = () => {
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  console.log("customers", customers);
+  //console.log("customers", customers);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
