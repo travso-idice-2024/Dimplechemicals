@@ -62,7 +62,8 @@ const {
   getleadaftermeeting,
   addProductsToLead,
   getLeadListofAll,
-  deleteProductFromLead
+  deleteProductFromLead,
+  exportLeadsAfterMeetingToExcel
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -91,13 +92,15 @@ const {
   createProduct,
   updateProduct,
   toggleProductStatus,
-  getProductsByCategoryId
+  getProductsByCategoryId,
+  exportProductsToExcel
 } = require("../controllers/product.controller");
 
 const {
   createCostWorking,
   getCostWorking,
-  updateCostWorking
+  updateCostWorking,
+  exportCostWorkingListToExcel
 } = require("../controllers/costWorking.controller");
 
 const{
@@ -251,6 +254,11 @@ router.get('/pincodes', authMiddleware, getAllPincodes);
 router.get('/pincode/:pincode', authMiddleware, getAreaByPincode);
 router.get('/pincodes/:areaname', authMiddleware, getCityByAreaname);
 router.post("/delete-product-from-lead", authMiddleware,deleteProductFromLead);
+
+
+router.get("/products-export",authMiddleware, exportProductsToExcel);
+router.get("/costworking/export",authMiddleware, exportCostWorkingListToExcel);
+router.get("/export-after-meeting",authMiddleware, exportLeadsAfterMeetingToExcel);
 
 
 module.exports = router;

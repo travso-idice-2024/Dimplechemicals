@@ -1,12 +1,41 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAccessToken, setIsAuthenticated, clearAuth } from '../../redux/googleCalenderAuthSlice';
+
 
 const CLIENT_ID = '369846641543-at9qrr9at1c3mfg3rqpk1valfoq9rn2t.apps.googleusercontent.com';
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
 const useGoogleCalendar = () => {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null);
-  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("isAuthenticated") === "true");
+  // const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || null);
+  // const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("isAuthenticated") === "true");
+  const dispatch = useDispatch();
+  const accessToken = useSelector((state) => state.googleCalenderAuth.accessToken);
+  const isAuthenticated = useSelector((state) => state.googleCalenderAuth.isAuthenticated);
   const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+  
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    const remainingTime = tokenExpiry - Date.now();
+  
+    if (remainingTime <= 0) {
+      // Token expired, get a new one silently
+      console.log("Access token expired — requesting new one...");
+      window.tokenClient.requestAccessToken();
+      
+    } else {
+      const timer = setTimeout(() => {
+        console.log("Access token about to expire — requesting new one...");
+        window.tokenClient.requestAccessToken();
+      }, remainingTime - 5000); // refresh 5s before expiry
+  
+      return () => clearTimeout(timer);
+    }
+  }, [accessToken]);
+  
+  
 
   useEffect(() => {
     /* global google */
@@ -19,10 +48,13 @@ const useGoogleCalendar = () => {
             console.error('Token Error:', tokenResponse);
             return;
           }
-          setAccessToken(tokenResponse.access_token);
-          localStorage.setItem("accessToken", tokenResponse.access_token);
-          setIsAuthenticated(true);
-          localStorage.setItem("isAuthenticated", "true");
+          // setAccessToken(tokenResponse.access_token);
+          // localStorage.setItem("accessToken", tokenResponse.access_token);
+          // setIsAuthenticated(true);
+          // localStorage.setItem("isAuthenticated", "true");
+          const expiry = Date.now() + 60 * 60 * 1000; // 1 hour expiry
+          dispatch(setAccessToken({ token: tokenResponse.access_token, expiry}));
+          dispatch(setIsAuthenticated(true));
         },
       });
     };
@@ -47,8 +79,9 @@ const useGoogleCalendar = () => {
       google.accounts.oauth2.revoke(accessToken, () => {
         setAccessToken(null);
         setIsAuthenticated(false);
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("isAuthenticated");
+        dispatch(clearAuth());
+        // localStorage.removeItem("accessToken");
+        // localStorage.removeItem("isAuthenticated");
         setEvents([]);
       });
     }

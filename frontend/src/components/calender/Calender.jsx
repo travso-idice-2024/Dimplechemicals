@@ -16,6 +16,8 @@ const Calender = () => {
     createEvent,
   } = useGoogleCalendar();
 
+  //console.log("isAuthenticated",isAuthenticated);
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchEvents(); // Fetch events when authenticated

@@ -841,6 +841,43 @@ const MarketingManageData = () => {
 
   //end handleRemoveProduct
 
+  const handleExportData = async () => {
+    try {
+      // ✅ Get token
+      const token = getAuthToken();
+
+      // ✅ Correct API call with query parameters
+      const response = await axios.get(
+        `${API_URL}/auth/export-after-meeting`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            search: searchTerm,
+          },
+          responseType: "blob", // ✅ Important to keep it here
+        }
+      );
+
+      // ✅ Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // ✅ Create a temporary <a> tag to download the file
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Leads_After_Meetings.xlsx"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // ✅ Cleanup after download
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:justify-between">
@@ -887,6 +924,14 @@ const MarketingManageData = () => {
               Add New Lead
             </button>
           </div>
+          <div>
+              <button
+                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={handleExportData}
+              >
+                Export Data
+              </button>
+            </div>
           </div>
         </div>
       </div>
