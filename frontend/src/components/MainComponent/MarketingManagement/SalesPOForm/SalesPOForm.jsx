@@ -96,7 +96,7 @@ const SalePOForm = () => {
             </div>
           </div>
         </div>
-        <div className="main-content-holder max-h-[615px] heightfixalldevice overflow-y-auto scrollbar-hide mb-6">
+        <div className="main-content-holder max-h-[460px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto mb-2">
            {/*--------- New Pagination Code Start  ---------*/}
          <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
@@ -179,6 +179,7 @@ const SalePOForm = () => {
           totalPages={totalPages}
         />
       </div>
+      
     </div>
   );
 };
