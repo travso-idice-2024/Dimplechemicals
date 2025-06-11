@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -6,7 +7,10 @@ import useGoogleCalendar from "../../components/hooks/useGoogleCalendar";
 import ContentTop from "../ContentTop/ContentTop"
 import "./Calender.css";
 import EventDetailModal from "./EventDetailModal";
+import { fetchCurrentUser } from "../../redux/authSlice";
 const Calender = () => {
+  const dispatch = useDispatch();
+  const { user: userDeatail } = useSelector((state) => state.auth);
   const {
     isAuthenticated,
     events,
@@ -15,6 +19,10 @@ const Calender = () => {
     fetchEvents,
     createEvent,
   } = useGoogleCalendar();
+
+  useEffect(() => {
+      dispatch(fetchCurrentUser());
+    }, [dispatch]);
 
   //console.log("isAuthenticated",isAuthenticated);
 
@@ -89,8 +97,11 @@ const Calender = () => {
               </span>{" "}
               *
             </h3>
-            <p className="mt-0 mb-12 text-bgDataNew font-poppins border-none w-fit px-4 py-2 bg-[#473b33] rounded-[5px] font-medium text-[15px] text-bgData mb-0 text-center mx-auto">
+           <p className="mt-0 mb-12 text-bgDataNew font-poppins border-none w-fit px-4 py-2 bg-[#473b33] rounded-[5px] font-medium text-[15px] text-bgData mb-0 text-center mx-auto">
               ** Your Gmail ID will be verified by ADMIN **
+            </p>
+            <p className="mt-0 mb-12 text-bgDataNew font-poppins border-none w-fit px-4 py-2 bg-[#473b33] rounded-[5px] font-medium text-[15px] text-bgData mb-0 text-center mx-auto">
+              ** Your Can SignIn With this Email {userDeatail?.email} **
             </p>
 
             <button

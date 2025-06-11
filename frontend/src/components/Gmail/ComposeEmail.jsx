@@ -217,7 +217,7 @@ const ComposeEmail = ({ gmailAccessToken, onClose }) => {
     }
   };
   
-  // Helper: read file as base64
+  // // Helper: read file as base64
   const readFileAsBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -229,6 +229,9 @@ const ComposeEmail = ({ gmailAccessToken, onClose }) => {
       reader.readAsDataURL(file);
     });
   };
+
+
+    
   
   return (
     <div className="fixed inset-0 p-2 bg-black bg-opacity-50 flex items-center justify-center z-50">

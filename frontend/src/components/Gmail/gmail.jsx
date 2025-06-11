@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useGmailAuth from "../../components/hooks/useGmailAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,8 +22,11 @@ import Inbox from "./Inbox";
 import CreateLabelForm from "./CreateLabelForm";
 import LabelEmailForm from "./LabelEmailForm";
 import ContentTop from "../ContentTop/ContentTop"
+import { fetchCurrentUser } from "../../redux/authSlice";
 
 const Gmail = () => {
+  const dispatch = useDispatch();
+  const { user: userDeatail } = useSelector((state) => state.auth);
   const {
     gmailisAuthenticated,
     signIn,
@@ -39,9 +43,13 @@ const Gmail = () => {
     handleRemoveLabel,
   } = useGmailAuth();
 
+  useEffect(() => {
+        dispatch(fetchCurrentUser());
+      }, [dispatch]);
+
   //console.log("Token for profile:", gmailAccessToken);
 
-  //console.log("userProfile", userProfile?.picture);
+  console.log("gmailisAuthenticated", gmailisAuthenticated);
   useEffect(() => {
     if (gmailisAuthenticated && gmailAccessToken) {
       fetchLabels(gmailAccessToken);
@@ -290,6 +298,9 @@ const Gmail = () => {
             >
               Login with Gmail
             </button>
+            <p className="mt-0 mb-12 text-bgDataNew font-poppins border-none w-fit px-4 py-2 bg-[#473b33] rounded-[5px] font-medium text-[15px] text-bgData mb-0 text-center mx-auto">
+              ** Your Can SignIn With this Email {userDeatail?.email} **
+            </p>
           </div>
         )}
       </main>

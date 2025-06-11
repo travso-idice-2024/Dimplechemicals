@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setgmailAccessToken,
   setgmailisAuthenticated,
-  clearAuth,
+  clearGmailAuth,
 } from "../../redux/googleGmailAuthSlice";
 import { gapi } from "gapi-script";
 import { jwtDecode } from "jwt-decode";
@@ -540,7 +540,7 @@ const useGmailAuth = () => {
           const base64Data = attachmentData.data.replace(/-/g, "+").replace(/_/g, "/");
   
           // Convert to Data URL for images
-          if (part.mimeType.startsWith("image/")) {
+          if (part.mimeType.startsWith("image/") || part.mimeType === "application/pdf") {
             attachments.push({
               filename: part.filename,
               mimeType: part.mimeType,

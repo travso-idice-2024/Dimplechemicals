@@ -14,6 +14,9 @@ const Inbox = ({
   const [emails, setEmails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState({});
+  const [pdfToOpen, setPdfToOpen] = useState(null);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
 
   const getInbox = async () => {
     try {
@@ -68,6 +71,32 @@ const Inbox = ({
     return atob(encodedBody.replace(/-/g, "+").replace(/_/g, "/"));
   }
 
+  const handleConfirmPassword = (enteredPassword) => {
+    const correctPassword = "yourSecret123"; // or fetch dynamically based on attachment if needed
+  
+    if (enteredPassword === correctPassword) {
+      const byteCharacters = atob(pdfToOpen.dataUrl.split(",")[1]);
+      const byteNumbers = new Array(byteCharacters.length)
+        .fill(0)
+        .map((_, i) => byteCharacters.charCodeAt(i));
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: pdfToOpen.mimeType });
+      const blobUrl = URL.createObjectURL(blob);
+      window.open(blobUrl, "_blank");
+    } else {
+      alert("Incorrect password.");
+    }
+  
+    setIsPasswordModalOpen(false);
+  };
+
+  const openProtectedPDF = (att) => {
+    setPdfToOpen(att);
+    setIsPasswordModalOpen(true);
+  };
+  
+  
+
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-white">
@@ -119,38 +148,41 @@ const Inbox = ({
                 </div>
               ))}
 
-          {/* Show PDF attachments */}
-          {selectedMessage.attachments &&
-            selectedMessage.attachments
-              .filter((att) => att.mimeType === "application/pdf")
-              .map((att, idx) => (
-                <div
-                  key={idx}
-                  className="mt-4 flex items-center gap-4 border p-2 rounded shadow"
-                >
-                  <img src="/pdf-icon.png" alt="PDF" className="w-12 h-12" />
-                  <div>
-                    <strong>{att.filename}</strong>
-                    <div className="flex gap-2 mt-1">
-                      <a
-                        href={att.dataUrl}
-                        download={att.filename}
-                        className="text-blue-600 underline"
-                      >
-                        Download
-                      </a>
-                      <a
-                        href={att.dataUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-green-600 underline"
-                      >
-                        View
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
+{selectedMessage.attachments &&
+  selectedMessage.attachments
+    .filter((att) => att.mimeType === "application/pdf")
+    .map((att, idx) => (
+      <div key={idx} className="mt-4 flex items-center gap-4 border p-3 rounded shadow">
+        <img
+          src="/pdf-icon.png" // use your own PDF icon here
+          alt="PDF"
+          className="w-12 h-12"
+        />
+        <div>
+          <strong className="block">{att.filename}</strong>
+          <div className="flex gap-3 mt-2">
+            {/* Download button */}
+            <a
+              href={att.dataUrl}
+              download={att.filename}
+              className="text-blue-600 underline cursor-pointer"
+            >
+              Download
+            </a>
+
+            {/* View in new tab */}
+            <a
+  onClick={() => openProtectedPDF(att)}
+  className="text-green-600 underline cursor-pointer"
+>
+  View (Protected)
+</a>
+
+          </div>
+        </div>
+      </div>
+    ))}
+
         </div>
       ) : (
         // Show the list of emails when no message is selected

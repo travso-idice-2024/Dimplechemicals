@@ -287,6 +287,8 @@ const updateCostWorking = async (req, res) => {
       order: [["createdAt", "DESC"]],
     });
 
+    //console.log("records",records);
+
     const grouped = {};
     records.forEach((item) => {
       const cr_id = item.cr_id;
@@ -329,11 +331,7 @@ const updateCostWorking = async (req, res) => {
         location: item.location,
         company_name: item.company?.company_name || "N/A",
         revision_no: item.revision_no,
-        // products: item.products.map(p => `${p.product?.product_name} (${p.product?.HSN_code})`).join(", "),
-        products: item.products
-          .filter((p) => p.product && p.product.product_name)
-          .map((p) => p.product.product_name)
-        .join(","),
+        products: item.products.map(p => `${p?.Product?.product_name} (${p?.Product?.HSN_code})`).join("\n"),
         created_at: item.createdAt.toLocaleDateString(),
       });
     });

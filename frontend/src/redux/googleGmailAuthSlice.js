@@ -20,7 +20,7 @@ const googleGmailAuthSlice = createSlice({
       state.gmailisAuthenticated = action.payload;
       localStorage.setItem('gmailisAuthenticated', action.payload.toString());
     },
-    clearAuth: (state) => {
+    clearGmailAuth: (state) => {
       state.gmailAccessToken = null;
       state.gmailisAuthenticated = false;
       state.gmailtokenExpiry = null;
@@ -31,5 +31,5 @@ const googleGmailAuthSlice = createSlice({
   },
 });
 
-export const { setgmailAccessToken, setgmailisAuthenticated, clearAuth } = googleGmailAuthSlice.actions;
+export const { setgmailAccessToken, setgmailisAuthenticated, clearGmailAuth } = googleGmailAuthSlice.actions;
 export default googleGmailAuthSlice.reducer;
