@@ -20,7 +20,7 @@ import ComposeEmail from "./ComposeEmail";
 import Inbox from "./Inbox";
 import CreateLabelForm from "./CreateLabelForm";
 import LabelEmailForm from "./LabelEmailForm";
-import ContentTop from "../ContentTop/ContentTop"
+import ContentTop from "../ContentTop/ContentTop";
 
 const Gmail = () => {
   const {
@@ -102,7 +102,9 @@ const Gmail = () => {
       }
 
       await Promise.all(
-        messages?.map((msg) => applyLabelToMessage(gmailAccessToken, msg?.id, labelId))
+        messages?.map((msg) =>
+          applyLabelToMessage(gmailAccessToken, msg?.id, labelId)
+        )
       );
 
       alert(`Assigned label to ${messages?.length} messages from ${email}`);
@@ -116,193 +118,195 @@ const Gmail = () => {
   const [labelToDelete, setLabelToDelete] = useState(null);
 
   return (
-     <div className="main-content">
+    <div className="main-content">
       <ContentTop />
-    <div className="flex h-screen font-sans">
-      {/* Sidebar */}
-      {gmailisAuthenticated && (
-        <aside className="w-64 bg-gray-100 border-r border-gray-300 p-4 space-y-3">
-          <button
-            onClick={() => setShowCompose(true)}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg hover:bg-blue-700 mb-4"
-          >
-            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-            Compose
-          </button>
-
-          <div className="space-y-3">
-            <MenuItem
-              icon={faInbox}
-              label="Inbox"
-              labelId={labels?.find((l) => l.name === "INBOX")?.id}
-              activeView={activeView}
-              setActiveView={setActiveView}
-            />
-            <MenuItem
-              icon={faStar}
-              label="Starred"
-              labelId={labels?.find((l) => l.name === "STARRED")?.id}
-              activeView={activeView}
-              setActiveView={setActiveView}
-            />
-            <MenuItem
-              icon={faPaperPlane}
-              label="Sent"
-              labelId={labels?.find((l) => l.name === "SENT")?.id}
-              activeView={activeView}
-              setActiveView={setActiveView}
-            />
-            <div className="pt-4 border-t border-gray-300">
-              <CreateLabelForm createLabel={createLabel} labels={labels} />
-              <h4 className="text-gray-600 text-xs uppercase mb-2">Labels</h4>
-              {labels
-                .filter(
-                  (label) =>
-                    ![
-                      "INBOX",
-                      "STARRED",
-                      "SNOOZED",
-                      "SENT",
-                      "DRAFT",
-                      "TRASH",
-                      "IMPORTANT",
-                      "CATEGORY_PERSONAL",
-                      "CATEGORY_SOCIAL",
-                      "CATEGORY_PROMOTIONS",
-                      "CATEGORY_UPDATES",
-                      "CATEGORY_FORUMS",
-                      "SPAM",
-                      "CHAT",
-                      "UNREAD",
-                    ].includes(label.name)
-                )
-                .map((label) => (
-                  // <MenuItem
-                  //   key={label.id}
-                  //   icon={faFolderOpen}
-                  //   label={label.name}
-                  //   labelId={label.id}
-                  //   activeView={activeView}
-                  //   setActiveView={setActiveView}
-                  //   onRemoveLabel={() => handleRemoveLabel(label.id)}
-                  // />
-                  <div
-                    key={label.id}
-                    className="flex items-center justify-between p-2 hover:bg-gray-100 rounded cursor-pointer"
-                    onClick={() => {
-                      setActiveView(label.id);
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <FontAwesomeIcon
-                        icon={faFolderOpen}
-                        className="mr-2 text-gray-600"
-                      />
-                      <span>{label.name}</span>
-                    </div>
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      onClick={(e) => {
-                        e.stopPropagation(); // prevents triggering the parent div's onClick
-                        setLabelToDelete(label);
-                        setShowConfirm(true);
-                      }}
-                      className="text-red-500 cursor-pointer hover:text-red-600"
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
-        </aside>
-      )}
-
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-80 shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">Remove label</h2>
-            <p className="mb-6">
-              Delete the label{" "}
-              <span className="font-medium">"{labelToDelete.name}"</span>?
-            </p>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="text-gray-600 hover:text-gray-800"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  handleRemoveLabel(labelToDelete.id);
-                  setShowConfirm(false);
-                }}
-                className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main className="flex-1 p-6 overflow-y-auto">
-        {gmailisAuthenticated ? (
-          <>
-            {/* User Topbar */}
-            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  mb-6">
-              <div className="flex items-center space-x-4">
-                <img
-                  src={userProfile?.picture}
-                  alt="Profile"
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <h3 className="text-xl font-semibold text-white">
-                    {userProfile?.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm text-white">
-                    {userProfile?.email}
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={signOut}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-              >
-                Logout
-              </button>
-            </div>
-            <LabelEmailForm
-              labels={labels}
-              onAssignLabel={handleAssignLabelToEmail}
-            />
-            {/* Render active view */}
-            {renderActiveView()}
-          </>
-        ) : (
-          <div className="text-center mt-32">
-            <h2 className="text-2xl font-bold mb-6 text-white">
-              📧 Gmail Integration
-            </h2>
+      <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+      <div className="flex h-screen font-sans">
+        {/* Sidebar */}
+        {gmailisAuthenticated && (
+          <aside className="w-64 bg-gray-100 border-r border-gray-300 p-4 space-y-3">
             <button
-              onClick={signIn}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg text-lg hover:bg-blue-700 transition"
+              onClick={() => setShowCompose(true)}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg hover:bg-blue-700 mb-4"
             >
-              Login with Gmail
+              <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+              Compose
             </button>
+
+            <div className="space-y-3">
+              <MenuItem
+                icon={faInbox}
+                label="Inbox"
+                labelId={labels?.find((l) => l.name === "INBOX")?.id}
+                activeView={activeView}
+                setActiveView={setActiveView}
+              />
+              <MenuItem
+                icon={faStar}
+                label="Starred"
+                labelId={labels?.find((l) => l.name === "STARRED")?.id}
+                activeView={activeView}
+                setActiveView={setActiveView}
+              />
+              <MenuItem
+                icon={faPaperPlane}
+                label="Sent"
+                labelId={labels?.find((l) => l.name === "SENT")?.id}
+                activeView={activeView}
+                setActiveView={setActiveView}
+              />
+              <div className="pt-4 border-t border-gray-300">
+                <CreateLabelForm createLabel={createLabel} labels={labels} />
+                <h4 className="text-gray-600 text-xs uppercase mb-2">Labels</h4>
+                {labels
+                  .filter(
+                    (label) =>
+                      ![
+                        "INBOX",
+                        "STARRED",
+                        "SNOOZED",
+                        "SENT",
+                        "DRAFT",
+                        "TRASH",
+                        "IMPORTANT",
+                        "CATEGORY_PERSONAL",
+                        "CATEGORY_SOCIAL",
+                        "CATEGORY_PROMOTIONS",
+                        "CATEGORY_UPDATES",
+                        "CATEGORY_FORUMS",
+                        "SPAM",
+                        "CHAT",
+                        "UNREAD",
+                      ].includes(label.name)
+                  )
+                  .map((label) => (
+                    // <MenuItem
+                    //   key={label.id}
+                    //   icon={faFolderOpen}
+                    //   label={label.name}
+                    //   labelId={label.id}
+                    //   activeView={activeView}
+                    //   setActiveView={setActiveView}
+                    //   onRemoveLabel={() => handleRemoveLabel(label.id)}
+                    // />
+                    <div
+                      key={label.id}
+                      className="flex items-center justify-between p-2 hover:bg-gray-100 rounded cursor-pointer"
+                      onClick={() => {
+                        setActiveView(label.id);
+                      }}
+                    >
+                      <div className="flex items-center">
+                        <FontAwesomeIcon
+                          icon={faFolderOpen}
+                          className="mr-2 text-gray-600"
+                        />
+                        <span>{label.name}</span>
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        onClick={(e) => {
+                          e.stopPropagation(); // prevents triggering the parent div's onClick
+                          setLabelToDelete(label);
+                          setShowConfirm(true);
+                        }}
+                        className="text-red-500 cursor-pointer hover:text-red-600"
+                      />
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </aside>
+        )}
+
+        {showConfirm && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl p-6 w-80 shadow-lg">
+              <h2 className="text-lg font-semibold mb-4">Remove label</h2>
+              <p className="mb-6">
+                Delete the label{" "}
+                <span className="font-medium">"{labelToDelete.name}"</span>?
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="text-gray-600 hover:text-gray-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    handleRemoveLabel(labelToDelete.id);
+                    setShowConfirm(false);
+                  }}
+                  className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         )}
-      </main>
 
-      {/* Compose Email Modal */}
-      {showCompose && (
-        <ComposeEmail
-          gmailAccessToken={gmailAccessToken}
-          onClose={() => setShowCompose(false)}
-        />
-      )}
-    </div>
+        {/* Main Content */}
+        <main className="flex-1 p-6 overflow-y-auto">
+          {gmailisAuthenticated ? (
+            <>
+              {/* User Topbar */}
+              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  mb-6">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={userProfile?.picture}
+                    alt="Profile"
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">
+                      {userProfile?.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm text-white">
+                      {userProfile?.email}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={signOut}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </div>
+              <LabelEmailForm
+                labels={labels}
+                onAssignLabel={handleAssignLabelToEmail}
+              />
+              {/* Render active view */}
+              {renderActiveView()}
+            </>
+          ) : (
+            <div className="text-center mt-32">
+              <h2 className="text-2xl font-bold mb-6 text-white">
+                📧 Gmail Integration
+              </h2>
+              <button
+                onClick={signIn}
+                className="px-8 py-3 bg-blue-600 text-white rounded-lg text-lg hover:bg-blue-700 transition"
+              >
+                Login with Gmail
+              </button>
+            </div>
+          )}
+        </main>
+
+        {/* Compose Email Modal */}
+        {showCompose && (
+          <ComposeEmail
+            gmailAccessToken={gmailAccessToken}
+            onClose={() => setShowCompose(false)}
+          />
+        )}
+      </div>
+      </div>
     </div>
   );
 };
