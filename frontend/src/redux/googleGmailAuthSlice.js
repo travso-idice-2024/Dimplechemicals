@@ -11,7 +11,7 @@ const googleGmailAuthSlice = createSlice({
   initialState,
   reducers: {
     setgmailAccessToken: (state, action) => {
-      state.gmailAccessToken = action.payload;
+      state.gmailAccessToken = action.payload.token;
       state.gmailtokenExpiry = action.payload.expiry;
       localStorage.setItem('gmailAccessToken', action.payload.token);
       localStorage.setItem('gmailtokenExpiry', action.payload.expiry);

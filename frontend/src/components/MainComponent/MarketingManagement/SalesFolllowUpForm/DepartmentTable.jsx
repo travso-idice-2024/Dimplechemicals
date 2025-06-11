@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { SidebarContext } from "../../../../context/sidebarContext";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { addLeadCommunication } from "../../../../redux/leadSlice";
 import { useNavigate } from "react-router-dom";
 import { fetchCurrentUser } from "../../../../redux/authSlice";
@@ -29,6 +29,8 @@ const DepartmentTable = ({
   listLeads,
 }) => {
   const { poaType } = useParams();
+  const location = useLocation();
+  const pathSegment = location.pathname.split("/")[1];
   //console.log("poaList", poaList);
   const dispatch = useDispatch();
   const { isSidebarOpen } = useContext(SidebarContext);
@@ -411,7 +413,7 @@ const DepartmentTable = ({
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Approx Business Potential
             </th> */}
-            {userDeatail?.employeeRole?.role_id === 3 && poaType === "todayPOA" &&  (
+            {userDeatail?.employeeRole?.role_id === 3 && (poaType === "todayPOA" || pathSegment == "lead-sales") &&  (
               <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
@@ -470,7 +472,7 @@ const DepartmentTable = ({
               {/* {poaType === "todayPOA" || pathSegment == "lead-sales"
                 ? "Today's Plan of Action (POA)"
                 : "Visit Plan (POA)"} */}
-              {userDeatail?.employeeRole?.role_id === 3 && poaType === "todayPOA" && (
+              {userDeatail?.employeeRole?.role_id === 3 && (poaType === "todayPOA" || pathSegment == "lead-sales") && (
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap ">
                   {user?.communications?.[0]?.meeting_done === false ? (
                     <button

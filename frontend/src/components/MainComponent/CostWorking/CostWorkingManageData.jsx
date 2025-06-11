@@ -32,7 +32,7 @@ const CostWorkingManageData = () => {
   const { costWorkings, totalPages, costWorkingLoading, costWorkingError } =
     useSelector((state) => state.costWorking);
 
-  //console.log("costWorkings",costWorkings);
+  console.log("costWorkings",costWorkings);
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 

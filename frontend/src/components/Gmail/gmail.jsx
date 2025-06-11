@@ -155,8 +155,7 @@ const Gmail = () => {
             <div className="pt-4 border-t border-gray-300">
               <CreateLabelForm createLabel={createLabel} labels={labels} />
               <h4 className="text-gray-600 text-xs uppercase mb-2">Labels</h4>
-              {labels
-                .filter(
+              {labels?.filter(
                   (label) =>
                     ![
                       "INBOX",
