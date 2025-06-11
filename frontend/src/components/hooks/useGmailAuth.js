@@ -1,6 +1,10 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { setgmailAccessToken, setgmailisAuthenticated, clearAuth } from '../../redux/googleGmailAuthSlice';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setgmailAccessToken,
+  setgmailisAuthenticated,
+  clearAuth,
+} from "../../redux/googleGmailAuthSlice";
 import { gapi } from "gapi-script";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,109 +20,98 @@ const SCOPES = [
 ].join(" ");
 
 const useGmailAuth = () => {
-  // const [gmailisAuthenticated, setgmailisAuthenticated] = useState(
-  //   localStorage.getItem("gmailisAuthenticated") === "true"
-  // );
-  // const [gmailAccessToken, setgmailAccessToken] = useState(
-  //   localStorage.getItem("gmailAccessToken") || null
-  // );
   const dispatch = useDispatch();
-  const gmailAccessToken = useSelector((state) => state.googleGmailAuth.gmailAccessToken);
-  const gmailisAuthenticated = useSelector((state) => state.googleGmailAuth.gmailisAuthenticated);
+  const gmailAccessToken = useSelector(
+    (state) => state.googleGmailAuth.gmailAccessToken
+  );
+  const gmailisAuthenticated = useSelector(
+    (state) => state.googleGmailAuth.gmailisAuthenticated
+  );
 
   const [userProfile, setUserProfile] = useState(null);
   const [labels, setLabels] = useState([]);
 
+  const gmailTokenClientRef = useRef(null);
 
+  // Initialize OAuth Token Client for Gmail
+  const initializeGmailGis = () => {
+    gmailTokenClientRef.current = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: (tokenResponse) => {
+        if (tokenResponse.error) {
+          console.error("Token Error:", tokenResponse);
+          return;
+        }
+
+        const expiry = Date.now() + 60 * 60 * 1000;
+        dispatch(
+          setgmailAccessToken({ token: tokenResponse.access_token, expiry })
+        );
+        dispatch(setgmailisAuthenticated(true));
+        localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
+        localStorage.setItem("gmailtokenExpiry", expiry);
+        localStorage.setItem("gmailisAuthenticated", "true");
+
+        fetchUserProfile(tokenResponse.access_token);
+      },
+    });
+  };
+
+  // Initialize once when Google SDK loads
   useEffect(() => {
-    if (!gmailAccessToken) return;
-  
-    const tokenExpiry = localStorage.getItem('gmailtokenExpiry');
-    const remainingTime = tokenExpiry - Date.now();
-  
-    if (remainingTime <= 0) {
-      // Token expired, get a new one silently
-      console.log("Access token expired — requesting new one...");
-      window.tokenClient.requestAccessToken();
-    } else {
-      const timer = setTimeout(() => {
-        console.log("Access token about to expire — requesting new one...");
-        window.tokenClient.requestAccessToken();
-      }, remainingTime - 5000); // refresh 5s before expiry
-  
-      return () => clearTimeout(timer);
-    }
-  }, [gmailAccessToken]);
-
-  // Initialize GIS SDK
-  useEffect(() => {
-    /* global google */
-    const initializeGis = () => {
-      window.tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        callback: (tokenResponse) => {
-          if (tokenResponse.error) {
-            console.error("Token Error:", tokenResponse);
-            return;
-          }
-          // setgmailAccessToken(tokenResponse.access_token);
-          // localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
-          // setgmailisAuthenticated(true);
-          // localStorage.setItem("gmailisAuthenticated", "true");
-          const expiry = Date.now() + 60 * 60 * 1000; // 1 hour expiry
-          dispatch(setgmailAccessToken({ token: tokenResponse.access_token, expiry}));
-          dispatch(setgmailisAuthenticated(true));
-          // Now, fetch user profile details (using token)
-          fetchUserProfile(tokenResponse.access_token);
-        },
-      });
-
-      // // Request token if expired / not set
-      // if (!localStorage.getItem("gmailAccessToken")) {
-      //   window.tokenClient.requestAccessToken();
-      // }
-
-      // Check if already signed in
-      // if (window.google && google.accounts && google.accounts.oauth2) {
-      //   const tokenClient = google.accounts.oauth2.initTokenClient({
-      //     client_id: CLIENT_ID,
-      //     scope: SCOPES,
-      //     callback: (tokenResponse) => {
-      //       if (tokenResponse.error) {
-      //         console.error("Token error:", tokenResponse);
-      //         return;
-      //       }
-      //       // Access token and user profile handling
-      //       setgmailAccessToken(tokenResponse.access_token);
-      //       localStorage.setItem("gmailAccessToken", tokenResponse.access_token);
-      //       setgmailisAuthenticated(true);
-      //       localStorage.setItem("gmailisAuthenticated", "true");
-      //       fetchUserProfile(tokenResponse.access_token);
-      //     },
-      //   });
-
-      //   tokenClient.requestAccessToken();
-      // }
-    };
-
     if (window.google && google.accounts && google.accounts.oauth2) {
-      initializeGis();
+      initializeGmailGis();
     } else {
-      window.onload = initializeGis;
+      const interval = setInterval(() => {
+        if (window.google && google.accounts && google.accounts.oauth2) {
+          initializeGmailGis();
+          clearInterval(interval);
+        }
+      }, 500);
     }
   }, []);
 
+  // Load token from localStorage if present
   useEffect(() => {
     const storedToken = localStorage.getItem("gmailAccessToken");
     const isAuth = localStorage.getItem("gmailisAuthenticated");
 
     if (storedToken && isAuth === "true") {
-      setgmailAccessToken(storedToken);
-      setgmailisAuthenticated(true);
+      dispatch(
+        setgmailAccessToken({
+          token: storedToken,
+          expiry: localStorage.getItem("gmailtokenExpiry"),
+        })
+      );
+      dispatch(setgmailisAuthenticated(true));
       fetchUserProfile(storedToken);
     }
   }, []);
+
+  // Token expiry auto-refresh
+  useEffect(() => {
+    if (!gmailAccessToken) return;
+
+    const tokenExpiry = localStorage.getItem("gmailtokenExpiry");
+    const remainingTime = tokenExpiry - Date.now();
+
+    if (remainingTime <= 0) {
+      if (gmailTokenClientRef.current) {
+        console.log("Gmail token expired — requesting new one...");
+        gmailTokenClientRef.current.requestAccessToken();
+      }
+    } else {
+      const timer = setTimeout(() => {
+        if (gmailTokenClientRef.current) {
+          console.log("Gmail token about to expire — requesting new one...");
+          gmailTokenClientRef.current.requestAccessToken();
+        }
+      }, remainingTime - 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [gmailAccessToken]);
 
   const fetchUserProfile = async (gmailAccessToken) => {
     //console.log("gmailAccessToken",gmailAccessToken);
@@ -142,49 +135,173 @@ const useGmailAuth = () => {
 
   // Login function using GIS
   const signIn = async () => {
-    if (window.tokenClient) {
-      window.tokenClient.requestAccessToken();
-    } else {
-      console.error("Token client not initialized.");
+    if (!gmailTokenClientRef.current) {
+      initializeGmailGis();
     }
+
+    gmailTokenClientRef.current.requestAccessToken();
   };
 
   // Logout function
   const signOut = () => {
     if (gmailAccessToken) {
       google.accounts.oauth2.revoke(gmailAccessToken, () => {
-        setgmailAccessToken(null);
-        setgmailisAuthenticated(false);
-        dispatch(clearAuth());
-        // localStorage.removeItem("gmailAccessToken");
-        // localStorage.removeItem("gmailisAuthenticated");
-        setEvents([]);
+        dispatch(clearGmailAuth());
+        localStorage.removeItem("gmailAccessToken");
+        localStorage.removeItem("gmailtokenExpiry");
+        localStorage.removeItem("gmailisAuthenticated");
       });
     }
   };
 
   // Fetch Inbox Messages Function
+  // const fetchInboxMessages = async (label = "INBOX") => {
+  //   try {
+  //     if (!gmailAccessToken) {
+  //       throw new Error("User not authenticated");
+  //     }
+
+  //     // Build query parameters
+  //     const queryParams = new URLSearchParams({
+  //       maxResults: "10",
+  //     });
+
+  //     if (label) {
+  //       queryParams.append("labelIds", label);
+  //     } else {
+  //       queryParams.append("labelIds", "INBOX");
+  //     }
+
+  //     // Fetch the list of messages from Gmail
+  //     const response = await fetch(
+  //       `https://gmail.googleapis.com/gmail/v1/users/me/messages?${queryParams.toString()}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${gmailAccessToken}`,
+  //         },
+  //       }
+  //     );
+
+  //     const data = await response.json();
+  //     const messages = data.messages || [];
+
+  //     // Fetch message details for each message
+  //     const messageDetails = await Promise.all(
+  //       messages.map(async (msg) => {
+  //         const messageResponse = await fetch(
+  //           `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${gmailAccessToken}`,
+  //             },
+  //           }
+  //         );
+
+  //         const messageData = await messageResponse.json();
+  //         const headers = messageData.payload.headers;
+
+  //         // Extract necessary headers
+  //         const getHeader = (name) =>
+  //           headers.find((h) => h.name === name)?.value || "";
+
+  //         const from = getHeader("From");
+  //         const to = getHeader("To");
+  //         const subject = getHeader("Subject");
+  //         const date = getHeader("Date");
+  //         const snippet = messageData.snippet;
+  //         const time = new Date(
+  //           parseInt(messageData.internalDate)
+  //         ).toLocaleTimeString([], {
+  //           hour: "2-digit",
+  //           minute: "2-digit",
+  //         });
+
+  //         // Decode plain text body if available
+  //         let body = "";
+  //         let attachments = [];
+  //         const parts = messageData.payload.parts;
+
+  //         if (parts && parts.length) {
+  //           const part = parts.find((p) => p.mimeType === "text/plain");
+  //           if (part?.body?.data) {
+  //             body = atob(part.body.data.replace(/-/g, "+").replace(/_/g, "/"));
+  //           }
+
+  //           // Attachments (images or files)
+  //           if (part.filename && part.body?.attachmentId) {
+  //             const attachmentResponse = await fetch(
+  //               `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}/attachments/${part.body.attachmentId}`,
+  //               {
+  //                 headers: {
+  //                   Authorization: `Bearer ${gmailAccessToken}`,
+  //                 },
+  //               }
+  //             );
+
+  //             const attachmentData = await attachmentResponse.json();
+  //             const base64Data = attachmentData.data
+  //               .replace(/-/g, "+")
+  //               .replace(/_/g, "/");
+
+  //             // For images, generate data URL
+  //             if (part.mimeType.startsWith("image/")) {
+  //               attachments.push({
+  //                 filename: part.filename,
+  //                 mimeType: part.mimeType,
+  //                 dataUrl: `data:${part.mimeType};base64,${base64Data}`,
+  //               });
+  //             } else {
+  //               attachments.push({
+  //                 filename: part.filename,
+  //                 mimeType: part.mimeType,
+  //                 base64Data,
+  //               });
+  //             }
+  //             // If nested parts
+  //             if (part.parts && part.parts.length) {
+  //               await processParts(part.parts);
+  //             }
+  //           }
+  //         } else if (messageData.payload.body?.data) {
+  //           body = atob(
+  //             messageData.payload.body.data
+  //               .replace(/-/g, "+")
+  //               .replace(/_/g, "/")
+  //           );
+  //         }
+
+  //         return {
+  //           id: msg.id,
+  //           from,
+  //           to,
+  //           subject,
+  //           date,
+  //           snippet,
+  //           time,
+  //           body,
+  //           attachments,
+  //         };
+  //       })
+  //     );
+
+  //     //console.log("Inbox messages:", messageDetails);
+  //     return messageDetails;
+  //   } catch (error) {
+  //     console.error("Failed to fetch inbox messages:", error);
+  //     throw error;
+  //   }
+  // };
+
+
   const fetchInboxMessages = async (label = "INBOX") => {
-    //console.log("This message function is calling", label);
-    console.log("gmailAccessToken", gmailAccessToken);
-
     try {
-      if (!gmailAccessToken) {
-        throw new Error("User not authenticated");
-      }
-
-      // Build query parameters
+      if (!gmailAccessToken) throw new Error("User not authenticated");
+  
       const queryParams = new URLSearchParams({
         maxResults: "10",
+        labelIds: label,
       });
-
-      if (label) {
-        queryParams.append("labelIds", label);
-      } else {
-        queryParams.append("labelIds", "INBOX");
-      }
-
-      // Fetch the list of messages from Gmail
+  
       const response = await fetch(
         `https://gmail.googleapis.com/gmail/v1/users/me/messages?${queryParams.toString()}`,
         {
@@ -193,11 +310,10 @@ const useGmailAuth = () => {
           },
         }
       );
-
+  
       const data = await response.json();
       const messages = data.messages || [];
-
-      // Fetch message details for each message
+  
       const messageDetails = await Promise.all(
         messages.map(async (msg) => {
           const messageResponse = await fetch(
@@ -208,14 +324,13 @@ const useGmailAuth = () => {
               },
             }
           );
-
+  
           const messageData = await messageResponse.json();
           const headers = messageData.payload.headers;
-
-          // Extract necessary headers
+  
           const getHeader = (name) =>
             headers.find((h) => h.name === name)?.value || "";
-
+  
           const from = getHeader("From");
           const to = getHeader("To");
           const subject = getHeader("Subject");
@@ -227,35 +342,62 @@ const useGmailAuth = () => {
             hour: "2-digit",
             minute: "2-digit",
           });
-
-          // Decode plain text body if available
+  
+          // Decode plain text body
           let body = "";
-          const parts = messageData.payload.parts;
-
-          if (parts && parts.length) {
-            const part = parts.find((p) => p.mimeType === "text/plain");
-            if (part?.body?.data) {
+          let attachments = [];
+  
+          const parts = messageData.payload.parts || [];
+  
+          for (let part of parts) {
+            // Text body
+            if (part.mimeType === "text/plain" && part.body?.data) {
               body = atob(part.body.data.replace(/-/g, "+").replace(/_/g, "/"));
             }
-          } else if (messageData.payload.body?.data) {
+  
+            // Attachments
+            if (part.filename && part.body?.attachmentId) {
+              const attachmentResponse = await fetch(
+                `https://gmail.googleapis.com/gmail/v1/users/me/messages/${msg.id}/attachments/${part.body.attachmentId}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${gmailAccessToken}`,
+                  },
+                }
+              );
+  
+              const attachmentData = await attachmentResponse.json();
+              const base64Data = attachmentData.data.replace(/-/g, "+").replace(/_/g, "/");
+  
+              const dataUrl = `data:${part.mimeType};base64,${base64Data}`;
+  
+              attachments.push({
+                filename: part.filename,
+                mimeType: part.mimeType,
+                dataUrl,
+              });
+            }
+          }
+  
+          // If message has no parts, check body.data directly
+          if (!parts.length && messageData.payload.body?.data) {
             body = atob(
-              messageData.payload.body.data
-                .replace(/-/g, "+")
-                .replace(/_/g, "/")
+              messageData.payload.body.data.replace(/-/g, "+").replace(/_/g, "/")
             );
           }
-
-          return { id: msg.id, from, to, subject, date, snippet, time, body };
+  
+          return { id: msg.id, from, to, subject, date, snippet, time, body, attachments };
         })
       );
-
-      //console.log("Inbox messages:", messageDetails);
+  
       return messageDetails;
     } catch (error) {
       console.error("Failed to fetch inbox messages:", error);
       throw error;
     }
   };
+  
+  
 
   const fetchLabels = async () => {
     try {
@@ -271,6 +413,15 @@ const useGmailAuth = () => {
           },
         }
       );
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          console.warn("Token expired or unauthorized — requesting new one...");
+          gmailTokenClientRef.current.requestAccessToken();
+          return;
+        }
+        throw new Error(`Error fetching labels: ${res.status}`);
+      }
 
       const data = await res.json();
       setLabels(data.labels); // Assuming `setLabels` is a state update function in your component
@@ -316,10 +467,36 @@ const useGmailAuth = () => {
   };
 
   //get message details
+  // const getMessageDetail = async (messageId) => {
+  //   try {
+  //     if (!gmailAccessToken) throw new Error("User not authenticated");
+
+  //     const response = await fetch(
+  //       `https://gmail.googleapis.com/gmail/v1/users/me/messages/${messageId}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${gmailAccessToken}`,
+  //         },
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch message details");
+  //     }
+
+  //     const data = await response.json();
+  //     console.log("message details", data);
+  //     return data; // Return the message details
+  //   } catch (error) {
+  //     console.error("Error fetching message detail:", error);
+  //     throw error;
+  //   }
+  // };
+
   const getMessageDetail = async (messageId) => {
     try {
       if (!gmailAccessToken) throw new Error("User not authenticated");
-
+  
       const response = await fetch(
         `https://gmail.googleapis.com/gmail/v1/users/me/messages/${messageId}`,
         {
@@ -328,19 +505,67 @@ const useGmailAuth = () => {
           },
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to fetch message details");
       }
-
+  
       const data = await response.json();
-      console.log("message details", data);
-      return data; // Return the message details
+  
+      const attachments = [];
+  
+      const parts = data.payload.parts || [];
+  
+      // Process attachments
+      for (const part of parts) {
+        if (part.filename && part.body?.attachmentId) {
+          const attachmentResponse = await fetch(
+            `https://gmail.googleapis.com/gmail/v1/users/me/messages/${messageId}/attachments/${part.body.attachmentId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${gmailAccessToken}`,
+              },
+            }
+          );
+  
+          if (!attachmentResponse.ok) {
+            console.warn(
+              `Failed to fetch attachment: ${part.filename}`,
+              await attachmentResponse.text()
+            );
+            continue;
+          }
+  
+          const attachmentData = await attachmentResponse.json();
+          const base64Data = attachmentData.data.replace(/-/g, "+").replace(/_/g, "/");
+  
+          // Convert to Data URL for images
+          if (part.mimeType.startsWith("image/")) {
+            attachments.push({
+              filename: part.filename,
+              mimeType: part.mimeType,
+              dataUrl: `data:${part.mimeType};base64,${base64Data}`,
+            });
+          } else {
+            attachments.push({
+              filename: part.filename,
+              mimeType: part.mimeType,
+              base64Data,
+            });
+          }
+        }
+      }
+  
+      // Attach attachments array to data
+      data.attachments = attachments;
+  
+      return data;
     } catch (error) {
       console.error("Error fetching message detail:", error);
       throw error;
     }
   };
+  
 
   //get message by sender
 

@@ -36,7 +36,7 @@ const Inbox = ({
       setLoading(false);
     }
   };
-  //console.log("emails",emails);
+  console.log("selectedMessage", selectedMessage);
 
   useEffect(() => {
     if (gmailAccessToken) {
@@ -103,6 +103,54 @@ const Inbox = ({
               __html: getBody(selectedMessage.payload),
             }}
           ></div>
+
+          {/* Show images */}
+          {selectedMessage.attachments &&
+            selectedMessage.attachments
+              .filter((att) => att.mimeType.startsWith("image/"))
+              .map((att, idx) => (
+                <div key={idx} className="mt-4">
+                  <strong>{att.filename}</strong>
+                  <img
+                    src={att.dataUrl}
+                    alt={att.filename}
+                    className="max-w-full h-auto border rounded shadow"
+                  />
+                </div>
+              ))}
+
+          {/* Show PDF attachments */}
+          {selectedMessage.attachments &&
+            selectedMessage.attachments
+              .filter((att) => att.mimeType === "application/pdf")
+              .map((att, idx) => (
+                <div
+                  key={idx}
+                  className="mt-4 flex items-center gap-4 border p-2 rounded shadow"
+                >
+                  <img src="/pdf-icon.png" alt="PDF" className="w-12 h-12" />
+                  <div>
+                    <strong>{att.filename}</strong>
+                    <div className="flex gap-2 mt-1">
+                      <a
+                        href={att.dataUrl}
+                        download={att.filename}
+                        className="text-blue-600 underline"
+                      >
+                        Download
+                      </a>
+                      <a
+                        href={att.dataUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-600 underline"
+                      >
+                        View
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
         </div>
       ) : (
         // Show the list of emails when no message is selected

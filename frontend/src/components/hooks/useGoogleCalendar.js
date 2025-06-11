@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken, setIsAuthenticated, clearAuth } from '../../redux/googleCalenderAuthSlice';
 
@@ -14,51 +14,28 @@ const useGoogleCalendar = () => {
   const isAuthenticated = useSelector((state) => state.googleCalenderAuth.isAuthenticated);
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    if (!accessToken) return;
-  
-    const tokenExpiry = localStorage.getItem('tokenExpiry');
-    const remainingTime = tokenExpiry - Date.now();
-  
-    if (remainingTime <= 0) {
-      // Token expired, get a new one silently
-      console.log("Access token expired — requesting new one...");
-      window.tokenClient.requestAccessToken();
-      
-    } else {
-      const timer = setTimeout(() => {
-        console.log("Access token about to expire — requesting new one...");
-        window.tokenClient.requestAccessToken();
-      }, remainingTime - 5000); // refresh 5s before expiry
-  
-      return () => clearTimeout(timer);
-    }
-  }, [accessToken]);
-  
-  
+  const calendarTokenClientRef = useRef(null);
 
-  useEffect(() => {
-    /* global google */
-    const initializeGis = () => {
-      window.tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        callback: (tokenResponse) => {
-          if (tokenResponse.error) {
-            console.error('Token Error:', tokenResponse);
-            return;
-          }
-          // setAccessToken(tokenResponse.access_token);
-          // localStorage.setItem("accessToken", tokenResponse.access_token);
-          // setIsAuthenticated(true);
-          // localStorage.setItem("isAuthenticated", "true");
-          const expiry = Date.now() + 60 * 60 * 1000; // 1 hour expiry
-          dispatch(setAccessToken({ token: tokenResponse.access_token, expiry}));
-          dispatch(setIsAuthenticated(true));
-        },
-      });
-    };
+// Initialize Google OAuth Token Client for Calendar
+  const initializeGis = () => {
+    calendarTokenClientRef.current = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: (tokenResponse) => {
+        if (tokenResponse.error) {
+          console.error('Token Error:', tokenResponse);
+          return;
+        }
+        const expiry = Date.now() + 60 * 60 * 1000; // 1 hour expiry
+        dispatch(setAccessToken({ token: tokenResponse.access_token, expiry}));
+        dispatch(setIsAuthenticated(true));
+      },
+    });
+  };
 
+
+   // Initialize once when Google library loads
+   useEffect(() => {
     if (window.google && google.accounts && google.accounts.oauth2) {
       initializeGis();
     } else {
@@ -66,26 +43,51 @@ const useGoogleCalendar = () => {
     }
   }, []);
 
-  const handleLogin = () => {
-    if (window.tokenClient) {
-      window.tokenClient.requestAccessToken();
+
+   // Handle access token expiry auto-refresh
+   useEffect(() => {
+    if (!accessToken) return;
+
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    const remainingTime = tokenExpiry - Date.now();
+
+    if (remainingTime <= 0) {
+      if (calendarTokenClientRef.current) {
+        console.log("Access token expired — requesting new one...");
+        calendarTokenClientRef.current.requestAccessToken();
+      } else {
+        console.error("Calendar token client not initialized.");
+      }
     } else {
-      console.error('Token client not initialized.');
+      const timer = setTimeout(() => {
+        if (calendarTokenClientRef.current) {
+          console.log("Access token about to expire — requesting new one...");
+          calendarTokenClientRef.current.requestAccessToken();
+        }
+      }, remainingTime - 5000); // refresh 5s before expiry
+
+      return () => clearTimeout(timer);
+    }
+  }, [accessToken]);
+
+   // Login / Consent Flow
+   const handleLogin = () => {
+    if (calendarTokenClientRef.current) {
+      calendarTokenClientRef.current.requestAccessToken();
+    } else {
+      console.error('Calendar token client not initialized.');
     }
   };
 
-  const handleLogout = () => {
-    if (accessToken) {
-      google.accounts.oauth2.revoke(accessToken, () => {
-        setAccessToken(null);
-        setIsAuthenticated(false);
-        dispatch(clearAuth());
-        // localStorage.removeItem("accessToken");
-        // localStorage.removeItem("isAuthenticated");
-        setEvents([]);
-      });
-    }
-  };
+    // Logout / Revoke
+    const handleLogout = () => {
+      if (accessToken) {
+        google.accounts.oauth2.revoke(accessToken, () => {
+          dispatch(clearAuth());
+          setEvents([]);
+        });
+      }
+    };
 
   const fetchEvents = async () => {
     //console.log("accessToken",accessToken);
