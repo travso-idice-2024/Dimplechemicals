@@ -99,30 +99,49 @@ const Inbox = ({
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-white">
+      <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-black">
         <FontAwesomeIcon icon={faEnvelopeOpenText} className="text-blue-600" />
         {labelName}
       </h2>
 
       {loading ? (
-        <p>Loading emails...</p>
+        <p className="text-black">Loading emails...</p>
       ) : selectedMessage && selectedMessage.payload ? (
         // Show the full message details if a message is selected
         <div className="mt-6 p-4 bg-white rounded-lg shadow">
-          <button
-            className="back-button text-blue-600"
-            onClick={() => setSelectedMessage(null)} // Set to null to go back to the list
-          >
-            ← Back to inbox
-          </button>
-          <h3 className="text-xl font-bold mb-2">
+          <div className="border bg-gray-500 rounded-[5px] w-fit px-3">
+            <button
+              className="back-button text-blue-600 flex items-center border mb-1 text-white"
+              onClick={() => setSelectedMessage(null)} // Set to null to go back to the list
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 36 36"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+                className="cursor-pointer mt-[1px]"
+              >
+                <path
+                  d="M22.5 27L13.5 18L22.5 9"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>{" "}
+              Back to inbox
+            </button>
+          </div>
+
+          <h3 className="text-[17px] font-bold mt-2 mb-1 text-gray-500">
             {getHeader(selectedMessage.payload.headers, "Subject")}
           </h3>
-          <p>
+          <p className="text-gray-500">
             <strong>From:</strong>{" "}
             {getHeader(selectedMessage.payload.headers, "From")}
           </p>
-          <p>
+          <p className="text-gray-500">
             <strong>Date:</strong>{" "}
             {getHeader(selectedMessage.payload.headers, "Date")}
           </p>
@@ -206,12 +225,14 @@ const Inbox = ({
 
               {/* Email content */}
               <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:gap-4 overflow-hidden">
-                <div className="font-medium truncate w-32 sm:w-40">
+                <div className="font-medium truncate w-32 sm:w-40 text-gray-500">
                   {email?.from}
                 </div>
                 <div className="truncate flex-1">
-                  <span className="font-semibold">{email?.subject}</span> -{" "}
-                  <span className="text-gray-600">{email?.snippet}</span>
+                  <span className="font-medium text-gray-400">
+                    {email?.subject}
+                  </span>{" "}
+                  - <span className="text-gray-800">{email?.snippet}</span>
                 </div>
               </div>
 
