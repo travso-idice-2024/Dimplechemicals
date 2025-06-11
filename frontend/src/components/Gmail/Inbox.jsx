@@ -70,7 +70,7 @@ const Inbox = ({
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-white">
+      <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 text-black">
         <FontAwesomeIcon icon={faEnvelopeOpenText} className="text-blue-600" />
         {labelName}
       </h2>
@@ -174,12 +174,12 @@ const Inbox = ({
 
               {/* Email content */}
               <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:gap-4 overflow-hidden">
-                <div className="font-medium truncate w-32 sm:w-40">
+                <div className="font-medium truncate w-32 sm:w-40 text-gray-500">
                   {email?.from}
                 </div>
                 <div className="truncate flex-1">
-                  <span className="font-semibold">{email?.subject}</span> -{" "}
-                  <span className="text-gray-600">{email?.snippet}</span>
+                  <span className="font-medium text-gray-400">{email?.subject}</span> -{" "}
+                  <span className="text-gray-800">{email?.snippet}</span>
                 </div>
               </div>
 

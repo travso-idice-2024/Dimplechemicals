@@ -13,18 +13,18 @@ const LabelEmailForm = ({ labels, onAssignLabel }) => {
   };
 
   return (
-    <div className="p-3 border rounded mb-4 flex space-x-2">
+    <div className=" mb-4 flex space-x-2">
       <input
         type="email"
         placeholder="Enter Gmail address"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="flex-1 p-2 border rounded"
+        className="flex-1 p-2 border border-gray-500 rounded text-black"
       />
         <select
           value={selectedLabel}
           onChange={(e) => setSelectedLabel(e.target.value)}
-          className="p-2 border rounded"
+          className="p-2 border border-gray-500 rounded"
         >
         <option value="">Select Label</option>
         {labels
@@ -39,7 +39,7 @@ const LabelEmailForm = ({ labels, onAssignLabel }) => {
 
       <button
         onClick={handleAssign}
-        className="p-2 bg-blue-600 text-white rounded"
+        className="p-2 bg-bgDataNew text-white rounded"
       >
         Assign
       </button>

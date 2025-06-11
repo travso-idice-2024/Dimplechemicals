@@ -50,17 +50,17 @@ const CreateLabelForm = ({ createLabel,labels = [] }) => {
 
   return (
      <div>
-      <form onSubmit={handleSubmit} className="flex space-x-2 mt-4">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center mt-4">
         <input
           type="text"
           value={labelName}
           onChange={(e) => setLabelName(e.target.value)}
           placeholder="New Label Name"
-          className="border p-2 rounded w-full"
+          className="border border-gray-400 p-2 rounded w-full"
         />
         <button
           type="submit"
-          className={`bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`bg-green-600 mt-2 text-white px-4 py-2 rounded hover:bg-green-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           disabled={loading}
         >
           {loading ? "Creating..." : "Create"}
