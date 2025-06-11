@@ -56,11 +56,11 @@ const CreateLabelForm = ({ createLabel,labels = [] }) => {
           value={labelName}
           onChange={(e) => setLabelName(e.target.value)}
           placeholder="New Label Name"
-          className="border border-gray-400 p-2 rounded w-full"
+          className="border border-gray-400 p-2 rounded w-full text-black"
         />
         <button
           type="submit"
-          className={`bg-green-600 mt-2 text-white px-4 py-2 rounded hover:bg-green-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`bg-green-600 mt-2 text-white px-4 py-2 flex items-center justify-center rounded hover:bg-green-700 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           disabled={loading}
         >
           {loading ? "Creating..." : "Create"}
