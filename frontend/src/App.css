@@ -159,10 +159,10 @@ button {
     width: auto;
   }
 
-  .heightfixalldevice{
-  height: 100% !important;
-  max-height: 100% !important;
-}
+  .heightfixalldevice {
+    height: 100% !important;
+    max-height: 100% !important;
+  }
 }
 
 /* Mobile view (landscape and portrait phones, small tablets) */
@@ -174,11 +174,11 @@ button {
     font-weight: 500;
     color: var(--clr-silver);
     font-size: 12px;
-}
-.heightfixalldevice{
-  height: 100% !important;
-  max-height: 100% !important;
-}
+  }
+  .heightfixalldevice {
+    height: 100% !important;
+    max-height: 100% !important;
+  }
 }
 
 /* Extra small devices (iPhones, small Android phones) */
@@ -190,20 +190,17 @@ button {
     font-weight: 500;
     color: var(--clr-silver);
     font-size: 12px;
+  }
+  .heightfixalldevice {
+    height: 100% !important;
+    max-height: 100% !important;
+  }
 }
-.heightfixalldevice{
-  height: 100% !important;
-  max-height: 100% !important;
-}
-}
-
-
 
 .css-13cymwt-control {
-    border: none !important;
+  border: none !important;
 }
 
-
 .css-13cymwt-control:hover {
-box-shadow: 0 0 0 1px black;
+  box-shadow: 0 0 0 1px black;
 }

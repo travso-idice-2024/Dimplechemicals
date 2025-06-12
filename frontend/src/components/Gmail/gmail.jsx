@@ -32,7 +32,7 @@ import ComposeEmail from "./ComposeEmail";
 import Inbox from "./Inbox";
 import CreateLabelForm from "./CreateLabelForm";
 import LabelEmailForm from "./LabelEmailForm";
-import ContentTop from "../ContentTop/ContentTop";
+import ContentTop from "../ContentTop/ContentTop"
 import { fetchCurrentUser } from "../../redux/authSlice";
 
 const Gmail = () => {
@@ -55,8 +55,8 @@ const Gmail = () => {
   } = useGmailAuth();
 
   useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
+        dispatch(fetchCurrentUser());
+      }, [dispatch]);
 
   //console.log("Token for profile:", gmailAccessToken);
 
@@ -141,8 +141,56 @@ const Gmail = () => {
     <div className="main-content">
       <ContentTop />
       <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
+        
         {/* Uma Maam Code */}
         <div className="font-sans">
+          {/* Header */}
+          <div className="flex items-center justify-between px-3 py-3 border-b bg-[#f1f3f4] rounded-t-[5px]">
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon icon={faBars} className="text-black" />
+              <img
+                src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png"
+                alt="Gmail"
+                className="h-6"
+              />
+            </div>
+            {/* Search Box */}
+            {
+              gmailisAuthenticated && (
+<div className="flex items-center bg-white px-4 py-2 rounded-[15px] w-1/2">
+              <FontAwesomeIcon icon={faSearch} className="text-gray-600" />
+              <input
+                type="text"
+                placeholder="Search mail"
+                className="bg-transparent outline-none px-2 w-full text-sm text-black"
+              />
+            </div>
+              )
+            }
+            
+            {/* Right Icons */}
+            {/* <div className="relative flex items-center gap-4"> */}
+
+              {/* User Avatar */}
+              {/* <div className="relative">
+                <div
+                  className="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-300"
+                  onClick={() => setDropdownOpenGMail(!dropdownOpenGMail)}
+                >
+                  <FontAwesomeIcon icon={faUser} className="text-gray-600" />
+                </div>
+
+                {dropdownOpenGMail && (
+                  <div className="absolute right-0 mt-2 w-fit px-4 py-2 bg-white border rounded-md shadow-lg z-10">
+                    <p className="font-semibold text-black">Prashant Mishra</p>
+                    <p className="text-sm text-gray-600">
+                      prashant@example.com
+                    </p>
+                  </div>
+                )}
+              </div> */}
+            {/* </div> */}
+          </div>
           <div className="flex h-screen font-sans">
             {/* Sidebar */}
             {gmailisAuthenticated && (
@@ -177,7 +225,7 @@ const Gmail = () => {
                     activeView={activeView}
                     setActiveView={setActiveView}
                   />
-
+                  
                   <div className="pt-4 border-t border-gray-300">
                     <CreateLabelForm
                       createLabel={createLabel}
@@ -277,59 +325,10 @@ const Gmail = () => {
             )}
 
             {/* Main Content */}
-            <main
-              className={`${
-                gmailisAuthenticated ? "bg-gray-200" : ""
-              }flex-1 p-6 overflow-y-auto  rounded-br-[5px]`}
-            >
+            <main className="flex-1 p-6 overflow-y-auto bg-gray-200 rounded-br-[5px] rounded-bl-[5px]">
               {gmailisAuthenticated ? (
                 <>
                   {/* User Topbar */}
-                  {/* Header */}
-                  <div className="flex items-center justify-between px-3 py-3 border-b bg-[#f1f3f4] rounded-t-[5px]">
-                    <div className="flex items-center gap-2">
-                      <FontAwesomeIcon icon={faBars} className="text-black" />
-                      <img
-                        src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png"
-                        alt="Gmail"
-                        className="h-6"
-                      />
-                    </div>
-                    {/* Search Box */}
-                    <div className="flex items-center bg-white px-4 py-2 rounded-[15px] w-1/2">
-                      <FontAwesomeIcon
-                        icon={faSearch}
-                        className="text-gray-600"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Search mail"
-                        className="bg-transparent outline-none px-2 w-full text-sm text-black"
-                      />
-                    </div>
-                    {/* Right Icons */}
-                    {/* <div className="relative flex items-center gap-4"> */}
-
-                    {/* User Avatar */}
-                    {/* <div className="relative">
-                <div
-                  className="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-300"
-                  onClick={() => setDropdownOpenGMail(!dropdownOpenGMail)}
-                >
-                  <FontAwesomeIcon icon={faUser} className="text-gray-600" />
-                </div>
-
-                {dropdownOpenGMail && (
-                  <div className="absolute right-0 mt-2 w-fit px-4 py-2 bg-white border rounded-md shadow-lg z-10">
-                    <p className="font-semibold text-black">Prashant Mishra</p>
-                    <p className="text-sm text-gray-600">
-                      prashant@example.com
-                    </p>
-                  </div>
-                )}
-              </div> */}
-                    {/* </div> */}
-                  </div>
                   <div className="flex items-center md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  mb-6">
                     <div className="flex items-center space-x-1">
                       <img
@@ -371,12 +370,12 @@ const Gmail = () => {
                 </>
               ) : (
                 <div className="text-center mt-32">
-                  <h2 className="text-2xl font-bold mb-2 text-white">
+                  <h2 className="text-2xl font-bold mb-3 text-gray-600">
                     📧 Gmail Integration
                   </h2>
-                  <p className="mt-0 mb-8 text-bgDataNew font-poppins border-none w-fit px-4 py-2 bg-[#473b33] rounded-[5px] font-medium text-[15px] text-bgData mb-0 text-center mx-auto">
-              ** Your Can SignIn With this Email {userDeatail?.email} **
-            </p>
+                  <p className="mt-0 mb-6 text-bgDataNew font-poppins border-none w-fit px-4 py-2 bg-[#473b33] rounded-[5px] font-medium text-[15px] text-bgData mb-0 text-center mx-auto">
+                    ** Your Can SignIn With this Email {userDeatail?.email} **
+                  </p>
                   <button
                     onClick={signIn}
                     className="px-4 py-2 bg-bgDataNew text-white rounded-lg text-lg hover:bg-blue-700 transition"
@@ -436,5 +435,7 @@ const Tab = ({ text, active, badge, badgeColor }) => {
     </div>
   );
 };
+
+
 
 export default Gmail;
