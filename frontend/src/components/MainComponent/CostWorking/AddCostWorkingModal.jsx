@@ -24,7 +24,7 @@ const AddCostWorkingModal = ({
   handleCostWorkingCustomerChange,
   customerAddress,
 }) => {
-  console.log("costWorkingData", costWorkingData);
+  //console.log("costWorkingData", costWorkingData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -344,45 +344,6 @@ const AddCostWorkingModal = ({
                         </option>
                       ))}
                     </select>
-
-                    {/* <select
-                      name="product_id"
-                      value={product.product_id || ""}
-                      onChange={(e) => handleProductChange(e, index)}
-                      className="block w-full rounded-[5px] border px-3 py-2"
-                    >
-                      <option value="">Select Product</option>
-                      {allProducts?.data?.map((prod) => (
-                        <option key={prod.id} value={prod.id}>
-                          {prod.product_name}
-                        </option>
-                      ))}
-                    </select> */}
-
-                    {/* Other Input Fields (excluding total_material_cost) */}
-                    {/* {[
-                      "unit",
-                      "qty_for",
-                      "std_pak",
-                      "std_basic_rate",
-                      "basic_amount",
-                    ].map((field) => (
-                      <input
-                        key={field}
-                        type="text"
-                        name={field}
-                        value={product[field] || ""}
-                        onChange={(e) => handleProductChange(e, index)}
-                        placeholder={field
-                          .split("_")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}
-                        className="block w-full rounded-[5px] border px-3 py-2"
-                      />
-                    ))} */}
 
                     {fields.map(({ name, placeholder }) => (
                       <input

@@ -538,6 +538,19 @@ const getCustomerAddresses = async (req, res) => {
       attributes: ["name", "id","customer_id"],
     });
 
+    const businessAssociates = await BusinessAssociate.findAll({
+      where: { customer_id: id },
+      attributes: [
+        "id",
+        "code",
+        "associate_name",
+        "status",
+        "email",
+        "phone_no",
+        "customer_id"
+      ],
+    });
+
     // Build the response
     res.status(200).json({
       success: true,
@@ -546,6 +559,7 @@ const getCustomerAddresses = async (req, res) => {
         customer_id: id,
         addresses: customerAddress,
         contact_persons: contactPersons,
+        business_associates: businessAssociates,
       },
     });
   } catch (error) {

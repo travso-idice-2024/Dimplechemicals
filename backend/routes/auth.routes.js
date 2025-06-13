@@ -117,6 +117,7 @@ const{
 const { listCategories } = require('../controllers/category.controller');
 const {getLeadProducts} = require('../controllers/dealDataController');
 const {getAllPincodes,getAreaByPincode,getCityByAreaname} = require('../controllers/mytable.controller');
+const { addAnnualBusinessPlan , getAnnualBusinessPlanList } = require('../controllers/businessPlanController');
 
 
 const authMiddleware = require("../middlewares/auth.middleware");
@@ -259,6 +260,10 @@ router.post("/delete-product-from-lead", authMiddleware,deleteProductFromLead);
 router.get("/products-export",authMiddleware, exportProductsToExcel);
 router.get("/costworking/export",authMiddleware, exportCostWorkingListToExcel);
 router.get("/export-after-meeting",authMiddleware, exportLeadsAfterMeetingToExcel);
+
+router.post('/submit-annual-plan',authMiddleware , addAnnualBusinessPlan);
+//router.get('/business-plan/:id',authMiddleware, getAnnualBusinessPlanDetails);
+router.get('/business-plan',authMiddleware, getAnnualBusinessPlanList);
 
 
 module.exports = router;
