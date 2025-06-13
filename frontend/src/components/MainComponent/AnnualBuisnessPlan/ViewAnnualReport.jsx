@@ -3,7 +3,12 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const ViewAnnualReport = ({ setIsAnnualListTable }) => {
+const ViewAnnualReport = ({
+  setIsAnnualListTable,
+  selectedABP,
+  setSelectedABP,
+}) => {
+  console.log("selectedABP", selectedABP);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const profileRef = useRef(null);
@@ -21,40 +26,6 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const countryOptions = [
-    { value: "india", label: "India" },
-    { value: "usa", label: "USA" },
-    { value: "canada", label: "Canada" },
-  ];
-
-  const stateOptions = [
-    { value: "maharashtra", label: "Maharashtra" },
-    { value: "gujarat", label: "Gujarat" },
-    { value: "california", label: "California" },
-    { value: "ontario", label: "Ontario" },
-  ];
-
-  const cityOptions = [
-    { value: "mumbai", label: "Mumbai" },
-    { value: "ahmedabad", label: "Ahmedabad" },
-    { value: "los_angeles", label: "Los Angeles" },
-    { value: "toronto", label: "Toronto" },
-  ];
-
-  const departmentOptions = [
-    { value: "IT", label: "IT" },
-    { value: "HR", label: "HR" },
-    { value: "Sales", label: "Sales" },
-    { value: "Marketing", label: "Marketing" },
-  ];
-
-  const technologyOptions = [
-    { value: "HTML", label: "HTML" },
-    { value: "CSS", label: "CSS" },
-    { value: "ReactJS", label: "React" },
-    { value: "NodeJS", label: "NodeJS" },
-  ];
 
   return (
     <>
@@ -85,7 +56,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                         :
                       </td>
                       <td className="py-2 px-4 text-right text-gray-800 w-[55%]">
-                        RAM KUMAR
+                        {selectedABP?.employee?.fullname}
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
@@ -94,7 +65,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       </td>
                       <td className="py-2 text-center align-middle">:</td>
                       <td className="py-2 px-4 text-right text-gray-800">
-                        GH123
+                        {selectedABP?.employee?.emp_id}
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
@@ -103,7 +74,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       </td>
                       <td className="py-2 text-center align-middle">:</td>
                       <td className="py-2 px-4 text-right text-gray-800">
-                        HTLP2150
+                        {selectedABP?.associate?.code}
                       </td>
                     </tr>
                   </tbody>
@@ -118,39 +89,14 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                     <div className="flex flex-col items-start">
                       <h2 className="font-bai text-[12px] text-white datashowname">
                         <span className="full-name whitespace-nowrap">
-                          3 month
+                          {selectedABP?.for_month} month
                         </span>
                       </h2>
-                    </div>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        className="text-white text-[12px] mb-[2px]"
-                      />
                     </div>
                   </div>
 
                   {/* <span className="notification-btn-dot"></span> */}
                 </button>
-
-                {isProfileOpen && (
-                  <div className="absolute right-0 w-fit bg-white bordernewdata shadow-lg rounded-[5px] p-2 mt-1 z-10">
-                    <div className="border-b">
-                      <h2 className="font-bai text-[12px] text-black">
-                        <span className="full-name">3 month</span>
-                      </h2>
-                      <h2 className="font-bai text-[12px] text-black">
-                        <span className="full-name">6 month</span>
-                      </h2>
-                      <h2 className="font-bai text-[12px] text-black">
-                        <span className="full-name">9 month</span>
-                      </h2>
-                      <h2 className="font-bai text-[12px] text-black">
-                        <span className="full-name">12 month</span>
-                      </h2>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
@@ -193,19 +139,19 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       >
                         Location
                       </td>
-                      <td
+                      {/* <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         Country
-                      </td>
+                      </td> */}
                     </tr>
                     <tr className="text-center">
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        Rohan Gupta
+                        {selectedABP?.customer?.company_name}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -223,14 +169,14 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        Kalyaan
+                        {selectedABP?.location}
                       </td>
-                      <td
+                      {/* <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         India
-                      </td>
+                      </td> */}
                     </tr>
                   </tbody>
                 </table>
@@ -255,12 +201,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       >
                         Conatct no.
                       </td>
-                      <td
-                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={1}
-                      >
-                        Department
-                      </td>
+
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
@@ -271,7 +212,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                       Email Id
+                        Email Id
                       </td>
                     </tr>
                     <tr className="text-center">
@@ -279,37 +220,32 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        Ravi Kumar
+                        {selectedABP?.contactPerson?.name}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        +91 9852456981
+                        +91 {selectedABP?.contactPerson?.phone_no}
                       </td>
+
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
-                        IT
-                      </td>
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={1}
-                      >
-                        Indore
+                        {selectedABP?.contactPerson?.designation}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        info@halideschemicals.com
+                        {selectedABP?.contactPerson?.email}
                       </td>
                     </tr>
                   </tbody>
                 </table>
                 {/* Third Table */}
-                 <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
+                <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
                   {/* Same colgroup: 8 columns of 12.5% each */}
                   <colgroup>
                     <col span="8" style={{ width: "12.5%" }} />
@@ -320,7 +256,7 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                         Project Name
+                        Project Name
                       </td>
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -334,41 +270,26 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       >
                         Buisness Potential
                       </td>
-                      <td
-                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        Technology
-                      </td>
-                      
-                     
                     </tr>
                     <tr className="text-center">
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        High CHemicals
+                        {selectedABP?.project_name}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        500
+                        {selectedABP?.area_mtr2}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        High
+                        {selectedABP?.buisness_potential}
                       </td>
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        React and AI
-                      </td>
-                      
                     </tr>
                   </tbody>
                 </table>
@@ -444,6 +365,12 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                         class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
                         colspan="2"
                       >
+                        Technology Used
+                      </td>
+                      <td
+                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                        colspan="2"
+                      >
                         Product Name
                       </td>
                       <td class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
@@ -484,50 +411,58 @@ const ViewAnnualReport = ({ setIsAnnualListTable }) => {
                       </td>
                     </tr>
 
-                    <tr class="text-center">
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Halides Chemicals
-                      </td>
-                      <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        10
-                      </td>
-                      <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        ₹500
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        ₹5,000
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        ₹900
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        ₹5,900
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        ₹590
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        ₹5,310
-                      </td>
-                    </tr>
+                    {selectedABP?.products?.map((product, index) => (
+                      <tr class="text-center" key={index}>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          {product?.category?.category_name}
+                        </td>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          {product?.product?.product_name}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {product?.qty}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {product?.rate}
+                        </td>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          {product?.value_in_rs}
+                        </td>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          ₹{product?.gst_amt}
+                        </td>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          ₹{product?.gross_sale_include_gst}
+                        </td>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          ₹{product?.commission}
+                        </td>
+                        <td
+                          class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                          colspan="2"
+                        >
+                          ₹{product?.net_sale}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

@@ -47,7 +47,7 @@ export const fetchUserWithRole = createAsyncThunk(
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/employeeList`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: { roleId: roleId ,all: true}, // Fetch all users
+        params: { roleId: roleId, all: true }, // Fetch all users
       });
       return response.data;
     } catch (error) {
@@ -174,7 +174,7 @@ export const removeUser = createAsyncThunk(
 //emp report month year wise
 export const EmpReportMonthYearWise = createAsyncThunk(
   "auth/allEmployeeData",
-  async ({ month="", year="" }, { rejectWithValue }) => {
+  async ({ month = "", year = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/allEmployeeData`, {
@@ -205,7 +205,6 @@ export const EmpReportDepartmentWise = createAsyncThunk(
   }
 );
 
-
 //emp report location wise report
 export const EmpReportLocationWise = createAsyncThunk(
   "auth/employee-location",
@@ -226,16 +225,21 @@ export const EmpReportLocationWise = createAsyncThunk(
 //emp check in checkout report
 export const EmpCheckInCheckOutReportData = createAsyncThunk(
   "auth/checkin-checkout-report",
-  async ({ month="", emp_id="",day="" }, { rejectWithValue }) => {
+  async ({ month = "", emp_id = "", day = "" }, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/checkin-checkout-report`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { month, emp_id ,day },
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/checkin-checkout-report`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { month, emp_id, day },
+        }
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch check in checkout data");
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch check in checkout data"
+      );
     }
   }
 );
@@ -247,7 +251,7 @@ export const fetchLeaveData = createAsyncThunk(
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/leave`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     } catch (error) {
@@ -285,17 +289,56 @@ export const updateLeaveData = createAsyncThunk(
   }
 );
 
+// ✅ Add Anual bussiness plan
+export const addAnualBussinessPlan = createAsyncThunk(
+  "auth/addAnualBussinessPlan",
+  async (data, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.post(
+        `${API_URL}/auth/submit-annual-plan`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to add anual bussiness plan"
+      );
+    }
+  }
+);
+
+export const listABP = createAsyncThunk(
+  "auth/listABP",
+  async ({ page = 1, limit = 20, search = "", monthWise }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/business-plan`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, limit, search, monthWise },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch ABP");
+    }
+  }
+);
+
 // 🔹 USER SLICE
 const userSlice = createSlice({
   name: "user",
   initialState: {
     users: [],
+    anualbsplan: [],
     allusers: [],
-    leaveData:[],
-    empCinCotData:[],
-    emplocationData:[],
-    empData:[],
-    empDepartData:[],
+    leaveData: [],
+    empCinCotData: [],
+    emplocationData: [],
+    empData: [],
+    empDepartData: [],
     userDataWithRole: [],
     userLoading: false,
     userError: null,
@@ -330,8 +373,6 @@ const userSlice = createSlice({
         state.userError = action.payload;
       })
 
-
-      
       .addCase(EmpCheckInCheckOutReportData.pending, (state) => {
         state.userLoading = true;
         state.userError = null;
@@ -344,7 +385,6 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
-
 
       .addCase(EmpReportLocationWise.pending, (state) => {
         state.userLoading = true;
@@ -371,7 +411,6 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
-      
 
       .addCase(EmpReportMonthYearWise.pending, (state) => {
         state.userLoading = true;
@@ -412,6 +451,21 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
+
+       .addCase(listABP.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(listABP.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.anualbsplan = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(listABP.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
       .addCase(addUser.pending, (state) => {
         state.userLoading = true;
         state.userError = null;
@@ -420,18 +474,25 @@ const userSlice = createSlice({
         // ✅ Add new customer to existing state without re-fetching
         state.users.data = [action.payload.data, ...state.users.data];
       })
-      // .addCase(addUser.fulfilled, (state, action) => {
-      //   state.userLoading = false;
-      //   if (Array.isArray(state.users)) {
-      //     state.users.push(action.payload.data);
-      //   } else {
-      //     state.users = [action.payload.data];
-      //   }
-      // })
       .addCase(addUser.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = action.payload;
       })
+
+      .addCase(addAnualBussinessPlan.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(addAnualBussinessPlan.fulfilled, (state, action) => {
+        // ✅ directly push into anualbsplan array
+        state.anualbsplan = [action.payload.data, ...state.anualbsplan];
+        state.userLoading = false;
+      })
+      .addCase(addAnualBussinessPlan.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
       .addCase(updateUser.pending, (state) => {
         state.userLoading = true;
         state.userError = null;
@@ -479,7 +540,7 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = action.payload;
       })
-      
+
       .addCase(removeUser.pending, (state) => {
         state.userLoading = true;
         state.userError = null;
