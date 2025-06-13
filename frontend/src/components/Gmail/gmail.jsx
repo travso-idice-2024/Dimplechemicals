@@ -32,7 +32,7 @@ import ComposeEmail from "./ComposeEmail";
 import Inbox from "./Inbox";
 import CreateLabelForm from "./CreateLabelForm";
 import LabelEmailForm from "./LabelEmailForm";
-import ContentTop from "../ContentTop/ContentTop"
+import ContentTop from "../ContentTop/ContentTop";
 import { fetchCurrentUser } from "../../redux/authSlice";
 
 const Gmail = () => {
@@ -55,8 +55,8 @@ const Gmail = () => {
   } = useGmailAuth();
 
   useEffect(() => {
-        dispatch(fetchCurrentUser());
-      }, [dispatch]);
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   //console.log("Token for profile:", gmailAccessToken);
 
@@ -140,8 +140,7 @@ const Gmail = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
-        
+      <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-2 py-2 overflow-auto">
         {/* Uma Maam Code */}
         <div className="font-sans">
           {/* Header */}
@@ -155,24 +154,22 @@ const Gmail = () => {
               />
             </div>
             {/* Search Box */}
-            {
-              gmailisAuthenticated && (
-<div className="flex items-center bg-white px-4 py-2 rounded-[15px] w-1/2">
-              <FontAwesomeIcon icon={faSearch} className="text-gray-600" />
-              <input
-                type="text"
-                placeholder="Search mail"
-                className="bg-transparent outline-none px-2 w-full text-sm text-black"
-              />
-            </div>
-              )
-            }
-            
+            {gmailisAuthenticated && (
+              <div className="flex items-center bg-white px-4 py-2 rounded-[15px] w-1/2">
+                <FontAwesomeIcon icon={faSearch} className="text-gray-600" />
+                <input
+                  type="text"
+                  placeholder="Search mail"
+                  className="bg-transparent outline-none px-2 w-full text-sm text-black"
+                />
+              </div>
+            )}
+
             {/* Right Icons */}
             {/* <div className="relative flex items-center gap-4"> */}
 
-              {/* User Avatar */}
-              {/* <div className="relative">
+            {/* User Avatar */}
+            {/* <div className="relative">
                 <div
                   className="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-300"
                   onClick={() => setDropdownOpenGMail(!dropdownOpenGMail)}
@@ -191,7 +188,7 @@ const Gmail = () => {
               </div> */}
             {/* </div> */}
           </div>
-          <div className="flex h-screen font-sans">
+          <div className="flex h-[530px] font-sans">
             {/* Sidebar */}
             {gmailisAuthenticated && (
               <aside className="w-52 bg-[#f1f3f4] border-r border-gray-300 p-4 space-y-3 rounded-bl-[5px]">
@@ -225,7 +222,7 @@ const Gmail = () => {
                     activeView={activeView}
                     setActiveView={setActiveView}
                   />
-                  
+
                   <div className="pt-4 border-t border-gray-300">
                     <CreateLabelForm
                       createLabel={createLabel}
@@ -277,7 +274,7 @@ const Gmail = () => {
                               icon={faFolderOpen}
                               className="mr-2 text-gray-600"
                             />
-                            <span className="text-gray-800">{label.name}</span>
+                            <span className="text-gray-800 text-[14px]">{label.name}</span>
                           </div>
                           <FontAwesomeIcon
                             icon={faTimes}
@@ -334,7 +331,7 @@ const Gmail = () => {
                       <img
                         src={userProfile?.picture}
                         alt="Profile"
-                        className="w-10 h-10 rounded-full"
+                        className="w-10 h-10 rounded-full border border-gray-400 p-[2px]"
                       />
                       <div>
                         <h3 className="text-[15px] font-semibold text-black">
@@ -435,7 +432,5 @@ const Tab = ({ text, active, badge, badgeColor }) => {
     </div>
   );
 };
-
-
 
 export default Gmail;

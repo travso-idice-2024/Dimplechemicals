@@ -17,7 +17,6 @@ const Inbox = ({
   const [pdfToOpen, setPdfToOpen] = useState(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-
   const getInbox = async () => {
     try {
       const msgs = await fetchInboxMessages(labelName);
@@ -73,7 +72,7 @@ const Inbox = ({
 
   const handleConfirmPassword = (enteredPassword) => {
     const correctPassword = "yourSecret123"; // or fetch dynamically based on attachment if needed
-  
+
     if (enteredPassword === correctPassword) {
       const byteCharacters = atob(pdfToOpen.dataUrl.split(",")[1]);
       const byteNumbers = new Array(byteCharacters.length)
@@ -86,7 +85,7 @@ const Inbox = ({
     } else {
       alert("Incorrect password.");
     }
-  
+
     setIsPasswordModalOpen(false);
   };
 
@@ -94,8 +93,6 @@ const Inbox = ({
     setPdfToOpen(att);
     setIsPasswordModalOpen(true);
   };
-  
-  
 
   return (
     <div className="p-4">
@@ -167,41 +164,42 @@ const Inbox = ({
                 </div>
               ))}
 
-{selectedMessage.attachments &&
-  selectedMessage.attachments
-    .filter((att) => att.mimeType === "application/pdf")
-    .map((att, idx) => (
-      <div key={idx} className="mt-4 flex items-center gap-4 border p-3 rounded shadow">
-        <img
-          src="/pdf-icon.png" // use your own PDF icon here
-          alt="PDF"
-          className="w-12 h-12"
-        />
-        <div>
-          <strong className="block">{att.filename}</strong>
-          <div className="flex gap-3 mt-2">
-            {/* Download button */}
-            <a
-              href={att.dataUrl}
-              download={att.filename}
-              className="text-blue-600 underline cursor-pointer"
-            >
-              Download
-            </a>
+          {selectedMessage.attachments &&
+            selectedMessage.attachments
+              .filter((att) => att.mimeType === "application/pdf")
+              .map((att, idx) => (
+                <div
+                  key={idx}
+                  className="mt-4 flex items-center gap-4 border p-3 rounded shadow"
+                >
+                  <img
+                    src="/pdf-icon.png" // use your own PDF icon here
+                    alt="PDF"
+                    className="w-12 h-12"
+                  />
+                  <div>
+                    <strong className="block">{att.filename}</strong>
+                    <div className="flex gap-3 mt-2">
+                      {/* Download button */}
+                      <a
+                        href={att.dataUrl}
+                        download={att.filename}
+                        className="text-blue-600 underline cursor-pointer"
+                      >
+                        Download
+                      </a>
 
-            {/* View in new tab */}
-            <a
-  onClick={() => openProtectedPDF(att)}
-  className="text-green-600 underline cursor-pointer"
->
-  View (Protected)
-</a>
-
-          </div>
-        </div>
-      </div>
-    ))}
-
+                      {/* View in new tab */}
+                      <a
+                        onClick={() => openProtectedPDF(att)}
+                        className="text-green-600 underline cursor-pointer"
+                      >
+                        View (Protected)
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
         </div>
       ) : (
         // Show the list of emails when no message is selected
