@@ -90,7 +90,7 @@ const EmployeeLocationWiseReport = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div>
-              <h1 className="text-white text-[14px] font-semibold flex items-center">
+              <h1 className="text-white text-[14px] font-semibold flex items-center cursor-pointer" onClick={() => navigate(-1)}>
                 <svg
                   width="25"
                   height="25"
@@ -108,7 +108,7 @@ const EmployeeLocationWiseReport = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Employee Report By Location Wise
+                <span className="border border-gray-300 px-3 rounded-[5px]">Back</span> &nbsp;&nbsp;&nbsp;Employee Report By Location Wise
               </h1>
             </div>
 

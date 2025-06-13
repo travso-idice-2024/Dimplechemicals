@@ -56,7 +56,7 @@ export const LeadFollowList = () => {
               
             </div>*/}
             <div>
-              <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center">
+              <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center cursor-pointer" onClick={() => navigate(-1)}>
                 <svg
                   width="25"
                   height="25"
@@ -74,7 +74,7 @@ export const LeadFollowList = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Lead Follow Up
+                <span className="border border-gray-300 px-3 rounded-[5px]">Back</span> &nbsp;&nbsp;&nbsp;Lead Follow Up
               </h1>
             </div>
             <div className="flex items-start md:items-center flex-col md:flex-row gap-[5px]">

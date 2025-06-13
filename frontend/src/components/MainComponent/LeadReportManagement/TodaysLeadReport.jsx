@@ -60,14 +60,14 @@ const TodaysLeadReport = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-row md:flex-row justify-between">
             <div>
-              <h1 className="text-white text-[14px] font-semibold flex items-center">
+              <h1 className="text-white text-[14px] font-semibold flex items-center cursor-pointer" onClick={() => navigate(-1)}>
                 <svg
                   width="25"
                   height="25"
                   viewBox="0 0 36 36"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  onClick={() => navigate(-1)}
+                  
                   className="cursor-pointer"
                 >
                   <path
@@ -78,7 +78,7 @@ const TodaysLeadReport = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Todays Leads 
+               <span className="border border-gray-300 px-3 rounded-[5px]">Back</span> &nbsp;&nbsp;&nbsp; Todays Leads 
               </h1>
             </div>
             <button
