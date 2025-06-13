@@ -295,15 +295,15 @@ const Gmail = () => {
             {showConfirm && (
               <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
                 <div className="bg-white rounded-xl p-6 w-80 shadow-lg">
-                  <h2 className="text-lg font-semibold mb-4">Remove label</h2>
-                  <p className="mb-6">
+                  <h2 className="text-lg font-semibold mb-4 text-black">Remove label</h2>
+                  <p className="mb-6 text-black">
                     Delete the label{" "}
                     <span className="font-medium">"{labelToDelete.name}"</span>?
                   </p>
                   <div className="flex justify-end space-x-4">
                     <button
                       onClick={() => setShowConfirm(false)}
-                      className="text-gray-600 hover:text-gray-800"
+                      className="bg-gray-500 text-gray-100 hover:text-gray-200 px-3 rounded-[5px]"
                     >
                       Cancel
                     </button>
