@@ -93,7 +93,7 @@ const LeadBySourceReport = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row gap-[10px] md:gap-[0px] md:justify-between">
             <div>
-              <h1 className="text-white text-[14px] font-semibold flex items-center">
+              <h1 className="text-white text-[14px] font-semibold flex items-center cursor-pointer" onClick={() => navigate(-1)}>
                 <svg
                   width="25"
                   height="25"
@@ -111,7 +111,7 @@ const LeadBySourceReport = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Leads by Source
+                <span className="border border-gray-300 px-3 rounded-[5px]">Back</span> &nbsp;&nbsp;&nbsp;Leads by Source
               </h1>
               {/* <input
               type="search"

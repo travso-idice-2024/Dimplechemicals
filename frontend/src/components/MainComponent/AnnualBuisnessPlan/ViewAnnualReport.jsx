@@ -31,7 +31,7 @@ const ViewAnnualReport = ({
     <>
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1200px]  rounded-[6px]">
+        <div className="bg-white w-full md:w-[1400px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             View Report
           </h2>
@@ -110,10 +110,10 @@ const ViewAnnualReport = ({
                 <table className="table-fixed w-full text-left border-collapse border border-gray-400">
                   {/* 8 columns, each 12.5% */}
                   <colgroup>
-                    <col span="8" style={{ width: "12.5%" }} />
+                    <col span="10" style={{ width: "12.5%" }} />
                   </colgroup>
                   <tbody>
-                    <tr className="text-center">
+                    <tr className="text-left">
                       {/* colspan values sum to 8 */}
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -139,14 +139,20 @@ const ViewAnnualReport = ({
                       >
                         Location
                       </td>
-                      {/* <td
+                      <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        Country
-                      </td> */}
+                        Contact Person	
+                      </td>
+                       <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Conatct no.	
+                      </td>
                     </tr>
-                    <tr className="text-center">
+                    <tr className="text-left">
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
@@ -171,12 +177,18 @@ const ViewAnnualReport = ({
                       >
                         {selectedABP?.location}
                       </td>
-                      {/* <td
+                      <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        India
-                      </td> */}
+                        {selectedABP?.contactPerson?.name}
+                      </td>
+                       <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        +91 {selectedABP?.contactPerson?.phone_no}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -185,26 +197,15 @@ const ViewAnnualReport = ({
                 <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
                   {/* Same colgroup: 8 columns of 12.5% each */}
                   <colgroup>
-                    <col span="8" style={{ width: "12.5%" }} />
+                    <col span="10" style={{ width: "12.5%" }} />
                   </colgroup>
                   <tbody>
-                    <tr className="text-center">
-                      <td
-                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        Contact Person
-                      </td>
-                      <td
-                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        Conatct no.
-                      </td>
+                    <tr className="text-left">
+                      
 
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={1}
+                        colSpan={2}
                       >
                         Designation
                       </td>
@@ -214,44 +215,6 @@ const ViewAnnualReport = ({
                       >
                         Email Id
                       </td>
-                    </tr>
-                    <tr className="text-center">
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        {selectedABP?.contactPerson?.name}
-                      </td>
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        +91 {selectedABP?.contactPerson?.phone_no}
-                      </td>
-
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={1}
-                      >
-                        {selectedABP?.contactPerson?.designation}
-                      </td>
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        {selectedABP?.contactPerson?.email}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                {/* Third Table */}
-                <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
-                  {/* Same colgroup: 8 columns of 12.5% each */}
-                  <colgroup>
-                    <col span="8" style={{ width: "12.5%" }} />
-                  </colgroup>
-                  <tbody>
-                    <tr className="text-center">
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
@@ -271,8 +234,22 @@ const ViewAnnualReport = ({
                         Buisness Potential
                       </td>
                     </tr>
-                    <tr className="text-center">
+                    <tr className="text-left">
+                      
+
                       <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        {selectedABP?.contactPerson?.designation}
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        {selectedABP?.contactPerson?.email}
+                      </td>
+                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
@@ -293,62 +270,8 @@ const ViewAnnualReport = ({
                     </tr>
                   </tbody>
                 </table>
-                {/* <table class="table-auto w-full text-left border-collapse border border-gray-400 mt-2">
-                  <tbody>
-                    <tr className="text-center">
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Business Potential
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Location
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Department
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Project Name / Application Area
-                      </td>
-                    </tr>
-                    <tr className="text-center">
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        High
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        MIDC, Andheri
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Purchase
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        New Chemical Plant
-                      </td>
-                    </tr>
-                  </tbody>
-                </table> */}
+                
+              
               </div>
             </div>
 
@@ -360,7 +283,7 @@ const ViewAnnualReport = ({
               <div class="px-[1px] overflow-x-auto">
                 <table class="table-auto w-full text-left border-collapse border border-gray-400">
                   <tbody>
-                    <tr class="text-center">
+                    <tr class="text-left">
                       <td
                         class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
                         colspan="2"
@@ -412,7 +335,7 @@ const ViewAnnualReport = ({
                     </tr>
 
                     {selectedABP?.products?.map((product, index) => (
-                      <tr class="text-center" key={index}>
+                      <tr class="text-left" key={index}>
                         <td
                           class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
                           colspan="2"

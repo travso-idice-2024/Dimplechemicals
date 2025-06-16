@@ -87,7 +87,7 @@ const ConvertedLeadReport = () => {
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-center flex-row justify-between ">
             <div>
-              <h1 className="text-white text-[14px] font-semibold flex items-center">
+              <h1 className="text-white text-[14px] font-semibold flex items-center cursor-pointer" onClick={() => navigate(-1)}>
                 <svg
                   width="25"
                   height="25"
@@ -105,7 +105,7 @@ const ConvertedLeadReport = () => {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                Converted Leads
+                <span className="border border-gray-300 px-3 rounded-[5px]">Back</span> &nbsp;&nbsp;&nbsp;Converted Leads
               </h1>
             </div>
 

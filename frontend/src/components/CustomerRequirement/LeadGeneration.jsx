@@ -33,7 +33,7 @@ const LeadGeneration = () => {
       <div className="flex flex-col gap-[20px]">
         <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
           <div>
-            <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center">
+            <h1 className="text-white text-textdata whitespace-nowrap font-semibold flex items-center cursor-pointer" onClick={() => navigate(-1)}>
               <svg
                 width="25"
                 height="25"
@@ -51,7 +51,7 @@ const LeadGeneration = () => {
                   strokeLinejoin="round"
                 ></path>
               </svg>
-              All Lead Generate Data
+              <span className="border border-gray-300 px-3 rounded-[5px]">Back</span> &nbsp;&nbsp;&nbsp;All Lead Generate Data
             </h1>
           </div>
         </div>
