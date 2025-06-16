@@ -9,7 +9,7 @@ function CategoryAutocomplete({ allCategories, handleProductChange, index,produc
   useEffect(() => {
     if (product?.technology_used && allCategories?.data?.length > 0) {
       const existingCategory = allCategories?.data.find(
-        (cat) => cat?.id === product?.technology_used
+        (cat) => cat?.id == product?.technology_used
       );
       if (existingCategory) {
         setSearch(existingCategory?.category_name);

@@ -337,15 +337,9 @@ const CustomerManageData = () => {
   };
 
   const handleEditSubmit = async (e) => {
-    //console.log("update function is calling.",selectedCustomer?.id, editFormData);
     e.preventDefault();
     if (validateEditInputs()) {
       try {
-        //console.log("editFormData",editFormData);
-        // console.log("Dispatching updateCustomer", {
-        //   id: selectedCustomer?.id,
-        //   customerData: editFormData,
-        // });
         const response = await dispatch(
           updateCustomer({
             id: selectedCustomer?.id,

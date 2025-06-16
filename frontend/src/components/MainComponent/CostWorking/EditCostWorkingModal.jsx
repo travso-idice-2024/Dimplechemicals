@@ -31,6 +31,7 @@ const EditCostWorkingModal = ({
   handleEditCostWorkingCustomerChange,
   customerAddress,
 }) => {
+  console.log("customerAddress",customerAddress);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const ViewAnnualReport = ({
-  setIsAnnualListTable,
+  setViewAnnualReportOpen,
   selectedABP,
   setSelectedABP,
 }) => {
@@ -121,7 +121,7 @@ const ViewAnnualReport = ({
                       >
                         Customer Name
                       </td>
-                      <td
+                      {/* <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
@@ -132,7 +132,7 @@ const ViewAnnualReport = ({
                         colSpan={1}
                       >
                         City
-                      </td>
+                      </td> */}
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
@@ -153,7 +153,7 @@ const ViewAnnualReport = ({
                       >
                         {selectedABP?.customer?.company_name}
                       </td>
-                      <td
+                      {/* <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
@@ -164,7 +164,7 @@ const ViewAnnualReport = ({
                         colSpan={1}
                       >
                         Mumbai
-                      </td>
+                      </td> */}
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
@@ -473,7 +473,7 @@ const ViewAnnualReport = ({
             <button
               type="button"
               className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-              onClick={() => setIsAnnualListTable(false)}
+              onClick={() => setViewAnnualReportOpen(false)}
             >
               Close
             </button>

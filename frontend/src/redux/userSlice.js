@@ -313,7 +313,10 @@ export const addAnualBussinessPlan = createAsyncThunk(
 
 export const listABP = createAsyncThunk(
   "auth/listABP",
-  async ({ page = 1, limit = 20, search = "", monthWise }, { rejectWithValue }) => {
+  async (
+    { page = 1, limit = 20, search = "", monthWise },
+    { rejectWithValue }
+  ) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/business-plan`, {
@@ -323,6 +326,27 @@ export const listABP = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to fetch ABP");
+    }
+  }
+);
+
+export const updateAnualBussinessPlan = createAsyncThunk(
+  "auth/updateAnualBussinessPlan",
+  async ({ id, abpData }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.put(
+        `${API_URL}/auth/update-business-plan/${id}`,
+        abpData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to update annual business plan."
+      );
     }
   }
 );
@@ -452,7 +476,7 @@ const userSlice = createSlice({
         state.userError = action.payload;
       })
 
-       .addCase(listABP.pending, (state) => {
+      .addCase(listABP.pending, (state) => {
         state.userLoading = true;
         state.userError = null;
       })
@@ -484,11 +508,36 @@ const userSlice = createSlice({
         state.userError = null;
       })
       .addCase(addAnualBussinessPlan.fulfilled, (state, action) => {
-        // ✅ directly push into anualbsplan array
-        state.anualbsplan = [action.payload.data, ...state.anualbsplan];
+        if (action.payload?.data) {
+          state.anualbsplan.unshift(action.payload.data);
+        }
         state.userLoading = false;
       })
       .addCase(addAnualBussinessPlan.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
+      .addCase(updateAnualBussinessPlan.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(updateAnualBussinessPlan.fulfilled, (state, action) => {
+        state.userLoading = false;
+
+        if (!Array.isArray(state.anualbsplan)) {
+          state.anualbsplan = [];
+        }
+
+        const index = state.anualbsplan.findIndex(
+          (user) => user.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.anualbsplan[index] = action.payload;
+        }
+      })
+      .addCase(updateAnualBussinessPlan.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = action.payload;
       })

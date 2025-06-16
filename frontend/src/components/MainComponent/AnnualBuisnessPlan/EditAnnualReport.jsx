@@ -13,24 +13,23 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthToken = () => localStorage.getItem("token");
 
-const AddAnnualReport = ({
+const EditAnnualReport = ({
   userDeatail,
-  setIsAnnualModalOpen,
-  abpData,
-  setabpData,
-  abpFormErrors,
-  setabpErrors,
+  setIsEditABPModalOpen,
   selectedABP,
-  setSelectedABP,
-  abpFlashMessage,
-  abpFlashMsgType,
-  handleABPChange,
-  handleSubmitABP,
+  editAbpData,
+  setEditAbpData,
+  editFormErrors,
+  setEditFormErrors,
+  editFlashMessage,
+  editFlashMsgType,
+  handleEditFlashMessage,
+  handleEditABPChange,
+  handleEditABPSubmit,
   allCustomers,
   customerAddress,
-  handleABPCustomerChange,
+  handleEditABPCustomerChange
 }) => {
-  console.log("abpData",abpData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -47,7 +46,7 @@ const AddAnnualReport = ({
 
   // Function to add a new product entry
   const handleAddProduct = () => {
-    setabpData((prevData) => ({
+    setEditAbpData((prevData) => ({
       ...prevData,
       products: [
         ...prevData.products,
@@ -79,7 +78,7 @@ const AddAnnualReport = ({
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      // console.log(response.data.data);
+      console.log(response.data.data);
 
       return response.data.data; // assuming your API responds with { data: [...] }
     } catch (error) {
@@ -88,12 +87,32 @@ const AddAnnualReport = ({
     }
   };
 
+  useEffect(() => {
+      const loadProductOptionsForEdit = async () => {
+        const optionsArray = [...productOptions]; // clone
+  
+        for (let i = 0; i < editAbpData?.products?.length; i++) {
+          const prod = editAbpData?.products[i];
+          if (prod.technology_used) {
+            const products = await fetchProductsByCategory(prod.technology_used);
+            optionsArray[i] = products;
+          }
+        }
+  
+        setProductOptions(optionsArray);
+      };
+  
+      if (editAbpData?.products?.length > 0) {
+        loadProductOptionsForEdit();
+      }
+    }, [editAbpData?.products]);
+
   const handleRemoveProduct = (index) => {
-    const updatedProducts = [...abpData.products];
+    const updatedProducts = [...editAbpData.products];
     updatedProducts.splice(index, 1);
 
-    setabpData({
-      ...abpData,
+    setEditAbpData({
+      ...editAbpData,
       products: updatedProducts,
     });
   };
@@ -101,7 +120,7 @@ const AddAnnualReport = ({
   const handleProductChange = async (e, index) => {
     const { name, value } = e.target;
 
-    const updatedProducts = [...abpData.products];
+    const updatedProducts = [...editAbpData.products];
     const productToUpdate = { ...updatedProducts[index] };
 
     // Update the selected field value
@@ -113,7 +132,7 @@ const AddAnnualReport = ({
     // If category changed, fetch new product list for this row
     if (name === "technology_used") {
       const products = await fetchProductsByCategory(value);
-      console.log("products",products);
+      //console.log("products",products);
       setProductOptions((prev) => {
         const updatedOptions = [...prev];
         updatedOptions[index] = products;
@@ -122,8 +141,8 @@ const AddAnnualReport = ({
     }
 
     // Update the overall state
-    setabpData({
-      ...abpData,
+    setEditAbpData({
+      ...editAbpData,
       products: updatedProducts,
     });
   };
@@ -165,32 +184,6 @@ const AddAnnualReport = ({
     };
   }, []);
 
-  // const countryOptions = [
-  //   { value: "india", label: "India" },
-  //   { value: "usa", label: "USA" },
-  //   { value: "canada", label: "Canada" },
-  // ];
-
-  // const customerOptions = [
-  //   { value: "SunFarma", label: "India" },
-  //   { value: "usa", label: "USA" },
-  //   { value: "canada", label: "Canada" },
-  // ]
-
-  // const stateOptions = [
-  //   { value: "maharashtra", label: "Maharashtra" },
-  //   { value: "gujarat", label: "Gujarat" },
-  //   { value: "california", label: "California" },
-  //   { value: "ontario", label: "Ontario" },
-  // ];
-
-  // const cityOptions = [
-  //   { value: "mumbai", label: "Mumbai" },
-  //   { value: "ahmedabad", label: "Ahmedabad" },
-  //   { value: "los_angeles", label: "Los Angeles" },
-  //   { value: "toronto", label: "Toronto" },
-  // ];
-
   const departmentOptions = [
     { value: "IT", label: "IT" },
     { value: "HR", label: "HR" },
@@ -198,28 +191,21 @@ const AddAnnualReport = ({
     { value: "Marketing", label: "Marketing" },
   ];
 
-  // const technologyOptions = [
-  //   { value: "HTML", label: "HTML" },
-  //   { value: "CSS", label: "CSS" },
-  //   { value: "ReactJS", label: "React" },
-  //   { value: "NodeJS", label: "NodeJS" },
-  // ];
-
   return (
     <>
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white w-full md:w-[1100px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
-            Add New Report
+            Update Report
           </h2>
 
           <div className="fixed top-5 right-5 z-50">
-            {abpFlashMessage && abpFlashMsgType === "success" && (
-              <SuccessMessage message={abpFlashMessage} />
+            {editFlashMessage && editFlashMsgType === "success" && (
+              <SuccessMessage message={editFlashMessage} />
             )}
-            {abpFlashMessage && abpFlashMsgType === "error" && (
-              <ErrorMessage message={abpFlashMessage} />
+            {editFlashMessage && editFlashMsgType === "error" && (
+              <ErrorMessage message={editFlashMessage} />
             )}
           </div>
 
@@ -256,12 +242,13 @@ const AddAnnualReport = ({
                   </tbody>
                 </table>
               </div>
+             
                   <div className="flex items-center gap-2">
                     <div className="flex flex-col items-start">
-                      <select
+                    <select
                       name="for_month"
-                      value={abpData.for_month || ""}
-                      onChange={handleABPChange}
+                      value={editAbpData.for_month || ""}
+                      onChange={handleEditABPChange}
                       className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                     >
                       <option value="">Select Duration</option>
@@ -280,8 +267,8 @@ const AddAnnualReport = ({
                     </div>
                   </div>
 
-
-                
+                  {/* <span className="notification-btn-dot"></span> */}
+               
             </div>
 
             <div className="mt-8 overflow-auto">
@@ -297,10 +284,10 @@ const AddAnnualReport = ({
                   <Select
                     options={customerOptions}
                     value={customerOptions.find(
-                      (option) => option.value === abpData.customer_id
+                      (option) => option.value === editAbpData.customer_id
                     )}
                     onChange={(selectedOption) =>
-                      handleABPCustomerChange({
+                      handleEditABPCustomerChange({
                         target: {
                           name: "customer_id",
                           value: selectedOption.value,
@@ -312,8 +299,8 @@ const AddAnnualReport = ({
                     isSearchable
                     filterOption={customFilterOption}
                   />
-                  {abpFormErrors?.customer_id && (
-                    <p className="text-red-500">{abpFormErrors?.customer_id}</p>
+                  {editFormErrors?.customer_id && (
+                    <p className="text-red-500">{editFormErrors?.customer_id}</p>
                   )}
                   {/* <Select
                     options={customerOptions}
@@ -330,17 +317,17 @@ const AddAnnualReport = ({
                   </label>
                   <select
                     name="location"
-                    value={abpData.location || ""}
-                    onChange={handleABPChange}
+                    value={editAbpData?.location || ""}
+                    onChange={handleEditABPChange}
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                   >
                     <option value="">Select the Address</option>
                     {customerAddress?.data?.addresses?.map((address, index) => (
                         <option
                         key={index}
-                         value={address.location}
+                        value={address.location}
                       >
-                         {address.location}
+                        {address.location}
                       </option>
                     ))}
                   </select>
@@ -353,11 +340,11 @@ const AddAnnualReport = ({
                   :{" "}
                   <select
                     name="associate_id"
-                    value={abpData.associate_id || ""}
-                    onChange={handleABPChange}
+                    value={editAbpData.associate_id || ""}
+                    onChange={handleEditABPChange}
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                   >
-                    <option value="">Select the Address</option>
+                    <option value="">Select the BA</option>
                     {customerAddress?.data?.business_associates?.map((associate, index) => (
                       <option key={index} value={associate.id}>
                         {associate.code}
@@ -426,8 +413,8 @@ const AddAnnualReport = ({
                   <label>Contact Person Name</label>
                   <select
                     name="contact_person_id"
-                    value={abpData?.contact_person_id || ""}
-                    onChange={handleABPChange}
+                    value={editAbpData?.contact_person_id || ""}
+                    onChange={handleEditABPChange}
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   >
                     <option value="">Select Contact Person</option>
@@ -441,9 +428,9 @@ const AddAnnualReport = ({
                       )
                     )}
                   </select>
-                  {abpFormErrors?.contact_persion_name && (
+                  {editFormErrors?.contact_persion_name && (
                     <p className="text-red-500">
-                      {abpFormErrors?.contact_person_id}
+                      {editFormErrors?.contact_person_id}
                     </p>
                   )}
                 </div>
@@ -454,14 +441,14 @@ const AddAnnualReport = ({
                   </label>
                   <input
                     name="project_name"
-                    value={abpData.project_name || ""}
-                    onChange={handleABPChange}
+                    value={editAbpData.project_name || ""}
+                    onChange={handleEditABPChange}
                     type="text"
                     placeholder="Project Name / Application Area"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                   {abpFormErrors?.project_name && (
-                    <p className="text-red-500">{abpFormErrors?.project_name}</p>
+                   {editFormErrors?.project_name && (
+                    <p className="text-red-500">{editFormErrors?.project_name}</p>
                   )}
                 </div>
 
@@ -518,14 +505,14 @@ const AddAnnualReport = ({
                   </label>
                   <input
                     name="area_mtr2"
-                    value={abpData.area_mtr2 || ""}
-                    onChange={handleABPChange}
+                    value={editAbpData.area_mtr2 || ""}
+                    onChange={handleEditABPChange}
                     type="number"
                     placeholder="Area in SqM"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                   {abpFormErrors?.area_mtr2 && (
-                    <p className="text-red-500">{abpFormErrors?.area_mtr2}</p>
+                   {editFormErrors?.area_mtr2 && (
+                    <p className="text-red-500">{editFormErrors?.area_mtr2}</p>
                   )}
                 </div>
 
@@ -535,14 +522,14 @@ const AddAnnualReport = ({
                   </label>
                   <input
                     name="buisness_potential"
-                    value={abpData.buisness_potential || ""}
-                    onChange={handleABPChange}
+                    value={editAbpData.buisness_potential || ""}
+                    onChange={handleEditABPChange}
                     type="number"
                     placeholder="Business Potential"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                    {abpFormErrors?.buisness_potential && (
-                    <p className="text-red-500">{abpFormErrors?.buisness_potential}</p>
+                    {editFormErrors?.buisness_potential && (
+                    <p className="text-red-500">{editFormErrors?.buisness_potential}</p>
                   )}
                 </div>
               </div>
@@ -554,7 +541,7 @@ const AddAnnualReport = ({
                 Product Details
               </h3>
               <div className="px-4">
-                {abpData.products.map((product, index) => (
+                {editAbpData.products.map((product, index) => (
                   <>
                     <h3 className=" text-bgDataNew font-poppins font-medium text-textdatanew text-bgData mt-5">
                       Product {index + 1} :
@@ -568,6 +555,7 @@ const AddAnnualReport = ({
                         allCategories={allCategories}
                         handleProductChange={handleProductChange}
                         index={index}
+                        product={product}
                       />
 
                       {/* Product ID as Dropdown */}
@@ -718,14 +706,14 @@ const AddAnnualReport = ({
             <button
               type="submit"
               className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-[#cb6f2ad9]"
-              onClick={handleSubmitABP}
+              onClick={handleEditABPSubmit}
             >
               Submit
             </button>
             <button
               type="button"
               className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-              onClick={() => setIsAnnualModalOpen(false)}
+              onClick={() => setIsEditABPModalOpen(false)}
             >
               Close
             </button>
@@ -736,4 +724,4 @@ const AddAnnualReport = ({
   );
 };
 
-export default AddAnnualReport;
+export default EditAnnualReport;

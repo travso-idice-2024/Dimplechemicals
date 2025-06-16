@@ -6,7 +6,12 @@ import ContentTop from "../../ContentTop/ContentTop";
 import AddAnnualReport from "./AddAnnualReport";
 import ListTableReport from "./ListTableReport";
 import ViewAnnualReport from "./ViewAnnualReport";
-import { addAnualBussinessPlan, listABP } from "../../../redux/userSlice";
+import EditAnnualReport from "./EditAnnualReport";
+import {
+  addAnualBussinessPlan,
+  listABP,
+  updateAnualBussinessPlan,
+} from "../../../redux/userSlice";
 import { fetchCurrentUser } from "../../../redux/authSlice";
 import {
   fetchAllCustomers,
@@ -17,14 +22,17 @@ const AnnualBuisnessReport = () => {
   const dispatch = useDispatch();
   const { anualbsplan } = useSelector((state) => state.user);
 
-  console.log("anualbsplan", anualbsplan);
+  
 
   const { user: userDeatail } = useSelector((state) => state.auth);
+
+  //console.log("userDeatail", userDeatail);
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
 
   const [selectedABP, setSelectedABP] = useState({});
+  const [isEditABPModalOpen, setIsEditABPModalOpen] = useState(false);
   //-------- New Pagination Code Start --------//
   const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
   //-------- New Pagination Code End --------//
@@ -32,7 +40,7 @@ const AnnualBuisnessReport = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [monthWise, setMonthWise] = useState(3);
+  const [monthWise, setMonthWise] = useState(null);
   const abpPerPage = entriesPerPageNewData ? entriesPerPageNewData : 20;
 
   useEffect(() => {
@@ -48,10 +56,17 @@ const AnnualBuisnessReport = () => {
         page: currentPage,
         limit: abpPerPage,
         search: searchTerm,
-        monthWise: monthWise
+        monthWise: monthWise,
       })
     );
-  }, [dispatch, currentPage, searchTerm, abpPerPage, monthWise, entriesPerPageNewData]);
+  }, [
+    dispatch,
+    currentPage,
+    searchTerm,
+    abpPerPage,
+    monthWise,
+    entriesPerPageNewData
+  ]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -64,10 +79,10 @@ const AnnualBuisnessReport = () => {
     setCurrentPage(newPage);
   };
 
-  console.log("userDeatail", userDeatail);
+  //console.log("userDeatail", userDeatail);
 
   const [isAnnualModalOpen, setIsAnnualModalOpen] = useState(false);
-  const [isAnnualListTable, setIsAnnualListTable] = useState(false);
+  const [isViewAnnualReportOpen, setViewAnnualReportOpen] = useState(false);
 
   //add anual bussiness plan
   const [abpData, setabpData] = useState({
@@ -82,6 +97,15 @@ const AnnualBuisnessReport = () => {
     for_month: "",
     products: [], // Array to store multiple products
   });
+
+  useEffect(() => {
+  if (userDeatail?.id) {
+    setabpData((prev) => ({
+      ...prev,
+      emp_id: userDeatail.id,
+    }));
+  }
+}, [userDeatail]);
 
   const [abpFormErrors, setabpErrors] = useState({});
   const [abpFlashMessage, setAbpFlashMessage] = useState("");
@@ -172,7 +196,7 @@ const AnnualBuisnessReport = () => {
           });
 
           setTimeout(() => {
-            setIsABPModalOpen(false);
+            setIsAnnualModalOpen(false);
           }, 3000);
         } else {
           handleABPFlashMessage(
@@ -188,6 +212,148 @@ const AnnualBuisnessReport = () => {
   };
 
   //end add anual bussiness plan
+
+  //edit annual bussiness plan
+
+
+
+  const [editAbpData, setEditAbpData] = useState({
+    emp_id: userDeatail?.id,
+    customer_id: "",
+    location: "",
+    associate_id: "",
+    contact_person_id: "",
+    project_name: "",
+    area_mtr2: "",
+    buisness_potential: "",
+    for_month: "",
+    products: [], // Array to store multiple products
+  });
+
+  const [editFormErrors, setEditFormErrors] = useState({});
+  const [editFlashMessage, setEditFlashMessage] = useState("");
+  const [editFlashMsgType, setEditFlashMsgType] = useState("");
+
+  useEffect(() => {
+    if (selectedABP) {
+      setEditAbpData({
+        emp_id: selectedABP.emp_id || userDeatail?.id,
+        customer_id: selectedABP?.customer_id || "",
+        location: selectedABP?.location || "",
+        associate_id: selectedABP.associate_id || "",
+        contact_person_id: selectedABP.contact_person_id || "",
+        project_name: selectedABP.project_name || "",
+        area_mtr2: selectedABP.area_mtr2 || "",
+        buisness_potential: selectedABP.buisness_potential || "",
+        for_month: selectedABP.for_month || "",
+        products: selectedABP.products || [],
+      });
+    }
+  }, [selectedABP]);
+
+useEffect(() => {
+  if (isEditABPModalOpen) {
+    const response = dispatch(getAllAddressByCustomerId({ id: selectedABP?.customer_id }));
+  }
+}, [isEditABPModalOpen]);
+
+  const handleEditFlashMessage = (message, type) => {
+    setEditFlashMessage(message);
+    setEditFlashMsgType(type);
+    setTimeout(() => {
+      setEditFlashMessage("");
+      setEditFlashMsgType("");
+    }, 3000);
+  };
+
+  const handleEditABPChange = (e) => {
+    const { name, value } = e.target;
+    setEditAbpData((prevData) => ({ ...prevData, [name]: value }));
+    setEditFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+
+  const handleEditABPCustomerChange = (e) => {
+    const { value } = e.target;
+
+    dispatch(getAllAddressByCustomerId({ id: value }));
+
+    setabpData((prevData) => ({
+      ...prevData,
+      customer_id: value,
+    }));
+  };
+  
+
+  const editAbpValidateForm = () => {
+    let errors = {};
+
+    // if (!editAbpData.emp_id) errors.emp_id = "Employee is required.";
+    if (!editAbpData.customer_id) errors.customer_id = "Customer is required.";
+    if (!editAbpData.associate_id)
+      errors.associate_id = "Associate is required.";
+    if (!editAbpData.contact_person_id)
+      errors.contact_person_id = "Contact Person is required.";
+    if (!editAbpData.project_name)
+      errors.project_name = "Project Name is required.";
+    if (!editAbpData.area_mtr2) errors.area_mtr2 = "Area (m²) is required.";
+    if (!editAbpData.buisness_potential)
+      errors.buisness_potential = "Business Potential is required.";
+    if (!editAbpData.for_month) errors.for_month = "Month is required.";
+
+    setEditFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleEditABPSubmit = async (e) => {
+    e.preventDefault();
+
+    if (editAbpValidateForm()) {
+      try {
+        const response = await dispatch(
+          updateAnualBussinessPlan({
+            id: selectedABP?.id,
+            abpData: editAbpData,
+          })
+        ).unwrap();
+
+        console.log("Edit ABP response", response);
+
+        if (response.success) {
+          handleEditFlashMessage(response.message, "success");
+
+          // Optionally refresh listing if you have one
+          // dispatch(
+          //   listABP({
+          //     page: currentPage,
+          //     limit: abpPerPage,
+          //     search: searchTerm,
+          //     monthWise: monthWise,
+          //   })
+          // );
+          dispatch(
+            listABP({
+              page: currentPage,
+              limit: abpPerPage,
+              search: searchTerm,
+            })
+          );
+
+          setTimeout(() => {
+            setIsEditABPModalOpen(false);
+          }, 1000);
+        } else {
+          handleEditFlashMessage(
+            response?.message || "Something went wrong",
+            "error"
+          );
+        }
+      } catch (error) {
+        handleEditFlashMessage(error.message || "An error occurred", "error");
+      }
+    }
+  };
+
+  //end edit annual bussiness plan
 
   return (
     <div className="main-content">
@@ -207,31 +373,36 @@ const AnnualBuisnessReport = () => {
                 placeholder="Search"
               />
             </div>
-            <div>
-              <button
-                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-                onClick={() => setIsAnnualModalOpen(true)}
-              >
-                <img
-                  src={iconsImgs.plus}
-                  alt="plus icon"
-                  className="w-[18px] mr-1"
-                />{" "}
-                Add New Report
-              </button>
-            </div>
+            {userDeatail?.employeeRole?.role_id === 3 && (
+              <div>
+                <button
+                  className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  onClick={() => setIsAnnualModalOpen(true)}
+                >
+                  <img
+                    src={iconsImgs.plus}
+                    alt="plus icon"
+                    className="w-[18px] mr-1"
+                  />{" "}
+                  Add New Report
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
             <ListTableReport
-              setIsAnnualListTable={setIsAnnualListTable}
+              isViewAnnualReportOpen={isViewAnnualReportOpen}
+              setViewAnnualReportOpen={setViewAnnualReportOpen}
               anualbsplan={anualbsplan?.data}
               selectedABP={selectedABP}
               setSelectedABP={setSelectedABP}
               monthWise={monthWise}
               setMonthWise={setMonthWise}
+              userDeatail={userDeatail}
+              setIsEditABPModalOpen={setIsEditABPModalOpen}
             />
 
             {/*------- Table Data End -------*/}
@@ -259,10 +430,31 @@ const AnnualBuisnessReport = () => {
           />
         )}
 
+        {/* edit abp Model */}
+        {isEditABPModalOpen && (
+          <EditAnnualReport
+            userDeatail={userDeatail}
+            setIsEditABPModalOpen={setIsEditABPModalOpen}
+            selectedABP={selectedABP}
+            editAbpData={editAbpData}
+            setEditAbpData={setEditAbpData}
+            editFormErrors={editFormErrors}
+            setEditFormErrors={setEditFormErrors}
+            editFlashMessage={editFlashMessage}
+            editFlashMsgType={editFlashMsgType}
+            handleEditFlashMessage={handleEditFlashMessage}
+            handleEditABPChange={handleEditABPChange}
+            handleEditABPSubmit={handleEditABPSubmit}
+            allCustomers={allCustomers}
+            customerAddress={customerAddress}
+            handleEditABPCustomerChange={handleEditABPCustomerChange}
+          />
+        )}
+
         {/* View User Modal */}
-        {isAnnualListTable && (
+        {isViewAnnualReportOpen && (
           <ViewAnnualReport
-            setIsAnnualListTable={setIsAnnualListTable}
+            setViewAnnualReportOpen={setViewAnnualReportOpen}
             selectedABP={selectedABP}
             setSelectedABP={setSelectedABP}
           />
