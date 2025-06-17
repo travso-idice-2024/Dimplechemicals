@@ -63,7 +63,10 @@ const {
   addProductsToLead,
   getLeadListofAll,
   deleteProductFromLead,
-  exportLeadsAfterMeetingToExcel
+  exportLeadsAfterMeetingToExcel,
+  getAllPOAReports,
+  getEmployeeListFromLeads,
+  getPOAReportById
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -265,6 +268,9 @@ router.post('/submit-annual-plan',authMiddleware , addAnnualBusinessPlan);
 //router.get('/business-plan/:id',authMiddleware, getAnnualBusinessPlanDetails);
 router.get('/business-plan',authMiddleware, getAnnualBusinessPlanList);
 router.put("/update-business-plan/:id", authMiddleware, updateAnnualBusinessPlan);
+router.get("/getAllPOAReport", authMiddleware, getAllPOAReports);
+router.get("/getPoaEmployeeList", authMiddleware, getEmployeeListFromLeads);
+router.get("/getPOAReportById/:emp_id", authMiddleware, getPOAReportById);
 
 
 module.exports = router;

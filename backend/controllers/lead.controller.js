@@ -147,6 +147,9 @@ const addLead = async (req, res) => {
       lead_address,
       contact_person_name,
       product_ids,
+      total_material_qty,
+      approx_business,
+      project_name
     } = req.body;
 
     // Validate required fields
@@ -197,6 +200,9 @@ const addLead = async (req, res) => {
       meeting_time,
       lead_address,
       contact_person_name,
+      total_material_qty,
+      approx_business,
+      project_name
     });
 
     if (Array.isArray(product_ids) && product_ids.length > 0) {
@@ -2383,6 +2389,186 @@ const exportLeadsAfterMeetingToExcel = async (req, res) => {
   }
 };
 
+
+const getAllPOAReports = async (req, res) => {
+  try {
+    // Step 1: Fetch all leads with user data
+    const leads = await Lead.findAll({
+      include: {
+        model: User,
+        as: "assignedPerson",
+        attributes: ["id", "username", "fullname"]
+      }
+    });
+
+    // Step 2: Group by assigned_person_id
+    const employeeMap = new Map();
+
+    for (const lead of leads) {
+      const empId = lead.assigned_person_id;
+      const empName = lead.assignedPerson?.username || "Unknown";
+      const empfullname = lead.assignedPerson?.fullname || "Unknown";
+
+      if (!empId) continue; // Skip if no assigned employee
+
+      if (!employeeMap.has(empId)) {
+        employeeMap.set(empId, {
+          emp_id: empId,
+          emp_name: empName,
+          emp_fullname: empfullname,
+          unique_customers: new Set(),
+          total_material_qty: 0,
+          total_approx_business: 0,
+        });
+      }
+
+      const entry = employeeMap.get(empId);
+      if (lead.customer_id) entry.unique_customers.add(lead.customer_id);
+      if (lead.total_material_qty) entry.total_material_qty += lead.total_material_qty;
+      if (lead.approx_business) entry.total_approx_business += lead.approx_business;
+    }
+
+    // Step 3: Format final result
+    const result = Array.from(employeeMap.values()).map((emp) => ({
+      emp_id: emp.emp_id,
+      emp_name: emp.emp_name,
+      emp_fullname: emp.emp_fullname,
+      unique_customers_count: emp.unique_customers.size,
+      total_material_qty: emp.total_material_qty,
+      total_approx_business: emp.total_approx_business,
+    }));
+
+    return res.json({
+      success: true,
+      data: result,
+    });
+
+  } catch (error) {
+    console.error("Error getting POA reports:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+const getEmployeeListFromLeads = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = "" } = req.query;
+    const offset = (page - 1) * limit;
+
+    // Step 1: Fetch leads with assigned user data
+    const leads = await Lead.findAll({
+      include: {
+        model: User,
+        as: "assignedPerson",
+        attributes: ["id", "fullname", "email", "phone", "emp_id"]
+      }
+    });
+
+    // Step 2: Collect unique users in Map
+    const employeeMap = new Map();
+
+    for (const lead of leads) {
+      const user = lead.assignedPerson;
+      if (!user) continue;
+
+      // Avoid duplicates
+      if (!employeeMap.has(user.id)) {
+        employeeMap.set(user.id, {
+          id: user.id,
+          emp_id: user.emp_id,
+          fullname: user.fullname,
+          email: user.email,
+          phone: user.phone
+        });
+      }
+    }
+
+    // Step 3: Convert to array and apply search filter
+    let filtered = Array.from(employeeMap.values());
+
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter(user =>
+        user.fullname.toLowerCase().includes(searchLower) ||
+        user.email.toLowerCase().includes(searchLower) ||
+        user.phone.toLowerCase().includes(searchLower) ||
+        user.emp_id.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Step 4: Pagination
+    const paginatedData = filtered.slice(offset, offset + parseInt(limit));
+    const totalItems = filtered.length;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return res.json({
+      success: true,
+      data: paginatedData,
+      currentPage: parseInt(page),
+      totalPages,
+      totalItems
+    });
+
+  } catch (error) {
+    console.error("Error fetching employee list from leads:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong"
+  });
+ }
+};
+
+const getPOAReportById = async (req, res) => {
+  try {
+    const emp_id = req.params.emp_id;
+
+    // Fetch leads assigned to this employee
+    const leads = await Lead.findAll({
+      where: { assigned_person_id: emp_id },
+      include: [
+        {
+          model: Customer,
+          as: "customer",
+          attributes: ["id","company_name"]
+        },
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["fullname"]
+        }
+      ]
+    });
+
+    if (!leads || leads.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No leads found for this employee."
+      });
+    }
+
+    // Format each lead with customer name and employee fullname
+    const result = leads.map((lead) => ({
+      ...lead.toJSON(),
+      // customer_name: lead.customer?.name || "Unknown",
+      employee_fullname: lead.assignedPerson?.fullname || "Unknown"
+    }));
+
+    return res.json({
+      success: true,
+      data: result
+    });
+  } catch (error) {
+    console.error("Error in getPOAReportById:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+  });
+ }
+};
+
+
 module.exports = {
   addLead,
   getLeadList,
@@ -2405,5 +2591,8 @@ module.exports = {
   addProductsToLead,
   getLeadListofAll,
   deleteProductFromLead,
-  exportLeadsAfterMeetingToExcel
+  exportLeadsAfterMeetingToExcel,
+  getAllPOAReports,
+  getEmployeeListFromLeads,
+  getPOAReportById
 };

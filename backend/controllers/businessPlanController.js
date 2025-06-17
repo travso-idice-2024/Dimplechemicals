@@ -26,6 +26,22 @@ exports.addAnnualBusinessPlan = async (req, res) => {
       products, // array of product objects
     } = req.body;
 
+    const existingPlan = await AnnualBusinessPlan.findOne({
+      where: {
+        emp_id,
+        customer_id,
+        for_month,
+      },
+    });
+
+    if (existingPlan) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "This report is already created for the selected employee and customer in the given month.",
+      });
+    }
+
     const plan = await AnnualBusinessPlan.create(
       {
         emp_id,
@@ -72,170 +88,28 @@ exports.addAnnualBusinessPlan = async (req, res) => {
   }
 };
 
-// exports.getAnnualBusinessPlanDetails = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     const plan = await AnnualBusinessPlan.findOne({
-//       where: { id },
-//       include: [
-//         {
-//           model: User,
-//           as: "employee",
-//           attributes: ["id", "username", "email"], // adjust as needed
-//         },
-//         {
-//           model: User,
-//           as: "customer",
-//           attributes: ["id", "username", "email"],
-//         },
-//         {
-//           model: BusinessAssociate,
-//           as: "associate",
-//           attributes: ["id", "associate_name","code", "email", "phone_no"],
-//         },
-//         {
-//           model: CustomerContactPerson,
-//           as: "contactPerson",
-//           attributes: ["id", "name", "email", "phone_no","designation"],
-//         },
-//         {
-//           model: BusinessPlanProduct,
-//           as: "products",
-//           include: [
-//             {
-//               model: Product,
-//               as: 'product',
-//               attributes: [],
-//             },
-//           ],
-//         },
-//       ],
-//     });
-
-//     if (!plan) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Business plan not found" });
-//     }
-
-//     res.status(200).json({
-//       success: true,
-//       message: "Business plan retrieved successfully",
-//       data: plan,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching plan details:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Failed to retrieve business plan",
-//       error: error.message,
-//     });
-//   }
-// };
-
-// exports.getAnnualBusinessPlanList = async (req, res) => {
-//   try {
-//     const empId = req.user.id; // assuming user is authenticated and you store their ID in req.user
-//     const { page = 1, limit = 20, search = "", monthWise } = req.query;
-
-//     const offset = (page - 1) * limit;
-
-//     const whereClause = {
-//       //emp_id: empId,
-//     };
-
-//      if (monthWise) {
-//        whereClause.emp_id = empId,
-//        whereClause.for_month = Number(monthWise);
-//      }
-
-//     // Apply search to project_name, location, or customer name
-//     if (search) {
-//       whereClause[sequelize.Op.or] = [
-//         { project_name: { [sequelize.Op.like]: `%${search}%` } },
-//         { location: { [sequelize.Op.like]: `%${search}%` } },
-//       ];
-//     }
-
-   
-
-//     const { count, rows } = await AnnualBusinessPlan.findAndCountAll({
-//       where: whereClause,
-//       limit: parseInt(limit),
-//       offset: parseInt(offset),
-//       order: [["createdAt", "DESC"]],
-//       include: [
-//         {
-//           model: User,
-//           as: "employee",
-//           attributes: ["id", "username", "email", "emp_id", "fullname"],
-//         },
-//         {
-//           model: Customer,
-//           as: "customer",
-//           attributes: ["id", "company_name", "email_id", "cust_id"],
-//         },
-//         {
-//           model: BusinessAssociate,
-//           as: "associate",
-//           attributes: ["id", "associate_name", "code", "email", "phone_no"],
-//         },
-//         {
-//           model: CustomerContactPerson,
-//           as: "contactPerson",
-//           attributes: ["id", "name", "email", "phone_no", "designation"],
-//         },
-
-//         {
-//           model: BusinessPlanProduct,
-//           as: "products",
-//           include: [
-//             {
-//               model: Product,
-//               as: "product",
-//               attributes: ["product_name", "category_id"],
-//             },
-//             {
-//               model: Category,
-//               as: "category",
-//               attributes: ["id", "category_name"],
-//             },
-//           ],
-//         },
-//       ],
-//     });
-
-//     res.status(200).json({
-//       success: true,
-//       message: "Business plan list retrieved successfully",
-//       currentPage: parseInt(page),
-//       totalPages: Math.ceil(count / limit),
-//       totalRecords: count,
-//       data: rows,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching business plans:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Failed to retrieve business plan list",
-//       error: error.message,
-//     });
-//   }
-// };
-
-
 exports.getAnnualBusinessPlanList = async (req, res) => {
   try {
     const empId = req.user.id;
     const roleId = req.user.userrole;
-    const { page = 1, limit = 10, search = "", monthWise } = req.query;
+    const {
+      page = 1,
+      limit = 10,
+      search = "",
+      monthWise,
+      anu_emp_id,
+    } = req.query;
+    console.log("anu_emp_id", anu_emp_id);
     const offset = (page - 1) * limit;
 
     const whereClause = {};
 
     if (monthWise) {
       whereClause.for_month = Number(monthWise);
+    }
+
+    if (anu_emp_id) {
+      whereClause.emp_id = Number(anu_emp_id);
     }
 
     if (roleId === 3) {
@@ -284,7 +158,10 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
               {
                 model: Product,
                 as: "product",
-                attributes: ["product_name",  ["category_id", "technology_used"]  ],
+                attributes: [
+                  "product_name",
+                  ["category_id", "technology_used"],
+                ],
               },
               {
                 model: Category,
@@ -306,63 +183,228 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
       });
     }
 
-    // Admin view (group by emp_id with pagination)
+    // if (roleId === 1) {
+    //   // Total unique employee count
+    //   const totalGroups = await AnnualBusinessPlan.count({
+    //     where: whereClause,
+    //     distinct: true,
+    //     col: "emp_id",
+    //   });
+
+    //   // Paginated emp_ids
+    //   const groupEmpIds = await AnnualBusinessPlan.findAll({
+    //     attributes: ["emp_id"],
+    //     where: whereClause,
+    //     group: ["emp_id"],
+    //     order: [
+    //       [sequelize.literal("MAX(AnnualBusinessPlan.createdAt)"), "DESC"],
+    //     ],
+    //     limit: parseInt(limit),
+    //     offset: parseInt(offset),
+    //   });
+
+    //   if (!groupEmpIds.length) {
+    //     return res.status(200).json({
+    //       success: true,
+    //       message: "No business plans found",
+    //       currentPage: parseInt(page),
+    //       totalPages: Math.ceil(totalGroups / limit),
+    //       totalRecords: totalGroups,
+    //       data: [],
+    //     });
+    //   }
+
+    //   const data = await Promise.all(
+    //     groupEmpIds.map(async (group) => {
+    //       const empId = group.emp_id;
+
+    //       // Get one latest business plan record for this emp_id (keeping old includes)
+    //       const singlePlan = await AnnualBusinessPlan.findOne({
+    //         where: { ...whereClause, emp_id: empId },
+    //         include: [
+    //           {
+    //             model: User,
+    //             as: "employee",
+    //             attributes: ["id", "username", "email", "emp_id", "fullname"],
+    //           },
+    //           {
+    //             model: Customer,
+    //             as: "customer",
+    //             attributes: ["id", "company_name", "email_id", "cust_id"],
+    //           },
+    //           {
+    //             model: BusinessAssociate,
+    //             as: "associate",
+    //             attributes: [
+    //               "id",
+    //               "associate_name",
+    //               "code",
+    //               "email",
+    //               "phone_no",
+    //             ],
+    //           },
+    //           {
+    //             model: CustomerContactPerson,
+    //             as: "contactPerson",
+    //             attributes: ["id", "name", "email", "phone_no", "designation"],
+    //           },
+    //           {
+    //             model: BusinessPlanProduct,
+    //             as: "products",
+    //             include: [
+    //               {
+    //                 model: Product,
+    //                 as: "product",
+    //                 attributes: ["product_name", "category_id"],
+    //               },
+    //               {
+    //                 model: Category,
+    //                 as: "category",
+    //                 attributes: ["id", "category_name"],
+    //               },
+    //             ],
+    //           },
+    //         ],
+    //         order: [["createdAt", "DESC"]],
+    //       });
+
+    //       // Collect all for_month values into an array for this emp_id
+    //       const allMonths = await AnnualBusinessPlan.findAll({
+    //         attributes: ["for_month"],
+    //         where: { ...whereClause, emp_id: empId },
+    //         order: [["createdAt", "DESC"]],
+    //       });
+
+    //       const forMonths = allMonths.map((p) => p.for_month);
+
+    //       // Inject forMonths array into singlePlan data
+    //       const planData = singlePlan.toJSON();
+    //       planData.for_months = forMonths;
+
+    //       return planData;
+    //     })
+    //   );
+
+    //   return res.status(200).json({
+    //     success: true,
+    //     message: "Business plan list retrieved successfully",
+    //     currentPage: parseInt(page),
+    //     totalPages: Math.ceil(totalGroups / limit),
+    //     totalRecords: totalGroups,
+    //     data, // same shape as before
+    //   });
+    // }
+
     if (roleId === 1) {
-      // Total group count (for pagination)
-      const groupCount = await AnnualBusinessPlan.findAll({
-        attributes: ['emp_id'],
+      // Total unique (emp_id, customer_id) count
+      const totalGroupsResult = await AnnualBusinessPlan.findAll({
+        attributes: [
+          [sequelize.col("emp_id"), "emp_id"],
+          [sequelize.col("customer_id"), "customer_id"],
+        ],
         where: whereClause,
-        group: ['emp_id'],
+        group: ["emp_id", "customer_id"],
       });
 
-      const totalGroups = groupCount.length;
+      const totalGroups = totalGroupsResult.length;
 
-      // Now fetch paginated group data
-      const result = await AnnualBusinessPlan.findAndCountAll({
+      // Paginated (emp_id, customer_id) pairs
+      const groupEmpCustIds = await AnnualBusinessPlan.findAll({
+        attributes: [
+          [sequelize.col("emp_id"), "emp_id"],
+          [sequelize.col("customer_id"), "customer_id"],
+        ],
         where: whereClause,
+        group: ["emp_id", "customer_id"],
+        order: [
+          [sequelize.literal("MAX(AnnualBusinessPlan.createdAt)"), "DESC"],
+        ],
         limit: parseInt(limit),
         offset: parseInt(offset),
-        order: [["createdAt", "DESC"]],
-        group: ['emp_id'],
-        include: [
-          {
-            model: User,
-            as: "employee",
-            attributes: ["id", "username", "email", "emp_id", "fullname"],
-          },
-          {
-            model: Customer,
-            as: "customer",
-            attributes: ["id", "company_name", "email_id", "cust_id"],
-          },
-          {
-            model: BusinessAssociate,
-            as: "associate",
-            attributes: ["id", "associate_name", "code", "email", "phone_no"],
-          },
-          {
-            model: CustomerContactPerson,
-            as: "contactPerson",
-            attributes: ["id", "name", "email", "phone_no", "designation"],
-          },
-          {
-            model: BusinessPlanProduct,
-            as: "products",
+      });
+
+      if (!groupEmpCustIds.length) {
+        return res.status(200).json({
+          success: true,
+          message: "No business plans found",
+          currentPage: parseInt(page),
+          totalPages: Math.ceil(totalGroups / limit),
+          totalRecords: totalGroups,
+          data: [],
+        });
+      }
+
+      const data = await Promise.all(
+        groupEmpCustIds.map(async (group) => {
+          const empId = group.emp_id;
+          const custId = group.customer_id;
+
+          // Latest business plan record for this (emp_id, customer_id) pair
+          const singlePlan = await AnnualBusinessPlan.findOne({
+            where: { ...whereClause, emp_id: empId, customer_id: custId },
             include: [
               {
-                model: Product,
-                as: "product",
-                attributes: ["product_name", "category_id"],
+                model: User,
+                as: "employee",
+                attributes: ["id", "username", "email", "emp_id", "fullname"],
               },
               {
-                model: Category,
-                as: "category",
-                attributes: ["id", "category_name"],
+                model: Customer,
+                as: "customer",
+                attributes: ["id", "company_name", "email_id", "cust_id"],
+              },
+              {
+                model: BusinessAssociate,
+                as: "associate",
+                attributes: [
+                  "id",
+                  "associate_name",
+                  "code",
+                  "email",
+                  "phone_no",
+                ],
+              },
+              {
+                model: CustomerContactPerson,
+                as: "contactPerson",
+                attributes: ["id", "name", "email", "phone_no", "designation"],
+              },
+              {
+                model: BusinessPlanProduct,
+                as: "products",
+                include: [
+                  {
+                    model: Product,
+                    as: "product",
+                    attributes: ["product_name", "category_id"],
+                  },
+                  {
+                    model: Category,
+                    as: "category",
+                    attributes: ["id", "category_name"],
+                  },
+                ],
               },
             ],
-          },
-        ],
-      });
+            order: [["createdAt", "DESC"]],
+          });
+
+          // Collect all for_month values for this (emp_id, customer_id)
+          const allMonths = await AnnualBusinessPlan.findAll({
+            attributes: ["for_month"],
+            where: { ...whereClause, emp_id: empId, customer_id: custId },
+            order: [["createdAt", "DESC"]],
+          });
+
+          const forMonths = allMonths.map((p) => p.for_month);
+
+          // Attach for_months array to single plan data
+          const planData = singlePlan.toJSON();
+          planData.for_months = forMonths;
+
+          return planData;
+        })
+      );
 
       return res.status(200).json({
         success: true,
@@ -370,10 +412,9 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
         currentPage: parseInt(page),
         totalPages: Math.ceil(totalGroups / limit),
         totalRecords: totalGroups,
-        data: result.rows,
+        data, // unchanged shape
       });
     }
-
   } catch (error) {
     console.error("Error fetching business plans:", error);
     res.status(500).json({
@@ -456,7 +497,6 @@ exports.updateAnnualBusinessPlan = async (req, res) => {
   } catch (error) {
     await t.rollback();
     console.error(error);
-    res.status(500).json({ error: "Failed to update business plan"});
-}
+    res.status(500).json({ error: "Failed to update business plan" });
+  }
 };
-

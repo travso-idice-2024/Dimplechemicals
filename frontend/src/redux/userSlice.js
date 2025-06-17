@@ -314,14 +314,14 @@ export const addAnualBussinessPlan = createAsyncThunk(
 export const listABP = createAsyncThunk(
   "auth/listABP",
   async (
-    { page = 1, limit = 20, search = "", monthWise },
+    { page = 1, limit = 20, search = "", monthWise, anu_emp_id },
     { rejectWithValue }
   ) => {
     try {
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/business-plan`, {
         headers: { Authorization: `Bearer ${token}` },
-        params: { page, limit, search, monthWise },
+        params: { page, limit, search, monthWise, anu_emp_id },
       });
       return response.data;
     } catch (error) {

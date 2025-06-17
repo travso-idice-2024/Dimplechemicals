@@ -248,7 +248,8 @@ const EditAnnualReport = ({
                     <select
                       name="for_month"
                       value={editAbpData.for_month || ""}
-                      onChange={handleEditABPChange}
+                      disabled
+                      //onChange={handleEditABPChange}
                       className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                     >
                       <option value="">Select Duration</option>

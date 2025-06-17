@@ -453,11 +453,48 @@ export const getProductByLeadId = createAsyncThunk(
   }
 );
 
+export const getAllPOAReport = createAsyncThunk(
+  "lead/getAllPOAReport",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/getAllPOAReport`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch all emp poa report"
+      );
+    }
+  }
+);
+
+export const getPoaEmployeeList = createAsyncThunk(
+  "auth/getPoaEmployeeList",
+  async ({ page = 1, limit = 20, search = "" }, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/getPoaEmployeeList`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, limit, search },
+      });
+      return response.data;
+    } catch (leadError) {
+      return rejectWithValue(
+        leadError.response?.data || "Failed to fetch emp poa list"
+      );
+    }
+  }
+);
+
 // 🔹 LEAD SLICE
 const leadSlice = createSlice({
   name: "lead",
   initialState: {
     leads: [],
+    POAlists:[],
+    allPoaReort:[],
     genleads: [],
     pductByleadId: [],
     allWonleads: [],
@@ -574,6 +611,19 @@ const leadSlice = createSlice({
         state.leadError = action.payload;
       })
 
+      .addCase(getAllPOAReport.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(getAllPOAReport.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.allPoaReort = action.payload;
+      })
+      .addCase(getAllPOAReport.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
       .addCase(todaysLeadReport.pending, (state) => {
         state.leadLoading = true;
         state.leadError = null;
@@ -608,6 +658,20 @@ const leadSlice = createSlice({
         state.totalPages = action.payload.totalPages || 1;
       })
       .addCase(listLeads.rejected, (state, action) => {
+        state.leadLoading = false;
+        state.leadError = action.payload;
+      })
+
+       .addCase(getPoaEmployeeList.pending, (state) => {
+        state.leadLoading = true;
+        state.leadError = null;
+      })
+      .addCase(getPoaEmployeeList.fulfilled, (state, action) => {
+        state.leadLoading = false;
+        state.POAlists = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(getPoaEmployeeList.rejected, (state, action) => {
         state.leadLoading = false;
         state.leadError = action.payload;
       })

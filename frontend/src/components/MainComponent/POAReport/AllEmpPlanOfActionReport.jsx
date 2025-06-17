@@ -48,14 +48,14 @@ const AllEmpPlanOfActionReport = ({
                   <tr key={index} className="text-center text-sm">
                     <td className="border px-4 py-2 text-newtextdata">{index + 1}</td>
                     <td className="border px-4 py-2 text-newtextdata">
-                      {poa.salesPerson?.fullname}
+                      {poa.emp_fullname}
                     </td>
-                    <td className="border px-4 py-2 text-newtextdata">{poa.total_customer}</td>
+                    <td className="border px-4 py-2 text-newtextdata">{poa.unique_customers_count}</td>
                     <td className="border px-4 py-2 text-newtextdata">{poa.product_sale}</td>
                     <td className="border px-4 py-2 text-newtextdata">
                       {poa.total_material_qty}
                     </td>
-                    <td className="border px-4 py-2 text-newtextdata">{poa.approx_business}</td>
+                    <td className="border px-4 py-2 text-newtextdata">{poa.total_approx_business}</td>
                   </tr>
                 ))
               ) : (

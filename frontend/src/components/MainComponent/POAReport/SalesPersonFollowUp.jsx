@@ -14,6 +14,7 @@ import {
   fetchAllCustomers,
   getAllAddressByCustomerId,
 } from "../../../redux/customerSlice";
+import { getAllPOAReport, getPoaEmployeeList } from "../../../redux/leadSlice";
 import {
   listPOA,
   addPOA,
@@ -21,22 +22,29 @@ import {
   fetchAllPoaReports,
 } from "../../../redux/poaSlice";
 
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
+
 const SalesPersonFollowUp = () => {
   //console.log("SalesPersonFollowUp component mounted");
 
   const dispatch = useDispatch();
 
-  const { poaList, totalPages, poaLoading, poaError } = useSelector(
-    (state) => state.poa
+  const { allPoaReort } = useSelector((state) => state.lead);
+  const { POAlists, totalPages, leadLoading, leadError } = useSelector(
+    (state) => state.lead
   );
-
   const { userDataWithRole } = useSelector((state) => state.user);
 
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
-  console.log("allCustomers", allCustomers);
+
   const [selectedPOA, setSelectedPOA] = useState({});
+  const[getPoaByEmpIdData, setGetPoaByEmpIdData] = useState([]);
 
   const [allselectedPOA, allsetSelectedPOA] = useState([]);
   // Pagination & Search States
@@ -51,7 +59,7 @@ const SalesPersonFollowUp = () => {
   const [isEditUserModalOpen, setEditUserModalOpen] = useState(false);
   const [selectedPOAId, setSelectedPOAId] = useState(null);
   const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
-  const poaPerPage = 4;
+  const poaPerPage = 20;
 
   const [poaReportOpen, setpoaReportOpen] = useState(false);
   const [allEmpPlanOfActionReport, setAllEmpPlanOfActionReport] =
@@ -59,13 +67,14 @@ const SalesPersonFollowUp = () => {
 
   useEffect(() => {
     dispatch(fetchAllCustomers());
+    dispatch(getAllPOAReport());
     dispatch(
       fetchUserWithRole({
         roleId: 3,
       })
     );
     dispatch(
-      listPOA({
+      getPoaEmployeeList({
         page: currentPage,
         limit: poaPerPage,
         search: searchTerm,
@@ -272,6 +281,26 @@ const SalesPersonFollowUp = () => {
     }
   };
 
+  const getPOAReportBYId = async (empId) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(
+        `${API_URL}/auth/getPOAReportById/${empId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      //console.log("RESULT",  response.data.data);
+      setGetPoaByEmpIdData(response.data.data);
+      return response.data.data; // assuming your API responds with { data: [...] }
+    } catch (error) {
+      console.error("Failed to fetch poafor emp:", error);
+      return [];
+    }
+  };
+
   //
   return (
     <div className="main-content">
@@ -297,7 +326,7 @@ const SalesPersonFollowUp = () => {
               <button
                 className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                 onClick={() => {
-                  allsetSelectedPOA(poaList?.data);
+                  allsetSelectedPOA(allPoaReort?.data);
                   setAllEmpPlanOfActionReport(true);
                 }}
               >
@@ -311,7 +340,7 @@ const SalesPersonFollowUp = () => {
             {/*------- Table Data Start -------*/}
             <DepartmentTable
               setEditUserModalOpen={setEditUserModalOpen}
-              poaList={poaList?.data || []}
+              poaList={POAlists?.data || []}
               setViewModalOpen={setViewModalOpen}
               selectedPOA={selectedPOA}
               setSelectedPOA={setSelectedPOA}
@@ -321,6 +350,7 @@ const SalesPersonFollowUp = () => {
               selectedPOAId={selectedPOAId}
               poaReportOpen={poaReportOpen}
               setpoaReportOpen={setpoaReportOpen}
+              getPOAReportBYId={getPOAReportBYId}
             />
           </div>
 
@@ -348,6 +378,7 @@ const SalesPersonFollowUp = () => {
             <EmpSARReport
               setpoaReportOpen={setpoaReportOpen}
               selectedPOA={selectedPOA}
+              getPoaByEmpIdData={getPoaByEmpIdData}
             />
           )}
 
@@ -358,14 +389,13 @@ const SalesPersonFollowUp = () => {
             />
           )}
         </div>
-       {/* Pagination Controls with Number */}
+        {/* Pagination Controls with Number */}
         <Pagination
           currentPage={currentPage}
           handlePageChange={handlePageChange}
           totalPages={totalPages}
         />
       </div>
-       
     </div>
   );
 };

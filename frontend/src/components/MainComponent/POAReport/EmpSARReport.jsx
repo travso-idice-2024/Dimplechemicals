@@ -1,7 +1,7 @@
 import React from "react";
 
-const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
-  console.log("selectedPOA", selectedPOA);
+const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
+  console.log("getPoaByEmpIdData", getPoaByEmpIdData);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto max-h-[90vh]">
@@ -33,49 +33,55 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
             </thead>
 
             <tbody>
-              {selectedPOA ? (
-                <tr className="text-center">
-                  <td className="px-4 py-2 text-textdata">1</td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.salesPerson?.fullname || "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.customer?.company_name || "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.meeting_date
-                      ? new Date(selectedPOA.meeting_date).toLocaleDateString()
-                      : "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.follow_up_record ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.total_hours_spent ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.approx_area_sqm ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.approx_area_cubm ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.total_material_qty ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.approx_business ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata whitespace-nowrap whitespace-pre-line">
-                    {selectedPOA.documents?.length > 0
-                      ? selectedPOA.documents.join("\n")
-                      : "-"}
-                  </td>
-                  <td className="px-4 py-2 text-textdata">
-                    {selectedPOA.last_contact
-                      ? new Date(selectedPOA.last_contact).toLocaleDateString()
-                      : "-"}
-                  </td>
-                </tr>
+              {getPoaByEmpIdData && getPoaByEmpIdData.length > 0 ? (
+                getPoaByEmpIdData.map((selectedPOA, index) => (
+                  <tr className="text-center" key={selectedPOA.id || index}>
+                    <td className="px-4 py-2 text-textdata">{index + 1}</td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA?.employee_fullname || "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.customer?.company_name || "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.assign_date
+                        ? new Date(
+                            selectedPOA.assign_date
+                          ).toLocaleDateString()
+                        : "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.follow_up_record ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.total_hours_spent ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.approx_area_sqm ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.approx_area_cubm ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.total_material_qty ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.approx_business ?? "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata whitespace-nowrap whitespace-pre-line">
+                      {selectedPOA.documents?.length > 0
+                        ? selectedPOA.documents.join("\n")
+                        : "-"}
+                    </td>
+                    <td className="px-4 py-2 text-textdata">
+                      {selectedPOA.last_contact
+                        ? new Date(
+                            selectedPOA.last_contact
+                          ).toLocaleDateString()
+                        : "-"}
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
                   <td
