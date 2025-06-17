@@ -3,8 +3,16 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
-  //console.log("selectedABP", selectedABP);
+const AdminViewAnnualReport = ({
+  setIsViewReportOpen,
+  abpbyempid,
+  getProductsByBusinessPlanId,
+  abpproductbyid,
+}) => {
+  //console.log("abpproductbyid", abpproductbyid);
+  const [selectedBusinessPlanId, setSelectedBusinessPlanId] = useState(null);
+  const [IsAnnualProductPopup, setIsAnnualProductPopup] = useState(false);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const profileRef = useRef(null);
@@ -32,7 +40,7 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
             View Report
           </h2>
 
-          <div className="p-4 mt-2 overflow-y-auto h-[540px]">
+          <div className="p-4 mt-2 overflow-y-auto h-fit">
             <h3 className="mt-2 mb-2 text-bgDataNew font-poppins border border-gray-300 w-[300px] font-medium text-[20px] mb-0 text-center mx-auto">
               Annual Business Plan
             </h3>
@@ -52,19 +60,19 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                         :
                       </td>
                       <td className="py-2 px-4 text-right text-gray-800 w-[55%]">
-                        dsfdfdf
+                        {abpbyempid?.employee_fullname}
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
                       <td className="py-2 px-4 text-left font-bold text-gray-600">
-                        Employee code
+                        Employee Code
                       </td>
                       <td className="py-2 text-center align-middle">:</td>
                       <td className="py-2 px-4 text-right text-gray-800">
-                        asdasdaf
+                        {abpbyempid?.emp_code}
                       </td>
                     </tr>
-                    <tr className="border-b border-gray-200">
+                    {/* <tr className="border-b border-gray-200">
                       <td className="py-2 px-4 text-left font-bold text-gray-600">
                         Business Associate code
                       </td>
@@ -72,27 +80,9 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                       <td className="py-2 px-4 text-right text-gray-800">
                         addsafdf
                       </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </table>
-              </div>
-              <div className=" relative inline-block" ref={profileRef}>
-                <button
-                  className="notification-btn content-top-btns bg-gray-600 p-1 px-3 rounded-[5px] flex items-center gap-2 w-fit"
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="flex flex-col items-start">
-                      <h2 className="font-bai text-[12px] text-white datashowname">
-                        <span className="full-name whitespace-nowrap">
-                          4 month
-                        </span>
-                      </h2>
-                    </div>
-                  </div>
-
-                  {/* <span className="notification-btn-dot"></span> */}
-                </button>
               </div>
             </div>
 
@@ -106,7 +96,7 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                 <table className="table-auto w-full text-left border-collapse border border-gray-400">
                   <tbody>
                     <tr className="">
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                      {/* <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Country
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
@@ -114,7 +104,7 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         City
-                      </th>
+                      </th> */}
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Custumer Name
                       </th>
@@ -122,7 +112,7 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                         Location
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Department
+                        Month
                       </th>
 
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
@@ -132,29 +122,28 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                         Contact Person
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                       Designation
+                        Designation
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                                Phone Number
-                              </th>
+                        Phone Number
+                      </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         EmailID
                       </th>
-                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Technology
+                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                        BA Code
                       </th>
 
-                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Approx Area in sqM
                       </th>
-                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Buisness Potential
                       </th>
-                      
                     </tr>
-                  
-                    <tr className="">
-                      <td
+                    {abpbyempid?.data?.map((user, index) => (
+                      <tr className="" key={index}>
+                        {/* <td
                         class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
           
                       >
@@ -168,179 +157,193 @@ const AdminViewAnnualReport = ({ setIsViewReportOpen }) => {
                       </td>
                       <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         dsfsdfsdf
-                      </td>
-                      <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        dsdfdf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        sfdfsf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        fdsfdsf
-                      </td>
-                      <td
-                        class="text-center px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        fdfdsfdsd
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        zfdfdfdf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        ddfddsf
-                      </td>
-                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        ddfddsf
-                      </td>
-                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        ddfddsf
-                      </td>
-                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        ddfddsf
-                      </td>
-                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        ddfddsf
-                      </td>
-                       <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        ddfddsf
-                      </td>
-                    </tr>
+                      </td> */}
+                        <td
+                          className={`px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap cursor-pointer ${
+                            selectedBusinessPlanId === user.id
+                              ? "bg-yellow-300 text-black"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            getProductsByBusinessPlanId(user.id);
+                            setSelectedBusinessPlanId(user.id);
+                            setIsAnnualProductPopup(true);
+                          }}
+                        >
+                          {user?.customer?.company_name}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.location}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.for_month}
+                        </td>
+                        <td class="text-center px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.project_name}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.contactPerson?.name}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.contactPerson?.designation}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.contactPerson?.phone_no}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.contactPerson?.email}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.associate?.code}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.area_mtr2}
+                        </td>
+                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          {user?.buisness_potential}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
 
-            <div className="mt-6 px-1 overflow-auto">
-              <h3 class="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[18px] text-bgData mb-0 text-center mx-auto capitalize">
-                {" "}
-                Product Details
-              </h3>
-              <div class="px-[1px] overflow-x-auto">
-                <table class="table-auto w-full text-left border-collapse border border-gray-400">
-                  <tbody>
-                    <tr class="text-left">
-                     
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Product Name
-                      </td>
-                      <td class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Qty.
-                      </td>
-                      <td class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Rate
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Value Rs.
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        GST Amt
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Gross Sale (GST)
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Commission
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        Net Sale (GST)
-                      </td>
-                    </tr>
+            
 
-                    <tr class="text-left">
-                      
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        sfsdfsdfsd
-                      </td>
-                      <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        dsfsdfsdf
-                      </td>
-                      <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        dsdfdf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        sfdfsf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        fdsfdsf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        fdfdsfd
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        zfdfdfdf
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-                        colspan="2"
-                      >
-                        ddfddsf
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            {IsAnnualProductPopup && (
+              <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-white w-full md:w-[1350px] pt-0 pb-4 rounded-[6px] flex flex-col">
+                  <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+                    Product Detail Data
+                  </h2>
+                  <div className="mt-5 md:mt-5 px-2 overflow-y-auto md:h-fit">
+                    <div className="overflow-auto">
+                      <h3 className="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[18px] text-bgData mb-0 text-center mx-auto capitalize">
+                        Product Details
+                      </h3>
+                      <div className="px-[1px] overflow-x-auto">
+                        <table className="table-auto w-full text-left border-collapse border border-gray-400">
+                          <tbody>
+                            <tr className="text-left">
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                              >
+                                Technology Used
+                              </td>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
+                              >
+                                Product Name
+                              </td>
+                              <td className="px-4 py-2 border border-gray-400 font-medium">
+                                Qty.
+                              </td>
+                              <td className="px-4 py-2 border border-gray-400 font-medium">
+                                Rate
+                              </td>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 border border-gray-400 font-medium"
+                              >
+                                Value Rs.
+                              </td>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 border border-gray-400 font-medium"
+                              >
+                                GST Amt
+                              </td>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 border border-gray-400 font-medium"
+                              >
+                                Gross Sale (GST)
+                              </td>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 border border-gray-400 font-medium"
+                              >
+                                Commission
+                              </td>
+                              <td
+                                colSpan="2"
+                                className="px-4 py-2 border border-gray-400 font-medium"
+                              >
+                                Net Sale (GST)
+                              </td>
+                            </tr>
+
+                            {abpproductbyid?.map((item, index) => (
+                              <tr key={item.id} className="text-left">
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.category?.category_name}
+                                </td>
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.product?.product_name}
+                                </td>
+                                <td className="px-4 py-2 text-[#72360a] border border-gray-400">
+                                  {item.qty}
+                                </td>
+                                <td className="px-4 py-2 text-[#72360a] border border-gray-400">
+                                  {item.rate}
+                                </td>
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.value_in_rs}
+                                </td>
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.gst_amt}
+                                </td>
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.gross_sale_include_gst}
+                                </td>
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.commission}
+                                </td>
+                                <td
+                                  colSpan="2"
+                                  className="px-4 py-2 text-[#72360a] border border-gray-400"
+                                >
+                                  {item.net_sale}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-end justify-end gap-2 px-4">
+                    <button
+                      className="mt-4 bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
+                      onClick={() => setIsAnnualProductPopup(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className="flex items-end justify-end gap-2 px-4 my-4">

@@ -16,7 +16,7 @@ const ListTableReport = ({
   setIsEditABPModalOpen,
   setAnuEmpId
 }) => {
-  console.log("selectedABP", selectedABP);
+  //console.log("selectedABP", selectedABP);
   return (
     <>
       <div className="overflow-x-auto">

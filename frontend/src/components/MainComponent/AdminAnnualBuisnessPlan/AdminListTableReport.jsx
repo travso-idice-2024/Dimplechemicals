@@ -4,7 +4,7 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const AdminListTableReport = ({ABPdata,setIsViewReportOpen}) => {
+const AdminListTableReport = ({ABPdata,setIsViewReportOpen,getAnnualBusinessPlanByEmpId}) => {
   return (
     <>
       <div className="overflow-x-auto">
@@ -47,6 +47,7 @@ const AdminListTableReport = ({ABPdata,setIsViewReportOpen}) => {
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer" 
               onClick={() => {
                   setIsViewReportOpen(true);
+                  getAnnualBusinessPlanByEmpId(user.emp_id);
                 }}>
                 {user?.employee_fullname}
                 </td>

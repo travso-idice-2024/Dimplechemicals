@@ -8,13 +8,21 @@ import {
   getAnnualBusinessPlan
 } from "../../../redux/userSlice";
 
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthToken = () => localStorage.getItem("token");
+
 
 const AdminAnnualBuisnessPlan = () => {
 
   const dispatch = useDispatch();
   const { anualbsplanReportdata, totalPages, userLoading, userError } = useSelector((state) => state.user);
-  console.log("anualbsplanReportdata", anualbsplanReportdata?.data);
+  
   const [isViewReportOpen, setIsViewReportOpen] = useState(false);
+  const [abpbyempid, setabpbyempid] = useState([]);
+  const [abpproductbyid , setabpproductbyid] = useState([]);
 
   //-------- New Pagination Code Start --------//
     const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
@@ -52,6 +60,48 @@ const AdminAnnualBuisnessPlan = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+
+  const getAnnualBusinessPlanByEmpId = async(empId)=>{
+       try {
+      setabpproductbyid([]);
+      const token = getAuthToken();
+      const response = await axios.get(
+        `${API_URL}/auth/getAnnualBusinessPlanById/${empId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("RESULT",  response.data);
+      setabpbyempid(response?.data);
+      return response.data.data; // assuming your API responds with { data: [...] }
+    } catch (error) {
+      console.error("Failed to fetch poafor emp:", error);
+      return [];
+    }
+  }
+
+  
+  const getProductsByBusinessPlanId = async(Id)=>{
+       try {
+      const token = getAuthToken();
+      const response = await axios.get(
+        `${API_URL}/auth/getProductsByBusinessPlanId/${Id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      //console.log("RESULT12",  response.data);
+      setabpproductbyid(response?.data?.data);
+      return response.data.data; // assuming your API responds with { data: [...] }
+    } catch (error) {
+      console.error("Failed to fetch poafor emp:", error);
+      return [];
+    }
+  }
 
   return (
     <div className="main-content">
@@ -139,7 +189,8 @@ const AdminAnnualBuisnessPlan = () => {
             {/*------- Table Data Start -------*/}
             <AdminListTableReport 
              ABPdata = {anualbsplanReportdata?.data}
-             setIsViewReportOpen={setIsViewReportOpen}/>
+             setIsViewReportOpen={setIsViewReportOpen}
+             getAnnualBusinessPlanByEmpId={getAnnualBusinessPlanByEmpId}/>
             {/*-------- Table Data End --------*/}
           </div>
         </div>
@@ -148,6 +199,9 @@ const AdminAnnualBuisnessPlan = () => {
         {isViewReportOpen && (
           <AdminViewAnnualReport
             setIsViewReportOpen={setIsViewReportOpen}
+            abpbyempid={abpbyempid}
+            getProductsByBusinessPlanId={getProductsByBusinessPlanId}
+            abpproductbyid={abpproductbyid}
           />
         )}
       </div>

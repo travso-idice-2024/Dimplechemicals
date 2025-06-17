@@ -595,3 +595,129 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
     });
   }
 };
+
+exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Employee ID is required in params",
+      });
+    }
+
+    const plans = await AnnualBusinessPlan.findAll({
+      where: {
+        emp_id: id,
+      },
+      include: [
+        {
+          model: User,
+          as: "employee",
+          attributes: ["id", "fullname","emp_id"],
+        },
+        {
+          model: BusinessAssociate,
+          as: "associate",
+          attributes: ["id", "associate_name", "email", "phone_no",
+            "code"
+          ],
+        },
+        {
+          model: CustomerContactPerson,
+          as: "contactPerson",
+          attributes: ["id", "name", "email", "phone_no","designation"],
+        },
+        {
+          model: Customer,
+          as: "customer",
+          attributes: ["id", "company_name"],
+        },
+        // {
+        //   model: BusinessPlanProduct,
+        //   as: "products",
+        //   include: [
+        //     {
+        //       model: Category,
+        //       as: "category",
+        //       attributes: ["category_name"],
+        //     },
+        //   ],
+        // },
+      ],
+      order: [["createdAt", "DESC"]], // Optional: Order by latest
+    });
+
+    if (plans.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No business plan records found for this employee",
+      });
+    }
+
+    return res.json({
+      success: true,
+      emp_id: id,
+      emp_code: plans[0].employee?.emp_id,
+      employee_fullname: plans[0].employee?.fullname || "Unknown",
+      total_records: plans.length,
+      data: plans,
+    });
+  } catch (error) {
+    console.error("Error in getAnnualBusinessPlanByEmpId:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+  });
+  }
+};
+
+exports.getProductsByBusinessPlanId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing business_plan_id in request params",
+      });
+    }
+
+    const products = await BusinessPlanProduct.findAll({
+      where: { business_plan_id: id },
+      include: [
+        {
+          model: Product,
+          as: "product",
+          attributes: ["id", "product_name"],
+        },
+        {
+          model: Category,
+          as: "category",
+          attributes: ["id", "category_name"],
+        },
+      ],
+      order: [["id", "ASC"]],
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found for the given business plan ID",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      total_products: products.length,
+      data: products,
+    });
+  } catch (error) {
+    console.error("Error fetching business plan products:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+  });
+}
+};

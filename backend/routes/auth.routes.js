@@ -15,7 +15,7 @@ const {
   exportExitedEmployees,
   getEmployeesLocation,
   exportEmployeesLocation,
-  exportEmployeesListToExcel
+  exportEmployeesListToExcel,
 } = require("../controllers/auth.controller");
 const {
   listRoles,
@@ -39,7 +39,7 @@ const {
   customerInfo,
   customerHistory,
   getBuisnessAssociates,
-  updateBusinessAssociate
+  updateBusinessAssociate,
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -66,7 +66,7 @@ const {
   exportLeadsAfterMeetingToExcel,
   getAllPOAReports,
   getEmployeeListFromLeads,
-  getPOAReportById
+  getPOAReportById,
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -75,19 +75,19 @@ const {
   exportWonLeadCommunications,
   visistsOfMonth,
   endMeeting,
-  getTodayMeetingLocation
+  getTodayMeetingLocation,
 } = require("../controllers/leadCommunicationController");
 
 const {
   getAllLeaveData,
   updateMultipleLeaves,
-}= require("../controllers/leave.controller");
+} = require("../controllers/leave.controller");
 const {
   checkIn,
   checkOut,
   getCheckinCheckoutReport,
   exportCheckinCheckoutReport,
-  getDailyWorkingHours
+  getDailyWorkingHours,
 } = require("../controllers/chekinCheckout.controller");
 
 const {
@@ -96,32 +96,42 @@ const {
   updateProduct,
   toggleProductStatus,
   getProductsByCategoryId,
-  exportProductsToExcel
+  exportProductsToExcel,
 } = require("../controllers/product.controller");
 
 const {
   createCostWorking,
   getCostWorking,
   updateCostWorking,
-  exportCostWorkingListToExcel
+  exportCostWorkingListToExcel,
 } = require("../controllers/costWorking.controller");
 
-const{
+const {
   createPlan,
   getPlanOfActions,
   updateSalesPerson,
-  planOfActionForaDay
-}= require("../controllers/planofaction.controller");
+  planOfActionForaDay,
+} = require("../controllers/planofaction.controller");
 
-const{
-  createLeadAssignedHistory
-}= require("../controllers/leadAssignedHistoryController");
+const {
+  createLeadAssignedHistory,
+} = require("../controllers/leadAssignedHistoryController");
 
-const { listCategories } = require('../controllers/category.controller');
-const {getLeadProducts} = require('../controllers/dealDataController');
-const {getAllPincodes,getAreaByPincode,getCityByAreaname} = require('../controllers/mytable.controller');
-const { addAnnualBusinessPlan , getAnnualBusinessPlanList, updateAnnualBusinessPlan, getAnnualBusinessPlanSummary } = require('../controllers/businessPlanController');
-
+const { listCategories } = require("../controllers/category.controller");
+const { getLeadProducts } = require("../controllers/dealDataController");
+const {
+  getAllPincodes,
+  getAreaByPincode,
+  getCityByAreaname,
+} = require("../controllers/mytable.controller");
+const {
+  addAnnualBusinessPlan,
+  getAnnualBusinessPlanList,
+  updateAnnualBusinessPlan,
+  getAnnualBusinessPlanSummary,
+  getAnnualBusinessPlanByEmpId,
+  getProductsByBusinessPlanId
+} = require("../controllers/businessPlanController");
 
 const authMiddleware = require("../middlewares/auth.middleware");
 const { upload } = require("../middlewares/upload.middleware");
@@ -186,18 +196,29 @@ router.get(
   authMiddleware,
   getLeadCommunicationsByLeadId
 );
-router.get("/won-lead-communications", authMiddleware, getWonLeadCommunications);
+router.get(
+  "/won-lead-communications",
+  authMiddleware,
+  getWonLeadCommunications
+);
 router.get("/export-won-Lead", authMiddleware, exportWonLeadCommunications);
 
-
-//employee reports 
+//employee reports
 
 router.get("/allEmployeeData", authMiddleware, getAllEmployees);
 router.get("/export-employee", authMiddleware, exportEmployeesToExcel);
 router.get("/employee-department", authMiddleware, getDepartmentWise);
-router.get("/export-employee-department",authMiddleware,exportEmployeesDepartment);
+router.get(
+  "/export-employee-department",
+  authMiddleware,
+  exportEmployeesDepartment
+);
 router.get("/employee-location", authMiddleware, getEmployeesLocation);
-router.get("/export-employee-location",authMiddleware,exportEmployeesLocation);
+router.get(
+  "/export-employee-location",
+  authMiddleware,
+  exportEmployeesLocation
+);
 
 router.get("/leave", authMiddleware, getAllLeaveData);
 router.post("/update-leave", authMiddleware, updateMultipleLeaves);
@@ -205,41 +226,56 @@ router.post("/update-leave", authMiddleware, updateMultipleLeaves);
 //checkin checkout routes
 router.post("/checkin", authMiddleware, checkIn);
 router.post("/checkout", authMiddleware, checkOut);
-router.get("/checkin-checkout-report",authMiddleware ,getCheckinCheckoutReport);
-router.get("/export-checkin-checkout",authMiddleware ,exportCheckinCheckoutReport);
-router.get("/calculate-workhours",authMiddleware ,getDailyWorkingHours);
-
+router.get(
+  "/checkin-checkout-report",
+  authMiddleware,
+  getCheckinCheckoutReport
+);
+router.get(
+  "/export-checkin-checkout",
+  authMiddleware,
+  exportCheckinCheckoutReport
+);
+router.get("/calculate-workhours", authMiddleware, getDailyWorkingHours);
 
 //router.get("/todayleads-count", authMiddleware, getTodayAssignedLeads);
 
 //product routes
-router.get("/allProducts",authMiddleware, getAllProducts);
-router.post("/addProduct",authMiddleware, createProduct);       
-router.put("/updateProduct/:id",authMiddleware, updateProduct);     
-router.put("/deleteProduct/:id",authMiddleware, toggleProductStatus);
+router.get("/allProducts", authMiddleware, getAllProducts);
+router.post("/addProduct", authMiddleware, createProduct);
+router.put("/updateProduct/:id", authMiddleware, updateProduct);
+router.put("/deleteProduct/:id", authMiddleware, toggleProductStatus);
 router.post("/addCostWorking", authMiddleware, createCostWorking);
-router.get("/getcostingwork",authMiddleware, getCostWorking);
+router.get("/getcostingwork", authMiddleware, getCostWorking);
 //router.get("/getcostingwork/:cr_id",authMiddleware, getCostWorking);
-router.put('/cost-working/update/:id',authMiddleware, updateCostWorking);
-router.put('/deal-finalised/:id', authMiddleware, updateDealFinalised);
+router.put("/cost-working/update/:id", authMiddleware, updateCostWorking);
+router.put("/deal-finalised/:id", authMiddleware, updateDealFinalised);
 router.get("/finalised-deal", authMiddleware, getFinalisedDeals);
 // Plan of Action routes
 router.post("/create-planofaction", authMiddleware, createPlan);
 router.get("/getplanofaction", authMiddleware, getPlanOfActions);
 router.put("/update-planofaction/:id", authMiddleware, updateSalesPerson);
-router.get("/export-employee-details", authMiddleware, exportEmployeesListToExcel);
+router.get(
+  "/export-employee-details",
+  authMiddleware,
+  exportEmployeesListToExcel
+);
 router.get("/export-customers", authMiddleware, exportCustomersToExcel);
 router.get("/customer-history/:id", authMiddleware, customerHistory);
 router.get("/customer-info/:id", authMiddleware, customerInfo);
 
-router.post("/add-lead-assigned-history", authMiddleware, createLeadAssignedHistory);
+router.post(
+  "/add-lead-assigned-history",
+  authMiddleware,
+  createLeadAssignedHistory
+);
 router.get("/poa-for-day", authMiddleware, planOfActionForaDay);
 router.post("/addDeal", authMiddleware, addDealData);
 router.get("/get-Deal-data", authMiddleware, getDealData);
 router.get("/total-lead-count", authMiddleware, countTotalLeads);
 router.get("/total-months-visits", authMiddleware, visistsOfMonth);
 router.get("/buisness-asssociates/:id", authMiddleware, getBuisnessAssociates);
-router.get('/categories', authMiddleware, listCategories);
+router.get("/categories", authMiddleware, listCategories);
 router.put(
   "/update-asssociates/:customer_id",
   authMiddleware,
@@ -249,29 +285,53 @@ router.put(
 router.post("/end-meeting", authMiddleware, endMeeting);
 router.get("/get-lead-afterMeeting", authMiddleware, getleadaftermeeting);
 // router.get("/get-lead-afterMeeting/:id", authMiddleware, getleadaftermeeting);
-router.get('/get-lead-products/:customer_id', authMiddleware, getLeadProducts);
+router.get("/get-lead-products/:customer_id", authMiddleware, getLeadProducts);
 router.post("/add-products-to-lead", authMiddleware, addProductsToLead);
 router.get("/get-todays-location", authMiddleware, getTodayMeetingLocation);
-router.get("/get-product-category/:categoryId", authMiddleware, getProductsByCategoryId);
+router.get(
+  "/get-product-category/:categoryId",
+  authMiddleware,
+  getProductsByCategoryId
+);
 router.get("/leadListofall", authMiddleware, getLeadListofAll);
-router.get('/pincodes', authMiddleware, getAllPincodes);
-router.get('/pincode/:pincode', authMiddleware, getAreaByPincode);
-router.get('/pincodes/:areaname', authMiddleware, getCityByAreaname);
-router.post("/delete-product-from-lead", authMiddleware,deleteProductFromLead);
+router.get("/pincodes", authMiddleware, getAllPincodes);
+router.get("/pincode/:pincode", authMiddleware, getAreaByPincode);
+router.get("/pincodes/:areaname", authMiddleware, getCityByAreaname);
+router.post("/delete-product-from-lead", authMiddleware, deleteProductFromLead);
 
+router.get("/products-export", authMiddleware, exportProductsToExcel);
+router.get("/costworking/export", authMiddleware, exportCostWorkingListToExcel);
+router.get(
+  "/export-after-meeting",
+  authMiddleware,
+  exportLeadsAfterMeetingToExcel
+);
 
-router.get("/products-export",authMiddleware, exportProductsToExcel);
-router.get("/costworking/export",authMiddleware, exportCostWorkingListToExcel);
-router.get("/export-after-meeting",authMiddleware, exportLeadsAfterMeetingToExcel);
-
-router.post('/submit-annual-plan',authMiddleware , addAnnualBusinessPlan);
+router.post("/submit-annual-plan", authMiddleware, addAnnualBusinessPlan);
 //router.get('/business-plan/:id',authMiddleware, getAnnualBusinessPlanDetails);
-router.get('/business-plan',authMiddleware, getAnnualBusinessPlanList);
-router.put("/update-business-plan/:id", authMiddleware, updateAnnualBusinessPlan);
+router.get("/business-plan", authMiddleware, getAnnualBusinessPlanList);
+router.put(
+  "/update-business-plan/:id",
+  authMiddleware,
+  updateAnnualBusinessPlan
+);
 router.get("/getAllPOAReport", authMiddleware, getAllPOAReports);
 router.get("/getPoaEmployeeList", authMiddleware, getEmployeeListFromLeads);
 router.get("/getPOAReportById/:emp_id", authMiddleware, getPOAReportById);
-router.get("/getAnnualBusinessPlan", authMiddleware, getAnnualBusinessPlanSummary);
-
+router.get(
+  "/getAnnualBusinessPlan",
+  authMiddleware,
+  getAnnualBusinessPlanSummary
+);
+router.get(
+  "/getAnnualBusinessPlanById/:id",
+  authMiddleware,
+  getAnnualBusinessPlanByEmpId
+);
+router.get(
+  "/getProductsByBusinessPlanId/:id",
+  authMiddleware,
+  getProductsByBusinessPlanId
+);
 
 module.exports = router;
