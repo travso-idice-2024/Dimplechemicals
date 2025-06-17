@@ -69,6 +69,7 @@ import Calender from "./components/calender/Calender";
 import Gmail from "./components/Gmail/gmail";
 import CustomerLeadList from "./components/MainComponent/MarketingManagement/SalesFolllowUpForm/CustomerManageData";
 import AnnualBuisnessReport from "./components/MainComponent/AnnualBuisnessPlan/AnnualBuisnessReport";
+import AdminAnnualBuisnessPlan from "./components/MainComponent/AdminAnnualBuisnessPlan/AdminAnnualBuisnessPlan";
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -251,6 +252,11 @@ function App() {
             <Route
               path="/report-management/customer-info-form"
               element={<CustomerInfoForm />}
+            />
+
+            <Route
+              path="/report-management/admin-annual-buisness-plan"
+              element={<AdminAnnualBuisnessPlan />}
             />
 
             <Route
