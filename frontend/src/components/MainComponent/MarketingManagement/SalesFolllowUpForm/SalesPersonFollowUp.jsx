@@ -152,7 +152,7 @@ const SalesPersonFollowUp = () => {
   const [poaFlashMessage, setPoaFlashMessage] = useState("");
   const [poaFlashMsgType, setPoaFlashMsgType] = useState("");
   const [attendeesEmails, setAttendeesEmails] = useState([]);
-  console.log("attendeesEmails",attendeesEmails);
+  //console.log("attendeesEmails",attendeesEmails);
 
   const handlePoaChange = (e) => {
     const { name, value } = e.target;

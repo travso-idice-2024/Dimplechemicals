@@ -7,8 +7,10 @@ const ViewAnnualReport = ({
   setViewAnnualReportOpen,
   selectedABP,
   setSelectedABP,
+  setMonthWise,
+  setAnuEmpId
 }) => {
-  console.log("selectedABP", selectedABP);
+  //console.log("selectedABP", selectedABP);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const profileRef = useRef(null);
@@ -394,7 +396,10 @@ const ViewAnnualReport = ({
             <button
               type="button"
               className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600"
-              onClick={() => setViewAnnualReportOpen(false)}
+              onClick={() => {setViewAnnualReportOpen(false);
+                 setMonthWise(null);
+                 setAnuEmpId(null);
+              }}
             >
               Close
             </button>

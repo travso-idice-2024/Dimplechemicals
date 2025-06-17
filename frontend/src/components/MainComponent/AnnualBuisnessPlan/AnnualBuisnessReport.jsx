@@ -41,6 +41,7 @@ const AnnualBuisnessReport = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [monthWise, setMonthWise] = useState(null);
+  const [anuEmpId, setAnuEmpId] = useState(null);
   const abpPerPage = entriesPerPageNewData ? entriesPerPageNewData : 20;
 
   useEffect(() => {
@@ -57,16 +58,27 @@ const AnnualBuisnessReport = () => {
         limit: abpPerPage,
         search: searchTerm,
         monthWise: monthWise,
+        anu_emp_id:anuEmpId
       })
     );
+    
   }, [
     dispatch,
     currentPage,
     searchTerm,
     abpPerPage,
     monthWise,
-    entriesPerPageNewData
+    entriesPerPageNewData,
+    anuEmpId
   ]);
+
+  useEffect(() => {
+  if (anualbsplan?.data?.length) {
+    setSelectedABP(anualbsplan?.data?.[0]);
+  }
+}, [anualbsplan]);
+
+  //console.log(anualbsplan?.data?.[0]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -180,6 +192,8 @@ const AnnualBuisnessReport = () => {
               search: searchTerm,
             })
           );
+
+          dispatch(fetchCurrentUser());
 
           // Reset form to empty values
           setabpData({
@@ -403,6 +417,7 @@ useEffect(() => {
               setMonthWise={setMonthWise}
               userDeatail={userDeatail}
               setIsEditABPModalOpen={setIsEditABPModalOpen}
+              setAnuEmpId={setAnuEmpId}
             />
 
             {/*------- Table Data End -------*/}
@@ -457,6 +472,8 @@ useEffect(() => {
             setViewAnnualReportOpen={setViewAnnualReportOpen}
             selectedABP={selectedABP}
             setSelectedABP={setSelectedABP}
+            setMonthWise={setMonthWise}
+            setAnuEmpId={setAnuEmpId}
           />
         )}
       </div>

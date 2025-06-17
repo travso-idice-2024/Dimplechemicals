@@ -133,15 +133,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
       },
-      quantity_no: {
+      total_material_qty: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      special_requirement: {
-        type: DataTypes.TEXT,
+      approx_business: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
-      who_contact_before: {
+      project_name: {
         type: DataTypes.STRING,
         allowNull: true,
       },
