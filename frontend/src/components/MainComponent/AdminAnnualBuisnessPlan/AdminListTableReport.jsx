@@ -4,7 +4,11 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const AdminListTableReport = ({ABPdata,setIsViewReportOpen,getAnnualBusinessPlanByEmpId}) => {
+const AdminListTableReport = ({
+  ABPdata,
+  setIsViewReportOpen,
+  getAnnualBusinessPlanByEmpId,
+}) => {
   return (
     <>
       <div className="overflow-x-auto">
@@ -40,36 +44,58 @@ const AdminListTableReport = ({ABPdata,setIsViewReportOpen,getAnnualBusinessPlan
 
           <tbody>
             {ABPdata?.map((user, index) => (
-            <tr className="text-center" key={index}>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                {index+1}
-              </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer" 
-              onClick={() => {
-                  setIsViewReportOpen(true);
-                  getAnnualBusinessPlanByEmpId(user.emp_id);
-                }}>
-                {user?.employee_fullname}
+              <tr className="text-center" key={index}>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                  {index + 1}
                 </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                {user?.unique_customers_count}
-              </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                {user?.category_names}+
-              </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                {user?.total_area_mtr2}
-              </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                {user?.total_buisness_potential}
-              </td>
-              {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
+                <td
+                  className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"
+                  onClick={() => {
+                    setIsViewReportOpen(true);
+                    getAnnualBusinessPlanByEmpId(user.emp_id);
+                  }}
+                >
+                  {user?.employee_fullname}
+                </td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                  {user?.unique_customers_count}
+                </td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                  {user?.category_names}+
+                </td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                  {user?.total_area_mtr2}
+                </td>
+                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                  {user?.total_buisness_potential}
+                </td>
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
                 <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                   <FontAwesomeIcon icon={faEye} />
                 </button>
               </td> */}
-            </tr>
+              </tr>
             ))}
+            <tr className="text-center">
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                
+              </td>
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                
+              </td>
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                
+              </td>
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer font-bold text-bgDataNew">
+                Total
+              </td>
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer font-bold ">
+                14
+              </td>
+              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer font-bold ">
+                15
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
