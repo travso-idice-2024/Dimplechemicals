@@ -566,15 +566,25 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
       entry.category_name = categoryName;
     }
 
-    const fullResult = Array.from(employeeMap.values()).map((emp) => ({
-      emp_id: emp.emp_id,
-      employee_fullname: emp.employee_fullname,
-      unique_customers_count: emp.unique_customers.size,
-      total_area_mtr2: emp.total_area_mtr2,
-      total_buisness_potential: emp.total_buisness_potential,
-      category_names: emp.category_name,
-      // Or convert Set to array: Array.from(emp.category_names),
-    }));
+    // Grand totals
+    let grand_total_area_mtr2 = 0;
+    let grand_total_buisness_potential = 0;
+
+    const fullResult = Array.from(employeeMap.values()).map((emp) => {
+      grand_total_area_mtr2 += emp.total_area_mtr2;
+      grand_total_buisness_potential += emp.total_buisness_potential;
+
+      return {
+        emp_id: emp.emp_id,
+        employee_fullname: emp.employee_fullname,
+        unique_customers_count: emp.unique_customers.size,
+        total_area_mtr2: emp.total_area_mtr2,
+        total_buisness_potential: emp.total_buisness_potential,
+        category_names: emp.category_name,
+      };
+    });
+
+   
 
     // Pagination
     const startIndex = (parseInt(page) - 1) * parseInt(limit);
@@ -585,6 +595,8 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
       total: fullResult.length,
       page: parseInt(page),
       limit: parseInt(limit),
+      grand_total_area_mtr2,
+      grand_total_buisness_potential,
       data: paginatedData,
     });
   } catch (error) {
