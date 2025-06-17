@@ -53,7 +53,7 @@ const AdminAnnualBuisnessPlan = () => {
    // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1); 
   };
 
   // Handle page change
