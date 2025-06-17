@@ -136,21 +136,18 @@ const AdminAnnualBuisnessPlan = () => {
           {/*--------- New Pagination Code End  ---------*/}
             {/*------- Table Data Start -------*/}
             <AdminListTableReport 
-             ABPdata = {anualbsplanReportdata?.data}/>
+             ABPdata = {anualbsplanReportdata?.data}
+             setIsViewReportOpen={setIsViewReportOpen}/>
             {/*-------- Table Data End --------*/}
           </div>
         </div>
 
         {/* View User Modal */}
-        {/* {isViewAnnualReportOpen && (
-          <ViewAnnualReport
-            setViewAnnualReportOpen={setViewAnnualReportOpen}
-            selectedABP={selectedABP}
-            setSelectedABP={setSelectedABP}
-            setMonthWise={setMonthWise}
-            setAnuEmpId={setAnuEmpId}
+        {isViewReportOpen && (
+          <AdminViewAnnualReport
+            setIsViewReportOpen={setIsViewReportOpen}
           />
-        )} */}
+        )}
       </div>
       {/* Pagination Controls with Number */}
        <Pagination
