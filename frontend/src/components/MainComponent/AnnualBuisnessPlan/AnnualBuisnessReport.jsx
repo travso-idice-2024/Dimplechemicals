@@ -21,9 +21,6 @@ import {
 const AnnualBuisnessReport = () => {
   const dispatch = useDispatch();
   const { anualbsplan } = useSelector((state) => state.user);
-
-  
-
   const { user: userDeatail } = useSelector((state) => state.auth);
 
   //console.log("userDeatail", userDeatail);

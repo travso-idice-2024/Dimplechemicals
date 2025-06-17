@@ -7,8 +7,10 @@ const {
   Product,
   Customer,
   Category,
-  sequelize,
+  sequelize
 } = require("../models");
+const { Op } = require("sequelize");
+
 
 exports.addAnnualBusinessPlan = async (req, res) => {
   const t = await sequelize.transaction();
@@ -99,7 +101,7 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
       monthWise,
       anu_emp_id,
     } = req.query;
-    console.log("anu_emp_id", anu_emp_id);
+    //console.log("anu_emp_id", anu_emp_id);
     const offset = (page - 1) * limit;
 
     const whereClause = {};
@@ -498,5 +500,98 @@ exports.updateAnnualBusinessPlan = async (req, res) => {
     await t.rollback();
     console.error(error);
     res.status(500).json({ error: "Failed to update business plan" });
+  }
+};
+
+exports.getAnnualBusinessPlanSummary = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = "" } = req.query;
+
+    const plans = await AnnualBusinessPlan.findAll({
+      include: [
+        {
+          model: User,
+          as: "employee",
+          attributes: ["id", "fullname"],
+          where: search
+            ? {
+                fullname: {
+                  [Op.like]: `%${search}%`,
+                },
+              }
+            : undefined,
+        },
+        {
+          model: BusinessPlanProduct,
+          as: "products",
+          include: [
+            {
+              model: Category,
+              as: "category",
+              attributes: ["category_name"],
+            },
+          ],
+        },
+      ],
+    });
+
+    const employeeMap = new Map();
+
+    for (const plan of plans) {
+      const empId = plan.emp_id;
+      const empFullname = plan.employee?.fullname || "Unknown";
+      const customerId = plan.customer_id;
+
+      // Get category name from the last product
+      const categoryName =
+        plan.products?.[plan.products.length - 1]?.category?.category_name || "N/A";
+
+      if (!empId) continue;
+
+      if (!employeeMap.has(empId)) {
+        employeeMap.set(empId, {
+          emp_id: empId,
+          employee_fullname: empFullname,
+          unique_customers: new Set(),
+          total_area_mtr2: 0,
+          total_buisness_potential: 0,
+          category_names: new Set(),
+        });
+      }
+
+      const entry = employeeMap.get(empId);
+      if (customerId) entry.unique_customers.add(customerId);
+      if (plan.area_mtr2) entry.total_area_mtr2 += plan.area_mtr2;
+      if (plan.buisness_potential) entry.total_buisness_potential += plan.buisness_potential;
+      entry.category_name = categoryName;
+    }
+
+    const fullResult = Array.from(employeeMap.values()).map((emp) => ({
+      emp_id: emp.emp_id,
+      employee_fullname: emp.employee_fullname,
+      unique_customers_count: emp.unique_customers.size,
+      total_area_mtr2: emp.total_area_mtr2,
+      total_buisness_potential: emp.total_buisness_potential,
+      category_names: emp.category_name,
+      // Or convert Set to array: Array.from(emp.category_names),
+    }));
+
+    // Pagination
+    const startIndex = (parseInt(page) - 1) * parseInt(limit);
+    const paginatedData = fullResult.slice(startIndex, startIndex + parseInt(limit));
+
+    return res.json({
+      success: true,
+      total: fullResult.length,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      data: paginatedData,
+    });
+  } catch (error) {
+    console.error("Error in getAnnualBusinessPlanSummary:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };

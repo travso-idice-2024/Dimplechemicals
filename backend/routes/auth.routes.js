@@ -120,7 +120,7 @@ const{
 const { listCategories } = require('../controllers/category.controller');
 const {getLeadProducts} = require('../controllers/dealDataController');
 const {getAllPincodes,getAreaByPincode,getCityByAreaname} = require('../controllers/mytable.controller');
-const { addAnnualBusinessPlan , getAnnualBusinessPlanList,updateAnnualBusinessPlan } = require('../controllers/businessPlanController');
+const { addAnnualBusinessPlan , getAnnualBusinessPlanList, updateAnnualBusinessPlan, getAnnualBusinessPlanSummary } = require('../controllers/businessPlanController');
 
 
 const authMiddleware = require("../middlewares/auth.middleware");
@@ -271,6 +271,7 @@ router.put("/update-business-plan/:id", authMiddleware, updateAnnualBusinessPlan
 router.get("/getAllPOAReport", authMiddleware, getAllPOAReports);
 router.get("/getPoaEmployeeList", authMiddleware, getEmployeeListFromLeads);
 router.get("/getPOAReportById/:emp_id", authMiddleware, getPOAReportById);
+router.get("/getAnnualBusinessPlan", authMiddleware, getAnnualBusinessPlanSummary);
 
 
 module.exports = router;

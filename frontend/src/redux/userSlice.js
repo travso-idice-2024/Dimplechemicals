@@ -351,12 +351,33 @@ export const updateAnualBussinessPlan = createAsyncThunk(
   }
 );
 
+
+export const getAnnualBusinessPlan = createAsyncThunk(
+  "auth/getAnnualBusinessPlan",
+  async (
+    { page = 1, limit = 20, search = ""},
+    { rejectWithValue }
+  ) => {
+    try {
+      const token = getAuthToken();
+      const response = await axios.get(`${API_URL}/auth/getAnnualBusinessPlan`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, limit, search },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch ABP list");
+    }
+  }
+);
+
 // 🔹 USER SLICE
 const userSlice = createSlice({
   name: "user",
   initialState: {
     users: [],
     anualbsplan: [],
+    anualbsplanReportdata: [],
     allusers: [],
     leaveData: [],
     empCinCotData: [],
@@ -486,6 +507,20 @@ const userSlice = createSlice({
         state.totalPages = action.payload.totalPages || 1;
       })
       .addCase(listABP.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = action.payload;
+      })
+
+      .addCase(getAnnualBusinessPlan.pending, (state) => {
+        state.userLoading = true;
+        state.userError = null;
+      })
+      .addCase(getAnnualBusinessPlan.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.anualbsplanReportdata = action.payload;
+        state.totalPages = action.payload.totalPages || 1;
+      })
+      .addCase(getAnnualBusinessPlan.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = action.payload;
       })

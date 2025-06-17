@@ -4,7 +4,7 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const AdminListTableReport = ({}) => {
+const AdminListTableReport = ({ABPdata}) => {
   return (
     <>
       <div className="overflow-x-auto">
@@ -35,32 +35,35 @@ const AdminListTableReport = ({}) => {
               </th> */}
             </tr>
           </thead>
+
           <tbody>
-            <tr className="text-center">
+            {ABPdata?.map((user, index) => (
+            <tr className="text-center" key={index}>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                1
+                {index+1}
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                Pankaj
+                {user?.employee_fullname}
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                4
+                {user?.unique_customers_count}
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                Chemical
+                {user?.category_names}+
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                50
+                {user?.total_area_mtr2}
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
-                5 Lac
+                {user?.total_buisness_potential}
               </td>
               {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
-                <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                  <FontAwesomeIcon icon={faTrash} />
+                <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                  <FontAwesomeIcon icon={faEye} />
                 </button>
               </td> */}
             </tr>
+            ))}
           </tbody>
         </table>
       </div>
