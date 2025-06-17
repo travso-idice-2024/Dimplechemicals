@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContentTop from "../../ContentTop/ContentTop";
 import AdminListTableReport from "./AdminListTableReport";
+import AdminViewAnnualReport  from "./AdminViewAnnualReport";
 import Pagination from "./Pagination";
 import {
   getAnnualBusinessPlan
@@ -13,6 +14,7 @@ const AdminAnnualBuisnessPlan = () => {
   const dispatch = useDispatch();
   const { anualbsplanReportdata, totalPages, userLoading, userError } = useSelector((state) => state.user);
   console.log("anualbsplanReportdata", anualbsplanReportdata?.data);
+  const [isViewReportOpen, setIsViewReportOpen] = useState(false);
 
   //-------- New Pagination Code Start --------//
     const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
