@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import ContentTop from "../../ContentTop/ContentTop";
 import AdminListTableReport from "./AdminListTableReport";
 import Pagination from "./Pagination";
+import AdminViewAnnualReport from "./AdminViewAnnualReport";
 
 const AdminAnnualBuisnessPlan = () => {
+  const [isViewReportOpen, setIsViewReportOpen] = useState(false);
   return (
     <div className="main-content">
       <ContentTop />
@@ -39,21 +41,17 @@ const AdminAnnualBuisnessPlan = () => {
         <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide mb-4">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/*------- Table Data Start -------*/}
-            <AdminListTableReport />
+            <AdminListTableReport setIsViewReportOpen={setIsViewReportOpen} />
             {/*-------- Table Data End --------*/}
           </div>
         </div>
 
         {/* View User Modal */}
-        {/* {isViewAnnualReportOpen && (
-          <ViewAnnualReport
-            setViewAnnualReportOpen={setViewAnnualReportOpen}
-            selectedABP={selectedABP}
-            setSelectedABP={setSelectedABP}
-            setMonthWise={setMonthWise}
-            setAnuEmpId={setAnuEmpId}
+        {isViewReportOpen && (
+          <AdminViewAnnualReport
+            setIsViewReportOpen={setIsViewReportOpen}
           />
-        )} */}
+        )}
       </div>
       {/* Pagination Controls with Number */}
       <Pagination currentPage="4" handlePageChange="2" totalPages="5" />

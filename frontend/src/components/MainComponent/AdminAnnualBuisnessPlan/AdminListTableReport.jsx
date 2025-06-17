@@ -4,11 +4,13 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const AdminListTableReport = ({}) => {
+const AdminListTableReport = ({setIsViewReportOpen}) => {
   return (
     <>
       <div className="overflow-x-auto">
-        <h3 className="mt-0 mb-2 text-bgDataNew font-poppins border-[#473b33] border-2 w-[260px] font-medium text-[18px] text-bgData mb-3 text-center mx-auto">For the Year 2024 - 2025</h3>
+        <h3 className="mt-0 mb-2 text-bgDataNew font-poppins border-[#473b33] border-2 w-[260px] font-medium text-[18px] text-bgData mb-3 text-center mx-auto">
+          For the Year 2024 - 2025
+        </h3>
         <table className="table-auto w-full text-center border-collapse">
           <thead>
             <tr className="bg-[#473b33] rounded-[8px]">
@@ -40,7 +42,12 @@ const AdminListTableReport = ({}) => {
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
                 1
               </td>
-              <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+              <td
+                className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"
+                onClick={() => {
+                  setIsViewReportOpen(true);
+                }}
+              >
                 Pankaj
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
