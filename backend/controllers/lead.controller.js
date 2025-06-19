@@ -91,7 +91,7 @@ const addLead = async (req, res) => {
       lead_address,
       contact_person_name,
       total_material_qty,
-      approx_business,
+      approx_business:approx_business? parseInt(approx_business) : null,
       project_name
     });
 
