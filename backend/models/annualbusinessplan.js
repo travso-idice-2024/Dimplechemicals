@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "technology_used",
         as: "category",
       });
+      AnnualBusinessPlan.belongsTo(models.Mytable, {
+        foreignKey: "location",
+        targetKey: "areaname",
+        as: "areaDetails",
+      });
     }
   }
   AnnualBusinessPlan.init(

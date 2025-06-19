@@ -102,7 +102,7 @@ const DepartmentTable = ({
   };
 
   const handleCheckIn = async (lead) => {
-    console.log("checkin function call.", lead);
+    //console.log("checkin function call.", lead);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         //console.log("Accuracy: ", position.coords.accuracy);

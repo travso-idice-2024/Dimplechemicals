@@ -10,7 +10,7 @@ const AdminViewAnnualReport = ({
   abpproductbyid,
   getAnnualBusinessPlanByEmpId,
 }) => {
-  //console.log("abpbyempid", abpbyempid);
+  console.log("abpbyempid", abpbyempid);
   const [selectedBusinessPlanId, setSelectedBusinessPlanId] = useState(null);
   const [IsAnnualProductPopup, setIsAnnualProductPopup] = useState(false);
   const [monthValue, setmonthValue] = useState(null);
@@ -132,7 +132,7 @@ const AdminViewAnnualReport = ({
                   <table className="table-auto w-full text-left border-collapse border border-gray-400">
                     <tbody>
                       <tr className="">
-                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                        {/* <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Country
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
@@ -140,7 +140,7 @@ const AdminViewAnnualReport = ({
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         City
-                      </th>
+                      </th> */}
                         <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                           Custumer Name
                         </th>
@@ -179,15 +179,6 @@ const AdminViewAnnualReport = ({
                       </tr>
                       {abpbyempid?.data?.map((user, index) => (
                         <tr className="" key={index}>
-                           <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                            India
-                          </td>
-                           <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                            {user?.areaDetails?.statename}
-                          </td>
-                           <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                            {user?.areaDetails?.district}
-                          </td>
                           
                           <td
                             className={`px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap cursor-pointer ${

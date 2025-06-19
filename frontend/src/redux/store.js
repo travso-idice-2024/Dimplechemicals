@@ -10,6 +10,7 @@ import poaReducer from "./poaSlice";
 import categoryReducer from "./categorySlice";
 import googleCalenderAuthReducer from "./googleCalenderAuthSlice";
 import googleGmailAuthReducer from "./googleGmailAuthSlice";
+import { businessAssociateApi } from "./services/businessAssociateService";
 
 const store = configureStore({
   reducer: {
@@ -23,9 +24,12 @@ const store = configureStore({
     poa:poaReducer,
     category:categoryReducer,
     googleCalenderAuth:googleCalenderAuthReducer,
-    googleGmailAuth:googleGmailAuthReducer
-    // add other reducers here as needed...
+    googleGmailAuth:googleGmailAuthReducer,
+   
+    [businessAssociateApi.reducerPath]: businessAssociateApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(businessAssociateApi.middleware)
 });
 
 export default store;

@@ -4,11 +4,14 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-     
-        Product.belongsTo(models.Category, {
-          foreignKey: 'category_id',
-          as: 'category'
-        });      
+      Product.belongsTo(models.Category, {
+        foreignKey: "category_id",
+        as: "category",
+      });
+      Product.hasMany(models.dealData, {
+        foreignKey: "product_id",
+        as: "dealsProduct",
+      });
       // Define associations here if needed
     }
   }
@@ -46,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 1,
       },
       category_id: DataTypes.INTEGER, // 👈 Add this line
-      area_mtr2:{
+      area_mtr2: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },

@@ -123,7 +123,7 @@ const ViewAnnualReport = ({
                       >
                         Customer Name
                       </td>
-                      {/* <td
+                      <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
@@ -134,12 +134,18 @@ const ViewAnnualReport = ({
                         colSpan={1}
                       >
                         City
-                      </td> */}
+                      </td>
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         Location
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Country
                       </td>
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -161,23 +167,29 @@ const ViewAnnualReport = ({
                       >
                         {selectedABP?.customer?.company_name}
                       </td>
-                      {/* <td
+                      <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
-                        Maharashtra
+                        {selectedABP?.areaDetails?.statename}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
-                        Mumbai
-                      </td> */}
+                         {selectedABP?.areaDetails?.district}
+                      </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         {selectedABP?.location}
+                      </td>
+                       <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        India
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"

@@ -12,124 +12,14 @@ const {
   dealData,
   LeadCommunication,
   CustomerContactPerson,
+  Category
 } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
 
-// const addLead = async (req, res) => {
-//   try {
-//     const lead_owner_id = req.user.id;
-//     const {
-//       customer_id,
-//       assigned_person_id,
-//       lead_source,
-//       lead_status,
-//       assign_date,
-//       lead_summary,
-//       last_contact,
-//       next_followup,
-//       product_service,
-//       product_detail,
-//       quantity,
-//       quantity_no,
-//       special_requirement,
-//       who_contact_before,
-//       last_communication,
-//       follow_up_record,
-//       budget,
-//       lead_address,
-//       reference_name,
-//     } = req.body;
 
-//     // Check if required fields are provided
-//     if (
-//       !customer_id ||
-//       !lead_owner_id ||
-//       !lead_source ||
-//       !lead_status ||
-//       !assigned_person_id
-//     ) {
-//       return res
-//         .status(400)
-//         .json({ success: false, message: "Missing required fields." });
-//     }
-
-//     // Validate customer
-//     const customer = await Customer.findByPk(customer_id);
-//     if (!customer) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Customer not found." });
-//     }
-
-//     // Validate lead owner
-//     const leadOwner = await User.findByPk(lead_owner_id);
-//     if (!leadOwner) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Lead owner not found." });
-//     }
-
-//     // Validate assigned person
-//     const assignedPerson = await User.findByPk(assigned_person_id);
-//     if (!assignedPerson) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Assigned person not found." });
-//     }
-
-//     // ✅ Check if a lead is already assigned to the same salesperson for this customer
-//     const existingLead = await Lead.findOne({
-//       where: {
-//         customer_id,
-//         assigned_person_id,
-//       },
-//     });
-
-//     if (existingLead) {
-//       return res.status(409).json({
-//         success: false,
-//         message:
-//           "This customer is already assigned to the selected salesperson.",
-//       });
-//     }
-
-//     // Create the lead entry
-//     const newLead = await Lead.create({
-//       customer_id,
-//       lead_owner_id,
-//       assigned_person_id,
-//       lead_source,
-//       lead_status,
-//       assign_date: assign_date || new Date(),
-//       lead_summary,
-//       last_contact,
-//       next_followup,
-//       product_service,
-//       product_detail,
-//       quantity,
-//       quantity_no,
-//       special_requirement,
-//       who_contact_before,
-//       last_communication,
-//       follow_up_record,
-//       budget,
-//       lead_address,
-//       reference_name
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Lead added successfully",
-//       data: newLead,
-//     });
-//   } catch (error) {
-//     console.error("Error adding lead:", error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
 
 const addLead = async (req, res) => {
   try {
@@ -492,20 +382,7 @@ const getLeadList = async (req, res) => {
       });
     }
 
-    // Add communications directly when not "all"
-    // if (all !== "true") {
-    //   includeOptions.push({
-    //     model: LeadCommunication,
-    //     as: "communications",
-    //     attributes: ["end_meeting_time", "start_meeting_time", "meeting_done"],
-    //     required: true, // ensures only leads with matching communication are included
-    //     where: Sequelize.where(
-    //       Sequelize.fn("DATE", Sequelize.col("communications.lead_date")),
-    //       "=",
-    //       todayDate
-    //     ),
-    // });
-    // }
+   
 
     if (all === "true") {
       const leads = await Lead.findAll({
@@ -689,188 +566,6 @@ const getleadaftermeeting = async (req, res) => {
   }
 };
 
-//26/05/25
-
-// const getleadaftermeeting = async (req, res) => {
-//   try {
-//     if (!req.user || !req.user.id) {
-//       return res
-//         .status(401)
-//         .json({ success: false, message: "Unauthorized: User not found" });
-//     }
-
-//     const assigned_person_id = req.user.id;
-//     //const customerId = req.params.id;
-
-//     const userId = req.user.id;
-
-//     const { page = 1, limit = 10, search = "" } = req.query;
-//     const offset = (page - 1) * limit;
-
-//     const leads = await Lead.findAndCountAll({
-//       attributes: [
-//         [Sequelize.fn("MAX", Sequelize.col("id")), "max_id"],
-//         "customer_id",
-//         "meeting_type",
-//         "id"
-//       ],
-
-//       where: {
-//         ...(userId !== 33 && { assigned_person_id: userId }),
-//         active_status: "active",
-//         ...(search && {
-//           [Op.or]: [
-//             { assign_date: { [Op.like]: `%${search}%` } },
-//             { lead_status: { [Op.like]: `%${search}%` } },
-//           ],
-//         }),
-//       },
-//       include: [
-//         {
-//           model: Customer,
-//           as: "customer",
-//         },
-//         { model: User, as: "leadOwner", attributes: ["fullname"] },
-//         { model: User, as: "assignedPerson", attributes: ["fullname"] },
-//         {
-//           model: CustomerContactPerson,
-//           as: "contactPerson",
-//           attributes: ["name"],
-//         },
-//         {
-//           model: LeadAssignedHistory,
-//           as: "assignmentHistory",
-//           include: [
-//             {
-//               model: User,
-//               as: "assignedPerson",
-//               attributes: ["fullname"],
-//             },
-//           ],
-//         },
-//         {
-//           model: LeadCommunication,
-//           as: "communications",
-//           where: {
-//             end_meeting_time: { [Op.ne]: null },
-//           },
-//           required: true,
-//           //separate: true,
-//           order: [['id', 'ASC']],
-//         },
-//       ],
-//       order: [[Sequelize.literal("max_id"), "DESC"]],
-//       distinct: true,
-//       limit: parseInt(limit),
-//       offset: parseInt(offset),
-//       group: ["customer_id"], //
-//     });
-
-//     //console.log("result",leads );
-//     res.status(200).json({
-//       success: true,
-//       message: "Leads retrieved successfully",
-//       data: leads.rows,
-//       total: leads.count,
-//       currentPage: parseInt(page),
-//       totalPages: Math.ceil(leads.count / limit),
-//     });
-//   } catch (error) {
-//     console.error("Error fetching leads:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Error retrieving leads",
-//       error: error.message,
-//     });
-//   }
-// };
-
-//26/05/25
-
-// const getleadaftermeeting = async (req, res) => {
-//   try {
-//     if (!req.user || !req.user.id) {
-//       return res
-//         .status(401)
-//         .json({ success: false, message: "Unauthorized: User not found" });
-//     }
-
-//     const assigned_person_id = req.user.id;
-//     //const customerId = req.params.id;
-
-//     const userId = req.user.id;
-
-//     const { page = 1, limit = 10, search = "" } = req.query;
-//     const offset = (page - 1) * limit;
-
-//     const leads = await Lead.findAndCountAll({
-//       where: {
-//         //customer_id: customerId,
-//         ...(userId !== 33 && { assigned_person_id: userId }),
-//         active_status: "active", // ✅ added this condition here
-//         ...(search && {
-//           [Op.or]: [
-//             { assign_date: { [Op.like]: `%${search}%` } },
-//             { lead_status: { [Op.like]: `%${search}%` } },
-//           ],
-//         }),
-//       },
-//       include: [
-//         {
-//           model: Customer,
-//           as: "customer",
-//         },
-//         { model: User, as: "leadOwner", attributes: ["fullname"] },
-//         { model: User, as: "assignedPerson", attributes: ["fullname"] },
-//         {
-//           model: CustomerContactPerson,
-//           as: "contactPerson",
-//           attributes: ["name"],
-//         },
-//         {
-//           model: LeadAssignedHistory,
-//           as: "assignmentHistory",
-//           include: [
-//             {
-//               model: User,
-//               as: "assignedPerson",
-//               attributes: ["fullname"],
-//             },
-//           ],
-//         },
-//         {
-//           model: LeadCommunication,
-//           as: "communications",
-//           where: {
-//             end_meeting_time: { [Op.ne]: null },
-//           },
-//           required: true,
-//         },
-//       ],
-//       order: [["createdAt", "DESC"]],
-//       distinct: true,
-//       limit: parseInt(limit),
-//       offset: parseInt(offset),
-//     });
-
-//     //console.log("result",leads );
-//     res.status(200).json({
-//       success: true,
-//       message: "Leads retrieved successfully",
-//       data: leads.rows,
-//       total: leads.count,
-//       currentPage: parseInt(page),
-//       totalPages: Math.ceil(leads.count / limit),
-//     });
-//   } catch (error) {
-//     console.error("Error fetching leads:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Error retrieving leads",
-//       error: error.message,
-//     });
-//   }
-// }
 
 const removeLead = async (req, res) => {
   const { id } = req.params;
@@ -918,18 +613,6 @@ const getTodaysAssignedLeadsCount = async (req, res) => {
     // ✅ Get today's date in YYYY-MM-DD format
     const todayDate = new Date().toISOString().split("T")[0];
     //console.log("Today's Date (for comparison):", todayDate);
-
-    // ✅ Count leads where assign_date matches today's date
-    // const assignedLeadsCount = await Lead.count({
-    //   where: {
-    //     assigned_person_id,
-    //     [Op.and]: Sequelize.where(
-    //       Sequelize.fn("DATE", Sequelize.col("assign_date")),
-    //       "=",
-    //       todayDate
-    //     ),
-    //   },
-    // });
 
     const assignedLeadsCount = await Lead.count({
       where: {
@@ -1760,211 +1443,6 @@ const addDealData = async (req, res) => {
   }
 };
 
-// const getDealData = async (req, res) => {
-//   try {
-//     // Extract query parameters with default values
-//     const { page = 1, limit = 10, search = "" } = req.query;
-//     const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
-
-//     // Define where condition for filtering by company name
-//     const whereCondition = {};
-//     if (search) {
-//       whereCondition["$customer.company_name$"] = { [Op.like]: `%${search}%` };
-//     }
-
-//     // Fetch leads with associated customer and deals
-//     const leads = await Lead.findAll({
-//       where: whereCondition,
-//       include: [
-//         {
-//           model: Customer,
-//           as: "customer",
-//           attributes: ["company_name"],
-//         },
-//         {
-//           model: dealData,
-//           as: "deals",
-//           attributes: [
-//             "id",
-//             "lead_id",
-//             "product_id",
-//             "area",
-//             "quantity",
-//             "rate",
-//             "amount",
-//             "advance_amount",
-//             "deal_amount",
-//             "deal_code",
-//             "date",
-//             "createdAt",
-//           ],
-//           include: [
-//             {
-//               model: Product,
-//               as: "product",
-//               attributes: ["product_name"],
-//             },
-//           ],
-//           separate: true, // Ensures proper ordering and pagination
-//           order: [["createdAt", "DESC"]],
-//         },
-//       ],
-//       order: [["createdAt", "DESC"]],
-//       limit: parseInt(limit, 10),
-//       offset,
-//       distinct: true, // Ensures correct count when associations are involved
-//     });
-
-//     // Calculate total count for pagination
-//     const totalCount = await Lead.count({ where: whereCondition });
-
-//     // Process the leads to compute total deal and advance amounts
-//     const result = leads.map((lead) => {
-//       const total_deal_amount = lead.deals.reduce(
-//         (sum, deal) => sum + (deal.amount || 0),
-//         0
-//       );
-//       const total_advance_amount = lead.deals.reduce(
-//         (sum, deal) => sum + (deal.advance_amount || 0),
-//         0
-//       );
-
-//       return {
-//         lead_id: lead.id,
-//         company_name: lead.customer?.company_name || null,
-//         total_deal_amount,
-//         total_advance_amount,
-//         deals: lead.deals.map((deal) => ({
-//           ...deal.toJSON(),
-//           product_name: deal.product?.product_name || null,
-//         })),
-//       };
-//     });
-
-//     // Send the response with pagination details
-//     res.status(200).json({
-//       success: true,
-//       message: "Grouped deal data fetched successfully",
-//       data: result,
-//       currentPage: parseInt(page, 10),
-//       totalPages: Math.ceil(totalCount / limit),
-//       totalItems: totalCount,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching grouped deal data:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error",
-//     });
-//   }
-// };
-
-// const getDealData = async (req, res) => {
-//   try {
-//     if (!req.user || !req.user.id) {
-//       return res
-//         .status(401)
-//         .json({ success: false, message: "Unauthorized: User not found" });
-//     }
-
-//     const userId = req.user.id;
-
-//     // Step 1: get customer_ids for this sales person
-//     const customerIdsResult = await Lead.findAll({
-//       attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("customer_id")), "customer_id"]],
-//       where: {
-//         assigned_person_id: userId,
-//         active_status: "active"
-//       },
-//       raw: true
-//     });
-
-//     const customerIds = customerIdsResult.map((c) => c.customer_id);
-//     if (customerIds.length === 0) {
-//       return res.status(200).json({ success: true, data: [], message: "No data found" });
-//     }
-
-//     // Step 2: get all leads for these customer ids
-//     const leads = await Lead.findAll({
-//       where: { customer_id: customerIds },
-//       include: [
-//         {
-//           model: Customer,
-//           as: "customer",
-//           attributes: ["id", "company_name"]
-//         },
-//         {
-//           model: dealData,
-//           as: "deals",
-//           attributes: [
-//             "id", "lead_id", "product_id", "amount", "advance_amount", "deal_amount", "createdAt"
-//           ],
-//           include: [
-//             {
-//               model: Product,
-//               as: "product",
-//               attributes: ["product_name"]
-//             }
-//           ],
-//           required: false
-//         }
-//       ],
-//       order: [["customer_id", "DESC"], ["id", "DESC"]],
-//     });
-
-//     // Step 3: group by customer
-//     const groupedData = {};
-
-//     leads.forEach((lead) => {
-//       const customerId = lead.customer?.id;
-//       if (!customerId) return;
-
-//       if (!groupedData[customerId]) {
-//         groupedData[customerId] = {
-//           customer_id: customerId,
-//           company_name: lead.customer.company_name,
-//           total_deal_amount: 0,
-//           total_advance_amount: 0,
-//           leads: []
-//         };
-//       }
-
-//       const dealsWithProduct = lead.deals.map((deal) => ({
-//         ...deal.toJSON(),
-//         product_name: deal.product?.product_name || null,
-//       }));
-
-//       const totalDealAmount = dealsWithProduct.reduce(
-//         (sum, deal) => sum + (deal.amount || 0),
-//         0
-//       );
-//       const totalAdvanceAmount = dealsWithProduct.reduce(
-//         (sum, deal) => sum + (deal.advance_amount || 0),
-//         0
-//       );
-
-//       groupedData[customerId].total_deal_amount += totalDealAmount;
-//       groupedData[customerId].total_advance_amount += totalAdvanceAmount;
-
-//       groupedData[customerId].leads.push({
-//         lead_id: lead.id,
-//         deals: dealsWithProduct
-//       });
-//     });
-
-//     const resultArray = Object.values(groupedData);
-
-//     res.status(200).json({
-//       success: true,
-//       message: "Deal data fetched successfully",
-//       data: resultArray
-//     });
-//   } catch (error) {
-//     console.error("Error:", error);
-//     res.status(500).json({ success: false, message: "Server Error", error: error.message });
-//   }
-// };
-
 const getDealData = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
@@ -2184,14 +1662,6 @@ const deleteProductFromLead = async (req, res) => {
       });
     }
 
-    // const lead = await Lead.findByPk(lead_id);
-    // if (!lead) {
-    //   return res.status(404).json({
-    //     success: false,
-    //     message: "Lead not found.",
-    //   });
-    // }
-
     // Check if product exists for the lead
     const dealRecord = await dealData.findOne({
       where: { product_id },
@@ -2394,12 +1864,51 @@ const getAllPOAReports = async (req, res) => {
   try {
     // Step 1: Fetch all leads with user data
     const leads = await Lead.findAll({
-      include: {
+      include: [{
         model: User,
         as: "assignedPerson",
         attributes: ["id", "username", "fullname"]
+      },
+      {
+          model: Customer,
+          as: "customer",
+          attributes: ["id","company_name"]
+      },
+      {
+          model: dealData,
+          as: "deals",
+          attributes: [
+            "id",
+            "lead_id",
+            "date",
+            "product_id",
+            "quantity",
+            "rate",
+            "amount",
+            "advance_amount",
+            "deal_amount",
+            "createdAt",
+          ],
+          include: [
+            {
+              model: Product,
+              as: "product",
+              attributes: ["id", "product_name","category_id"],
+              required: false,
+               include: [
+            {
+              model: Category,
+              as: "category",
+              attributes: ["id","category_name"],
+            },
+          ],
+           },
+         ],
       }
+      ]
     });
+
+    //console.log("leads",leads[0]?.deals[0]?.product);
 
     // Step 2: Group by assigned_person_id
     const employeeMap = new Map();
@@ -2407,8 +1916,14 @@ const getAllPOAReports = async (req, res) => {
     for (const lead of leads) {
       const empId = lead.assigned_person_id;
       const empName = lead.assignedPerson?.username || "Unknown";
-      const empfullname = lead.assignedPerson?.fullname || "Unknown";
+      const empfullname = lead.assignedPerson?.fullname ||"Unknown";
+      const customerId = lead.customer_id;
 
+      // Category name from last deal’s product (if available)
+     const lastDeal = lead.deals[lead.deals.length - 1];
+     const categoryName = lastDeal?.product?.category?.category_name || "N/A";
+
+     //console.log(`Employee: ${empName}, Customer ID: ${customerId}, Category: ${categoryName}`);
       if (!empId) continue; // Skip if no assigned employee
 
       if (!employeeMap.has(empId)) {
@@ -2419,6 +1934,7 @@ const getAllPOAReports = async (req, res) => {
           unique_customers: new Set(),
           total_material_qty: 0,
           total_approx_business: 0,
+          category_names: new Set(),
         });
       }
 
@@ -2426,6 +1942,7 @@ const getAllPOAReports = async (req, res) => {
       if (lead.customer_id) entry.unique_customers.add(lead.customer_id);
       if (lead.total_material_qty) entry.total_material_qty += lead.total_material_qty;
       if (lead.approx_business) entry.total_approx_business += lead.approx_business;
+        entry.category_name = categoryName;
     }
 
     // Step 3: Format final result
@@ -2436,6 +1953,7 @@ const getAllPOAReports = async (req, res) => {
       unique_customers_count: emp.unique_customers.size,
       total_material_qty: emp.total_material_qty,
       total_approx_business: emp.total_approx_business,
+      category_names: emp.category_name,
     }));
 
     return res.json({

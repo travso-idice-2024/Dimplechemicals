@@ -23,7 +23,7 @@ const AnnualBuisnessReport = () => {
   const { anualbsplan } = useSelector((state) => state.user);
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  //console.log("userDeatail", userDeatail);
+  console.log("anualbsplan", anualbsplan);
   const { allCustomers, customerAddress } = useSelector(
     (state) => state.customer
   );
@@ -331,16 +331,6 @@ useEffect(() => {
 
         if (response.success) {
           handleEditFlashMessage(response.message, "success");
-
-          // Optionally refresh listing if you have one
-          // dispatch(
-          //   listABP({
-          //     page: currentPage,
-          //     limit: abpPerPage,
-          //     search: searchTerm,
-          //     monthWise: monthWise,
-          //   })
-          // );
           dispatch(
             listABP({
               page: currentPage,

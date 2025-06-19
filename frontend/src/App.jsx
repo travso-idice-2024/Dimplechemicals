@@ -70,6 +70,7 @@ import Gmail from "./components/Gmail/gmail";
 import CustomerLeadList from "./components/MainComponent/MarketingManagement/SalesFolllowUpForm/CustomerManageData";
 import AnnualBuisnessReport from "./components/MainComponent/AnnualBuisnessPlan/AnnualBuisnessReport";
 import AdminAnnualBuisnessPlan from "./components/MainComponent/AdminAnnualBuisnessPlan/AdminAnnualBuisnessPlan";
+import BusinessAssociateReport from "./components/MainComponent/BussinesAssociateReport/BusinessAssociateList";
 
 function App() {
   const location = useLocation(); // ✅ Get current route
@@ -257,6 +258,11 @@ function App() {
             <Route
               path="/report-management/admin-annual-buisness-plan"
               element={<AdminAnnualBuisnessPlan />}
+            />
+
+             <Route
+              path="/report-management/business-associate-report"
+              element={<BusinessAssociateReport/>}
             />
 
             <Route

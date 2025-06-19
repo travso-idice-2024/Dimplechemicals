@@ -8,6 +8,7 @@ const {
   Customer,
   Category,
   sequelize,
+  Mytable,
 } = require("../models");
 const { Op } = require("sequelize");
 const ExcelJS = require("exceljs");
@@ -152,6 +153,11 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
             model: CustomerContactPerson,
             as: "contactPerson",
             attributes: ["id", "name", "email", "phone_no", "designation"],
+          },
+          {
+            model: Mytable,
+            as: "areaDetails",
+            attributes: ["district", "statename"],
           },
           {
             model: BusinessPlanProduct,
@@ -354,6 +360,11 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
                 model: Customer,
                 as: "customer",
                 attributes: ["id", "company_name", "email_id", "cust_id"],
+              },
+              {
+                model: Mytable,
+                as: "areaDetails",
+                attributes: ["district", "statename"],
               },
               {
                 model: BusinessAssociate,
@@ -653,17 +664,11 @@ exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
           as: "customer",
           attributes: ["id", "company_name"],
         },
-        // {
-        //   model: BusinessPlanProduct,
-        //   as: "products",
-        //   include: [
-        //     {
-        //       model: Category,
-        //       as: "category",
-        //       attributes: ["category_name"],
-        //     },
-        //   ],
-        // },
+        {
+          model: Mytable,
+          as: "areaDetails",
+          attributes: ["district", "statename"],
+        },
       ],
       order: [["createdAt", "DESC"]], // Optional: Order by latest
     });
@@ -674,7 +679,7 @@ exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
         emp_id: id,
         message: "No business plan records found for this employee",
         total_records: plans.length,
-        data:plans,
+        data: plans,
       });
     }
 
