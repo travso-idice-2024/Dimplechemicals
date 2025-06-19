@@ -51,7 +51,7 @@ const AllEmpPlanOfActionReport = ({
                       {poa.emp_fullname}
                     </td>
                     <td className="border px-4 py-2 text-newtextdata">{poa.unique_customers_count}</td>
-                    <td className="border px-4 py-2 text-newtextdata">{poa.product_sale}</td>
+                    <td className="border px-4 py-2 text-newtextdata">{poa.category_names}</td>
                     <td className="border px-4 py-2 text-newtextdata">
                       {poa.total_material_qty}
                     </td>

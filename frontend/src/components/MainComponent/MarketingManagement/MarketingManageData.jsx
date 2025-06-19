@@ -13,6 +13,8 @@ import AssignLeadModal from "./AssignLeadModal";
 import ParticularLeadAssign from "./ParticularLeadAssign";
 import DealCreationForm from "./DealCreationForm";
 import ViewCustomerHistoryCardReport from "./ViewCustomerHistoryCardReport";
+import SuccessMessage from "../../AlertMessage/SuccessMessage";
+import ErrorMessage from "../../AlertMessage/ErrorMessage";
 import {
   addLead,
   updateLead,
@@ -539,7 +541,7 @@ const MarketingManageData = () => {
         })
       ).unwrap();
 
-      //console.log(response);
+      console.log(response);
       if (response?.success) {
         handleUpdateLeadFlashMessage(response?.message, "success");
 

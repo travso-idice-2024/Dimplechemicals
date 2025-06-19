@@ -10,7 +10,7 @@ const AdminViewAnnualReport = ({
   abpproductbyid,
   getAnnualBusinessPlanByEmpId,
 }) => {
-  //console.log("abpbyempid", abpbyempid);
+  console.log("abpbyempid", abpbyempid);
   const [selectedBusinessPlanId, setSelectedBusinessPlanId] = useState(null);
   const [IsAnnualProductPopup, setIsAnnualProductPopup] = useState(false);
   const [monthValue, setmonthValue] = useState(null);
@@ -42,7 +42,7 @@ const AdminViewAnnualReport = ({
             View Report
           </h2>
 
-          <div className="p-4 mt-2 overflow-y-auto h-[450px]">
+          <div className="p-4 mt-2 overflow-y-auto h-fit">
             <h3 className="mt-2 mb-2 text-bgDataNew font-poppins border border-gray-300 w-[300px] font-medium text-[20px] mb-0 text-center mx-auto">
               Annual Business Plan
             </h3>
@@ -58,7 +58,9 @@ const AdminViewAnnualReport = ({
                       <td className="py-2 px-4 text-left font-bold text-gray-600 w-[40%]">
                         Name of Employee
                       </td>
-                      <td className="py-2 text-left align-middle w-[5%]">:</td>
+                      <td className="py-2 text-center align-middle w-[5%]">
+                        :
+                      </td>
                       <td className="py-2 px-4 text-right text-gray-800 w-[55%]">
                         {abpbyempid?.employee_fullname}
                       </td>
@@ -67,7 +69,7 @@ const AdminViewAnnualReport = ({
                       <td className="py-2 px-4 text-left font-bold text-gray-600">
                         Employee Code
                       </td>
-                      <td className="py-2 text-left align-middle">:</td>
+                      <td className="py-2 text-center align-middle">:</td>
                       <td className="py-2 px-4 text-right text-gray-800">
                         {abpbyempid?.emp_code}
                       </td>
@@ -76,7 +78,7 @@ const AdminViewAnnualReport = ({
                       <td className="py-2 px-4 text-left font-bold text-gray-600">
                         Business Associate code
                       </td>
-                      <td className="py-2 text-left align-middle">:</td>
+                      <td className="py-2 text-center align-middle">:</td>
                       <td className="py-2 px-4 text-right text-gray-800">
                         addsafdf
                       </td>
@@ -119,17 +121,18 @@ const AdminViewAnnualReport = ({
               </div>
             </div>
 
-            <div className="mt-4 px-1 overflow-auto">
-              <h3 class="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[18px] text-bgData mb-0 text-center mx-auto capitalize">
-                {" "}
-                Customer Details
-              </h3>
-              <div class="px-[1px] overflow-x-auto">
-                {/* First Table */}
-                <table className="table-auto w-full text-center border-collapse border border-gray-400">
-                  <tbody>
-                    <tr className="">
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+            
+              <div className="mt-4 px-1 overflow-auto">
+                <h3 class="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[18px] text-bgData mb-0 text-center mx-auto capitalize">
+                  {" "}
+                  Customer Details
+                </h3>
+                <div class="px-[1px] overflow-x-auto">
+                  {/* First Table */}
+                  <table className="table-auto w-full text-left border-collapse border border-gray-400">
+                    <tbody>
+                      <tr className="">
+                        {/* <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Country
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
@@ -137,157 +140,97 @@ const AdminViewAnnualReport = ({
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         City
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Custumer Name
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Location
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Month
-                      </th>
+                      </th> */}
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Custumer Name
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Location
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Month
+                        </th>
 
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Project Name/Application Area
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Contact Person
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Designation
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Phone Number
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        EmailID
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        BA Code
-                      </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Project Name/Application Area
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Contact Person
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Designation
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Phone Number
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          EmailID
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          BA Code
+                        </th>
 
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Approx Area in sqM
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Buisness Potential
-                      </th>
-                    </tr>
-                    {abpbyempid?.data?.map((user, index) => (
-                      <tr className="" key={index}>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          India
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.areaDetails?.statename}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.areaDetails?.district}
-                        </td>
-
-                        <td
-                          className={`relative group cursor-pointer px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap cursor-pointer ${
-                            selectedBusinessPlanId === user.id
-                              ? "bg-yellow-300 text-black"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            getProductsByBusinessPlanId(user.id);
-                            setSelectedBusinessPlanId(user.id);
-                            setIsAnnualProductPopup(true);
-                          }}
-                        >
-                          {/* {user?.customer?.company_name} */}
-                          {/* Show only first 2 words and ... only if more than 2 words */}
-                          {(() => {
-                            const words =
-                              user?.customer?.company_name?.split(" ") || [];
-                            return words.length > 2
-                              ? `${words.slice(0, 2).join(" ")}...`
-                              : user?.customer?.company_name;
-                          })()}
-
-                          {/* Tooltip on hover */}
-                          <div className="absolute z-10 hidden group-hover:block bg-gray-800 text-white text-sm rounded-md px-3 py-1 -top-10 left-1/2 -translate-x-1/2 whitespace-normal max-w-xs shadow-lg text-center">
-                            {user?.customer?.company_name}
-                          </div>
-                        </td>
-                        <td class="relative group cursor-pointer px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {/* {user?.location} */}
-                          {/* Show only first 2 words and ... only if more than 2 words */}
-                          {(() => {
-                            const words =
-                              user?.location?.split(" ") || [];
-                            return words.length > 2
-                              ? `${words.slice(0, 2).join(" ")}...`
-                              : user?.location;
-                          })()}
-
-                          {/* Tooltip on hover */}
-                          <div className="absolute z-10 hidden group-hover:block bg-gray-800 text-white text-sm rounded-md px-3 py-1 -top-10 left-1/2 -translate-x-1/2 whitespace-normal max-w-xs shadow-lg text-center">
-                            {user?.location}
-                          </div>
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.for_month}
-                        </td>
-                        <td class="relative group cursor-pointer text-center px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {/* {user?.project_name} */}
-                          {/* Show only first 2 words and ... only if more than 2 words */}
-                          {(() => {
-                            const words =
-                              user?.project_name?.split(" ") || [];
-                            return words.length > 2
-                              ? `${words.slice(0, 2).join(" ")}...`
-                              : user?.project_name;
-                          })()}
-
-                          {/* Tooltip on hover */}
-                          <div className="absolute z-10 hidden group-hover:block bg-gray-800 text-white text-sm rounded-md px-3 py-1 -top-10 left-1/2 -translate-x-1/2 whitespace-normal max-w-xs shadow-lg text-center">
-                            {user?.project_name}
-                          </div>
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.name}
-                        </td>
-                        <td class="relative group cursor-pointer px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {/* {user?.contactPerson?.designation} */}
-                          {/* Show only first 2 words and ... only if more than 2 words */}
-                          {(() => {
-                            const words =
-                              user?.contactPerson?.designation?.split(" ") || [];
-                            return words.length > 2
-                              ? `${words.slice(0, 2).join(" ")}...`
-                              : user?.contactPerson?.designation;
-                          })()}
-
-                          {/* Tooltip on hover */}
-                          <div className="absolute z-10 hidden group-hover:block bg-gray-800 text-white text-sm rounded-md px-3 py-1 -top-10 left-1/2 -translate-x-1/2 whitespace-normal max-w-xs shadow-lg text-center">
-                            {user?.contactPerson?.designation}
-                          </div>
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.phone_no}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.email}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.associate?.code}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.area_mtr2}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.buisness_potential}
-                        </td>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Approx Area in sqM
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Buisness Potential
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      {abpbyempid?.data?.map((user, index) => (
+                        <tr className="" key={index}>
+                          
+                          <td
+                            className={`px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap cursor-pointer ${
+                              selectedBusinessPlanId === user.id
+                                ? "bg-yellow-300 text-black"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              getProductsByBusinessPlanId(user.id);
+                              setSelectedBusinessPlanId(user.id);
+                              setIsAnnualProductPopup(true);
+                            }}
+                          >
+                            {user?.customer?.company_name}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.location}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.for_month}
+                          </td>
+                          <td class="text-center px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.project_name}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.name}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.designation}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.phone_no}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.email}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.associate?.code}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.area_mtr2}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.buisness_potential}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
+            
 
             {IsAnnualProductPopup && (
               <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
@@ -301,9 +244,9 @@ const AdminViewAnnualReport = ({
                         Product Details
                       </h3>
                       <div className="px-[1px] overflow-x-auto">
-                        <table className="table-auto w-full text-center border-collapse border border-gray-400">
+                        <table className="table-auto w-full text-left border-collapse border border-gray-400">
                           <tbody>
-                            <tr className="text-center">
+                            <tr className="text-left">
                               <td
                                 colSpan="2"
                                 className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
@@ -355,7 +298,7 @@ const AdminViewAnnualReport = ({
                             </tr>
 
                             {abpproductbyid?.map((item, index) => (
-                              <tr key={item.id} className="text-center">
+                              <tr key={item.id} className="text-left">
                                 <td
                                   colSpan="2"
                                   className="px-4 py-2 text-[#72360a] border border-gray-400"

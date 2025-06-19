@@ -7,7 +7,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   const { communicationleadsList, totalPages, leadLoading, leadError } =
     useSelector((state) => state.lead);
 
-  console.log("communicationleadsList", communicationleadsList?.data);
+ // console.log("communicationleadsList", communicationleadsList);
 
   useEffect(() => {
     if (selectedCustomer?.customer_id) {

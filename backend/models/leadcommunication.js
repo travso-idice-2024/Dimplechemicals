@@ -54,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TIME,
       allowNull: true,
     },
+    total_hrs_spent: {
+      type: DataTypes.TIME,
+      allowNull:true,
+    },
     next_meeting_time: {
       type: DataTypes.TIME,
       allowNull: true,

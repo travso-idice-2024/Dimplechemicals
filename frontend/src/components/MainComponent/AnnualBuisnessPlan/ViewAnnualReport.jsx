@@ -38,7 +38,7 @@ const ViewAnnualReport = ({
             View Report
           </h2>
 
-          <div className="p-4 mt-2 overflow-y-auto h-[540px]">
+          <div className="p-4 mt-2 overflow-y-auto h-[530px]">
             <h3 className="mt-2 mb-2 text-bgDataNew font-poppins border border-gray-300 w-[300px] font-medium text-[20px] mb-0 text-center mx-auto">
               Annual Business Plan
             </h3>
@@ -112,10 +112,10 @@ const ViewAnnualReport = ({
                 <table className="table-fixed w-full text-left border-collapse border border-gray-400">
                   {/* 8 columns, each 12.5% */}
                   <colgroup>
-                    <col span="4" style={{ width: "12.5%" }} />
+                    <col span="6" style={{ width: "12.5%" }} />
                   </colgroup>
                   <tbody>
-                    <tr className="text-left">
+                    <tr className="text-center">
                       {/* colspan values sum to 8 */}
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -123,7 +123,7 @@ const ViewAnnualReport = ({
                       >
                         Customer Name
                       </td>
-                      {/* <td
+                      <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
@@ -134,7 +134,7 @@ const ViewAnnualReport = ({
                         colSpan={1}
                       >
                         City
-                      </td> */}
+                      </td>
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
@@ -145,39 +145,51 @@ const ViewAnnualReport = ({
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        Contact Person
+                        Country
                       </td>
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        Conatct no.
+                        Contact Person
                       </td>
+                      {/* <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Conatct no.
+                      </td> */}
                     </tr>
-                    <tr className="text-left">
+                    <tr className="text-center">
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         {selectedABP?.customer?.company_name}
                       </td>
-                      {/* <td
+                      <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
-                        Maharashtra
+                        {selectedABP?.areaDetails?.statename}
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
-                        Mumbai
-                      </td> */}
+                         {selectedABP?.areaDetails?.district}
+                      </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         {selectedABP?.location}
+                      </td>
+                       <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        India
                       </td>
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -185,12 +197,12 @@ const ViewAnnualReport = ({
                       >
                         {selectedABP?.contactPerson?.name}
                       </td>
-                      <td
+                      {/* <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         +91 {selectedABP?.contactPerson?.phone_no}
-                      </td>
+                      </td> */}
                     </tr>
                   </tbody>
                 </table>
@@ -199,22 +211,16 @@ const ViewAnnualReport = ({
                 <table className="table-fixed w-full text-left border-collapse border border-gray-400 mt-2">
                   {/* Same colgroup: 8 columns of 12.5% each */}
                   <colgroup>
-                    <col span="4" style={{ width: "12.5%" }} />
+                    <col span="6" style={{ width: "12.5%" }} />
                   </colgroup>
                   <tbody>
-                    <tr className="text-left">
+                    <tr className="text-center">
                      
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
                         Email Id
-                      </td>
-                      <td
-                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        Project Name
                       </td>
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -228,15 +234,28 @@ const ViewAnnualReport = ({
                       >
                         Designation
                       </td>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Project Name
+                      </td>
+                      
                       
                       <td
                         className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
-                        App Area in sq mtr
+                        App Area(sq mtr)
+                      </td>
+                       <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        Contact No.
                       </td>
                     </tr>
-                    <tr className="text-left">
+                    <tr className="text-center">
                      
                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
@@ -244,13 +263,7 @@ const ViewAnnualReport = ({
                       >
                         {selectedABP?.contactPerson?.email}
                       </td>
-                      <td
-                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
-                        colSpan={2}
-                      >
-                        {selectedABP?.project_name}
-                      </td>
-                      <td
+                       <td
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={1}
                       >
@@ -267,7 +280,20 @@ const ViewAnnualReport = ({
                         className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                         colSpan={2}
                       >
+                        {selectedABP?.project_name}
+                      </td>
+                     
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
                         {selectedABP?.area_mtr2}
+                      </td>
+                      <td
+                        className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap overflow-hidden text-ellipsis"
+                        colSpan={2}
+                      >
+                        +91 {selectedABP?.contactPerson?.phone_no}
                       </td>
                     </tr>
                   </tbody>
@@ -283,7 +309,7 @@ const ViewAnnualReport = ({
               <div class="px-[1px] overflow-x-auto">
                 <table class="table-auto w-full text-left border-collapse border border-gray-400">
                   <tbody>
-                    <tr class="text-left">
+                    <tr class="text-center">
                       <td
                         class="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
                         colspan="2"
@@ -335,7 +361,7 @@ const ViewAnnualReport = ({
                     </tr>
 
                     {selectedABP?.products?.map((product, index) => (
-                      <tr class="text-left" key={index}>
+                      <tr class="text-center" key={index}>
                         <td
                           class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
                           colspan="2"

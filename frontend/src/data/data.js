@@ -313,6 +313,13 @@ export const navigationLinks = [
         path: "/report-management/admin-annual-buisness-plan",
         allowedRoles: [1],
       },
+      {
+        id: 8.8,
+        title: "Business Associate Report",
+        image: iconsImgs.followupform,
+        path: "/report-management/business-associate-report",
+        allowedRoles: [1],
+      },
     ],
   },
 

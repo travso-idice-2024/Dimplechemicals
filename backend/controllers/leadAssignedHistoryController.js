@@ -38,10 +38,15 @@ const createLeadAssignedHistory = async (req, res) => {
         new_assigned_person_id,
       });
 
+      await Lead.update(
+        { assigned_person_id: new_assigned_person_id },
+        { where: { id: lead_id}}
+      );
+
       createdHistories.push(newEntry);
     }
 
-    return res.status(201).json({
+    return res.json({
       success: true,
       message: `lead assigned successfully`,
       data: createdHistories,

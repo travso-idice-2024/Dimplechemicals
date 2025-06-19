@@ -40,6 +40,8 @@ const {
   customerHistory,
   getBuisnessAssociates,
   updateBusinessAssociate,
+  listBusinessAssociates,
+  exportBusinessAssociates
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -337,5 +339,8 @@ router.get(
 
 router.get("/export-buisness-plan-summary", authMiddleware, exportAnnualBusinessPlanSummary);
 router.get("/customer-info/:id", authMiddleware, customerInfo);
+router.get("/listBusinessAssociates", authMiddleware, listBusinessAssociates);
+router.get("/exportBusinessAssociates", authMiddleware, exportBusinessAssociates);
+
 
 module.exports = router;
