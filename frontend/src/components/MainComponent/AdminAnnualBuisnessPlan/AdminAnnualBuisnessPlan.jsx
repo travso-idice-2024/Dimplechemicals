@@ -61,26 +61,35 @@ const AdminAnnualBuisnessPlan = () => {
     setCurrentPage(newPage);
   };
 
-  const getAnnualBusinessPlanByEmpId = async(empId)=>{
-       try {
-      setabpproductbyid([]);
-      const token = getAuthToken();
-      const response = await axios.get(
-        `${API_URL}/auth/getAnnualBusinessPlanById/${empId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("RESULT",  response.data);
-      setabpbyempid(response?.data);
-      return response.data.data; // assuming your API responds with { data: [...] }
-    } catch (error) {
-      console.error("Failed to fetch poafor emp:", error);
-      return [];
-    }
+ const getAnnualBusinessPlanByEmpId = async (empId = "", monthValue = "") => {
+  //console.log("function calling",empId)
+ 
+  try {
+    setabpbyempid([]);
+    setabpproductbyid([]);
+    const token = getAuthToken();
+
+    // Build query params if monthValue exists
+    const queryParams = monthValue ? `?monthValue=${monthValue}` : "";
+
+    const response = await axios.get(
+      `${API_URL}/auth/getAnnualBusinessPlanById/${empId}${queryParams}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("RESULT", response.data);
+    setabpbyempid(response?.data);
+    return response.data.data; // assuming your API responds with { data: [...] }
+  } catch (error) {
+    console.error("Failed to fetch ABP for emp:", error);
+    return [];
   }
+};
+
 
   
   const getProductsByBusinessPlanId = async(Id)=>{
@@ -103,6 +112,42 @@ const AdminAnnualBuisnessPlan = () => {
     }
   }
 
+   //export customer data in excel file
+    const handleExportData = async () => {
+      try {
+        // ✅ Get token
+        const token = getAuthToken();
+  
+        // ✅ Correct API call with query parameters
+        const response = await axios.get(`${API_URL}/auth/export-buisness-plan-summary`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            search: searchTerm,
+          },
+          responseType: "blob", // ✅ Important to keep it here
+        });
+  
+        // ✅ Create a URL for the blob
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+  
+        // ✅ Create a temporary <a> tag to download the file
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Annual_Businessplan_Report.xlsx"); // File name
+        document.body.appendChild(link);
+        link.click();
+  
+        // ✅ Cleanup after download
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error exporting data:", error);
+      }
+    };
+    //end export customer data in excel file
+
   return (
     <div className="main-content">
       <ContentTop />
@@ -123,6 +168,14 @@ const AdminAnnualBuisnessPlan = () => {
                 onChange={handleSearchChange}
               />
             </div>
+             <div>
+                <button
+                  className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                  onClick={handleExportData}
+                >
+                  Export Data
+                </button>
+              </div>
             {/* <div className="md:mb-0 mb-2">
               <input
                 type="search"
@@ -189,6 +242,7 @@ const AdminAnnualBuisnessPlan = () => {
             {/*------- Table Data Start -------*/}
             <AdminListTableReport 
              ABPdata = {anualbsplanReportdata?.data}
+             anualbsplanReportdata={anualbsplanReportdata}
              setIsViewReportOpen={setIsViewReportOpen}
              getAnnualBusinessPlanByEmpId={getAnnualBusinessPlanByEmpId}/>
             {/*-------- Table Data End --------*/}
@@ -202,6 +256,7 @@ const AdminAnnualBuisnessPlan = () => {
             abpbyempid={abpbyempid}
             getProductsByBusinessPlanId={getProductsByBusinessPlanId}
             abpproductbyid={abpproductbyid}
+            getAnnualBusinessPlanByEmpId={getAnnualBusinessPlanByEmpId}
           />
         )}
       </div>

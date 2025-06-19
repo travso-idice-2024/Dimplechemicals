@@ -130,7 +130,8 @@ const {
   updateAnnualBusinessPlan,
   getAnnualBusinessPlanSummary,
   getAnnualBusinessPlanByEmpId,
-  getProductsByBusinessPlanId
+  getProductsByBusinessPlanId,
+  exportAnnualBusinessPlanSummary
 } = require("../controllers/businessPlanController");
 
 const authMiddleware = require("../middlewares/auth.middleware");
@@ -333,5 +334,8 @@ router.get(
   authMiddleware,
   getProductsByBusinessPlanId
 );
+
+router.get("/export-buisness-plan-summary", authMiddleware, exportAnnualBusinessPlanSummary);
+router.get("/customer-info/:id", authMiddleware, customerInfo);
 
 module.exports = router;

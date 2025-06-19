@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
-const { Customer, Lead, User, BusinessAssociate, CustomerContactPerson,CustomerAddress } = require("../models");
+const { Customer, Lead, User, BusinessAssociate, CustomerContactPerson,CustomerAddress,dealData,
+  Product } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
@@ -14,7 +15,7 @@ const listCustomers = async (req, res) => {
     let whereCondition = { active_status: "active" };
 
     // Add search filter if provided
-    if (search) {
+    if (search) { 
       //whereCondition.company_name = { [Op.like]: `%${search}%` };
       whereCondition.company_name = { [Op.like]: `${search}%` };
 
@@ -689,84 +690,6 @@ const exportCustomersToExcel = async (req, res) => {
   }
 };
 
-const customerInfo = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // 🔍 If customer ID is provided
-    if (id) {
-      const customer = await Customer.findOne({
-        where: { id, active_status: "active" },
-        include: [
-          {
-            model: Lead,
-            as: "leads",
-            include: [
-              {
-                model: User,
-                as: "assignedPerson",
-                attributes: ["id", "fullname", "email"],
-              },
-              {
-                model: User,
-                as: "leadOwner",
-                attributes: ["id", "fullname", "email"],
-              },
-            ],
-            order: [["assign_date", "DESC"]],
-          },
-        ],
-      });
-
-      if (!customer) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Customer not found" });
-      }
-
-      return res.status(200).json({ success: true, data: customer });
-    }
-
-    // 🔁 If no ID provided, list with pagination or all
-    const { page = 1, limit = 10, search = "", all } = req.query;
-    let whereCondition = { active_status: "active" };
-
-    if (search) {
-      whereCondition.company_name = { [Op.like]: `%${search}%` };
-    }
-
-    if (all === "true") {
-      const customers = await Customer.findAll({
-        where: whereCondition,
-        order: [["company_name", "ASC"]],
-      });
-      return res.status(200).json({ success: true, data: customers });
-    }
-
-    const pageNumber = parseInt(page, 10);
-    const pageSize = parseInt(limit, 10);
-    const offset = (pageNumber - 1) * pageSize;
-
-    const { count, rows } = await Customer.findAndCountAll({
-      where: whereCondition,
-      limit: pageSize,
-      offset,
-      order: [["company_name", "ASC"]],
-    });
-
-    res.status(200).json({
-      success: true,
-      data: rows,
-      currentPage: pageNumber,
-      totalPages: Math.ceil(count / pageSize),
-      totalItems: count,
-    });
-  } catch (error) {
-    console.error("Error in customerInfo:", error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
 const customerHistory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -975,6 +898,120 @@ const updateBusinessAssociate = async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const customerInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // 🔍 Fetch specific customer by ID
+    if (id) {
+      const customer = await Customer.findOne({
+        where: { id, active_status: "active" },
+        include: [
+          {
+            model: Lead,
+            as: "leads",
+            include: [
+              {
+                model: User,
+                as: "assignedPerson",
+                attributes: ["id", "fullname", "email"],
+              },
+              {
+                model: dealData,
+                as: "deals",
+                attributes: ["product_id"],
+                include: [
+                  {
+                    model: Product,
+                    as: "product",
+                    attributes: ["product_name"],
+                  },
+                ],
+              },
+              {
+                model: User,
+                as: "leadOwner",
+                attributes: ["id", "fullname", "email"],
+              },
+            ],
+            order: [["assign_date", "DESC"]],
+          },
+          {
+            model: BusinessAssociate,
+            as: "businessAssociates",
+            attributes: ["id", "associate_name", "status", "email", "phone_no"],
+
+          },
+          {
+            model: CustomerContactPerson,
+            as: "contactPersons",
+            attributes: ["id", "name", "email", "phone_no"],
+          },
+        ],
+      });
+
+      if (!customer) {
+        return res.status(404).json({
+          success: false,
+          message: "Customer not found",
+        });
+      }
+
+      const allDeals = customer.leads.flatMap((lead) => lead.deals || []);
+      const mergedDeals = [
+        ...new Map(allDeals.map((deal) => [deal.product_id, deal])).values(),
+      ];
+
+      const responseData = {
+        ...customer.toJSON(),
+        mergedDeals, // added field
+      };
+
+      return res.status(200).json({ success: true, data: responseData });
+    }
+
+    // 🔁 Paginated list of customers
+    const { page = 1, limit = 10, search = "" } = req.query;
+    let whereCondition = { active_status: "active" };
+
+    if (search) {
+      whereCondition.company_name = { [Op.like]: `%${search}%` };
+    }
+
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(limit, 10);
+    const offset = (pageNumber - 1) * pageSize;
+
+    const { count, rows } = await Customer.findAndCountAll({
+      where: whereCondition,
+      include: [
+        {
+          model: BusinessAssociate,
+          as: "businessAssociates",
+        },
+        {
+          model: CustomerContactPerson,
+          as: "contactPersons",
+        },
+      ],
+      limit: pageSize,
+      offset,
+      order: [["company_name", "ASC"]],
+    });
+
+    res.status(200).json({
+      success: true,
+      data: rows,
+      currentPage: pageNumber,
+      totalPages: Math.ceil(count / pageSize),
+      totalItems: count,
+    });
+  } catch (error) {
+    console.error("Error in customerInfo:", error);
+    res.status(500).json({ success: false, message: error.message});
   }
 };
 

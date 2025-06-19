@@ -7,10 +7,10 @@ const {
   Product,
   Customer,
   Category,
-  sequelize
+  sequelize,
 } = require("../models");
 const { Op } = require("sequelize");
-
+const ExcelJS = require("exceljs");
 
 exports.addAnnualBusinessPlan = async (req, res) => {
   const t = await sequelize.transaction();
@@ -544,7 +544,8 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
 
       // Get category name from the last product
       const categoryName =
-        plan.products?.[plan.products.length - 1]?.category?.category_name || "N/A";
+        plan.products?.[plan.products.length - 1]?.category?.category_name ||
+        "N/A";
 
       if (!empId) continue;
 
@@ -562,7 +563,8 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
       const entry = employeeMap.get(empId);
       if (customerId) entry.unique_customers.add(customerId);
       if (plan.area_mtr2) entry.total_area_mtr2 += plan.area_mtr2;
-      if (plan.buisness_potential) entry.total_buisness_potential += plan.buisness_potential;
+      if (plan.buisness_potential)
+        entry.total_buisness_potential += plan.buisness_potential;
       entry.category_name = categoryName;
     }
 
@@ -584,11 +586,12 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
       };
     });
 
-   
-
     // Pagination
     const startIndex = (parseInt(page) - 1) * parseInt(limit);
-    const paginatedData = fullResult.slice(startIndex, startIndex + parseInt(limit));
+    const paginatedData = fullResult.slice(
+      startIndex,
+      startIndex + parseInt(limit)
+    );
 
     return res.json({
       success: true,
@@ -611,6 +614,8 @@ exports.getAnnualBusinessPlanSummary = async (req, res) => {
 exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
   try {
     const { id } = req.params;
+    const { monthValue } = req.query;
+    //console.log("monthValue",monthValue);
 
     if (!id) {
       return res.status(400).json({
@@ -619,27 +624,29 @@ exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
       });
     }
 
+    const whereCondition = { emp_id: id };
+
+    if (monthValue) {
+      whereCondition.for_month = monthValue;
+    }
+
     const plans = await AnnualBusinessPlan.findAll({
-      where: {
-        emp_id: id,
-      },
+      where: whereCondition,
       include: [
         {
           model: User,
           as: "employee",
-          attributes: ["id", "fullname","emp_id"],
+          attributes: ["id", "fullname", "emp_id"],
         },
         {
           model: BusinessAssociate,
           as: "associate",
-          attributes: ["id", "associate_name", "email", "phone_no",
-            "code"
-          ],
+          attributes: ["id", "associate_name", "email", "phone_no", "code"],
         },
         {
           model: CustomerContactPerson,
           as: "contactPerson",
-          attributes: ["id", "name", "email", "phone_no","designation"],
+          attributes: ["id", "name", "email", "phone_no", "designation"],
         },
         {
           model: Customer,
@@ -662,9 +669,12 @@ exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
     });
 
     if (plans.length === 0) {
-      return res.status(404).json({
+      return res.json({
         success: false,
+        emp_id: id,
         message: "No business plan records found for this employee",
+        total_records: plans.length,
+        data:plans,
       });
     }
 
@@ -681,7 +691,7 @@ exports.getAnnualBusinessPlanByEmpId = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-  });
+    });
   }
 };
 
@@ -730,6 +740,152 @@ exports.getProductsByBusinessPlanId = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-  });
-}
+    });
+  }
+};
+
+exports.exportAnnualBusinessPlanSummary = async (req, res) => {
+  try {
+    const { search = "" } = req.query;
+
+    const plans = await AnnualBusinessPlan.findAll({
+      include: [
+        {
+          model: User,
+          as: "employee",
+          attributes: ["id", "fullname"],
+          where: search
+            ? {
+                fullname: {
+                  [Op.like]: `%${search}%`,
+                },
+              }
+            : undefined,
+        },
+        {
+          model: BusinessPlanProduct,
+          as: "products",
+          include: [
+            {
+              model: Category,
+              as: "category",
+              attributes: ["category_name"],
+            },
+          ],
+        },
+      ],
+    });
+
+    const employeeMap = new Map();
+
+    for (const plan of plans) {
+      const empId = plan.emp_id;
+      const empFullname = plan.employee?.fullname || "Unknown";
+      const customerId = plan.customer_id;
+
+      const categoryName =
+        plan.products?.[plan.products.length - 1]?.category?.category_name ||
+        "N/A";
+
+      if (!empId) continue;
+
+      if (!employeeMap.has(empId)) {
+        employeeMap.set(empId, {
+          emp_id: empId,
+          employee_fullname: empFullname,
+          unique_customers: new Set(),
+          total_area_mtr2: 0,
+          total_buisness_potential: 0,
+          category_name: categoryName,
+        });
+      }
+
+      const entry = employeeMap.get(empId);
+      if (customerId) entry.unique_customers.add(customerId);
+      if (plan.area_mtr2) entry.total_area_mtr2 += plan.area_mtr2;
+      if (plan.buisness_potential)
+        entry.total_buisness_potential += plan.buisness_potential;
+      entry.category_name = categoryName;
+    }
+
+    const fullResult = Array.from(employeeMap.values()).map((emp) => ({
+      emp_id: emp.emp_id,
+      employee_fullname: emp.employee_fullname,
+      unique_customers_count: emp.unique_customers.size,
+      total_area_mtr2: emp.total_area_mtr2,
+      total_buisness_potential: emp.total_buisness_potential,
+      category_name: emp.category_name,
+    }));
+
+    // Create Excel workbook and worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Business Plan Summary");
+
+    // Header
+    worksheet.columns = [
+      { header: "Employee ID", key: "emp_id", width: 15 },
+      { header: "Employee Name", key: "employee_fullname", width: 30 },
+      { header: "No. of Companies", key: "unique_customers_count", width: 10 },
+      {
+        header: "Product Sale / Work Execution / Expected Sales",
+        key: "category_name",
+        width: 40,
+      },
+      {
+        header: "Total Material Qty. / Total Area (in Sqm)",
+        key: "total_area_mtr2",
+        width: 40,
+      },
+      {
+        header: "Approx Business Potential",
+        key: "total_buisness_potential",
+        width: 40,
+      },
+    ];
+
+    // Add rows
+    // fullResult.forEach((item) => {
+    //   worksheet.addRow(item);
+    // });
+
+    // Add rows and calculate grand totals
+    let grandTotalArea = 0;
+    let grandTotalBusinessPotential = 0;
+
+    fullResult.forEach((item) => {
+      worksheet.addRow(item);
+      grandTotalArea += item.total_area_mtr2;
+      grandTotalBusinessPotential += item.total_buisness_potential;
+    });
+
+    // Add a blank row for spacing
+    worksheet.addRow({});
+
+    // Add grand total row
+    worksheet.addRow({
+      category_name: "Grand Total",
+      total_area_mtr2: grandTotalArea,
+      total_buisness_potential: grandTotalBusinessPotential,
+    });
+
+    // Set response headers
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=AnnualBusinessPlanSummary.xlsx"
+    );
+
+    // Write to response stream
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error("Error in exportAnnualBusinessPlanSummary:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
 };

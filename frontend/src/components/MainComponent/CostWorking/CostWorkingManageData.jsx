@@ -619,7 +619,7 @@ const CostWorkingManageData = () => {
                       <option value={75}>75</option>
                       <option value={100}>100</option>
                     </select>
-                    <div className="cursor-pointer absolute inset-y-0 right-2 flex items-center text-gray-300">
+                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
                       <svg
                         className="w-4 h-4"
                         fill="none"

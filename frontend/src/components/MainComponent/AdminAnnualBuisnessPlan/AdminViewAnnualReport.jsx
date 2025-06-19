@@ -8,10 +8,12 @@ const AdminViewAnnualReport = ({
   abpbyempid,
   getProductsByBusinessPlanId,
   abpproductbyid,
+  getAnnualBusinessPlanByEmpId,
 }) => {
-  //console.log("abpproductbyid", abpproductbyid);
+  console.log("abpbyempid", abpbyempid);
   const [selectedBusinessPlanId, setSelectedBusinessPlanId] = useState(null);
   const [IsAnnualProductPopup, setIsAnnualProductPopup] = useState(false);
+  const [monthValue, setmonthValue] = useState(null);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -84,19 +86,53 @@ const AdminViewAnnualReport = ({
                   </tbody>
                 </table>
               </div>
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col items-start">
+                  <select
+                    name="monthValeue"
+                    value={monthValue}
+                    onChange={(e) => {
+                      const selectedValue = e.target.value;
+                      setmonthValue(selectedValue); // update state
+                      getAnnualBusinessPlanByEmpId(
+                        abpbyempid?.emp_id,
+                        selectedValue
+                      ); // call API with new value
+                    }}
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                  >
+                    <option value="">Select Duration</option>
+
+                    <option value={3}>3 month</option>
+                    <option value={6}>6 month</option>
+                    <option value={9}>9 month</option>
+                    <option value={12}>12 month</option>
+                  </select>
+                </div>
+                <div>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="text-white text-[12px] mb-[2px]"
+                  />
+                </div>
+                {/* {abpFormErrors?.for_month && (
+                  <p className="text-red-500">{abpFormErrors?.for_month}</p>
+                )} */}
+              </div>
             </div>
 
-            <div className="mt-4 px-1 overflow-auto">
-              <h3 class="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[18px] text-bgData mb-0 text-center mx-auto capitalize">
-                {" "}
-                Customer Details
-              </h3>
-              <div class="px-[1px] overflow-x-auto">
-                {/* First Table */}
-                <table className="table-auto w-full text-left border-collapse border border-gray-400">
-                  <tbody>
-                    <tr className="">
-                      {/* <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+            
+              <div className="mt-4 px-1 overflow-auto">
+                <h3 class="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[18px] text-bgData mb-0 text-center mx-auto capitalize">
+                  {" "}
+                  Customer Details
+                </h3>
+                <div class="px-[1px] overflow-x-auto">
+                  {/* First Table */}
+                  <table className="table-auto w-full text-left border-collapse border border-gray-400">
+                    <tbody>
+                      <tr className="">
+                        {/* <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         Country
                       </th>
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
@@ -105,110 +141,95 @@ const AdminViewAnnualReport = ({
                       <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
                         City
                       </th> */}
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Custumer Name
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Location
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Month
-                      </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Custumer Name
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Location
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Month
+                        </th>
 
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Project Name/Application Area
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Contact Person
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Designation
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Phone Number
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        EmailID
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        BA Code
-                      </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Project Name/Application Area
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Contact Person
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Designation
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Phone Number
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          EmailID
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          BA Code
+                        </th>
 
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Approx Area in sqM
-                      </th>
-                      <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        Buisness Potential
-                      </th>
-                    </tr>
-                    {abpbyempid?.data?.map((user, index) => (
-                      <tr className="" key={index}>
-                        {/* <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        fdfsd
-                      </td>
-                      <td
-                        class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
-          
-                      >
-                        sfsdfsdfsd
-                      </td>
-                      <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                        dsfsdfsdf
-                      </td> */}
-                        <td
-                          className={`px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap cursor-pointer ${
-                            selectedBusinessPlanId === user.id
-                              ? "bg-yellow-300 text-black"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            getProductsByBusinessPlanId(user.id);
-                            setSelectedBusinessPlanId(user.id);
-                            setIsAnnualProductPopup(true);
-                          }}
-                        >
-                          {user?.customer?.company_name}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.location}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.for_month}
-                        </td>
-                        <td class="text-center px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.project_name}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.name}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.designation}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.phone_no}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.contactPerson?.email}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.associate?.code}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.area_mtr2}
-                        </td>
-                        <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
-                          {user?.buisness_potential}
-                        </td>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Approx Area in sqM
+                        </th>
+                        <th className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                          Buisness Potential
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      {abpbyempid?.data?.map((user, index) => (
+                        <tr className="" key={index}>
+                          
+                          <td
+                            className={`px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap cursor-pointer ${
+                              selectedBusinessPlanId === user.id
+                                ? "bg-yellow-300 text-black"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              getProductsByBusinessPlanId(user.id);
+                              setSelectedBusinessPlanId(user.id);
+                              setIsAnnualProductPopup(true);
+                            }}
+                          >
+                            {user?.customer?.company_name}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.location}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.for_month}
+                          </td>
+                          <td class="text-center px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.project_name}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.name}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.designation}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.phone_no}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.contactPerson?.email}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.associate?.code}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.area_mtr2}
+                          </td>
+                          <td class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap">
+                            {user?.buisness_potential}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-
             
 
             {IsAnnualProductPopup && (

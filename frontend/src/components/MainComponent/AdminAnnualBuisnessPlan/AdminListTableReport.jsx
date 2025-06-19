@@ -6,9 +6,11 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const AdminListTableReport = ({
   ABPdata,
+  anualbsplanReportdata,
   setIsViewReportOpen,
   getAnnualBusinessPlanByEmpId,
 }) => {
+  //console.log("anualbsplanReportdata",anualbsplanReportdata);
   return (
     <>
       <div className="overflow-x-auto">
@@ -76,7 +78,7 @@ const AdminListTableReport = ({
               </td> */}
               </tr>
             ))}
-            <tr className="text-center">
+            <tr className="text-center bg-[#473b33] rounded-[8px]">
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
                 
               </td>
@@ -90,10 +92,10 @@ const AdminListTableReport = ({
                 Total
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer font-bold ">
-                14
+                {anualbsplanReportdata?.grand_total_area_mtr2}
               </td>
               <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer font-bold ">
-                15
+                {anualbsplanReportdata?.grand_total_buisness_potential}
               </td>
             </tr>
           </tbody>

@@ -15,9 +15,11 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
           <div className="flex justify-between items-center mb-4 pr-1">
             <img src={dcpllogo} alt="DC Logo" className="h-14" />
             <div className="text-right text-xs space-y-1 mt-2">
-              <div className="font-medium"><b>FORMAT NO:</b> SAL-F-02</div>
+              <div className="font-medium">
+                <b>FORMAT NO:</b> SAL-F-02
+              </div>
               <div className="bg-yellow-300 rounded-[5px] inline-block px-2 py-1 mr-2">
-               <b> REVISION NO.:</b> 01
+                <b> REVISION NO.:</b> 01
               </div>
               <div className="bg-yellow-300 rounded-[5px] inline-block py-1 px-2">
                 <b>ISSUE NO.:</b> 04
@@ -102,7 +104,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                   </tr>
 
                   {/* PRODUCT TO BE TARGETED SECTION */}
-                  <tr>
+                  {/* <tr>
                     <td
                       className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
                       rowSpan={4}
@@ -112,7 +114,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                       Targeted
                     </td>
 
-                    {/* Headers for three product columns */}
+                   
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
                       Product
                     </td>
@@ -131,10 +133,10 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
                       Business Potential in Rs.
                     </td>
-                  </tr>
+                  </tr> */}
 
                   {/* Row 1 */}
-                  <tr>
+                  {/* <tr>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
                       Odour Remover
                     </td>
@@ -153,10 +155,10 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
                       {selectedCustomer?.bp3 || "7000"}
                     </td>
-                  </tr>
+                  </tr> */}
 
                   {/* Row 2 */}
-                  <tr>
+                  {/* <tr>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium">
                       BioWash
                     </td>
@@ -175,10 +177,10 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium">
                       {selectedCustomer?.bp6 || "8000"}
                     </td>
-                  </tr>
+                  </tr> */}
 
                   {/* Row 3 */}
-                  <tr>
+                  {/* <tr>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium">
                       DuraClean WR
                     </td>
@@ -193,7 +195,79 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     </td>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium"></td>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium"></td>
-                  </tr>
+                  </tr> */}
+
+                 
+                    <tr>
+                      <td
+                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
+                        rowSpan={
+                          Math.ceil(selectedCustomer?.mergedDeals?.length / 3) +
+                          1
+                        }
+                      >
+                        Product to be
+                        <br />
+                        Targeted
+                      </td>
+
+                      {/* Table header cells */}
+                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                        Product
+                      </td>
+                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                        Business Potential in Rs.
+                      </td>
+                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                        Product
+                      </td>
+                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                        Business Potential in Rs.
+                      </td>
+                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                        Product
+                      </td>
+                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                        Business Potential in Rs.
+                      </td>
+                    </tr>
+
+                    {Array.from({
+                      length: Math.ceil(
+                        selectedCustomer?.mergedDeals?.length / 3
+                      ),
+                    }).map((_, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {selectedCustomer?.mergedDeals
+                          ?.slice(rowIndex * 3, rowIndex * 3 + 3)
+                          .map((deal, i) => (
+                            <React.Fragment key={i}>
+                              <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
+                                {deal.product.product_name}
+                              </td>
+                              <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
+                                ₹ {deal.business_potential || "-"}
+                              </td>
+                            </React.Fragment>
+                          ))}
+
+                        {/* Empty filler cells if less than 3 products */}
+                        {Array.from({
+                          length:
+                            3 -
+                            selectedCustomer?.mergedDeals?.slice(
+                              rowIndex * 3,
+                              rowIndex * 3 + 3
+                            ).length,
+                        }).map((_, idx) => (
+                          <React.Fragment key={`empty-${idx}`}>
+                            <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium"></td>
+                            <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium"></td>
+                          </React.Fragment>
+                        ))}
+                      </tr>
+                    ))}
+                 
 
                   {/* FACTORY ADDRESS */}
                   <tr>
@@ -279,38 +353,52 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     </td>
                   </tr>
 
-                  <tr className="text-center">
-                    <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
-                      colSpan={2}
-                    >
-                      {selectedCustomer?.client_name || "Ravi Verma"}
-                    </td>
-                    <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap  "
-                      colSpan={1}
-                    >
-                      {selectedCustomer?.designation || "Purchase Head"}
-                    </td>
-                    <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
-                      colSpan={1}
-                    >
-                      +91 {selectedCustomer?.primary_contact || "9876543211"}
-                    </td>
-                    <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
-                      colSpan={2}
-                    >
-                      {selectedCustomer?.secondary_contact || "022-123456"}
-                    </td>
-                    <td
-                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap "
-                      colSpan={2}
-                    >
-                      {selectedCustomer?.email_id || "ravi@example.com"}
-                    </td>
-                  </tr>
+                  {selectedCustomer?.contactPersons &&
+                  selectedCustomer.contactPersons.length > 0 ? (
+                    selectedCustomer.contactPersons.map((person, index) => (
+                      <tr className="text-center" key={person.id}>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                          colSpan={2}
+                        >
+                          {person.name || "-"}
+                        </td>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                          colSpan={1}
+                        >
+                          {person.designation || "-"}
+                        </td>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                          colSpan={1}
+                        >
+                          +91 {person.phone_no || "-"}
+                        </td>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                          colSpan={2}
+                        >
+                          {person.secondary_contact || "-"}
+                        </td>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center whitespace-nowrap"
+                          colSpan={2}
+                        >
+                          {person.email || "-"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="8"
+                        className="px-4 py-2 text-gray-500 font-poopins text-[15px] border border-gray-600 text-center"
+                      >
+                        No contact persons available.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -325,7 +413,10 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                 <tbody>
                   {/* DCPSL EXECUTIVE DETAILS */}
                   <tr className="text-center">
-                    <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold" colSpan={2}>
+                    <td
+                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
+                      colSpan={2}
+                    >
                       Executive Name
                     </td>
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold">
@@ -337,12 +428,18 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold">
                       Landline No.
                     </td>
-                    <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold" colSpan={2}>
+                    <td
+                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
+                      colSpan={2}
+                    >
                       Email Id
                     </td>
                   </tr>
                   <tr className="text-center">
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center" colSpan={2}>
+                    <td
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
+                      colSpan={2}
+                    >
                       {selectedCustomer?.executive_name || "Amit Sharma"}
                     </td>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
@@ -350,12 +447,15 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                         "Sales Manager"}
                     </td>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
-                     +91 {selectedCustomer?.executive_mobile || "9876543210"}
+                      +91 {selectedCustomer?.executive_mobile || "9876543210"}
                     </td>
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
                       {selectedCustomer?.executive_landline || "022-789456"}
                     </td>
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center" colSpan={2}>
+                    <td
+                      className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
+                      colSpan={2}
+                    >
                       {selectedCustomer?.executive_email || "amit@dcpsl.com"}
                     </td>
                   </tr>
@@ -373,41 +473,68 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                 <tbody>
                   {/* BUSINESS ASSOCIATE */}
                   <tr className="text-center">
-                    <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold" colSpan={2}>
+                    <td
+                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
+                      colSpan={2}
+                    >
                       Associate Name
                     </td>
-                    <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold">Code No.</td>
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold">
+                      Code No.
+                    </td>
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold">
                       Mobile No.
                     </td>
                     <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold">
                       Landline No.
                     </td>
-                    <td className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold" colSpan={2}>
+                    <td
+                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
+                      colSpan={2}
+                    >
                       Email Id
                     </td>
                   </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center" colSpan={2}>
-                      {selectedCustomer?.business_associate_name ||
-                        "Ravi Kumar"}
-                    </td>
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
-                      {selectedCustomer?.business_associate_code || "BA001"}
-                    </td>
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
-                      {selectedCustomer?.business_associate_mobile ||
-                        "9876504321"}
-                    </td>
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
-                      {selectedCustomer?.business_associate_landline ||
-                        "022-123456"}
-                    </td>
-                    <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center" colSpan={2}>
-                      {selectedCustomer?.business_associate_email ||
-                        "ravi@associate.com"}
-                    </td>
-                  </tr>
+
+                  {selectedCustomer?.businessAssociates &&
+                  selectedCustomer.businessAssociates.length > 0 ? (
+                    selectedCustomer.businessAssociates.map((associate) => (
+                      <tr key={associate.id}>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
+                          colSpan={2}
+                        >
+                          {associate.associate_name}
+                        </td>
+                        <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
+                          {/* No code field in response, so keep static fallback */}
+                          {"BA001"}
+                        </td>
+                        <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
+                          {associate.phone_no}
+                        </td>
+                        <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
+                          {/* No landline field in response */}
+                          {"022-123456"}
+                        </td>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
+                          colSpan={2}
+                        >
+                          {associate.email}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="px-4 py-2 text-gray-500 font-poopins text-[15px] border border-gray-600 text-center"
+                      >
+                        No business associate data available.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
