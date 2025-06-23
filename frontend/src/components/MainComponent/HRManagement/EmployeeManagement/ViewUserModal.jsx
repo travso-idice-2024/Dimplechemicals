@@ -7,7 +7,7 @@ const ViewUserModal = ({
   selectedEmployee,
   setEditUserModalOpen,
 }) => {
-  console.log("selectedEmployee",selectedEmployee);
+  console.log("selectedEmployee",selectedEmployee); 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
