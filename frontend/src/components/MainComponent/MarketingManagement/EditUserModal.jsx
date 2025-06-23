@@ -32,10 +32,10 @@ const EditUserModal = ({
   customerAddress,
 }) => {
   const location = useLocation();
-  console.log(location.pathname);
+  //console.log(location.pathname);
 
-  // console.log("customerAddress", customerAddress);
-  // console.log("updateLeadData", updateLeadData);
+  //console.log("selectedLead", selectedLead);
+ //console.log("updateLeadData", updateLeadData);
   const [showTextareaCompany, setShowTextareaCompany] = useState(false);
 
   const handleSelectChange = (e) => {

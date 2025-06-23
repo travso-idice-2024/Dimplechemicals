@@ -142,7 +142,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       project_name: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
       last_communication: {

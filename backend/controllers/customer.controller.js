@@ -733,7 +733,7 @@ const customerInfo = async (req, res) => {
               {
                 model: User,
                 as: "assignedPerson",
-                attributes: ["id", "fullname", "email"],
+                attributes: ["id", "fullname", "email","phone","emergency_contact"],
               },
               {
                 model: dealData,
@@ -775,6 +775,27 @@ const customerInfo = async (req, res) => {
         });
       }
 
+      // const allDeals = customer.leads.flatMap((lead) => lead.deals || []);
+      // const mergedDeals = [
+      //   ...new Map(allDeals.map((deal) => [deal.product_id, deal])).values(),
+      // ];
+
+      const assignedPersons = [
+        ...new Map(
+          (customer.leads || [])
+            .map(lead => lead.assignedPerson)
+            .filter(Boolean)
+            .map(person => [person.id, person])
+        ).values()
+      ];
+
+      // Clean leads: remove assignedPerson from each
+      const leads = customer.leads.map(lead => {
+        const { assignedPerson, ...rest } = lead.toJSON();
+        return rest;
+      });
+
+      // Extract merged deals
       const allDeals = customer.leads.flatMap((lead) => lead.deals || []);
       const mergedDeals = [
         ...new Map(allDeals.map((deal) => [deal.product_id, deal])).values(),
@@ -782,8 +803,14 @@ const customerInfo = async (req, res) => {
 
       const responseData = {
         ...customer.toJSON(),
+        assignedPersons,
         mergedDeals, // added field
-      };
+       };
+
+      // const responseData = {
+      //   ...customer.toJSON(),
+      //   mergedDeals, // added field
+      // };
 
       return res.status(200).json({ success: true, data: responseData });
     }
@@ -999,6 +1026,111 @@ const exportBusinessAssociates = async (req, res) => {
   }
 };
 
+const createBusinessAssociate = async (req, res) => {
+  try {
+    const {
+      associate_name,
+      email,
+      phone_no,
+      status = 1,
+    } = req.body;
+
+    // Create Business Associate
+    const newAssociate = await BusinessAssociate.create({
+      associate_name,
+      email,
+      phone_no,
+      status,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Business Associate created successfully.",
+      data: newAssociate,
+    });
+  } catch (error) {
+    console.error("Error in createBusinessAssociate:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+  });
+}
+};
+
+const EditBusinessAssociate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      associate_name,
+      email,
+      phone_no,
+      status,
+    } = req.body;
+
+    // Find record by ID
+    const associate = await BusinessAssociate.findByPk(id);
+
+    if (!associate) {
+      return res.status(404).json({
+        success: false,
+        message: "Business Associate not found.",
+      });
+    }
+
+    // Update fields
+    associate.associate_name = associate_name ?? associate.associate_name;
+    associate.email = email ?? associate.email;
+    associate.phone_no = phone_no ?? associate.phone_no;
+    associate.status = status ?? associate.status;
+
+    await associate.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Business Associate updated successfully.",
+      data: associate,
+    });
+
+  } catch (error) {
+    console.error("Error in updateBusinessAssociate:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const deleteBusinessAssociate = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find record by ID
+    const associate = await BusinessAssociate.findByPk(id);
+
+    if (!associate) {
+      return res.status(404).json({
+        success: false,
+        message: "Business Associate not found.",
+      });
+    }
+
+    // Update status to 0 (inactive/deleted)
+    associate.status = 0;
+    await associate.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Business Associate deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error in deleteBusinessAssociate:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+   });
+}
+};
+
 module.exports = {
   addCustomer,
   listCustomers,
@@ -1012,4 +1144,7 @@ module.exports = {
   updateBusinessAssociate,
   listBusinessAssociates,
   exportBusinessAssociates,
+  createBusinessAssociate,
+  EditBusinessAssociate,
+  deleteBusinessAssociate
 };

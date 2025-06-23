@@ -24,7 +24,6 @@ export const listCustomers = createAsyncThunk(
   }
 );
 
-
 // ✅ Fetch all pincodes (without pagination)
 export const fetchAllPincodes = createAsyncThunk(
   "category/fetchAllPincodes",

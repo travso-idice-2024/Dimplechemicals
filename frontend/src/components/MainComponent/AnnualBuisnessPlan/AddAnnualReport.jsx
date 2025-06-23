@@ -30,7 +30,7 @@ const AddAnnualReport = ({
   customerAddress,
   handleABPCustomerChange,
 }) => {
-  console.log("abpData",abpData);
+  console.log("abpData", abpData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -98,22 +98,87 @@ const AddAnnualReport = ({
     });
   };
 
+  // const handleProductChange = async (e, index) => {
+  //   const { name, value } = e.target;
+
+  //   const updatedProducts = [...abpData.products];
+  //   const productToUpdate = { ...updatedProducts[index] };
+
+  //   // Update the selected field value
+  //   productToUpdate[name] = value;
+
+  //   // Replace updated product in the array
+  //   updatedProducts[index] = productToUpdate;
+
+  //   // If category changed, fetch new product list for this row
+  //   if (name === "technology_used") {
+  //     const products = await fetchProductsByCategory(value);
+  //     console.log("products", products);
+  //     setProductOptions((prev) => {
+  //       const updatedOptions = [...prev];
+  //       updatedOptions[index] = products;
+  //       return updatedOptions;
+  //     });
+  //   }
+
+  //   // Update the overall state
+  //   setabpData({
+  //     ...abpData,
+  //     products: updatedProducts,
+  //   });
+  // };
+
+  // const fields = [
+  //   { name: "qty", placeholder: "Qty." },
+  //   { name: "rate", placeholder: "Rate" },
+  //   { name: "value_in_rs", placeholder: "Value in Rs." },
+  //   { name: "gst_amt", placeholder: "GST Amt" },
+  //   { name: "gross_sale_include_gst", placeholder: "Gross Sale including GST" },
+  //   { name: "commission", placeholder: "Commission" },
+  //   { name: "net_sale", placeholder: "Net Sale including GST " },
+  // ];
+
   const handleProductChange = async (e, index) => {
     const { name, value } = e.target;
 
     const updatedProducts = [...abpData.products];
     const productToUpdate = { ...updatedProducts[index] };
 
-    // Update the selected field value
+    // Update field value immediately
     productToUpdate[name] = value;
 
-    // Replace updated product in the array
+    // Get latest values — use value from event if it's qty, rate, gst_amt or commission
+    const quantity =
+      name === "qty" ? parseFloat(value) : parseFloat(productToUpdate.qty) || 0;
+    const rate =
+      name === "rate"
+        ? parseFloat(value)
+        : parseFloat(productToUpdate.rate) || 0;
+    const gstPercent =
+      name === "gst_percent"
+        ? parseFloat(value)
+        : parseFloat(productToUpdate.gst_percent) || 0;
+    const commission =
+      name === "commission"
+        ? parseFloat(value)
+        : parseFloat(productToUpdate.commission) || 0;
+
+    const valueInRs = quantity * rate;
+    const gstAmt = parseFloat(((gstPercent / 100) * valueInRs).toFixed(2));
+    //const gstAmt = (gstPercent / 100) * valueInRs;
+    const grossSale = valueInRs + gstAmt;
+    const netSale = grossSale - commission;
+
+    productToUpdate.value_in_rs = valueInRs || 0;
+    productToUpdate.gst_amt = gstAmt || 0;
+    productToUpdate.gross_sale_include_gst = grossSale || 0;
+    productToUpdate.net_sale = netSale || 0;
+
     updatedProducts[index] = productToUpdate;
 
-    // If category changed, fetch new product list for this row
+    // If category changed, fetch products
     if (name === "technology_used") {
       const products = await fetchProductsByCategory(value);
-      console.log("products",products);
       setProductOptions((prev) => {
         const updatedOptions = [...prev];
         updatedOptions[index] = products;
@@ -121,7 +186,6 @@ const AddAnnualReport = ({
       });
     }
 
-    // Update the overall state
     setabpData({
       ...abpData,
       products: updatedProducts,
@@ -129,13 +193,29 @@ const AddAnnualReport = ({
   };
 
   const fields = [
-    { name: "qty", placeholder: "Qty." },
-    { name: "rate", placeholder: "Rate" },
-    { name: "value_in_rs", placeholder: "Value in Rs." },
-    { name: "gst_amt", placeholder: "GST Amt" },
-    { name: "gross_sale_include_gst", placeholder: "Gross Sale including GST" },
-    { name: "commission", placeholder: "Commission" },
-    { name: "net_sale", placeholder: "Net Sale including GST " },
+    { name: "qty", placeholder: "Qty.", type: "number" },
+    { name: "rate", placeholder: "Rate", type: "number" },
+    {
+      name: "value_in_rs",
+      placeholder: "Value in Rs.",
+      type: "number",
+      disabled: true,
+    },
+    { name: "gst_percent", placeholder: "GST %", type: "select" }, // new field for GST percentage
+    { name: "gst_amt", placeholder: "GST Amt", type: "number", disabled: true }, // now separate
+    {
+      name: "gross_sale_include_gst",
+      placeholder: "Gross Sale including GST",
+      type: "number",
+      disabled: true,
+    },
+    { name: "commission", placeholder: "Commission", type: "number" },
+    {
+      name: "net_sale",
+      placeholder: "Net Sale including GST",
+      type: "number",
+      disabled: true,
+    },
   ];
 
   const customerOptions =
@@ -256,35 +336,32 @@ const AddAnnualReport = ({
                   </tbody>
                 </table>
               </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex flex-col items-start">
-                      <select
-                      name="for_month"
-                      value={abpData.for_month || ""}
-                      onChange={handleABPChange}
-                      className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-                    >
-                      <option value="">Select Duration</option>
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col items-start">
+                  <select
+                    name="for_month"
+                    value={abpData.for_month || ""}
+                    onChange={handleABPChange}
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                  >
+                    <option value="">Select Duration</option>
 
-                      <option value={3}>3 month</option>
-                      <option value={6}>6 month</option>
-                      <option value={9}>9 month</option>
-                      <option value={12}>12 month</option>
-                    </select>
-                    </div>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        className="text-white text-[12px] mb-[2px]"
-                      />
-                    </div>
-                     {abpFormErrors?.for_month && (
-                    <p className="text-red-500">{abpFormErrors?.for_month}</p>
-                  )}
-                  </div>
-
-
-                
+                    <option value={3}>3 month</option>
+                    <option value={6}>6 month</option>
+                    <option value={9}>9 month</option>
+                    <option value={12}>12 month</option>
+                  </select>
+                </div>
+                <div>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="text-white text-[12px] mb-[2px]"
+                  />
+                </div>
+                {abpFormErrors?.for_month && (
+                  <p className="text-red-500">{abpFormErrors?.for_month}</p>
+                )}
+              </div>
             </div>
 
             <div className="mt-8 overflow-auto">
@@ -339,11 +416,8 @@ const AddAnnualReport = ({
                   >
                     <option value="">Select the Address</option>
                     {customerAddress?.data?.addresses?.map((address, index) => (
-                        <option
-                        key={index}
-                         value={address.location}
-                      >
-                         {address.location}
+                      <option key={index} value={address.location}>
+                        {address.location}
                       </option>
                     ))}
                   </select>
@@ -361,11 +435,13 @@ const AddAnnualReport = ({
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                   >
                     <option value="">Select the Address</option>
-                    {customerAddress?.data?.business_associates?.map((associate, index) => (
-                      <option key={index} value={associate.id}>
-                        {associate.code}
-                      </option>
-                    ))}
+                    {customerAddress?.data?.business_associates?.map(
+                      (associate, index) => (
+                        <option key={index} value={associate.id}>
+                          {associate.code}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
 
@@ -463,8 +539,10 @@ const AddAnnualReport = ({
                     placeholder="Project Name / Application Area"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                   {abpFormErrors?.project_name && (
-                    <p className="text-red-500">{abpFormErrors?.project_name}</p>
+                  {abpFormErrors?.project_name && (
+                    <p className="text-red-500">
+                      {abpFormErrors?.project_name}
+                    </p>
                   )}
                 </div>
 
@@ -527,7 +605,7 @@ const AddAnnualReport = ({
                     placeholder="Area in SqM"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                   {abpFormErrors?.area_mtr2 && (
+                  {abpFormErrors?.area_mtr2 && (
                     <p className="text-red-500">{abpFormErrors?.area_mtr2}</p>
                   )}
                 </div>
@@ -544,8 +622,10 @@ const AddAnnualReport = ({
                     placeholder="Business Potential"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                    {abpFormErrors?.buisness_potential && (
-                    <p className="text-red-500">{abpFormErrors?.buisness_potential}</p>
+                  {abpFormErrors?.buisness_potential && (
+                    <p className="text-red-500">
+                      {abpFormErrors?.buisness_potential}
+                    </p>
                   )}
                 </div>
               </div>
@@ -587,7 +667,36 @@ const AddAnnualReport = ({
                           </option>
                         ))}
                       </select>
-                      {fields.map(({ name, placeholder }) => (
+                      {fields.map(({ name, placeholder, type, disabled }) =>
+                        type === "select" ? (
+                          <select
+                            key={name}
+                            name={name}
+                            value={product[name] || ""}
+                            onChange={(e) => handleProductChange(e, index)}
+                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                          >
+                            <option value="">Select GST %</option>
+                            <option value="5">5%</option>
+                            <option value="12">12%</option>
+                            <option value="18">18%</option>
+                            <option value="28">28%</option>
+                          </select>
+                        ) : (
+                          <input
+                            key={name}
+                            type={type}
+                            name={name}
+                            value={product[name] || ""}
+                            onChange={(e) => handleProductChange(e, index)}
+                            placeholder={placeholder}
+                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                            disabled={disabled}
+                          />
+                        )
+                      )}
+
+                      {/* {fields.map(({ name, placeholder }) => (
                       <input
                         key={name}
                         type="text"
@@ -597,122 +706,47 @@ const AddAnnualReport = ({
                         placeholder={placeholder}
                         className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                       />
-                    ))}
+                      ))} */}
 
-                     {/* Remove Button */}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveProduct(index)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      Remove Product Field
-                    </button>
-                      {/* <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Product Name :
-                        </label>
-                        <input
-                          type="text"
-                          name="company_name"
-                          placeholder="Product Name"
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Qty. :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="Qty."
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Rate :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="Rate"
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Value in Rs. :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="Value in Rs."
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          GST Amt :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="GST Amt"
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Gross Sale including GST :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="Gross Sale including GST"
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Commission :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="Commission"
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                          Net Sale including GST :
-                        </label>
-                        <input
-                          type="number"
-                          name="company_name"
-                          placeholder="Net Sale including GST"
-                          className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                        />
-                      </div> */}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveProduct(index)}
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      >
+                        Remove Product Field
+                      </button>
                     </div>
                   </>
                 ))}
-                 {/* Add Product Button */}
-              <button
-                type="button"
-                onClick={handleAddProduct}
-                className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-orange-600 mt-2"
-              >
-                Add Product
-              </button>
+                {/* Add Product Button */}
+                <button
+                  type="button"
+                  onClick={handleAddProduct}
+                  className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-orange-600 mt-2"
+                >
+                  Add Product
+                </button>
+              </div>
+            </div>
+
+            {/* comment section */}
+            <div className="mt-8 overflow-auto"
+            >
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Product Comment :
+                </label>
+                <textarea
+                  name="comment"
+                  value={abpData.comment || ""}
+                  onChange={handleABPChange}
+                  placeholder="Business Potential"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
+                />
+
+                {abpFormErrors?.comment && (
+                  <p className="text-red-500">{abpFormErrors?.comment}</p>
+                )}
               </div>
             </div>
           </div>

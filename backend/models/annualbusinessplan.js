@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       technology_used: DataTypes.STRING,
       for_month: DataTypes.INTEGER,
       location: DataTypes.STRING,
+      comment: DataTypes.STRING,
     },
     {
       sequelize,

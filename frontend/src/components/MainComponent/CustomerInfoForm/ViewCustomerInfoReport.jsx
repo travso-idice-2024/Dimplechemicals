@@ -197,77 +197,74 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium"></td>
                   </tr> */}
 
-                 
-                    <tr>
-                      <td
-                        className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
-                        rowSpan={
-                          Math.ceil(selectedCustomer?.mergedDeals?.length / 3) +
-                          1
-                        }
-                      >
-                        Product to be
-                        <br />
-                        Targeted
-                      </td>
+                  <tr>
+                    <td
+                      className="px-4 py-2 text-[#000000] font-poopins text-[15px] border border-gray-600 font-semibold"
+                      rowSpan={
+                        Math.ceil(selectedCustomer?.mergedDeals?.length / 3) + 1
+                      }
+                    >
+                      Product to be
+                      <br />
+                      Targeted
+                    </td>
 
-                      {/* Table header cells */}
-                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
-                        Product
-                      </td>
-                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
-                        Business Potential in Rs.
-                      </td>
-                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
-                        Product
-                      </td>
-                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
-                        Business Potential in Rs.
-                      </td>
-                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
-                        Product
-                      </td>
-                      <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
-                        Business Potential in Rs.
-                      </td>
-                    </tr>
+                    {/* Table header cells */}
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                      Product
+                    </td>
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                      Business Potential in Rs.
+                    </td>
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                      Product
+                    </td>
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                      Business Potential in Rs.
+                    </td>
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                      Product
+                    </td>
+                    <td className="px-4 py-2 text-[#000000] font-poopins text-[14px] border border-gray-600 font-semibold">
+                      Business Potential in Rs.
+                    </td>
+                  </tr>
 
-                    {Array.from({
-                      length: Math.ceil(
-                        selectedCustomer?.mergedDeals?.length / 3
-                      ),
-                    }).map((_, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {selectedCustomer?.mergedDeals
-                          ?.slice(rowIndex * 3, rowIndex * 3 + 3)
-                          .map((deal, i) => (
-                            <React.Fragment key={i}>
-                              <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
-                                {deal.product.product_name}
-                              </td>
-                              <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
-                                ₹ {deal.business_potential || "-"}
-                              </td>
-                            </React.Fragment>
-                          ))}
-
-                        {/* Empty filler cells if less than 3 products */}
-                        {Array.from({
-                          length:
-                            3 -
-                            selectedCustomer?.mergedDeals?.slice(
-                              rowIndex * 3,
-                              rowIndex * 3 + 3
-                            ).length,
-                        }).map((_, idx) => (
-                          <React.Fragment key={`empty-${idx}`}>
-                            <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium"></td>
-                            <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium"></td>
+                  {Array.from({
+                    length: Math.ceil(
+                      selectedCustomer?.mergedDeals?.length / 3
+                    ),
+                  }).map((_, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {selectedCustomer?.mergedDeals
+                        ?.slice(rowIndex * 3, rowIndex * 3 + 3)
+                        .map((deal, i) => (
+                          <React.Fragment key={i}>
+                            <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
+                              {deal.product.product_name}
+                            </td>
+                            <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium">
+                              ₹ {deal.business_potential || "-"}
+                            </td>
                           </React.Fragment>
                         ))}
-                      </tr>
-                    ))}
-                 
+
+                      {/* Empty filler cells if less than 3 products */}
+                      {Array.from({
+                        length:
+                          3 -
+                          selectedCustomer?.mergedDeals?.slice(
+                            rowIndex * 3,
+                            rowIndex * 3 + 3
+                          ).length,
+                      }).map((_, idx) => (
+                        <React.Fragment key={`empty-${idx}`}>
+                          <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium"></td>
+                          <td className="px-4 py-2 text-[#72360a] font-poopins text-[14px] border border-gray-600 font-medium"></td>
+                        </React.Fragment>
+                      ))}
+                    </tr>
+                  ))}
 
                   {/* FACTORY ADDRESS */}
                   <tr>
@@ -435,7 +432,47 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                       Email Id
                     </td>
                   </tr>
-                  <tr className="text-center">
+                  {selectedCustomer?.assignedPersons &&
+                  selectedCustomer.assignedPersons.length > 0 ? (
+                    selectedCustomer.assignedPersons.map((person) => (
+                      <tr key={person.id} className="text-center">
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
+                          colSpan={2}
+                        >
+                          {person.fullname}
+                        </td>
+                        <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
+                          {/* If you have designation, else static */}
+                          {"Sales Executive"}
+                        </td>
+                        <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
+                          +91 {person.phone}
+                        </td>
+                        <td className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center">
+                          {/* If no landline, use a static placeholder */}
+                          {person.emergency_contact}
+                        </td>
+                        <td
+                          className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
+                          colSpan={2}
+                        >
+                          {person.email}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="px-4 py-2 text-gray-500 font-poopins text-[15px] border border-gray-600 text-center"
+                      >
+                        No assigned person data available.
+                      </td>
+                    </tr>
+                  )}
+
+                  {/* <tr className="text-center">
                     <td
                       className="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-600 font-medium text-center"
                       colSpan={2}
@@ -458,7 +495,7 @@ const CustomerInformationForm = ({ setViewModalOpen, selectedCustomer }) => {
                     >
                       {selectedCustomer?.executive_email || "amit@dcpsl.com"}
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>

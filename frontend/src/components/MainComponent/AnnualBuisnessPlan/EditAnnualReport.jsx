@@ -78,7 +78,7 @@ const EditAnnualReport = ({
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response.data.data);
+      //console.log(response.data.data);
 
       return response.data.data; // assuming your API responds with { data: [...] }
     } catch (error) {
@@ -126,6 +126,33 @@ const EditAnnualReport = ({
     // Update the selected field value
     productToUpdate[name] = value;
 
+    // Get latest values — use value from event if it's qty, rate, gst_amt or commission
+    const quantity =
+      name === "qty" ? parseFloat(value) : parseFloat(productToUpdate.qty) || 0;
+    const rate =
+      name === "rate"
+        ? parseFloat(value)
+        : parseFloat(productToUpdate.rate) || 0;
+    const gstPercent =
+      name === "gst_percent"
+        ? parseFloat(value)
+        : parseFloat(productToUpdate.gst_percent) || 0;
+    const commission =
+      name === "commission"
+        ? parseFloat(value)
+        : parseFloat(productToUpdate.commission) || 0;
+
+    const valueInRs = quantity * rate;
+    // const gstAmt = (gstPercent / 100) * valueInRs;
+    const gstAmt = parseFloat(((gstPercent / 100) * valueInRs).toFixed(2));
+    const grossSale = valueInRs + gstAmt;
+    const netSale = grossSale - commission;
+
+    productToUpdate.value_in_rs = valueInRs || 0;
+    productToUpdate.gst_amt = gstAmt || 0;
+    productToUpdate.gross_sale_include_gst = grossSale || 0;
+    productToUpdate.net_sale = netSale || 0;
+
     // Replace updated product in the array
     updatedProducts[index] = productToUpdate;
 
@@ -148,14 +175,40 @@ const EditAnnualReport = ({
   };
 
   const fields = [
-    { name: "qty", placeholder: "Qty." },
-    { name: "rate", placeholder: "Rate" },
-    { name: "value_in_rs", placeholder: "Value in Rs." },
-    { name: "gst_amt", placeholder: "GST Amt" },
-    { name: "gross_sale_include_gst", placeholder: "Gross Sale including GST" },
-    { name: "commission", placeholder: "Commission" },
-    { name: "net_sale", placeholder: "Net Sale including GST " },
+    { name: "qty", placeholder: "Qty.", type: "number" },
+    { name: "rate", placeholder: "Rate", type: "number" },
+    {
+      name: "value_in_rs",
+      placeholder: "Value in Rs.",
+      type: "number",
+      disabled: true,
+    },
+    { name: "gst_percent", placeholder: "GST %", type: "select" }, // new field for GST percentage
+    { name: "gst_amt", placeholder: "GST Amt", type: "number", disabled: true }, // now separate
+    {
+      name: "gross_sale_include_gst",
+      placeholder: "Gross Sale including GST",
+      type: "number",
+      disabled: true,
+    },
+    { name: "commission", placeholder: "Commission", type: "number" },
+    {
+      name: "net_sale",
+      placeholder: "Net Sale including GST",
+      type: "number",
+      disabled: true,
+    },
   ];
+
+  // const fields = [
+  //   { name: "qty", placeholder: "Qty." },
+  //   { name: "rate", placeholder: "Rate" },
+  //   { name: "value_in_rs", placeholder: "Value in Rs." },
+  //   { name: "gst_amt", placeholder: "GST Amt" },
+  //   { name: "gross_sale_include_gst", placeholder: "Gross Sale including GST" },
+  //   { name: "commission", placeholder: "Commission" },
+  //   { name: "net_sale", placeholder: "Net Sale including GST " },
+  // ];
 
   const customerOptions =
     allCustomers?.data?.map((customer) => ({
@@ -573,7 +626,35 @@ const EditAnnualReport = ({
                           </option>
                         ))}
                       </select>
-                      {fields.map(({ name, placeholder }) => (
+                       {fields.map(({ name, placeholder, type, disabled }) =>
+                        type === "select" ? (
+                          <select
+                            key={name}
+                            name={name}
+                            value={product[name] || ""}
+                            onChange={(e) => handleProductChange(e, index)}
+                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                          >
+                            <option value="">Select GST %</option>
+                            <option value="5">5%</option>
+                            <option value="12">12%</option>
+                            <option value="18">18%</option>
+                            <option value="28">28%</option>
+                          </select>
+                        ) : (
+                          <input
+                            key={name}
+                            type={type}
+                            name={name}
+                            value={product[name] || ""}
+                            onChange={(e) => handleProductChange(e, index)}
+                            placeholder={placeholder}
+                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                            disabled={disabled}
+                          />
+                        )
+                      )}
+                      {/* {fields.map(({ name, placeholder }) => (
                       <input
                         key={name}
                         type="text"
@@ -583,7 +664,7 @@ const EditAnnualReport = ({
                         placeholder={placeholder}
                         className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                       />
-                    ))}
+                    ))} */}
 
                      {/* Remove Button */}
                     <button
@@ -699,6 +780,26 @@ const EditAnnualReport = ({
               >
                 Add Product
               </button>
+              </div>
+            </div>
+
+             {/* comment section */}
+            <div className="mt-8 overflow-auto">
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Product Comment :
+                </label>
+                <textarea
+                  name="comment"
+                  value={editAbpData.comment || ""}
+                  onChange={handleEditABPChange}
+                  placeholder="Business Potential"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2 resize-none"
+                />
+
+                {editFormErrors?.comment && (
+                  <p className="text-red-500">{editFormErrors?.comment}</p>
+                )}
               </div>
             </div>
           </div>

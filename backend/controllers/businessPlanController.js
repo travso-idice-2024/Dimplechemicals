@@ -26,6 +26,7 @@ exports.addAnnualBusinessPlan = async (req, res) => {
       buisness_potential,
       for_month,
       location,
+      comment,
       products, // array of product objects
     } = req.body;
 
@@ -55,6 +56,7 @@ exports.addAnnualBusinessPlan = async (req, res) => {
         area_mtr2,
         buisness_potential,
         location,
+        comment,
         for_month,
       },
       { transaction: t }
@@ -73,6 +75,7 @@ exports.addAnnualBusinessPlan = async (req, res) => {
           gross_sale_include_gst: p.gross_sale_include_gst,
           commission: p.commission,
           net_sale: p.net_sale,
+          gst_percent: p.gst_percent,
         },
         { transaction: t }
       );
@@ -452,6 +455,7 @@ exports.updateAnnualBusinessPlan = async (req, res) => {
       buisness_potential,
       for_month,
       location,
+      comment,
       products, // array of product objects
     } = req.body;
 
@@ -473,6 +477,7 @@ exports.updateAnnualBusinessPlan = async (req, res) => {
         buisness_potential,
         for_month,
         location,
+        comment
       },
       { transaction: t }
     );
@@ -497,6 +502,7 @@ exports.updateAnnualBusinessPlan = async (req, res) => {
           gross_sale_include_gst: p.gross_sale_include_gst,
           commission: p.commission,
           net_sale: p.net_sale,
+          gst_percent: p.gst_percent,
         },
         { transaction: t }
       );

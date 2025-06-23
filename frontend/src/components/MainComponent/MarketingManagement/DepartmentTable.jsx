@@ -41,6 +41,8 @@ const DepartmentTable = ({
   setViewCustomerModalOpen,
   selectedPOAIds,
   setSelectedPOAIds,
+  poaReportOpen,
+  setpoaReportOpen
 }) => {
   const { isAuthenticated, createEvent } = useGoogleCalendar();
 
@@ -246,11 +248,10 @@ const DepartmentTable = ({
                 {/* <td className="px-4 py-2 text-newtextdata">{index + 1}</td> */}
                 <td
                   className="px-4 py-2 text-newtextdata whitespace-nowrap  cursor-pointer"
-                  onClick={() => {
-                    //fetchCustomerHistory(user?.customer?.id);
+                  onClick={() => { 
                     setSelectedLead(user);
-                    setViewCustomerModalOpen(true);
-                    //setViewCustomerHistoryCardModalOpen(true);
+                    //setViewCustomerModalOpen(true);
+                    setpoaReportOpen(true);
                   }}
                 >
                   {user?.customer?.company_name}

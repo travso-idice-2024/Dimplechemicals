@@ -1,7 +1,21 @@
 import React from "react";
 
 const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
-  console.log("getPoaByEmpIdData", getPoaByEmpIdData);
+  //console.log("getPoaByEmpIdData", getPoaByEmpIdData);
+  const formatTime = (seconds) => {
+  if (!seconds || seconds <= 0) return "-";
+  
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+
+  let result = "";
+  if (hrs) result += `${hrs} hr `;
+  if (mins) result += `${mins} minute `;
+  if (secs) result += `${secs} second`;
+
+  return result.trim();
+};
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto max-h-[90vh]">
@@ -45,19 +59,21 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
                     </td>
                     <td className="px-4 py-2 text-textdata">
                       {selectedPOA.assign_date
-                        ? new Date(
-                            selectedPOA.assign_date
-                          ).toLocaleDateString()
+                        ? new Date(selectedPOA.assign_date).toLocaleDateString()
                         : "-"}
                     </td>
                     <td className="px-4 py-2 text-textdata">
-                      {selectedPOA.follow_up_record ?? "-"}
+                      {selectedPOA.communications?.[0]?.lead_status
+                        ? selectedPOA.communications[0].lead_status.split("->")
+                            .length
+                        : "-"}
                     </td>
                     <td className="px-4 py-2 text-textdata">
-                      {selectedPOA.total_hours_spent ?? "-"}
+                      {selectedPOA.communications?.[0]?.total_hrs_spent ?? "-"}
+                      {/* {formatTime(selectedPOA.communications?.[0]?.total_hrs_spent)} */}
                     </td>
                     <td className="px-4 py-2 text-textdata">
-                      {selectedPOA.approx_area_sqm ?? "-"}
+                      {selectedPOA.project_name ?? "-"}
                     </td>
                     <td className="px-4 py-2 text-textdata">
                       {selectedPOA.approx_area_cubm ?? "-"}
@@ -74,9 +90,9 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
                         : "-"}
                     </td>
                     <td className="px-4 py-2 text-textdata">
-                      {selectedPOA.last_contact
+                      {selectedPOA.next_followup
                         ? new Date(
-                            selectedPOA.last_contact
+                            selectedPOA.next_followup
                           ).toLocaleDateString()
                         : "-"}
                     </td>

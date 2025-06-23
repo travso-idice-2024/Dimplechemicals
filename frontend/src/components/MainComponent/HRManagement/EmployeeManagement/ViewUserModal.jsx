@@ -20,7 +20,7 @@ const ViewUserModal = ({
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  bg-[#e5e7eb61] p-2 rounded-[10px]">
               <div className="flex items-center gap-2">
-                <img
+                {/* <img
                   src={
                     selectedEmployee.profile_image
                       ? `${API_URL.replace("api", "")}${
@@ -30,7 +30,7 @@ const ViewUserModal = ({
                   }
                   alt="Profile"
                   className="w-16 h-16 rounded-full border"
-                />
+                /> */}
                 <div>
                   <h3 className="text-[15px] font-semibold">
                     {selectedEmployee.fullname}

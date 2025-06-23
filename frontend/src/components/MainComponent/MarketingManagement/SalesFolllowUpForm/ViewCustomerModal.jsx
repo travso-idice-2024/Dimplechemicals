@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { leadCommunicationById } from "../../../redux/leadSlice";
+import { leadCommunicationById } from "../../../../redux/leadSlice";
 
 const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   console.log("selectedCustomer",selectedCustomer);

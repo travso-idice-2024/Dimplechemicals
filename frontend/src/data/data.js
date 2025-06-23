@@ -372,7 +372,7 @@ export const navigationLinks = [
     path: "/plan-of-action-for-day/:poaType",
     allowedRoles: []
   },
-  { id: 13, title: "Annual Buisness Plan", image: iconsImgs.Calender, path: "/annual-buisness-plan" ,allowedRoles: [1,3]},
+  { id: 13, title: "Annual Buisness Plan", image: iconsImgs.Calender, path: "/annual-buisness-plan" ,allowedRoles: [3]},
   { id: 14, title: "Calender", image: iconsImgs.Calender, path: "/calender" ,allowedRoles: [3]},
   { id: 15, title: "Gmail", image: iconsImgs.Mail, path: "/gmailtest" ,allowedRoles: [3]},
   { id: 16, title: "Settings", image: iconsImgs.gears, path: "/settings" ,allowedRoles: []},

@@ -41,7 +41,10 @@ const {
   getBuisnessAssociates,
   updateBusinessAssociate,
   listBusinessAssociates,
-  exportBusinessAssociates
+  exportBusinessAssociates,
+  createBusinessAssociate,
+  EditBusinessAssociate,
+  deleteBusinessAssociate
 } = require("../controllers/customer.controller");
 const {
   addLead,
@@ -341,6 +344,9 @@ router.get("/export-buisness-plan-summary", authMiddleware, exportAnnualBusiness
 router.get("/customer-info/:id", authMiddleware, customerInfo);
 router.get("/listBusinessAssociates", authMiddleware, listBusinessAssociates);
 router.get("/exportBusinessAssociates", authMiddleware, exportBusinessAssociates);
+router.post("/add-business-associate", authMiddleware, createBusinessAssociate);
+router.put('/business-associates/:id',authMiddleware, EditBusinessAssociate);
+router.delete("/business-associates/:id",authMiddleware, deleteBusinessAssociate);
 
 
 module.exports = router;

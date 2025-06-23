@@ -6,6 +6,7 @@ import { iconsImgs } from "../../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
+import ViewCustomerModal from "./ViewCustomerModal";
 import PoaReportOfUser from "./PoaReportOfUser";
 import EmpSARReport from "./EmpSARReport";
 import AllEmpPlanOfActionReport from "./AllEmpPlanOfActionReport";
@@ -60,6 +61,7 @@ const SalesPersonFollowUp = () => {
   //console.log("customerAddress", customerAddress);
 
   const [selectedPOA, setSelectedPOA] = useState({});
+  const [isViewCustomerModalOpen, setViewCustomerModalOpen] = useState(false);
 
   //console.log("selectedPOA",selectedPOA);
 
@@ -163,7 +165,7 @@ const SalesPersonFollowUp = () => {
     }));
 
     setAttendeesEmails([userDeatail.email]);
-  
+
     if (name === "assigned_person_id") {
       const selectedUser = userDataWithRole?.data.find(
         (item) => item.id === parseInt(value)
@@ -175,7 +177,6 @@ const SalesPersonFollowUp = () => {
         setAttendeesEmails([]); // Clear if no match found
       }
     }
-    
   };
 
   // Customer change handler
@@ -266,7 +267,7 @@ const SalesPersonFollowUp = () => {
           //add google calender event
           if (isAuthenticated) {
             handleAddEvent(poaData);
-          }else{
+          } else {
             console.log("not authenticated");
           }
           setTimeout(() => {
@@ -353,15 +354,17 @@ const SalesPersonFollowUp = () => {
   //
   //google calender (poa) event add
   const handleAddEvent = (poaData) => {
-    const startDateTime = new Date(`${poaData.assign_date}T${poaData.meeting_time}`);
+    const startDateTime = new Date(
+      `${poaData.assign_date}T${poaData.meeting_time}`
+    );
     const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
     const event = {
-       title: "Meeting Sheduled",
-       location: poaData?.lead_address,
-       description: poaData?.lead_summary,
-       startDateTime: startDateTime.toISOString(),
-       endDateTime: endDateTime.toISOString(),
-       attendeesEmails: attendeesEmails,
+      title: "Meeting Sheduled",
+      location: poaData?.lead_address,
+      description: poaData?.lead_summary,
+      startDateTime: startDateTime.toISOString(),
+      endDateTime: endDateTime.toISOString(),
+      attendeesEmails: attendeesEmails,
     };
     //console.log("event111111111111", event);
     createEvent(event);
@@ -443,6 +446,8 @@ const SalesPersonFollowUp = () => {
               poaReportOpen={poaReportOpen}
               setpoaReportOpen={setpoaReportOpen}
               listLeads={listLeads}
+               isViewCustomerModalOpen={isViewCustomerModalOpen}
+            setViewCustomerModalOpen={setViewCustomerModalOpen}
             />
           </div>
 
@@ -475,6 +480,14 @@ const SalesPersonFollowUp = () => {
             <ViewUserModal
               setpoaReportOpen={setpoaReportOpen}
               selectedUser={selectedUser}
+            />
+          )}
+
+          {/** view customer model */}
+          {isViewCustomerModalOpen && (
+            <ViewCustomerModal
+              setViewCustomerModalOpen={setViewCustomerModalOpen}
+              selectedCustomer={selectedPOA}
             />
           )}
 

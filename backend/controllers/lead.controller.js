@@ -12,14 +12,12 @@ const {
   dealData,
   LeadCommunication,
   CustomerContactPerson,
-  Category
+  Category,
 } = require("../models");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
-
-
 
 const addLead = async (req, res) => {
   try {
@@ -39,7 +37,7 @@ const addLead = async (req, res) => {
       product_ids,
       total_material_qty,
       approx_business,
-      project_name
+      project_name,
     } = req.body;
 
     // Validate required fields
@@ -90,9 +88,9 @@ const addLead = async (req, res) => {
       meeting_time,
       lead_address,
       contact_person_name,
-      total_material_qty,
-      approx_business:approx_business? parseInt(approx_business) : null,
-      project_name
+      total_material_qty:total_material_qty ? parseInt(total_material_qty) : null,
+      approx_business: approx_business ? parseInt(approx_business) : null,
+      project_name: project_name ? parseInt(project_name) : null
     });
 
     if (Array.isArray(product_ids) && product_ids.length > 0) {
@@ -382,8 +380,6 @@ const getLeadList = async (req, res) => {
       });
     }
 
-   
-
     if (all === "true") {
       const leads = await Lead.findAll({
         where: whereCondition,
@@ -467,6 +463,8 @@ const getleadaftermeeting = async (req, res) => {
     }
 
     const userId = req.user.id;
+    const userRole = req.user?.userrole;
+
     const { page = 1, limit = 10, search = "" } = req.query;
     const offset = (page - 1) * limit;
 
@@ -474,7 +472,8 @@ const getleadaftermeeting = async (req, res) => {
     const latestLeadIds = await Lead.findAll({
       attributes: [[Sequelize.fn("MAX", Sequelize.col("id")), "latest_id"]],
       where: {
-        ...(userId !== 33 && { assigned_person_id: userId }),
+        // ...(userId !== 33 && { assigned_person_id: userId }),
+         ...(userRole !== 1 && { assigned_person_id: userId }),
         active_status: "active",
         ...(search && {
           [Op.or]: [
@@ -565,7 +564,6 @@ const getleadaftermeeting = async (req, res) => {
     });
   }
 };
-
 
 const removeLead = async (req, res) => {
   const { id } = req.params;
@@ -1382,7 +1380,7 @@ const addDealData = async (req, res) => {
   try {
     const { deals } = req.body;
 
-    //console.log("deals", deals);
+    //console.log("DealData", deals);
 
     if (!Array.isArray(deals) || deals.length === 0) {
       return res.status(400).json({
@@ -1402,32 +1400,64 @@ const addDealData = async (req, res) => {
     const updatedDeals = [];
 
     for (const deal of deals) {
-      const [existingDeal, created] = await dealData.findOrCreate({
-        where: { product_id: deal.product_id },
-        defaults: {
-          date: deal?.date || null,
-          area: deal.area,
-          quantity: deal?.quantity || null,
-          rate: deal?.rate || null,
-          amount: deal?.amount || null,
-          advance_amount: deal.advance_amount || null,
-        },
+      // Build a clean data object with only provided values
+      const dealDataToInsert = {};
+      if (deal.date) dealDataToInsert.date = deal.date;
+      if (deal.area) dealDataToInsert.area = deal.area;
+      if (deal.quantity) dealDataToInsert.quantity = deal.quantity;
+      if (deal.rate) dealDataToInsert.rate = deal.rate;
+      if (deal.amount) dealDataToInsert.amount = deal.amount;
+      if (deal.advance_amount)
+        dealDataToInsert.advance_amount = deal.advance_amount;
+
+      // Always include product_id for lookup
+      dealDataToInsert.product_id = deal.product_id;
+
+      const existingDeal = await dealData.findOne({
+        where: { product_id: deal.product_id, lead_id:deal?.lead_id },
       });
 
-      if (!created) {
-        // If deal already exists, update it
-        await existingDeal.update({
-          date: deal?.date || null,
-          area: deal.area,
-          quantity: deal?.quantity || null,
-          rate: deal.rate || null,
-          amount: deal.amount || null,
-          advance_amount: deal.advance_amount || null,
-        });
+      let savedDeal;
+
+      if (existingDeal) {
+        // Update only provided fields
+        await existingDeal.update(dealDataToInsert);
+        savedDeal = existingDeal;
+      } else {
+        // Create new deal with only non-empty fields
+        savedDeal = await dealData.create(dealDataToInsert);
       }
 
-      updatedDeals.push(existingDeal);
+      updatedDeals.push(savedDeal);
     }
+
+    // for (const deal of deals) {
+    //   const [existingDeal, created] = await dealData.findOrCreate({
+    //     where: { product_id: deal.product_id },
+    //     defaults: {
+    //       date: deal?.date,
+    //       area: deal.area,
+    //       quantity: deal?.quantity ,
+    //       rate: deal?.rate ,
+    //       amount: deal?.amount ,
+    //       advance_amount: deal.advance_amount,
+    //     },
+    //   });
+
+    //   if (!created) {
+    //     // If deal already exists, update it
+    //     await existingDeal.update({
+    //       date: deal?.date,
+    //       area: deal.area,
+    //       quantity: deal?.quantity,
+    //       rate: deal.rate,
+    //       amount: deal.amount,
+    //       advance_amount: deal.advance_amount,
+    //     });
+    //   }
+
+    //   updatedDeals.push(existingDeal);
+    // }
 
     res.status(200).json({
       success: true,
@@ -1452,6 +1482,7 @@ const getDealData = async (req, res) => {
     }
 
     const userId = req.user.id;
+    const userRole = req.user?.userrole;
 
     // Step 1: Get the customer_ids for this salesperson
     const customerIdsResult = await Lead.findAll({
@@ -1459,7 +1490,8 @@ const getDealData = async (req, res) => {
         [Sequelize.fn("DISTINCT", Sequelize.col("customer_id")), "customer_id"],
       ],
       where: {
-        ...(userId !== 33 && { assigned_person_id: userId }),
+        // ...(userId !== 33 && { assigned_person_id: userId }),
+         ...(userRole !== 1 && { assigned_person_id: userId }),
         //assigned_person_id: userId,
         active_status: "active",
       },
@@ -1653,9 +1685,9 @@ const addProductsToLead = async (req, res) => {
 
 const deleteProductFromLead = async (req, res) => {
   try {
-    const { product_id } = req.body;
+    const { product_id, lead_id } = req.body;
 
-    if (!product_id) {
+    if (!product_id || !lead_id) {
       return res.status(400).json({
         success: false,
         message: "lead_id and product_id are required.",
@@ -1664,7 +1696,7 @@ const deleteProductFromLead = async (req, res) => {
 
     // Check if product exists for the lead
     const dealRecord = await dealData.findOne({
-      where: { product_id },
+      where: { product_id ,lead_id},
     });
 
     if (!dealRecord) {
@@ -1781,7 +1813,9 @@ const exportLeadsAfterMeetingToExcel = async (req, res) => {
     const leadIds = latestLeadIds.map((item) => item.latest_id);
 
     if (leadIds.length === 0) {
-      return res.status(200).json({ success: true, message: "No data", data: [] });
+      return res
+        .status(200)
+        .json({ success: true, message: "No data", data: [] });
     }
 
     // Step 2: Get full leads with communication
@@ -1830,7 +1864,8 @@ const exportLeadsAfterMeetingToExcel = async (req, res) => {
 
     // Add rows
     leads.forEach((lead) => {
-      const communication = lead.communications?.[lead.communications.length - 1]; // Last meeting
+      const communication =
+        lead.communications?.[lead.communications.length - 1]; // Last meeting
 
       worksheet.addRow({
         id: lead.id,
@@ -1846,8 +1881,15 @@ const exportLeadsAfterMeetingToExcel = async (req, res) => {
     });
 
     // Save Excel file
-    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
-    const filePath = path.join(__dirname, `../exports/Leads_After_Meeting_${timestamp}.xlsx`);
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/T/, "_")
+      .replace(/:/g, "-")
+      .split(".")[0];
+    const filePath = path.join(
+      __dirname,
+      `../exports/Leads_After_Meeting_${timestamp}.xlsx`
+    );
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     await workbook.xlsx.writeFile(filePath);
 
@@ -1855,26 +1897,28 @@ const exportLeadsAfterMeetingToExcel = async (req, res) => {
     res.download(filePath, `Leads_After_Meeting_${timestamp}.xlsx`);
   } catch (error) {
     console.error("Export Error:", error);
-    res.status(500).json({ success: false, message: "Export failed", error: error.message});
+    res
+      .status(500)
+      .json({ success: false, message: "Export failed", error: error.message });
   }
 };
-
 
 const getAllPOAReports = async (req, res) => {
   try {
     // Step 1: Fetch all leads with user data
     const leads = await Lead.findAll({
-      include: [{
-        model: User,
-        as: "assignedPerson",
-        attributes: ["id", "username", "fullname"]
-      },
-      {
+      include: [
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["id", "username", "fullname"],
+        },
+        {
           model: Customer,
           as: "customer",
-          attributes: ["id","company_name"]
-      },
-      {
+          attributes: ["id", "company_name"],
+        },
+        {
           model: dealData,
           as: "deals",
           attributes: [
@@ -1893,19 +1937,19 @@ const getAllPOAReports = async (req, res) => {
             {
               model: Product,
               as: "product",
-              attributes: ["id", "product_name","category_id"],
+              attributes: ["id", "product_name", "category_id"],
               required: false,
-               include: [
-            {
-              model: Category,
-              as: "category",
-              attributes: ["id","category_name"],
+              include: [
+                {
+                  model: Category,
+                  as: "category",
+                  attributes: ["id", "category_name"],
+                },
+              ],
             },
           ],
-           },
-         ],
-      }
-      ]
+        },
+      ],
     });
 
     //console.log("leads",leads[0]?.deals[0]?.product);
@@ -1916,14 +1960,14 @@ const getAllPOAReports = async (req, res) => {
     for (const lead of leads) {
       const empId = lead.assigned_person_id;
       const empName = lead.assignedPerson?.username || "Unknown";
-      const empfullname = lead.assignedPerson?.fullname ||"Unknown";
+      const empfullname = lead.assignedPerson?.fullname || "Unknown";
       const customerId = lead.customer_id;
 
       // Category name from last deal’s product (if available)
-     const lastDeal = lead.deals[lead.deals.length - 1];
-     const categoryName = lastDeal?.product?.category?.category_name || "N/A";
+      const lastDeal = lead.deals[lead.deals.length - 1];
+      const categoryName = lastDeal?.product?.category?.category_name || "N/A";
 
-     //console.log(`Employee: ${empName}, Customer ID: ${customerId}, Category: ${categoryName}`);
+      //console.log(`Employee: ${empName}, Customer ID: ${customerId}, Category: ${categoryName}`);
       if (!empId) continue; // Skip if no assigned employee
 
       if (!employeeMap.has(empId)) {
@@ -1940,9 +1984,11 @@ const getAllPOAReports = async (req, res) => {
 
       const entry = employeeMap.get(empId);
       if (lead.customer_id) entry.unique_customers.add(lead.customer_id);
-      if (lead.total_material_qty) entry.total_material_qty += lead.total_material_qty;
-      if (lead.approx_business) entry.total_approx_business += lead.approx_business;
-        entry.category_name = categoryName;
+      if (lead.total_material_qty)
+        entry.total_material_qty += lead.total_material_qty;
+      if (lead.approx_business)
+        entry.total_approx_business += lead.approx_business;
+      entry.category_name = categoryName;
     }
 
     // Step 3: Format final result
@@ -1960,7 +2006,6 @@ const getAllPOAReports = async (req, res) => {
       success: true,
       data: result,
     });
-
   } catch (error) {
     console.error("Error getting POA reports:", error);
     return res.status(500).json({
@@ -1980,8 +2025,8 @@ const getEmployeeListFromLeads = async (req, res) => {
       include: {
         model: User,
         as: "assignedPerson",
-        attributes: ["id", "fullname", "email", "phone", "emp_id"]
-      }
+        attributes: ["id", "fullname", "email", "phone", "emp_id"],
+      },
     });
 
     // Step 2: Collect unique users in Map
@@ -1998,7 +2043,7 @@ const getEmployeeListFromLeads = async (req, res) => {
           emp_id: user.emp_id,
           fullname: user.fullname,
           email: user.email,
-          phone: user.phone
+          phone: user.phone,
         });
       }
     }
@@ -2008,11 +2053,12 @@ const getEmployeeListFromLeads = async (req, res) => {
 
     if (search) {
       const searchLower = search.toLowerCase();
-      filtered = filtered.filter(user =>
-        user.fullname.toLowerCase().includes(searchLower) ||
-        user.email.toLowerCase().includes(searchLower) ||
-        user.phone.toLowerCase().includes(searchLower) ||
-        user.emp_id.toLowerCase().includes(searchLower)
+      filtered = filtered.filter(
+        (user) =>
+          user.fullname.toLowerCase().includes(searchLower) ||
+          user.email.toLowerCase().includes(searchLower) ||
+          user.phone.toLowerCase().includes(searchLower) ||
+          user.emp_id.toLowerCase().includes(searchLower)
       );
     }
 
@@ -2026,16 +2072,15 @@ const getEmployeeListFromLeads = async (req, res) => {
       data: paginatedData,
       currentPage: parseInt(page),
       totalPages,
-      totalItems
+      totalItems,
     });
-
   } catch (error) {
     console.error("Error fetching employee list from leads:", error);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong"
-  });
- }
+      message: "Something went wrong",
+    });
+  }
 };
 
 const getPOAReportById = async (req, res) => {
@@ -2045,24 +2090,29 @@ const getPOAReportById = async (req, res) => {
     // Fetch leads assigned to this employee
     const leads = await Lead.findAll({
       where: { assigned_person_id: emp_id },
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: Customer,
           as: "customer",
-          attributes: ["id","company_name"]
+          attributes: ["id", "company_name"],
         },
         {
           model: User,
           as: "assignedPerson",
-          attributes: ["fullname"]
-        }
-      ]
+          attributes: ["fullname"],
+        },
+        {
+          model: LeadCommunication,
+          as: "communications",
+        },
+      ],
     });
 
     if (!leads || leads.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No leads found for this employee."
+        message: "No leads found for this employee.",
       });
     }
 
@@ -2070,22 +2120,21 @@ const getPOAReportById = async (req, res) => {
     const result = leads.map((lead) => ({
       ...lead.toJSON(),
       // customer_name: lead.customer?.name || "Unknown",
-      employee_fullname: lead.assignedPerson?.fullname || "Unknown"
+      employee_fullname: lead.assignedPerson?.fullname || "Unknown",
     }));
 
     return res.json({
       success: true,
-      data: result
+      data: result,
     });
   } catch (error) {
     console.error("Error in getPOAReportById:", error);
     return res.status(500).json({
       success: false,
-      message: "Internal server error"
-  });
- }
+      message: "Internal server error",
+    });
+  }
 };
-
 
 module.exports = {
   addLead,
@@ -2112,5 +2161,5 @@ module.exports = {
   exportLeadsAfterMeetingToExcel,
   getAllPOAReports,
   getEmployeeListFromLeads,
-  getPOAReportById
+  getPOAReportById,
 };

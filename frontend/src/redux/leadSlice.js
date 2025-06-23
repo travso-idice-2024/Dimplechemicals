@@ -146,6 +146,7 @@ export const addProductToLead = createAsyncThunk(
 export const deleteProductFromLead = createAsyncThunk(
   "auth/deleteProductFromLead",
   async (productData, { rejectWithValue }) => {
+    //console.log("productData",productData);
     try {
       const token = getAuthToken();
       const response = await axios.post(

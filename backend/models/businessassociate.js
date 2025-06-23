@@ -39,7 +39,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'BusinessAssociate',
-    tableName: 'businessassociates'
+    tableName: 'businessassociates',
+    hooks: {
+        async afterCreate(ba) {
+          const generatedCode = `BA${String(ba.id).padStart(2, "0")}`;
+          await ba.update({ code: generatedCode });
+      },
+     },
   });
 
   return BusinessAssociate;

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import "./MarketingManageData.css";
 import { iconsImgs } from "../../../utils/images";
 import DepartmentTable from "./DepartmentTable";
 import Pagination from "./Pagination";
 import AddRoleModal from "./AddRoleModal";
 import ViewUserModal from "./ViewUserModal";
+import EmpSARReport from "./EmpSARReport";
 import ViewCustomerModal from "./ViewCustomerModal";
 import EditUserModal from "./EditUserModal";
 import AssignLeadModal from "./AssignLeadModal";
@@ -25,7 +26,7 @@ import {
   addDeal,
   getProductByLeadId,
   addProductToLead,
-  deleteProductFromLead
+  deleteProductFromLead,
 } from "../../../redux/leadSlice";
 
 import { fetchCurrentUser } from "../../../redux/authSlice";
@@ -36,8 +37,6 @@ import {
 } from "../../../redux/customerSlice";
 import useGoogleCalendar from "../../../components/hooks/useGoogleCalendar";
 
-
-
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -45,19 +44,15 @@ const getAuthToken = () => localStorage.getItem("token");
 
 const MarketingManageData = () => {
   //const { id } = useParams();
-  const {
-    isAuthenticated,
-    createEvent,
-  } = useGoogleCalendar();
+  const { isAuthenticated, createEvent } = useGoogleCalendar();
 
   const dispatch = useDispatch();
-  const { genleads, totalPages, departmentloading, departmenterror } = useSelector(
-    (state) => state.lead
-  );
+  const { genleads, totalPages, departmentloading, departmenterror } =
+    useSelector((state) => state.lead);
 
   const { pductByleadId } = useSelector((state) => state.lead);
 
- 
+  console.log("pductByleadId", pductByleadId);
 
   const { userDataWithRole } = useSelector((state) => state.user);
 
@@ -84,10 +79,11 @@ const MarketingManageData = () => {
     setViewCustomerHistoryCardModalOpen,
   ] = useState(false);
 
+  const [poaReportOpen, setpoaReportOpen] = useState(false);
+
   const [selectedPOAId, setSelectedPOAId] = useState(null);
   const [isLeadAssignPopup, setIsLeadAssignPopup] = useState(false);
   const [selectedPOAIds, setSelectedPOAIds] = useState([]);
-
 
   //-------- New Pagination Code Start --------//
   const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
@@ -96,19 +92,18 @@ const MarketingManageData = () => {
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const leadPerPage = entriesPerPageNewData? entriesPerPageNewData : 20 ;
+  const leadPerPage = entriesPerPageNewData ? entriesPerPageNewData : 20;
 
   // Fetch departments whenever searchTerm or currentPage changes
   //console.log("selectedLead", selectedLead);
 
-   useEffect(() => {
-      dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id})); 
-    }, [dispatch,selectedLead?.customer_id]);
+  useEffect(() => {
+    dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
+  }, [dispatch, selectedLead?.customer_id]);
 
-    // useEffect(() => {
-    //   dispatch(getProductByLeadId({ lead_id: selectedLead?.id })); 
-    // }, [dispatch,selectedLead?.id]);
-
+  // useEffect(() => {
+  //   dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+  // }, [dispatch,selectedLead?.id]);
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
@@ -126,7 +121,7 @@ const MarketingManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm,entriesPerPageNewData]);
+  }, [dispatch, currentPage, searchTerm, entriesPerPageNewData]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -150,28 +145,27 @@ const MarketingManageData = () => {
     meeting_type: "",
     lead_summary: "",
     lead_address: "",
-    reference_name:"",
+    reference_name: "",
     total_material_qty: "",
     approx_business: "",
     project_name: "",
-    meeting_time:"",
-    product_ids:[]
+    meeting_time: "",
+    product_ids: [],
   });
 
-    useEffect(() => {
-      if (userDeatail?.id) {
-        setLeadData(prev => ({
-          ...prev,
-          assigned_person_id: userDeatail.id
-        }));
-      }
-    }, [userDeatail]);
-
+  useEffect(() => {
+    if (userDeatail?.id) {
+      setLeadData((prev) => ({
+        ...prev,
+        assigned_person_id: userDeatail.id,
+      }));
+    }
+  }, [userDeatail]);
 
   const [addLeadFormErrors, setaddLeadFormErrors] = useState({});
   const [addLeadFlashMessage, setAddLeadFlashMessage] = useState("");
   const [addLeadFlashMsgType, setAddLeadFlashMsgType] = useState("");
-   const [attendeesEmails, setAttendeesEmails] = useState([]);
+  const [attendeesEmails, setAttendeesEmails] = useState([]);
 
   const handleLeadChange = (e) => {
     const { name, value } = e.target;
@@ -184,9 +178,9 @@ const MarketingManageData = () => {
       const selectedUser = userDataWithRole?.data.find(
         (item) => item.id === parseInt(value)
       );
-  
+
       if (selectedUser) {
-        setAttendeesEmails([selectedUser.email,userDeatail.email]); // If you want an array of one email
+        setAttendeesEmails([selectedUser.email, userDeatail.email]); // If you want an array of one email
       } else {
         setAttendeesEmails([]); // Clear if no match found
       }
@@ -252,8 +246,8 @@ const MarketingManageData = () => {
 
           setLeadData({});
 
-           //add google calender event 
-           if (isAuthenticated) {
+          //add google calender event
+          if (isAuthenticated) {
             handleAddEvent(leadData);
           }
 
@@ -308,6 +302,7 @@ const MarketingManageData = () => {
   const [updateLeadFlashMessage, setUpdateLeadFlashMessage] = useState("");
   const [updateLeadFlashMsgType, setUpdateLeadFlashMsgType] = useState("");
 
+  //console.log("selectedLead",selectedLead);
   useEffect(() => {
     if (selectedLead) {
       setUpdateLeadData({
@@ -334,9 +329,11 @@ const MarketingManageData = () => {
         lead_custom_address: selectedLead?.lead_custom_address || "",
         budget_status: selectedLead?.budget_status || "",
       });
-      dispatch(getAllAddressByCustomerId({ id: selectedLead?.customer?.id }));
     }
+    //dispatch(getAllAddressByCustomerId({ id: selectedLead?.customer?.id }));
   }, [selectedLead]);
+
+  //console.log(updateLeadData);
 
   // Handle input changes for update form
   const handleUpdateLeadChange = (e) => {
@@ -349,7 +346,7 @@ const MarketingManageData = () => {
 
   const handleLeadUpdateCustomerChange = (e) => {
     const { value } = e.target;
-    console.log("function calling", value);
+    //console.log("function calling", value);
     // Dispatch to get addresses based on selected customer ID
     dispatch(getAllAddressByCustomerId({ id: value }));
 
@@ -536,7 +533,7 @@ const MarketingManageData = () => {
       const response = await dispatch(
         updateSalesPersionAssignment({
           //lead_id: selectedLead.id,
-          lead_ids:selectedPOAIds,
+          lead_ids: selectedPOAIds,
           new_assigned_person_id: poaUpdateData.new_assigned_person_id,
         })
       ).unwrap();
@@ -614,7 +611,6 @@ const MarketingManageData = () => {
     //lead_id: selectedLead?.id || "",
     deals: [],
   });
-  
 
   const [totalAdvanceAmount, setTotalAdvanceAmount] = useState(0);
   const [totalDealAmount, setTotalDealAmount] = useState(0);
@@ -622,22 +618,23 @@ const MarketingManageData = () => {
   useEffect(() => {
     if (pductByleadId?.data?.length > 0) {
       const products = pductByleadId.data.map((prod) => ({
-        product_id: prod.product_id ,
+        lead_id: prod?.lead_id,
+        product_id: prod.product_id,
         product_name: prod.product_name,
         date: prod.date,
         area: prod.area,
-        quantity:prod.quantity,
+        quantity: prod.quantity,
         rate: prod.rate,
-        amount:prod.amount,
-        advance_amount:prod.advance_amount
+        amount: prod.amount,
+        advance_amount: prod.advance_amount,
       }));
-  
+
       setDealData((prevState) => ({
         ...prevState,
-        deals:products, // note: spread both
+        deals: products, // note: spread both
       }));
     }
-  }, [pductByleadId?.data]); 
+  }, [pductByleadId?.data]);
 
   // const handleProductInputChange = (index, field, value) => {
   //   const updatedDeals = [...dealData.deals];
@@ -651,39 +648,33 @@ const MarketingManageData = () => {
   const handleProductInputChange = (index, field, value) => {
     const updatedDeals = [...dealData.deals];
     updatedDeals[index][field] = value;
-  
+
     if (field === "quantity" || field === "rate") {
       const quantity = parseFloat(updatedDeals[index].quantity) || 0;
       const rate = parseFloat(updatedDeals[index].rate) || 0;
       updatedDeals[index].amount = quantity * rate;
     }
-  
+
     setDealData((prevState) => ({
       ...prevState,
       deals: updatedDeals,
     }));
   };
-  
-  
-  
-  
+
   useEffect(() => {
     const totalAdvance = dealData?.deals?.reduce(
       (sum, item) => sum + (parseFloat(item.advance_amount) || 0),
       0
     );
-  
+
     const totalAmount = dealData?.deals?.reduce(
       (sum, item) => sum + (parseFloat(item.amount) || 0),
       0
     );
-  
+
     setTotalAdvanceAmount(totalAdvance);
     setTotalDealAmount(totalAmount);
   }, [dealData?.deals]);
-  
-  
-  
 
   const [dealFormErrors, setDealFormErrors] = useState({});
   const [addDealFlashMessage, setAddDealFlashMessage] = useState("");
@@ -703,112 +694,110 @@ const MarketingManageData = () => {
 
     if (!dealData.date) newErrors.date = "Date is required.";
     if (!dealData.product_id)
-      newErrors.product_id  = "Product Name is required.";
-    if (!dealData.area)
-      newErrors.area = "Area Name is required.";
-    
+      newErrors.product_id = "Product Name is required.";
+    if (!dealData.area) newErrors.area = "Area Name is required.";
+
     if (!dealData.quantity) newErrors.quantity = "Quantity is required.";
     if (!dealData.rate) newErrors.rate = "Rate is required.";
     if (!dealData.amount) newErrors.amount = "Amount is required.";
-    if (!dealData.advance_amount) newErrors.advance_amount = "Advance amount is required.";
-    if (!dealData.deal_amount) newErrors.deal_amount = "Deal amount is required.";
+    if (!dealData.advance_amount)
+      newErrors.advance_amount = "Advance amount is required.";
+    if (!dealData.deal_amount)
+      newErrors.deal_amount = "Deal amount is required.";
 
-    setDealFormErrors(newErrors); // Create a new state if not exists: 
+    setDealFormErrors(newErrors); // Create a new state if not exists:
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmitDeal = async (e) => {
-    
     e.preventDefault();
     //if (validateDealForm()) {
-      try {
-        console.log("dealData", dealData);
-        const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
+    try {
+      console.log("dealData", dealData);
+      const response = await dispatch(addDeal(dealData)).unwrap(); // <-- Replace with your actual action
 
-        if (response?.success) {
-          handleAddDealFlashMessage(response?.message, "success");
+      if (response?.success) {
+        handleAddDealFlashMessage(response?.message, "success");
 
-          // dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
-          dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
+        // dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+        dispatch(
+          getProductByLeadId({ customer_id: selectedLead?.customer_id })
+        );
 
-          dispatch(
-            GenratedlistLeads({
-              page: currentPage,
-              limit: leadPerPage,
-              search: searchTerm,
-            })
-          );
+        dispatch(
+          GenratedlistLeads({
+            page: currentPage,
+            limit: leadPerPage,
+            search: searchTerm,
+          })
+        );
 
-          setDealData({});
+        setDealData({});
 
-          setTimeout(() => {
-            setDealCreationOpenForm(false);
-          }, 1000);
-        } else {
-          handleAddDealFlashMessage(
-            response?.message || "Something went wrong",
-            "error"
-          );
-        }
-      } catch (error) {
-        console.error("Error adding deal:", error);
+        setTimeout(() => {
+          setDealCreationOpenForm(false);
+        }, 1000);
+      } else {
         handleAddDealFlashMessage(
-          error?.message || "An error occurred",
+          response?.message || "Something went wrong",
           "error"
         );
       }
+    } catch (error) {
+      console.error("Error adding deal:", error);
+      handleAddDealFlashMessage(error?.message || "An error occurred", "error");
+    }
     //}
   };
 
-
-
   const [leadProductData, setLeadProductData] = useState({
     lead_id: null,
-    product_ids: []
+    product_ids: [],
   });
-  
+
   useEffect(() => {
     if (selectedLead?.id) {
       setLeadProductData((prev) => ({
         ...prev,
-        lead_id: selectedLead.id
+        lead_id: selectedLead.id,
       }));
     }
   }, [selectedLead?.id]);
-  
+
   //console.log("leadProductData", leadProductData);
-   const handleSubmitAddProduct = async (e) => {
-          e.preventDefault();
-          try {
-            const response = await dispatch(addProductToLead(leadProductData)).unwrap();
-            //console.log(response);
-            if (response?.success) {
-              //handleAddLeadFlashMessage(response?.message, "success");
-              //dispatch(listCustomers());
-              //dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
-              dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
-              setLeadProductData({});
-            } else {
-              console.log(
-                response?.message || "Something went wrong",
-                "error"
-              );
-            }
-          } catch (error) {
-            console.error("Error adding product:", error);
-          }
-    };
+  const handleSubmitAddProduct = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await dispatch(
+        addProductToLead(leadProductData)
+      ).unwrap();
+      //console.log(response);
+      if (response?.success) {
+        //handleAddLeadFlashMessage(response?.message, "success");
+        //dispatch(listCustomers());
+        //dispatch(getProductByLeadId({ lead_id: selectedLead?.id }));
+        dispatch(
+          getProductByLeadId({ customer_id: selectedLead?.customer_id })
+        );
+        setLeadProductData({});
+      } else {
+        console.log(response?.message || "Something went wrong", "error");
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
 
   //end dea
-   //google calender (poa) event add 
-   const handleAddEvent = (leadData) => {
+  //google calender (poa) event add
+  const handleAddEvent = (leadData) => {
     const event = {
-       title: "Meeting Sheduled",
-       location: leadData?.lead_address,
-       description: leadData?.lead_summary,
-       startDateTime: leadData?.assign_date,
-       endDateTime: leadData?.assign_date,
-       attendeesEmails: attendeesEmails,
+      title: "Meeting Sheduled",
+      location: leadData?.lead_address,
+      description: leadData?.lead_summary,
+      startDateTime: leadData?.assign_date,
+      endDateTime: leadData?.assign_date,
+      attendeesEmails: attendeesEmails,
     };
     console.log("event", event);
     createEvent(event);
@@ -816,30 +805,34 @@ const MarketingManageData = () => {
 
   //end google calender (poa) event add
 
-  //start 
+  //start
 
   const handleRemoveProduct = async (product) => {
-    //console.log("product",product,selectedLead?.id);
-    
+    //console.log("product",product);
+
     try {
-      const response = await dispatch(deleteProductFromLead({ product_id:product?.product_id })).unwrap();
+      const response = await dispatch(
+        deleteProductFromLead({
+          product_id: product?.product_id,
+          lead_id: product?.lead_id,
+        })
+      ).unwrap();
       //console.log(response);
       if (response?.success) {
         console.log("product deleted sucesssfully");
         //handleAddLeadFlashMessage(response?.message, "success");
         //dispatch(listCustomers());
-        dispatch(getProductByLeadId({ customer_id: selectedLead?.customer_id }));
+        dispatch(
+          getProductByLeadId({ customer_id: selectedLead?.customer_id })
+        );
         //setLeadProductData({});
       } else {
-        console.log(
-          response?.message || "Something went wrong",
-          "error"
-        );
+        console.log(response?.message || "Something went wrong", "error");
       }
     } catch (error) {
       console.error("Error deleting product:", error);
     }
-};
+  };
 
   //end handleRemoveProduct
 
@@ -849,18 +842,15 @@ const MarketingManageData = () => {
       const token = getAuthToken();
 
       // ✅ Correct API call with query parameters
-      const response = await axios.get(
-        `${API_URL}/auth/export-after-meeting`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            search: searchTerm,
-          },
-          responseType: "blob", // ✅ Important to keep it here
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/export-after-meeting`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          search: searchTerm,
+        },
+        responseType: "blob", // ✅ Important to keep it here
+      });
 
       // ✅ Create a URL for the blob
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -889,7 +879,6 @@ const MarketingManageData = () => {
           </h1>
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-[5px]">
-       
           <div>
             <input
               type="search"
@@ -900,33 +889,33 @@ const MarketingManageData = () => {
             />
           </div>
           <div className="mt-4 md:mt-0 flex items-start gap-5 md:gap-1">
-           <div>
-            <button
-              className="flex items-center text-textdata whitespace-nowrap text-white bg-[#bf9c85] rounded-[3px] px-3 py-[0.28rem]"
-              onClick={() => setIsLeadAssignPopup(true)}
-            >
-              <img
-                src={iconsImgs.plus}
-                alt="plus icon"
-                className="w-[18px] mr-1"
-              />{" "}
-              Assign Lead To
-            </button>
-          </div>
-          <div>
-            <button
-              className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
-              onClick={() => setIsAssignModalOpen(true)}
-            >
-              <img
-                src={iconsImgs.plus}
-                alt="plus icon"
-                className="w-[18px] mr-1"
-              />{" "}
-              Add New Lead
-            </button>
-          </div>
-          <div>
+            <div>
+              <button
+                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#bf9c85] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => setIsLeadAssignPopup(true)}
+              >
+                <img
+                  src={iconsImgs.plus}
+                  alt="plus icon"
+                  className="w-[18px] mr-1"
+                />{" "}
+                Assign Lead To
+              </button>
+            </div>
+            <div>
+              <button
+                className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
+                onClick={() => setIsAssignModalOpen(true)}
+              >
+                <img
+                  src={iconsImgs.plus}
+                  alt="plus icon"
+                  className="w-[18px] mr-1"
+                />{" "}
+                Add New Lead
+              </button>
+            </div>
+            <div>
               <button
                 className="flex items-center text-textdata whitespace-nowrap text-white bg-[#fe6c00] rounded-[3px] px-3 py-[0.28rem]"
                 onClick={handleExportData}
@@ -939,8 +928,8 @@ const MarketingManageData = () => {
       </div>
       <div className="main-content-holder max-h-[460px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
-         {/*--------- New Pagination Code Start  ---------*/}
-         <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
+          {/*--------- New Pagination Code Start  ---------*/}
+          <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
             <div className="flex items-center">
               <span className="text-sm text-white bg-[#473b33] rounded-l-[5px] flex items-center text-center px-3 h-8">
                 Show Data
@@ -949,10 +938,9 @@ const MarketingManageData = () => {
                 <select
                   className="appearance-none cursor-pointer h-8 pr-8 pl-5 rounded-r-[5px] bg-[#3d3d57] text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                   value={entriesPerPageNewData}
-                  onChange={(e) =>{
+                  onChange={(e) => {
                     setEntriesPerPageNewData(Number(e.target.value));
-                  }
-                  }
+                  }}
                 >
                   <option value={25}>25</option>
                   <option value={50}>50</option>
@@ -976,7 +964,6 @@ const MarketingManageData = () => {
                 </div>
               </div>
             </div>
-
           </div>
           {/*--------- New Pagination Code End  ---------*/}
           {/*------- Table Data Start -------*/}
@@ -1005,8 +992,10 @@ const MarketingManageData = () => {
             setDealData={setDealData}
             isViewCustomerModalOpen={isViewCustomerModalOpen}
             setViewCustomerModalOpen={setViewCustomerModalOpen}
-            selectedPOAIds={selectedPOAIds} 
+            selectedPOAIds={selectedPOAIds}
             setSelectedPOAIds={setSelectedPOAIds}
+            poaReportOpen={poaReportOpen}
+            setpoaReportOpen={setpoaReportOpen}
           />
           {/*------- Table Data End -------*/}
         </div>
@@ -1055,11 +1044,18 @@ const MarketingManageData = () => {
           />
         )}
 
+        {poaReportOpen && (
+          <EmpSARReport
+            setpoaReportOpen={setpoaReportOpen}
+            selectedPOA={selectedLead}
+          />
+        )}
+
         {/** view customer model */}
         {isViewCustomerModalOpen && (
           <ViewCustomerModal
-          setViewCustomerModalOpen={setViewCustomerModalOpen}
-          selectedCustomer={selectedLead}
+            setViewCustomerModalOpen={setViewCustomerModalOpen}
+            selectedCustomer={selectedLead}
           />
         )}
 
@@ -1086,61 +1082,61 @@ const MarketingManageData = () => {
           />
         )}
 
-      {isLeadAssignPopup && (
-        <ParticularLeadAssign
-          setIsLeadAssignPopup={setIsLeadAssignPopup}
-          selectedLead={selectedLead}
-          setSelectedLead={setSelectedLead}
-          userDataWithRole={userDataWithRole}
-          handleAssignSalesPerson={handleAssignSalesPerson}
-          poaUpdateData={poaUpdateData}
-          setPoaUpdateData={setPoaUpdateData}
-          handlePoaUpdateChange={handlePoaUpdateChange}
-          validatePoaUpdateForm={validatePoaUpdateForm}
-          updateLeadFormErrors={updateLeadFormErrors}
-          setUpdateLeadFormErrors={setUpdateLeadFormErrors}
-          updateLeadFlashMessage={updateLeadFlashMessage}
-          setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
-          updateLeadFlashMsgType={updateLeadFlashMsgType}
-          setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
-          handleUpdateLeadChange={handleUpdateLeadChange}
-          handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
-          selectedPOAIds={selectedPOAIds}
-        />
-      )}
+        {isLeadAssignPopup && (
+          <ParticularLeadAssign
+            setIsLeadAssignPopup={setIsLeadAssignPopup}
+            selectedLead={selectedLead}
+            setSelectedLead={setSelectedLead}
+            userDataWithRole={userDataWithRole}
+            handleAssignSalesPerson={handleAssignSalesPerson}
+            poaUpdateData={poaUpdateData}
+            setPoaUpdateData={setPoaUpdateData}
+            handlePoaUpdateChange={handlePoaUpdateChange}
+            validatePoaUpdateForm={validatePoaUpdateForm}
+            updateLeadFormErrors={updateLeadFormErrors}
+            setUpdateLeadFormErrors={setUpdateLeadFormErrors}
+            updateLeadFlashMessage={updateLeadFlashMessage}
+            setUpdateLeadFlashMessage={setUpdateLeadFlashMessage}
+            updateLeadFlashMsgType={updateLeadFlashMsgType}
+            setUpdateLeadFlashMsgType={setUpdateLeadFlashMsgType}
+            handleUpdateLeadChange={handleUpdateLeadChange}
+            handleUpdateLeadFlashMessage={handleUpdateLeadFlashMessage}
+            selectedPOAIds={selectedPOAIds}
+          />
+        )}
 
-      {/* View User Modal */}
-      {isViewCustomerHistoryCardModalOpen && (
-        <ViewCustomerHistoryCardReport
-          setViewCustomerHistoryCardModalOpen={
-            setViewCustomerHistoryCardModalOpen
-          }
-          selectedCustomer={selectedCustomer}
-        />
-      )}
+        {/* View User Modal */}
+        {isViewCustomerHistoryCardModalOpen && (
+          <ViewCustomerHistoryCardReport
+            setViewCustomerHistoryCardModalOpen={
+              setViewCustomerHistoryCardModalOpen
+            }
+            selectedCustomer={selectedCustomer}
+          />
+        )}
 
-      {dealCreationOpenForm && (
-        <DealCreationForm
-          dealCreationOpenForm={dealCreationOpenForm}
-          setDealCreationOpenForm={setDealCreationOpenForm}
-          selectedLead={selectedLead}
-          dealData={dealData}
-          setDealData={setDealData}
-          //handleDealInputChange={handleDealInputChange}
-          handleProductInputChange={handleProductInputChange}
-          handleSubmitDeal={handleSubmitDeal}
-          addDealFlashMessage={addDealFlashMessage}
-          addDealFlashMsgType={addDealFlashMsgType}
-          dealFormErrors={dealFormErrors}
-          setDealFormErrors={setDealFormErrors}
-          leadProductData = {leadProductData}
-          setLeadProductData = {setLeadProductData}
-          handleSubmitAddProduct = {handleSubmitAddProduct}
-          totalAdvanceAmount={totalAdvanceAmount}
-          totalDealAmount={totalDealAmount}
-          handleRemoveProduct={handleRemoveProduct}
-        />
-      )}
+        {dealCreationOpenForm && (
+          <DealCreationForm
+            dealCreationOpenForm={dealCreationOpenForm}
+            setDealCreationOpenForm={setDealCreationOpenForm}
+            selectedLead={selectedLead}
+            dealData={dealData}
+            setDealData={setDealData}
+            //handleDealInputChange={handleDealInputChange}
+            handleProductInputChange={handleProductInputChange}
+            handleSubmitDeal={handleSubmitDeal}
+            addDealFlashMessage={addDealFlashMessage}
+            addDealFlashMsgType={addDealFlashMsgType}
+            dealFormErrors={dealFormErrors}
+            setDealFormErrors={setDealFormErrors}
+            leadProductData={leadProductData}
+            setLeadProductData={setLeadProductData}
+            handleSubmitAddProduct={handleSubmitAddProduct}
+            totalAdvanceAmount={totalAdvanceAmount}
+            totalDealAmount={totalDealAmount}
+            handleRemoveProduct={handleRemoveProduct}
+          />
+        )}
         {isLeadAssignPopup && (
           <ParticularLeadAssign
             setIsLeadAssignPopup={setIsLeadAssignPopup}
@@ -1172,14 +1168,13 @@ const MarketingManageData = () => {
             selectedCustomer={selectedCustomer}
           />
         )}
-       
       </div>
-       {/* Pagination Controls with Number */}
-        <Pagination
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-          totalPages={totalPages}
-        />
+      {/* Pagination Controls with Number */}
+      <Pagination
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

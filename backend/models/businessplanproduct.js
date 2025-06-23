@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      gst_percent: DataTypes.INTEGER,
     },
     {
       sequelize,

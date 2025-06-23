@@ -27,6 +27,8 @@ const DepartmentTable = ({
   poaReportOpen,
   setpoaReportOpen,
   listLeads,
+  isViewCustomerModalOpen,
+  setViewCustomerModalOpen
 }) => {
   const { poaType } = useParams();
   const location = useLocation();
@@ -447,7 +449,8 @@ const DepartmentTable = ({
                 className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer"
                 onClick={() => {
                   setSelectedPOA(user);
-                  setpoaReportOpen(true);
+                  //setpoaReportOpen(true);
+                  setViewCustomerModalOpen(true);
                 }}
               >
                 {user.customer?.company_name || "N/A"}
@@ -528,7 +531,7 @@ const DepartmentTable = ({
                   <option value="Queries">Queries</option>
                   <option value="In discussion">In Discussion</option>
                   <option value="ProposalSent">Proposal Sent</option>
-                  <option value="In discussion">Demo Completed</option>
+                  <option value="Demo Completed">Demo Completed</option>
                 </select>
                 {formErrors.lead_status && (
                   <p className="text-red-500 text-sm">
