@@ -18,31 +18,34 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
 };
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto max-h-[90vh]">
+      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto ">
+         <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
+            Summery of Sales Activity Report Format
+          </h2>
         {/* Header */}
-        <div className="text-center border-b border-gray-300 p-4">
+        {/* <div className="text-center border-b border-gray-300 p-4">
           <h3 className="text-lg font-semibold mt-1">
             Summery of Sales Activity Report Format
           </h3>
-        </div>
+        </div> */}
 
         {/* Table */}
-        <div className="overflow-x-auto p-4">
-          <table className="w-full border border-collapse text-sm">
-            <thead className="bg-gray-200 text-center">
-              <tr>
-                <th className="border px-2 py-1">Id</th>
-                <th className="border px-2 py-1">Employee Name</th>
-                <th className="border px-2 py-1">Company Name</th>
-                <th className="border px-2 py-1 text-red-500">Date of Visit</th>
-                <th className="border px-2 py-1">No. of Visits</th>
-                <th className="border px-2 py-1">Total Hrs Spend</th>
-                <th className="border px-2 py-1">Approx Area SqM</th>
-                <th className="border px-2 py-1">Approx Area Cub. Mtr</th>
-                <th className="border px-2 py-1">Total Product Qty. in Kg</th>
-                <th className="border px-2 py-1">Total Potential Amount</th>
-                <th className="border px-2 py-1">Types of Documents Sent</th>
-                <th className="border px-2 py-1">Last Visit Date</th>
+        <div className="overflow-x-auto p-4 max-h-[calc(100vh-200px)]"> 
+          <table className="table-auto w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-[#473b33] rounded-[8px]">
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Id</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Employee Name</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Company Name</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap text-red-500">Date of Visit</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">No. of Visits</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Total Hrs Spend</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Approx Area SqM</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Approx Area Cub. Mtr</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Total Product Qty. in Kg</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Total Potential Amount</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Types of Documents Sent</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Last Visit Date</th>
               </tr>
             </thead>
 
@@ -50,46 +53,46 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
               {getPoaByEmpIdData && getPoaByEmpIdData.length > 0 ? (
                 getPoaByEmpIdData.map((selectedPOA, index) => (
                   <tr className="text-center" key={selectedPOA.id || index}>
-                    <td className="px-4 py-2 text-textdata">{index + 1}</td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">{index + 1}</td>
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA?.employee_fullname || "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata w-[400px] whitespace-normal">
                       {selectedPOA.customer?.company_name || "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.assign_date
                         ? new Date(selectedPOA.assign_date).toLocaleDateString()
                         : "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.communications?.[0]?.lead_status
                         ? selectedPOA.communications[0].lead_status.split("->")
                             .length
                         : "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.communications?.[0]?.total_hrs_spent ?? "-"}
                       {/* {formatTime(selectedPOA.communications?.[0]?.total_hrs_spent)} */}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.project_name ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.approx_area_cubm ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.total_material_qty ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.approx_business ?? "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata whitespace-nowrap whitespace-pre-line">
+                    <td className="px-4 py-2 text-newtextdata whitespace-nowrap whitespace-pre-line">
                       {selectedPOA.documents?.length > 0
                         ? selectedPOA.documents.join("\n")
                         : "-"}
                     </td>
-                    <td className="px-4 py-2 text-textdata">
+                    <td className="px-4 py-2 text-newtextdata">
                       {selectedPOA.next_followup
                         ? new Date(
                             selectedPOA.next_followup

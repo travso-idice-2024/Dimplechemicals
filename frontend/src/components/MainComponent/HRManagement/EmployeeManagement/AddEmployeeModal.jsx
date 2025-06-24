@@ -57,7 +57,7 @@ const AddEmployeeModal = ({
   return (
     <>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Employee Details
           </h2>
@@ -104,7 +104,7 @@ const AddEmployeeModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentStep === 1 && ( */}
-          <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto h-[350px] md:h-[380px]">
+          <div className="mt-4 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 overflow-y-auto max-h-[calc(100vh-200px)]">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Name :

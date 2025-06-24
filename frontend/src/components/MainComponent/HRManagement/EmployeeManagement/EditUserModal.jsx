@@ -103,9 +103,9 @@ const EditUserModal = ({
   return (
     <>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
-            Update Employee
+            Update Employee Details
           </h2>
           <div className="fixed top-5 right-5 z-50">
             {updateFlashMessage && updateFlashMsgType === "success" && (
@@ -154,26 +154,26 @@ const EditUserModal = ({
 
           {/* Step 1: Personal Details */}
           {/* {currentUpdateStep === 1 && ( */}
-            <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto md:h-[380px]">
-              <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Name :
-                </label>
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="name"
-                  value={updateFormData.fullname}
-                  onChange={handleUpdateChange}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                />
-                {updateFormErrors.fullname && (
-                  <p className="text-red-500 text-sm">
-                    {updateFormErrors.fullname}
-                  </p>
-                )}
-              </div>
-              {/* <div>
+          <div className="mt-5 md:mt-5 px-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-4 gap-y-4 overflow-y-auto max-h-[calc(100vh-200px)]">
+            <div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Name :
+              </label>
+              <input
+                type="text"
+                name="fullname"
+                placeholder="name"
+                value={updateFormData.fullname}
+                onChange={handleUpdateChange}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+              />
+              {updateFormErrors.fullname && (
+                <p className="text-red-500 text-sm">
+                  {updateFormErrors.fullname}
+                </p>
+              )}
+            </div>
+            {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Username :
                 </label>
@@ -209,28 +209,28 @@ const EditUserModal = ({
             </div>
 
             <div>
-                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                  Enter Date of Birth:
-                </label>
-                <input
-                  type="date"
-                  name="date_of_birth"
-                  placeholder="YYYY-MM-DD"
-                  value={updateFormData.date_of_birth}
-                  onChange={handleUpdateChange}
-                  max={(() => {
-                    const today = new Date();
-                    today.setFullYear(today.getFullYear() - 18);
-                    return today.toISOString().split("T")[0]; // Set max date to 18 years ago
-                  })()}
-                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
-                />
-                {updateFormErrors.date_of_birth && (
-                  <p className="text-red-500 text-sm">
-                    {updateFormErrors.date_of_birth}
-                  </p>
-                )}
-              </div>
+              <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                Enter Date of Birth:
+              </label>
+              <input
+                type="date"
+                name="date_of_birth"
+                placeholder="YYYY-MM-DD"
+                value={updateFormData.date_of_birth}
+                onChange={handleUpdateChange}
+                max={(() => {
+                  const today = new Date();
+                  today.setFullYear(today.getFullYear() - 18);
+                  return today.toISOString().split("T")[0]; // Set max date to 18 years ago
+                })()}
+                className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-[7px]"
+              />
+              {updateFormErrors.date_of_birth && (
+                <p className="text-red-500 text-sm">
+                  {updateFormErrors.date_of_birth}
+                </p>
+              )}
+            </div>
 
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -645,8 +645,8 @@ const EditUserModal = ({
 
           {/* Step 2: Job Details */}
           {/* {currentUpdateStep === 2 && ( */}
-            {/* <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]"> */}
-              {/* <div>
+          {/* <div className="mt-5 md:mt-5 px-4 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-y-auto md:h-[380px]"> */}
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Basic Salary:
                 </label>
@@ -684,7 +684,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Location:
                 </label>
@@ -703,7 +703,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Offer Letter Date:
                 </label>
@@ -721,7 +721,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Joining Date:
                 </label>
@@ -738,9 +738,8 @@ const EditUserModal = ({
                   </p>
                 )}
               </div> */}
-            
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select the Department:
                 </label>
@@ -767,7 +766,7 @@ const EditUserModal = ({
                   </p>
                 )}
               </div> */}
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Employment Type:
                 </label>
@@ -790,7 +789,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Reporting Manager:
                 </label>
@@ -814,7 +813,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Summary for Remarks:
                 </label>
@@ -833,7 +832,7 @@ const EditUserModal = ({
                 )}
               </div> */}
 
-            {/* <div>
+          {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Currently Working:
                 </label>

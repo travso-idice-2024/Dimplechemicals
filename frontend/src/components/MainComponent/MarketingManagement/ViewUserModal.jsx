@@ -6,12 +6,12 @@ const ViewUserModal = ({ setViewModalOpen, selectedLead }) => {
   console.log("selectedLead", selectedLead);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-lg w-full lg:w-[900px] shadow-lg overflow-hidden">
+      <div className="bg-white rounded-lg w-full lg:w-fit shadow-lg overflow-hidden">
         <div className="bg-bgDataNew px-6 text-center py-2 text-white text-xl font-semibold">
           Lead Details
         </div>
 
-        <div className="overflow-auto h-[380px]">
+        <div className="overflow-auto max-h-[calc(100vh-200px)]">
         <div className="p-6 flex flex-col items-center justify-center">
           <table className="w-full lg:w-fit px-4 border border-gray-300 mb-8 text-sm text-left">
             <tbody>

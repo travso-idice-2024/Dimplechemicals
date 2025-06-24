@@ -43,7 +43,7 @@ const AgreementShowData = ({
   return (
     <div>
       <div
-        className="bg-white md:h-[380px] py-5 flex flex-col justify-start shadow-lg p-6 rounded-lg pdf-container"
+        className="bg-white max-h-[calc(100vh-200px)] py-5 flex flex-col justify-start shadow-lg p-6 rounded-lg pdf-container"
         ref={pdfAgreementRef}
       >
         {/* Header */}

@@ -70,7 +70,7 @@ const DealCreationForm = ({
   return (
     <>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[800px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[900px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Deal
           </h2>
@@ -82,11 +82,11 @@ const DealCreationForm = ({
               <ErrorMessage message={addDealFlashMessage} />
             )}
           </div>
-          <div className="mt-5 md:mt-6 px-4 overflow-y-auto h-[400px]">
+          <div className="mt-5 md:mt-6 px-4 overflow-y-auto max-h-[calc(100vh-200px)]">
             <label className="font-poppins font-medium text-[16px] text-bgData">
               Select and Add Product:
             </label>
-            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  gap-4">
+            <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[200px]  gap-4">
               <div className="flex-[6]">
                 <ProductMultiSelect
                   allProducts={allProducts}
@@ -232,7 +232,7 @@ const DealCreationForm = ({
             </div>
 
             {/* Final Advance and Deal Amount */}
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-2 mt-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-24 mt-4">
               <div>
                 <label className="text-sm block mb-1">Advance Amt</label>
                 <input

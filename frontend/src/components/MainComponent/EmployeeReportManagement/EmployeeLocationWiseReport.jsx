@@ -139,7 +139,7 @@ const EmployeeLocationWiseReport = () => {
               </div>
             </div>
           </div>
-          <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
+          <div className="main-content-holder max-h-[550px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
             {/* {/------- Table Data Start -------/} */}
             <div className="overflow-x-auto">

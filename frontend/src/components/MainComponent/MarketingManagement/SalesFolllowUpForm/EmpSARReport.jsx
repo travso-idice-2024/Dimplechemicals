@@ -200,7 +200,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
   //console.log("selectedPOA", selectedPOA);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full lg:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full lg:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
         {/* Header */}
         {/* <div>
           <button
@@ -220,7 +220,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
         </h2>
 
         {/* Table */}
-        <div className="overflow-auto md:h-[380px]">
+        <div className="overflow-auto max-h-[calc(100vh-200px)]">
           <div className="py-3 px-3 w-[1130px] overflow-x-auto">
             <table className="table-auto w-full border border-gray-300 text-left border-collapse">
               <thead className="bg-[#473b33] rounded-[8px]">

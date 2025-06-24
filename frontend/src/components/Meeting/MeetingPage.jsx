@@ -85,7 +85,7 @@ const MeetingPage = () => {
       </p>
       <div className="overflow-x-auto shadow-md">
         <table className="min-w-full rounded-[8px] border-none">
-          <thead className="bg-[#1e1e2d78]">
+          <thead className="bg-[#473b33] rounded-[8px]">
             <tr className="">
               <th className="px-4 py-2 text-[10px] md:text-textdata">ID</th>
               <th className="px-4 py-2 text-[10px] md:text-textdata">Name</th>

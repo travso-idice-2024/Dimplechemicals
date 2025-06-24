@@ -23,11 +23,11 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   //console.log("selectedCustomer", selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full lg:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full lg:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
-        <div className="overflow-auto h-fit">
+        <div className="overflow-auto max-h-[calc(100vh-200px)]">
           {/* Profile Section */}
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  bg-[#e5e7eb61] p-2 rounded-[10px]">
