@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { leadCommunicationById } from "../../../../redux/leadSlice";
 
 const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
-  console.log("selectedCustomer",selectedCustomer);
+ // console.log("selectedCustomer",selectedCustomer);
   const dispatch = useDispatch();
   const { communicationleadsList, totalPages, leadLoading, leadError } =
     useSelector((state) => state.lead);

@@ -2136,6 +2136,142 @@ const getPOAReportById = async (req, res) => {
   }
 };
 
+
+// const getPOAReportForSalesByCustId = async (req, res) => {
+//   try {
+//     // Logged-in user ID (assumed to be set in auth middleware)
+//     const emp_id = req.user.id;
+//     const userRole = req.user?.userrole;
+
+
+//     // Get customer ID from request params or query
+//     const cust_id = req.params.cust_id || req.query.cust_id;
+
+//     if (!cust_id) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Customer ID is required.",
+//       });
+//     }
+
+//     // Fetch leads assigned to this employee for the given customer
+//     const leads = await Lead.findAll({
+//       where: {
+//         assigned_person_id: emp_id,
+//         customer_id: cust_id,
+//       },
+//       order: [["createdAt", "DESC"]],
+//       include: [
+//         {
+//           model: Customer,
+//           as: "customer",
+//           attributes: ["id", "company_name"],
+//         },
+//         {
+//           model: User,
+//           as: "assignedPerson",
+//           attributes: ["fullname"],
+//         },
+//         {
+//           model: LeadCommunication,
+//           as: "communications",
+//         },
+//       ],
+//     });
+
+//     if (!leads || leads.length === 0) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "No leads found for this employee and customer.",
+//       });
+//     }
+
+//     // Format the output
+//     const result = leads.map((lead) => ({
+//       ...lead.toJSON(),
+//       employee_fullname: lead.assignedPerson?.fullname || "Unknown",
+//     }));
+
+//     return res.json({
+//       success: true,
+//       data: result,
+//     });
+//   } catch (error) {
+//     console.error("Error in getPOAReportForSalesByCustId:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Internal server error",
+//    });
+//  }
+// };
+
+const getPOAReportForSalesByCustId = async (req, res) => {
+  try {
+    // Logged-in user ID and role
+    const emp_id = req.user.id;
+    const userRole = req.user?.userrole;
+
+    // Get customer ID from request params or query
+    const cust_id = req.params.cust_id || req.query.cust_id;
+
+    if (!cust_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Customer ID is required.",
+      });
+    }
+
+    // Fetch leads based on role
+    const leads = await Lead.findAll({
+      where: {
+        ...(userRole !== 1 && { assigned_person_id: emp_id }),
+        customer_id: cust_id,
+      },
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: Customer,
+          as: "customer",
+          attributes: ["id", "company_name"],
+        },
+        {
+          model: User,
+          as: "assignedPerson",
+          attributes: ["fullname"],
+        },
+        {
+          model: LeadCommunication,
+          as: "communications",
+        },
+      ],
+    });
+
+    if (!leads || leads.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No leads found for this employee and customer.",
+      });
+    }
+
+    // Format the output
+    const result = leads.map((lead) => ({
+      ...lead.toJSON(),
+      employee_fullname: lead.assignedPerson?.fullname || "Unknown",
+    }));
+
+    return res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error in getPOAReportForSalesByCustId:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+  });
+ }
+};
+
 module.exports = {
   addLead,
   getLeadList,
@@ -2162,4 +2298,5 @@ module.exports = {
   getAllPOAReports,
   getEmployeeListFromLeads,
   getPOAReportById,
+  getPOAReportForSalesByCustId
 };

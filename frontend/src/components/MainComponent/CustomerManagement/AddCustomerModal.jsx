@@ -23,10 +23,27 @@ const AddCustomerModal = ({
   setFlashMessage,
   setFlashMsgType,
   flashMsgType,
-  bussinesasociatedata,
   handleFlashMessage,
+  bussinesasociatedata,
+  handleUpdateAssociate,
+  associatePopup,
+  setAssociatePopup,
+  handleAssociatePopup,
+  newAssociateName,
+  setNewAssociateName,
+  newAssociatePhone,
+  setNewAssociatePhone,
+  newAssociateEmail,
+  setNewAssociateEmail,
+  BAformErrors,
+  setBAFormErrors,
+  bavalidateInputs,
+  editFlashMessage,
+  setEditFlashMessage,
+  editFlashMsgType,
+  setEditFlashMsgType,
 }) => {
-  //console.log("formData", formData);
+  console.log("bussinesasociatedata", bussinesasociatedata);
 
   const dispatch = useDispatch();
   const { allPincodes, allAreas, allCity } = useSelector(
@@ -39,14 +56,14 @@ const AddCustomerModal = ({
 
   //console.log("allAreas", allAreas);
 
-  const [associatePopup, setAssociatePopup] = useState(false);
+  //const [associatePopup, setAssociatePopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState(""); // ✅ New state for success message
   const [areasByIndex, setAreasByIndex] = useState({});
 
   // const [newAssociateName, setNewAssociateName] = useState("");
-  const [newAssociateName, setNewAssociateName] = useState("");
-  const [newAssociatePhone, setNewAssociatePhone] = useState("");
-  const [newAssociateEmail, setNewAssociateEmail] = useState("");
+  // const [newAssociateName, setNewAssociateName] = useState("");
+  // const [newAssociatePhone, setNewAssociatePhone] = useState("");
+  // const [newAssociateEmail, setNewAssociateEmail] = useState("");
 
   // const handleNewAssociateChange = (e) => {
   //   setNewAssociateName(e.target.value);
@@ -99,9 +116,9 @@ const AddCustomerModal = ({
     }, 1000);
   };
 
-  const handleAssociatePopup = () => {
-    setAssociatePopup(true);
-  };
+  // const handleAssociatePopup = () => {
+  //   setAssociatePopup(true);
+  // };
 
   //add more contact persons
   const handleContactPersonChange = (index, e) => {
@@ -184,7 +201,9 @@ const AddCustomerModal = ({
     // setFormData(newAddresses);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      company_address: prevFormData.company_address.filter((_, i) => i !== index),
+      company_address: prevFormData.company_address.filter(
+        (_, i) => i !== index
+      ),
     }));
   };
   //end add more address
@@ -200,6 +219,14 @@ const AddCustomerModal = ({
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add New Customer
           </h2>
+          <div className="fixed top-5 right-5 z-50">
+            {editFlashMessage && editFlashMsgType === "success" && (
+              <SuccessMessage message={editFlashMessage} />
+            )}
+            {editFlashMessage && editFlashMsgType === "error" && (
+              <ErrorMessage message={editFlashMessage} />
+            )}
+          </div>
           <div className="fixed top-5 right-5 z-50">
             {flashMessage && flashMsgType === "success" && (
               <SuccessMessage message={flashMessage} />
@@ -250,10 +277,17 @@ const AddCustomerModal = ({
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 >
                   <option value="">Select Business Associate</option>
-                  {formData?.associate_name &&
+                  {/* {formData?.associate_name &&
                     formData?.associate_name.length > 0 &&
                     formData?.associate_name.map((item) => (
                       <option key={item.id} value={item.associate_name}>
+                        {`${item.associate_name} - ${item.email}`}
+                      </option>
+                    ))} */}
+                  {bussinesasociatedata &&
+                    bussinesasociatedata?.length > 0 &&
+                    bussinesasociatedata?.map((item) => (
+                      <option key={item.id} value={item.id}>
                         {`${item.associate_name} - ${item.email}`}
                       </option>
                     ))}
@@ -294,6 +328,11 @@ const AddCustomerModal = ({
                           placeholder="associate name"
                           className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                         />
+                        {BAformErrors.associate_name && (
+                          <p className="text-red-500 text-sm">
+                            {BAformErrors.associate_name}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -307,6 +346,11 @@ const AddCustomerModal = ({
                           placeholder="Phone no."
                           className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                         />
+                        {BAformErrors.phone_no && (
+                          <p className="text-red-500 text-sm">
+                            {BAformErrors.phone_no}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -320,6 +364,11 @@ const AddCustomerModal = ({
                           placeholder="Email"
                           className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                         />
+                        {BAformErrors.email && (
+                          <p className="text-red-500 text-sm">
+                            {BAformErrors.email}
+                          </p>
+                        )}
                       </div>
                       {/* ✅ Success message */}
                       {successMessage && (
@@ -331,7 +380,8 @@ const AddCustomerModal = ({
                     <div className="flex items-end justify-end gap-2 px-4">
                       <button
                         className="bg-bgDataNew text-white px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]"
-                        onClick={handleAddAssociate}
+                        //onClick={handleAddAssociate}
+                        onClick={handleUpdateAssociate}
                       >
                         Add
                       </button>

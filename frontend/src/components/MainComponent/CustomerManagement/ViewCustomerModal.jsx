@@ -66,7 +66,7 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
 
               <Detail label="Pan No." value={selectedCustomer.pan_no} />
               <Detail label="Gst No." value={selectedCustomer.gst_number} />
-              <Detail label="Business Associate" value={selectedCustomer?.businessAssociates[0]?.associate_name} />
+              <Detail label="Business Associate" value={selectedCustomer?.businessAssociates?.associate_name} />
             </div>
              {/* Multiple Contact Persons */}
              {selectedCustomer?.contactPersons && selectedCustomer?.contactPersons?.length > 0 && (

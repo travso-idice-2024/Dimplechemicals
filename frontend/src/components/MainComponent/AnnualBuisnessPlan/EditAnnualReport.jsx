@@ -605,12 +605,21 @@ const EditAnnualReport = ({
                       className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
                     >
                       {/* category drop down */}
-                      <CategoryAutocomplete
+                      {/* <CategoryAutocomplete
                         allCategories={allCategories}
                         handleProductChange={handleProductChange}
                         index={index}
                         product={product}
-                      />
+                      /> */}
+
+                       <input
+                            type="text"
+                            name="technology_used"
+                            value={product?.technology_used || ""}
+                            onChange={(e) => handleProductChange(e, index)}
+                            placeholder="Technology Used"
+                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                          />
 
                       {/* Product ID as Dropdown */}
                       <select
@@ -620,11 +629,16 @@ const EditAnnualReport = ({
                         className="block w-full rounded-[5px] border px-3 py-2"
                       >
                         <option value="">Select Product</option>
-                        {productOptions[index]?.map((prod) => (
+                        {allProducts?.data?.map((prod,index) => (
+                          <option key={prod?.id} value={prod?.id}>
+                            {prod?.product_name}
+                          </option>
+                        ))}
+                        {/* {productOptions[index]?.map((prod) => (
                           <option key={prod.id} value={prod.id}>
                             {prod.product_name}
                           </option>
-                        ))}
+                        ))} */}
                       </select>
                        {fields.map(({ name, placeholder, type, disabled }) =>
                         type === "select" ? (

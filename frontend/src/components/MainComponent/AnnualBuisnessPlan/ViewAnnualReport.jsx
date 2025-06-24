@@ -366,7 +366,8 @@ const ViewAnnualReport = ({
                           class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"
                           colspan="2"
                         >
-                          {product?.category?.category_name}
+                          {/* {product?.category?.category_name} */}
+                          {product?.technology_used}
                         </td>
                         <td
                           class="px-4 py-2 text-[#72360a] font-poopins text-[15px] border border-gray-400 font-medium whitespace-nowrap"

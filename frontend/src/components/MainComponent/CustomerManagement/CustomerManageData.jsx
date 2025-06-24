@@ -30,7 +30,7 @@ const CustomerManageData = () => {
 
   const { user: userDeatail } = useSelector((state) => state.auth);
 
-  //console.log("customers", customers);
+  //console.log("allBAdata", allBAdata);
 
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
@@ -41,15 +41,14 @@ const CustomerManageData = () => {
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditCustomerModalOpen, setEditCustomerModalOpen] = useState(false);
 
-    //-------- New Pagination Code Start --------//
-    const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
-    //-------- New Pagination Code End --------//
-
+  //-------- New Pagination Code Start --------//
+  const [entriesPerPageNewData, setEntriesPerPageNewData] = useState(20);
+  //-------- New Pagination Code End --------//
 
   // Pagination & Search States
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const customersPerPage = entriesPerPageNewData? entriesPerPageNewData : 20 ;
+  const customersPerPage = entriesPerPageNewData ? entriesPerPageNewData : 20;
 
   //console.log("customersPerPage",customersPerPage);
 
@@ -57,7 +56,8 @@ const CustomerManageData = () => {
   //console.log("selectedCustomer",selectedCustomer?.id);
   useEffect(() => {
     //dispatch(fetchCurrentUser());
-    dispatch(fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id }));
+    // dispatch(fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id }));
+    dispatch(fetchAllBussinessAssociateList());
     dispatch(
       listCustomers({
         page: currentPage,
@@ -65,7 +65,8 @@ const CustomerManageData = () => {
         search: searchTerm,
       })
     );
-  }, [dispatch, currentPage, searchTerm, selectedCustomer?.id,entriesPerPageNewData]);
+    // }, [dispatch, currentPage, searchTerm, selectedCustomer?.id,entriesPerPageNewData]);
+  }, [dispatch, currentPage, searchTerm, entriesPerPageNewData]);
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -94,10 +95,10 @@ const CustomerManageData = () => {
     address_3: "",
     address_4: "",
     business_associate: "",
-    associate_name:[],
+    associate_name: [],
     gst_number: "",
     contact_persons: [],
-    company_address:[]
+    company_address: [],
   });
 
   useEffect(() => {
@@ -230,11 +231,11 @@ const CustomerManageData = () => {
     address_2: "",
     address_3: "",
     address_4: "",
-    business_associate:"",
-    associate_name:[],
+    business_associate: "",
+    associate_name: [],
     gst_number: "",
     contact_persons: [],
-    company_address:[]
+    company_address: [],
   });
 
   useEffect(() => {
@@ -286,15 +287,15 @@ const CustomerManageData = () => {
         email_id: selectedCustomer.email_id || "",
         //address: selectedCustomer.address || "",
         //location: selectedCustomer.location || "",
-       // pincode: selectedCustomer.pincode || "",
+        // pincode: selectedCustomer.pincode || "",
         pan_no: selectedCustomer.pan_no || "",
         //address_2: selectedCustomer.address_2 || "",
         //address_3: selectedCustomer.address_3 || "",
         //address_4: selectedCustomer.address_4 || "",
         gst_number: selectedCustomer.gst_number || "",
-        business_associate: selectedCustomer?.businessAssociates?.[0]?.id || "",
+        business_associate: selectedCustomer?.businessAssociates?.id || "",
         contact_persons: selectedCustomer?.contactPersons || [],
-        company_address: selectedCustomer?.addresses || []
+        company_address: selectedCustomer?.addresses || [],
         //contact_persons: selectedCustomer?.
       });
     }
@@ -326,9 +327,9 @@ const CustomerManageData = () => {
     if (!editFormData.primary_contact.trim())
       errors.primary_contact = "*Primary contact is required";
     if (!editFormData.email_id.trim()) errors.email_id = "*Email is required";
-   // if (!editFormData.address.trim()) errors.address = "*Address is required";
+    // if (!editFormData.address.trim()) errors.address = "*Address is required";
     //if (!editFormData.location.trim())
-      //errors.location = "*Location is required";
+    //errors.location = "*Location is required";
     //if (!editFormData.pincode.trim()) errors.pincode = "*Pincode is required";
     //if (!editFormData.pan_no.trim()) errors.pan_no = "*PAN No is required";
 
@@ -449,7 +450,7 @@ const CustomerManageData = () => {
   //if (customerError) return <p>{customerError}</p>;
   // console.log("editFormData?.associate_name",editFormData?.associate_name);
   const [associatePopup, setAssociatePopup] = useState(false);
-   
+
   const handleAssociatePopup = () => {
     setAssociatePopup(true);
   };
@@ -458,48 +459,68 @@ const CustomerManageData = () => {
   const [newAssociatePhone, setNewAssociatePhone] = useState("");
   const [newAssociateEmail, setNewAssociateEmail] = useState("");
 
+  const [BAformErrors, setBAFormErrors] = useState({});
+  console.log("BAformErrors", BAformErrors);
+
+  const bavalidateInputs = () => {
+    let errors = {};
+
+    if (!newAssociateName.trim())
+      errors.associate_name = "*Associate name is required";
+    if (!newAssociatePhone.trim()) errors.phone_no = "*Phone no. is required";
+    if (!newAssociateEmail.trim()) errors.email = "*Email is required";
+
+    // Optional: Email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (newAssociateEmail && !emailRegex.test(newAssociateEmail))
+      errors.email = "*Please enter a valid email address";
+
+    // Optional: Phone length check
+    if (newAssociatePhone && newAssociatePhone.length < 10)
+      errors.phone_no = "*Phone no. must be at least 10 digits";
+
+    setBAFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleUpdateAssociate = async () => {
+    if (!bavalidateInputs()) return;
     try {
       // ✅ Get token
       const token = getAuthToken();
-
-      // setEditFormData((prev) => ({
-      //   ...prev,
-      //   associate_name: {
-      //     associate_name: newAssociateName,
-      //     phone_no: newAssociatePhone,
-      //     email: newAssociateEmail,
-      //   },
-      // }));
-
 
       const updatedAssociateObj = {
         associate_name: newAssociateName,
         phone_no: newAssociatePhone,
         email: newAssociateEmail,
       };
-      console.log("updatedAssociateObj",updatedAssociateObj);
 
-      // Send the updated associate_name in the body (not in params)
-      const response = await axios.put(
-        `${API_URL}/auth/update-asssociates/${selectedCustomer?.id}`, // Use PUT or PATCH for updates
-        
-          updatedAssociateObj, // Send data in the request body
-        
+      const response = await axios.post(
+        //`${API_URL}/auth/update-asssociates/${selectedCustomer?.id}`, // Use PUT or PATCH for updates
+        `${API_URL}/auth/add-business-associate`,
+        updatedAssociateObj, // Send data in the request body
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      //console.log("response", response);
 
-      if (response.data.success) {
+      if (response?.data?.success) {
         setAssociatePopup(false);
         // Ensure you're checking response.data for success
-        handleEditFlashMessage(response.data.message, "success");
+        handleEditFlashMessage(response?.data?.message, "success");
         dispatch(
-          fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id })
+          // fetchAllBussinessAssociateList({ cust_id: selectedCustomer?.id })
+          fetchAllBussinessAssociateList()
         );
+        // ✅ Clear input fields after successful add
+        setNewAssociateName("");
+        setNewAssociatePhone("");
+        setNewAssociateEmail("");
       } else {
         handleEditFlashMessage(
           response.data.message || "Something went wrong",
@@ -558,52 +579,48 @@ const CustomerManageData = () => {
                 </button>
               </div>
             </div>
-
-
           </div>
         </div>
         <div className="main-content-holder max-h-[460px] heightfixalldevice overflow-y-auto scrollbar-hide">
           <div className="bg-bgData rounded-[8px] shadow-md shadow-black/5 text-white px-4 py-6 overflow-auto">
-           {/*--------- New Pagination Code Start  ---------*/}
-          <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
-            <div className="flex items-center">
-              <span className="text-sm text-white bg-[#473b33] rounded-l-[5px] flex items-center text-center px-3 h-8">
-                Show Data
-              </span>
-              <div className="relative cursor-pointer">
-                <select
-                  className="appearance-none cursor-pointer h-8 pr-8 pl-5 rounded-r-[5px] bg-[#3d3d57] text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
-                  value={entriesPerPageNewData}
-                  onChange={(e) =>{
-                    setEntriesPerPageNewData(Number(e.target.value));
-                  }
-                  }
-                >
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={75}>75</option>
-                  <option value={100}>100</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
+            {/*--------- New Pagination Code Start  ---------*/}
+            <div className="flex justify-end items-center mb-5 text-white rounded-md font-sans gap-10">
+              <div className="flex items-center">
+                <span className="text-sm text-white bg-[#473b33] rounded-l-[5px] flex items-center text-center px-3 h-8">
+                  Show Data
+                </span>
+                <div className="relative cursor-pointer">
+                  <select
+                    className="appearance-none cursor-pointer h-8 pr-8 pl-5 rounded-r-[5px] bg-[#3d3d57] text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                    value={entriesPerPageNewData}
+                    onChange={(e) => {
+                      setEntriesPerPageNewData(Number(e.target.value));
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={75}>75</option>
+                    <option value={100}>100</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-300">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
-
-          </div>
-          {/*--------- New Pagination Code End  ---------*/}
+            {/*--------- New Pagination Code End  ---------*/}
             {/*------- Table Data Start -------*/}
             <CustomerTable
               customers={customers?.data}
@@ -636,8 +653,25 @@ const CustomerManageData = () => {
               setFlashMessage={setFlashMessage}
               setFlashMsgType={setFlashMsgType}
               flashMsgType={flashMsgType}
-              bussinesasociatedata={allBAdata?.data?.associates}
               handleFlashMessage={handleFlashMessage}
+              bussinesasociatedata={allBAdata?.data}
+              handleUpdateAssociate={handleUpdateAssociate}
+              associatePopup={associatePopup}
+              setAssociatePopup={setAssociatePopup}
+              handleAssociatePopup={handleAssociatePopup}
+              newAssociateName={newAssociateName}
+              setNewAssociateName={setNewAssociateName}
+              newAssociatePhone={newAssociatePhone}
+              setNewAssociatePhone={setNewAssociatePhone}
+              newAssociateEmail={newAssociateEmail}
+              setNewAssociateEmail={setNewAssociateEmail}
+              BAformErrors={BAformErrors}
+              setBAFormErrors={setBAFormErrors}
+              bavalidateInputs={bavalidateInputs}
+              editFlashMessage={editFlashMessage}
+              setEditFlashMessage={setEditFlashMessage}
+              editFlashMsgType={editFlashMsgType}
+              setEditFlashMsgType={setEditFlashMsgType}
             />
           )}
 
@@ -659,7 +693,7 @@ const CustomerManageData = () => {
               handleEditSubmit={handleEditSubmit}
               bussinesasociatedata={allBAdata?.data}
               handleUpdateAssociate={handleUpdateAssociate}
-              associatePopup={associatePopup} 
+              associatePopup={associatePopup}
               setAssociatePopup={setAssociatePopup}
               handleAssociatePopup={handleAssociatePopup}
               newAssociateName={newAssociateName}
@@ -668,6 +702,9 @@ const CustomerManageData = () => {
               setNewAssociatePhone={setNewAssociatePhone}
               newAssociateEmail={newAssociateEmail}
               setNewAssociateEmail={setNewAssociateEmail}
+              BAformErrors={BAformErrors}
+              setBAFormErrors={setBAFormErrors}
+              bavalidateInputs={bavalidateInputs}
             />
           )}
           {/* View User Modal */}
@@ -679,14 +716,13 @@ const CustomerManageData = () => {
           )}
 
           {/* Assign Customer Modal */}
-         
         </div>
-         {/* Pagination Controls with Number */}
-          <Pagination
-            currentPage={currentPage}
-            handlePageChange={handlePageChange}
-            totalPages={totalPages}
-          />
+        {/* Pagination Controls with Number */}
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );

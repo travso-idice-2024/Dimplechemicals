@@ -36,6 +36,7 @@ const EditUserModal = ({
   setNewAssociatePhone,
   newAssociateEmail,
   setNewAssociateEmail,
+   BAformErrors, setBAFormErrors, bavalidateInputs
 }) => {
   console.log("editFormData", editFormData);
   const dispatch = useDispatch();
@@ -749,6 +750,11 @@ const EditUserModal = ({
                   placeholder="associate name"
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
+                 {BAformErrors.associate_name && (
+                          <p className="text-red-500 text-sm">
+                            {BAformErrors.associate_name}
+                          </p>
+                        )}
               </div>
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -762,6 +768,11 @@ const EditUserModal = ({
                   placeholder="Phone no."
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
+                  {BAformErrors.phone_no && (
+                          <p className="text-red-500 text-sm">
+                            {BAformErrors.phone_no}
+                          </p>
+                        )}
               </div>
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -775,6 +786,11 @@ const EditUserModal = ({
                   placeholder="associate name"
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
+                  {BAformErrors.email && (
+                          <p className="text-red-500 text-sm">
+                            {BAformErrors.email}
+                          </p>
+                        )}
               </div>
               {/* ✅ Success message */}
               {successMessage && (

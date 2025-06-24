@@ -30,12 +30,12 @@ const AddAnnualReport = ({
   customerAddress,
   handleABPCustomerChange,
 }) => {
-  console.log("abpData", abpData);
+ 
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
-
+ console.log("allProducts", allProducts?.data);
   const { allCategories, categoryLoading, categoryError } = useSelector(
     (state) => state.category
   );
@@ -177,14 +177,14 @@ const AddAnnualReport = ({
     updatedProducts[index] = productToUpdate;
 
     // If category changed, fetch products
-    if (name === "technology_used") {
-      const products = await fetchProductsByCategory(value);
-      setProductOptions((prev) => {
-        const updatedOptions = [...prev];
-        updatedOptions[index] = products;
-        return updatedOptions;
-      });
-    }
+    // if (name === "technology_used") {
+    //   const products = await fetchProductsByCategory(value);
+    //   setProductOptions((prev) => {
+    //     const updatedOptions = [...prev];
+    //     updatedOptions[index] = products;
+    //     return updatedOptions;
+    //   });
+    // }
 
     setabpData({
       ...abpData,
@@ -245,31 +245,6 @@ const AddAnnualReport = ({
     };
   }, []);
 
-  // const countryOptions = [
-  //   { value: "india", label: "India" },
-  //   { value: "usa", label: "USA" },
-  //   { value: "canada", label: "Canada" },
-  // ];
-
-  // const customerOptions = [
-  //   { value: "SunFarma", label: "India" },
-  //   { value: "usa", label: "USA" },
-  //   { value: "canada", label: "Canada" },
-  // ]
-
-  // const stateOptions = [
-  //   { value: "maharashtra", label: "Maharashtra" },
-  //   { value: "gujarat", label: "Gujarat" },
-  //   { value: "california", label: "California" },
-  //   { value: "ontario", label: "Ontario" },
-  // ];
-
-  // const cityOptions = [
-  //   { value: "mumbai", label: "Mumbai" },
-  //   { value: "ahmedabad", label: "Ahmedabad" },
-  //   { value: "los_angeles", label: "Los Angeles" },
-  //   { value: "toronto", label: "Toronto" },
-  // ];
 
   const departmentOptions = [
     { value: "IT", label: "IT" },
@@ -278,12 +253,7 @@ const AddAnnualReport = ({
     { value: "Marketing", label: "Marketing" },
   ];
 
-  // const technologyOptions = [
-  //   { value: "HTML", label: "HTML" },
-  //   { value: "CSS", label: "CSS" },
-  //   { value: "ReactJS", label: "React" },
-  //   { value: "NodeJS", label: "NodeJS" },
-  // ];
+  
 
   return (
     <>
@@ -395,11 +365,7 @@ const AddAnnualReport = ({
                   {abpFormErrors?.customer_id && (
                     <p className="text-red-500">{abpFormErrors?.customer_id}</p>
                   )}
-                  {/* <Select
-                    options={customerOptions}
-                    placeholder="Select Customer"
-                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] py-[0.8px]"
-                  /> */}
+                 
                 </div>
 
                 {/* Select Address */}
@@ -546,53 +512,6 @@ const AddAnnualReport = ({
                   )}
                 </div>
 
-                {/* <div>
-                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                    Designation :
-                  </label>
-                  <input
-                    type="text"
-                    name="company_name"
-                    placeholder="number"
-                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                    Phone No. :
-                  </label>
-                  <input
-                    type="text"
-                    name="company_name"
-                    placeholder="number"
-                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                    Email ID :
-                  </label>
-                  <input
-                    type="text"
-                    name="company_name"
-                    placeholder="number"
-                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
-                  />
-                </div> */}
-
-                {/* <div>
-                  <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-                    Technology :
-                  </label>
-                  <Select
-                    //options={technologyOptions}
-                    placeholder="Select Technology"
-                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] py-[0.8px]"
-                  />
-                </div> */}
-
                 <div>
                   <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                     Approx Area in SqM :
@@ -647,11 +566,20 @@ const AddAnnualReport = ({
                       className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2"
                     >
                       {/* category drop down */}
-                      <CategoryAutocomplete
+                      {/* <CategoryAutocomplete
                         allCategories={allCategories}
                         handleProductChange={handleProductChange}
                         index={index}
-                      />
+                      /> */}
+
+                      <input
+                            type="text"
+                            name="technology_used"
+                            value={product?.technology_used || ""}
+                            onChange={(e) => handleProductChange(e, index)}
+                            placeholder="Technology Used"
+                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                          />
 
                       {/* Product ID as Dropdown */}
                       <select
@@ -661,9 +589,14 @@ const AddAnnualReport = ({
                         className="block w-full rounded-[5px] border px-3 py-2"
                       >
                         <option value="">Select Product</option>
-                        {productOptions[index]?.map((prod) => (
+                        {/* {productOptions[index]?.map((prod) => (
                           <option key={prod.id} value={prod.id}>
                             {prod.product_name}
+                          </option>
+                        ))} */}
+                        {allProducts?.data?.map((prod,index) => (
+                          <option key={prod?.id} value={prod?.id}>
+                            {prod?.product_name}
                           </option>
                         ))}
                       </select>

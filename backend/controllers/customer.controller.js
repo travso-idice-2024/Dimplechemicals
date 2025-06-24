@@ -52,9 +52,9 @@ const listCustomers = async (req, res) => {
         {
           model: BusinessAssociate,
           as: "businessAssociates",
-          where: {
-            status: 1,
-          },
+          // where: {
+          //   status: 1,
+          // },
           required: false, // so even customers without active associates are included
           attributes: ["id", "associate_name", "status", "email", "phone_no"], // whatever fields you need
         },
@@ -127,6 +127,9 @@ const addCustomer = async (req, res) => {
       });
     }
 
+    const sanitizedBusinessAssociate = business_associate === "" ? null : business_associate;
+
+
     // Create new customer
     const newCustomer = await Customer.create({
       company_name,
@@ -142,7 +145,7 @@ const addCustomer = async (req, res) => {
       //location,
       //pincode,
       pan_no,
-      business_associate,
+      business_associate:sanitizedBusinessAssociate,
       contact_persons,
       company_address,
       gst_number,
@@ -186,28 +189,28 @@ const addCustomer = async (req, res) => {
     // }
 
     // Handle Business Associates (multiple, with one marked as status: true)
-    if (Array.isArray(associate_name) && associate_name.length > 0) {
-      const associateData = associate_name.map((name) => ({
-        associate_name: name.associate_name,
-        email: name.email,
-        phone_no: name.phone_no,
-        status: name.associate_name === business_associate, // true only for matched one
-        customer_id: newCustomer.id,
-      }));
+    // if (Array.isArray(associate_name) && associate_name.length > 0) {
+    //   const associateData = associate_name.map((name) => ({
+    //     associate_name: name.associate_name,
+    //     email: name.email,
+    //     phone_no: name.phone_no,
+    //     status: name.associate_name === business_associate, // true only for matched one
+    //     customer_id: newCustomer.id,
+    //   }));
 
-      const createdAssociates = await BusinessAssociate.bulkCreate(
-        associateData,
-        { returning: true }
-      );
+    //   const createdAssociates = await BusinessAssociate.bulkCreate(
+    //     associateData,
+    //     { returning: true }
+    //   );
 
-      // Add code for each: BA<ID>
-      await Promise.all(
-        createdAssociates.map((associate) => {
-          const code = `BA${associate.id}`;
-          return associate.update({ code });
-        })
-      );
-    }
+    //   // Add code for each: BA<ID>
+    //   await Promise.all(
+    //     createdAssociates.map((associate) => {
+    //       const code = `BA${associate.id}`;
+    //       return associate.update({ code });
+    //     })
+    //   );
+    // }
 
     res.status(201).json({
       success: true,
@@ -264,6 +267,8 @@ const updateCustomer = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Customer not found." });
 
+    const sanitizedBusinessAssociate = business_associate === "" ? null : business_associate;
+
     await customer.update({
       company_name,
       //client_name,
@@ -279,27 +284,28 @@ const updateCustomer = async (req, res) => {
       //address_3,
       //address_4,
       gst_number,
+      business_associate:sanitizedBusinessAssociate,
     });
 
-    if (business_associate) {
-      console.log("business_associate", business_associate);
-      await BusinessAssociate.update(
-        { status: 0 },
-        {
-          where: {
-            customer_id: id,
-          },
-        }
-      );
-      await BusinessAssociate.update(
-        { status: 1 },
-        {
-          where: {
-            id: business_associate,
-          },
-        }
-      );
-    }
+    // if (business_associate) {
+    //   //console.log("business_associate", business_associate);
+    //   await BusinessAssociate.update(
+    //     { status: 0 },
+    //     {
+    //       where: {
+    //         customer_id: id,
+    //       },
+    //     }
+    //   );
+    //   await BusinessAssociate.update(
+    //     { status: 1 },
+    //     {
+    //       where: {
+    //         id: business_associate,
+    //       },
+    //     }
+    //   );
+    // }
 
     // Update Contact Persons
     if (Array.isArray(contact_persons)) {
@@ -396,8 +402,10 @@ const getCustomerAddresses = async (req, res) => {
       attributes: ["name", "id", "customer_id"],
     });
 
+    const customer = await Customer.findByPk(id);
+    //console.log("customer",customer);
     const businessAssociates = await BusinessAssociate.findAll({
-      where: { customer_id: id },
+      where: { id: customer?.business_associate },
       attributes: [
         "id",
         "code",
@@ -637,11 +645,11 @@ const customerHistory = async (req, res) => {
 
 const getBuisnessAssociates = async (req, res) => {
   try {
-    const { id } = req.params;
+    //const { id } = req.params;
 
     // Fetch business associates where customer_id matches the given parameter
     const businessAssociates = await BusinessAssociate.findAll({
-      where: { customer_id: id }, // Apply the filter based on customer_id
+      //where: { customer_id: id }, // Apply the filter based on customer_id
       order: [["createdAt", "DESC"]], // Optional: Change the order as needed
     });
 
@@ -1045,7 +1053,7 @@ const createBusinessAssociate = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Business Associate created successfully.",
+      message: "Business Associate Added successfully.",
       data: newAssociate,
     });
   } catch (error) {

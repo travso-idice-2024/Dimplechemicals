@@ -174,11 +174,11 @@ exports.getAnnualBusinessPlanList = async (req, res) => {
                   ["category_id", "technology_used"],
                 ],
               },
-              {
-                model: Category,
-                as: "category",
-                attributes: ["id", "category_name"],
-              },
+              // {
+              //   model: Category,
+              //   as: "category",
+              //   attributes: ["id", "category_name"],
+              // },
             ],
           },
         ],

@@ -360,7 +360,7 @@ const AdminViewAnnualReport = ({
                                   colSpan="2"
                                   className="px-4 py-2 text-[#72360a] border border-gray-400"
                                 >
-                                  {item.category?.category_name}
+                                  {item?.technology_used}
                                 </td>
                                 <td
                                   colSpan="2"

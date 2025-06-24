@@ -72,6 +72,7 @@ const {
   getAllPOAReports,
   getEmployeeListFromLeads,
   getPOAReportById,
+  getPOAReportForSalesByCustId
 } = require("../controllers/lead.controller");
 const {
   createLeadCommunication,
@@ -280,7 +281,8 @@ router.post("/addDeal", authMiddleware, addDealData);
 router.get("/get-Deal-data", authMiddleware, getDealData);
 router.get("/total-lead-count", authMiddleware, countTotalLeads);
 router.get("/total-months-visits", authMiddleware, visistsOfMonth);
-router.get("/buisness-asssociates/:id", authMiddleware, getBuisnessAssociates);
+// router.get("/buisness-asssociates/:id", authMiddleware, getBuisnessAssociates);
+router.get("/buisness-asssociates", authMiddleware, getBuisnessAssociates);
 router.get("/categories", authMiddleware, listCategories);
 router.put(
   "/update-asssociates/:customer_id",
@@ -347,6 +349,7 @@ router.get("/exportBusinessAssociates", authMiddleware, exportBusinessAssociates
 router.post("/add-business-associate", authMiddleware, createBusinessAssociate);
 router.put('/business-associates/:id',authMiddleware, EditBusinessAssociate);
 router.delete("/business-associates/:id",authMiddleware, deleteBusinessAssociate);
+router.get("/getPOAReportForSalesByCustId/:cust_id", authMiddleware, getPOAReportForSalesByCustId);
 
 
 module.exports = router;

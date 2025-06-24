@@ -184,10 +184,12 @@ export const removeCustomer = createAsyncThunk(
 
 export const fetchAllBussinessAssociateList = createAsyncThunk(
   "auth//buisness-asssociates",
-  async ({cust_id}, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
+  // async ({cust_id}, { rejectWithValue }) => {
     try {
       const token = getAuthToken();
-      const response = await axios.get(`${API_URL}/auth/buisness-asssociates/${cust_id}`, {
+      // const response = await axios.get(`${API_URL}/auth/buisness-asssociates/${cust_id}`, {
+      const response = await axios.get(`${API_URL}/auth/buisness-asssociates`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;

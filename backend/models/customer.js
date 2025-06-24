@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "customer_id",
         as: "leads",
       });
-      Customer.hasMany(models.BusinessAssociate, {
-        foreignKey: 'customer_id',
+      Customer.belongsTo(models.BusinessAssociate, {
+        foreignKey: 'business_associate',
         as: 'businessAssociates',
       });
 
@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
       unique:true,
     },
     business_associate: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true, 
     },
     contact_persion1: {
