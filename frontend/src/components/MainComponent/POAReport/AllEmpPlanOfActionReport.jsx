@@ -7,7 +7,7 @@ const AllEmpPlanOfActionReport = ({
   console.log("allselectedPOA", allselectedPOA);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto">
+      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto ">
         {/* Header */}
         <div className="text-center border-b border-gray-300 p-4">
           <h2 className="text-red-600 font-bold text-xl">
@@ -23,7 +23,7 @@ const AllEmpPlanOfActionReport = ({
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto p-4">
+        <div className="overflow-x-auto p-4 max-h-[calc(100vh-250px)]">
           <table className="table-auto w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-200 text-sm text-center">

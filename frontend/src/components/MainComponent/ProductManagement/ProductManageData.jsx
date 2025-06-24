@@ -355,7 +355,7 @@ const ProductManageData = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
+      <div className="main-content-holder max-h-[550px] heightfixalldevice overflow-y-auto scrollbar-hide mb-4">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
             <div className="md:mb-0 mb-2">
@@ -453,12 +453,7 @@ const ProductManageData = () => {
               {/*------- Table Data End -------*/}
             </div>
           </div>
-          {/* Pagination Controls with Number */}
-          <Pagination
-            currentPage={currentPage}
-            handlePageChange={handlePageChange}
-            totalPages={totalPages}
-          />
+         
         </div>
 
         {/* Add User Modal */}
@@ -507,6 +502,12 @@ const ProductManageData = () => {
 
         {/* Assign Product Modal */}
       </div>
+       {/* Pagination Controls with Number */}
+          <Pagination
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
     </div>
   );
 };

@@ -4,7 +4,7 @@ const AllEmpSARReport = ({ setAllEmpSARReport, allselectedSAR }) => {
   console.log("allselectedSAR", allselectedSAR);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1200px] rounded-lg overflow-auto max-h-[90vh]">
+      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto">
         {/* Header */}
         <div className="text-center border-b border-gray-300 p-4">
           <h2 className="text-red-600 font-bold text-xl">EMPLOYEE WISE SVR</h2>
@@ -14,24 +14,24 @@ const AllEmpSARReport = ({ setAllEmpSARReport, allselectedSAR }) => {
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto p-4">
-          <table className="w-full border border-collapse text-sm">
-            <thead className="bg-gray-200 text-center">
-              <tr>
-                <th className="border px-2 py-1">Id</th>
-                <th className="border px-2 py-1">Employee Name</th>
-                <th className="border px-2 py-1">Company Name</th>
-                <th className="border px-2 py-1 text-red-500">Date of Visit</th>
-                <th className="border px-2 py-1">No. of Visits</th>
-                <th className="border px-2 py-1">Total Hrs Spend</th>
-                <th className="border px-2 py-1">Approx Area SqM</th>
-                <th className="border px-2 py-1">Approx Area Cub. Mtr</th>
-                <th className="border px-2 py-1">Total Product Qty. in Kg</th>
-                <th className="border px-2 py-1">Total Potential Amount</th>
-                <th className="border px-2 py-1">Types of Documents Sent</th>
-                <th className="border px-2 py-1">Last Visit Date</th>
-                <th className="border px-2 py-1">Last Visit Remark</th>
-                <th className="border px-2 py-1">Next Visit Plan</th>
+        <div className="overflow-x-auto p-4 max-h-[calc(100vh-200px)]">
+          <table className="table-auto w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-gray-400 rounded-[8px]">
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Id</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Employee Name</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Company Name</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Date of Visit</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">No. of Visits</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Total Hrs Spend</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Approx Area SqM</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Approx Area Cub. Mtr</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Total Product Qty. in Kg</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Total Potential Amount</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Types of Documents Sent</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Last Visit Date</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Last Visit Remark</th>
+                <th className="px-4 py-2 text-left text-gray-800 text-newtextdata whitespace-nowrap">Next Visit Plan</th>
               </tr>
             </thead>
 

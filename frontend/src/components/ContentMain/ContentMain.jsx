@@ -100,7 +100,7 @@ const ContentMain = () => {
             <div class="flex flex-col items-center justify-center">
               <span
                 className="bg-gradient-to-br from-[#5e5284] to-[#665858]
- text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+ text-[20px] text-white rounded-full w-12 h-12 p-2 flex items-center justify-center"
               >
                 {totalLeadCount}
               </span>
@@ -119,7 +119,7 @@ const ContentMain = () => {
             <div class="flex flex-col items-center justify-center">
               <span
                 className="bg-gradient-to-br from-[#5e5284] to-[#665858]
- text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+ text-[20px] text-white rounded-full w-12 h-12 p-2 flex items-center justify-center"
               >
                 10
               </span>
@@ -138,7 +138,7 @@ const ContentMain = () => {
             <div class="flex flex-col items-center justify-center">
               <span
                 className="bg-gradient-to-br from-[#5e5284] to-[#665858]
- text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+ text-[20px] text-white rounded-full w-12 h-12 flex items-center justify-center p-2"
               >
                 {totalVisitCount}
               </span>
@@ -157,7 +157,7 @@ const ContentMain = () => {
             <div class="flex flex-col items-center justify-center">
               <span
                 className="bg-gradient-to-br from-[#5e5284] to-[#665858]
- text-[20px] text-white rounded-full w-10 h-10 flex items-center justify-center"
+ text-[20px] text-white rounded-full w-12 h-12 p-2 flex items-center justify-center"
               >
                 15
               </span>

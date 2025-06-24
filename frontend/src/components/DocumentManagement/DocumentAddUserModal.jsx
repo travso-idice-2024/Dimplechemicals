@@ -17,7 +17,7 @@ const DocumentAddUserModal = ({
           Upload Document with Template
         </h2>
 
-        <div className="mt-5 md:mt-7 px-4 flex flex-col gap-2 overflow-y-auto h-[450px]">
+        <div className="mt-5 md:mt-7 px-4 flex flex-col gap-2 overflow-y-auto max-h-[calc(100vh-200px)]">
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select a Template :

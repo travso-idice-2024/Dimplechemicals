@@ -6,23 +6,23 @@ const ViewCustomerHistoryCardReport = ({
 }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full w-full md:w-[900px] max-h-[90vh] overflow-y-auto pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full w-full md:w-[1300px] overflow-y-auto pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[18px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer History Card Report
         </h2>
 
-        <div className="mt-5 px-4 overflow-y-auto">
+        <div className="mt-5 px-4 overflow-y-auto max-h-[calc(100vh-200px)]">
           <div className="overflow-x-auto">
             <table className="table-auto w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#8f8b89] rounded-[8px] ">
-                  <th className="px-4 py-2 text-left text-black  whitespace-nowrap ">
+                <tr className="bg-gray-400 rounded-[8px] ">
+                  <th className="px-4 py-2 text-center text-gray-800  whitespace-nowrap ">
                     Required Fields
                   </th>
-                  <th className="px-4 py-2 text-left text-black whitespace-nowrap ">
+                  <th className="px-4 py-2 text-left text-gray-800 whitespace-nowrap ">
                     Description
                   </th>
-                  <th className="px-4 py-2 text-left text-black whitespace-nowrap ">
+                  <th className="px-4 py-2 text-left text-gray-800 whitespace-nowrap ">
                     Sample Data
                   </th>
                 </tr>

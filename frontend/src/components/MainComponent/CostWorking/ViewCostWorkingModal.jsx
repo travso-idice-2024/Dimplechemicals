@@ -9,11 +9,11 @@ const ViewCostWorkingModal = ({
 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[1000px]  rounded-[6px]">
+      <div className="bg-white w-full md:w-[1300px]  rounded-[6px]">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Cost Working Report
         </h2>
-        <div className="p-4 mt-5 overflow-y-auto h-[440px]">
+        <div className="p-4 mt-5 overflow-y-auto max-h-[calc(100vh-200px)]">
           {/* General Information */}
           <h3 className="-mb-0 text-black font-poppins border bg-gray-400 py-2 rounded-t-[4px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
             Cost Working Format

@@ -46,7 +46,7 @@ const EditUserModal = ({
   return (
     <>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Lead
           </h2>
@@ -59,7 +59,7 @@ const EditUserModal = ({
             )}
           </div>
 
-          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto h-[350px] md:h-[380px]">
+          <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-4 overflow-y-auto max-h-[calc(100vh-200px)]">
             <div>
               <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                 Client Name :
@@ -333,7 +333,7 @@ const EditUserModal = ({
             )}
 
             <div>
-              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
+              <div className="flex items-start  flex-col  md:justify-between gap-[8px] md:gap-[0px] ">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Interest Product/Service:
                 </label>
@@ -390,7 +390,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
+              <div className="flex items-start  flex-col  md:justify-between gap-[8px] md:gap-[0px] ">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Budget:
                 </label>
@@ -448,7 +448,7 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px] ">
+              <div className="flex items-start  flex-col  md:justify-between gap-[8px] md:gap-[0px] ">
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Quantity:
                 </label>

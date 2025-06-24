@@ -10,6 +10,8 @@ import {
   getCityByAreaname,
 } from "../../../redux/customerSlice";
 import AutoCompleteInput from "./AutoCompletePincode";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const EditUserModal = ({
   setEditCustomerModalOpen,
@@ -163,7 +165,7 @@ const EditUserModal = ({
   return (
     <>
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full w-full md:w-[1150px] pt-0 pb-4 rounded-[6px] flex flex-col">
+        <div className="bg-white w-full w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
           <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Edit Customer
           </h2>
@@ -175,7 +177,7 @@ const EditUserModal = ({
               <ErrorMessage message={editFlashMessage} />
             )}
           </div>
-          <div className="mt-5 md:mt-5 px-4  overflow-y-auto h-[350px] md:h-[380px]">
+          <div className="mt-5 md:mt-5 px-4  overflow-y-auto max-h-[calc(100vh-200px)]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -536,13 +538,13 @@ const EditUserModal = ({
                     />
                   </div>
 
-                  <div className="md:col-span-3">
+                  <div className="md:col-span-4 flex justify-end items-start">
                     <button
                       type="button"
                       onClick={() => removeEditContactPerson(index)}
-                      className="text-white bg-red-500 px-3 py-1 rounded-[3px] mt-2"
+                      className="text-white bg-red-500 px-2 py-1 rounded-[3px] mt-2"
                     >
-                      Remove Contact
+                      <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
                 </div>
@@ -683,13 +685,13 @@ const EditUserModal = ({
                     />
                   </div>
 
-                  <div className="flex items-end">
+                  <div className="md:col-span-5 flex justify-end items-start">
                     <button
                       type="button"
                       onClick={() => removeEditAddress(index)}
-                      className="text-white bg-red-500 px-3 py-2 rounded"
+                      className="text-white bg-red-500 px-2 py-1 rounded"
                     >
-                      Remove Address
+                      <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
                 </div>

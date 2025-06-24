@@ -294,7 +294,7 @@ const ShowQuotationDetailsData = ({ quotation, index }) => {
   return (
     <div>
       <div
-        className="bg-white h-[450px] flex flex-col justify-start shadow-lg p-6 rounded-lg"
+        className="bg-white max-h-[calc(100vh-200px)] flex flex-col justify-start shadow-lg p-6 rounded-lg"
         ref={quotationRef}
       >
         {/* Header */}

@@ -4,12 +4,12 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
   console.log(selectedCustomer);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[950px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>
 
-        <div className="overflow-y-auto md:h-[380px]">
+        <div className="overflow-y-auto max-h-[calc(100vh-200px)]">
           {/* Profile Section */}
           <div className="px-5 py-4">
             <div className="flex items-start md:items-center flex-col md:flex-row md:justify-between gap-[8px] md:gap-[0px]  bg-[#e5e7eb61] p-2 rounded-[10px]">
@@ -26,10 +26,10 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                   className="w-16 h-16 rounded-full border"
                 /> */}
                 <div>
-                  <h3 className="text-[15px] font-semibold">
+                  <h3 className="text-[15px] font-semibold text-bgData">
                     {selectedCustomer.company_name}
                   </h3>
-                  <p className="text-gray-600 text-[12px]">
+                  <p className="text-gray-800 text-[13px]">
                     {selectedCustomer.email_id}
                   </p>
                 </div>
@@ -78,21 +78,21 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                 <table className="w-full text-left border border-[#d1d5db] rounded-[5px]">
                   <thead className="bg-[#f3f4f6]">
                     <tr>
-                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">#</th>
-                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Designation</th>
-                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Name</th>
-                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Email</th>
-                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Phone</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">#</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Designation</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Name</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Email</th>
+                      <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Phone</th>
                     </tr>
                   </thead>
                   <tbody>
                     {selectedCustomer?.contactPersons.map((person, index) => (
                       <tr key={index} className="bg-white hover:bg-gray-50">
-                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{index + 1}</td>
-                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.designation}</td>
-                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.name}</td>
-                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.email}</td>
-                        <td className="px-4 py-2 border-b border-[#e5e7eb]">{person.phone_no}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{index + 1}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{person.designation}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{person.name}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{person.email}</td>
+                        <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{person.phone_no}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -105,28 +105,28 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
             {/* multiple address */}
             {selectedCustomer?.addresses && selectedCustomer?.addresses?.length > 0 && (
            <div className="mt-6">
-           <h3 className="text-[17px] font-semibold mb-2 text-bgDataNew">
+           <h3 className="text-[15px] font-semibold mb-2 text-bgDataNew">
              Company Address's
            </h3>
            <div className="overflow-x-auto">
              <table className="w-full text-left border border-[#d1d5db] rounded-[5px]">
                <thead className="bg-[#f3f4f6]">
                  <tr>
-                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">#</th>
-                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">PIN Code</th>
-                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Location</th>
-                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">City</th>
-                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-700">Address Type</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">#</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">PIN Code</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Location</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">City</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Address Type</th>
                  </tr>
                </thead>
                <tbody>
                  {selectedCustomer?.addresses?.map((address, index) => (
                    <tr key={index} className="bg-white hover:bg-gray-50">
-                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{index + 1}</td>
-                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.pincode}</td>
-                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.location}</td>
-                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.city}</td>
-                     <td className="px-4 py-2 border-b border-[#e5e7eb]">{address.address_type}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{index + 1}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.pincode}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.location}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.city}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.address_type}</td>
                    </tr>
                  ))}
                </tbody>

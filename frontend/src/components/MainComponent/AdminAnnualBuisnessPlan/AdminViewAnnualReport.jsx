@@ -37,12 +37,12 @@ const AdminViewAnnualReport = ({
     <>
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1400px]  rounded-[6px]">
+        <div className="bg-white w-full md:w-[1300px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             View Report
           </h2>
 
-          <div className="p-4 mt-2 overflow-y-auto h-[450px]">
+          <div className="p-4 mt-2 overflow-y-auto max-h-[calc(100vh-200px)]">
             <h3 className="mt-2 mb-2 text-bgDataNew font-poppins border border-gray-300 w-[300px] font-medium text-[20px] mb-0 text-center mx-auto">
               Annual Business Plan
             </h3>

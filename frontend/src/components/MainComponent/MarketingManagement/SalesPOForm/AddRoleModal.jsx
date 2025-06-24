@@ -3,14 +3,12 @@ import React from "react";
 const AddRoleModal = ({ setAddUserModalOpen }) => {
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[1100px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Add New Form
         </h2>
-        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto h-[350px] md:h-[380px]">
-          
-
-        <div>
+        <div className="mt-5 md:mt-9 px-4 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-y-auto max-h-[calc(100vh-200px)]">
+          <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Enter PO Number :
             </label>
@@ -34,7 +32,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
 
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-            Select Company Name :
+              Select Company Name :
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
               <option>Select the Company Name</option>
@@ -46,7 +44,7 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
 
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
-            Select Department :
+              Select Department :
             </label>
             <select className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2">
               <option>Select the Department</option>
@@ -78,7 +76,6 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             />
           </div>
 
-
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Enter Supplier Contact :
@@ -89,7 +86,6 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
               className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
             />
           </div>
-
 
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -113,8 +109,6 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
             />
           </div>
 
-
-
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
               Select the Category :
@@ -126,8 +120,6 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
               <option value="inactive">Finance</option>
             </select>
           </div>
-
-          
 
           <div>
             <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -172,7 +164,6 @@ const AddRoleModal = ({ setAddUserModalOpen }) => {
               className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
             />
           </div>
-
         </div>
         <div className="flex items-end justify-end gap-2 px-4">
           <button className="bg-bgDataNew text-white text-textdata whitespace-nowrap px-3 py-2 rounded mt-2 hover:bg-[#cb6f2ad9]">

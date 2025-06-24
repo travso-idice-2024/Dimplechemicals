@@ -56,7 +56,7 @@ const TodaysLeadReport = () => {
   return (
     <div className="main-content">
       <ContentTop />
-      <div className="main-content-holder max-h-[600px] heightfixalldevice overflow-y-auto scrollbar-hide">
+      <div className="main-content-holder max-h-[550px] heightfixalldevice overflow-y-auto scrollbar-hide">
         <div className="flex flex-col gap-[20px]">
           <div className="flex items-start md:items-center flex-row md:flex-row justify-between">
             <div>
@@ -82,7 +82,7 @@ const TodaysLeadReport = () => {
               </h1>
             </div>
             <button
-              className="bg-bgData text-white px-3 py-1 rounded hover:bg-blue-600"
+              className="bg-bgDataNew text-white px-3 py-1 rounded hover:bg-bgDataNew"
               onClick={handleExportData}
             >
               Export Data
@@ -132,9 +132,7 @@ const TodaysLeadReport = () => {
                         <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {lead?.customer?.primary_contact}
                         </td>
-                        <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
-                          {lead?.customer?.primary_contact}
-                        </td>
+                        
                         <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {lead?.lead_source}
                         </td>

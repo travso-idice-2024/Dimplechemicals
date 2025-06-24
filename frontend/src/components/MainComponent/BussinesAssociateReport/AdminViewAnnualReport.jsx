@@ -42,7 +42,7 @@ const AdminViewAnnualReport = ({
             View Report
           </h2>
 
-          <div className="p-4 mt-2 overflow-y-auto h-fit">
+          <div className="p-4 mt-2 overflow-y-auto max-h-[calc(100vh-200px)]">
             <h3 className="mt-2 mb-2 text-bgDataNew font-poppins border border-gray-300 w-[300px] font-medium text-[20px] mb-0 text-center mx-auto">
               Annual Business Plan
             </h3>

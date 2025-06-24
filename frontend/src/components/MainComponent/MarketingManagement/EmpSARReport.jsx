@@ -221,7 +221,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
         </h2>
 
         {/* Table */}
-        <div className="overflow-auto md:h-[380px]">
+        <div className="overflow-auto max-h-[calc(100vh-200px)]">
           <div className="py-3 px-3 w-[1130px] overflow-x-auto">
             <table className="table-auto w-full border border-gray-300 text-left border-collapse">
               <thead className="bg-[#473b33] rounded-[8px]">
