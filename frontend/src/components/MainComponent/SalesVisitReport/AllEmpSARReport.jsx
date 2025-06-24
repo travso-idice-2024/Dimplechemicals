@@ -4,7 +4,7 @@ const AllEmpSARReport = ({ setAllEmpSARReport, allselectedSAR }) => {
   console.log("allselectedSAR", allselectedSAR);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto">
+      <div className="bg-white w-full max-w-[1400px] rounded-lg overflow-auto">
         {/* Header */}
         <div className="text-center border-b border-gray-300 p-4">
           <h2 className="text-red-600 font-bold text-xl">EMPLOYEE WISE SVR</h2>

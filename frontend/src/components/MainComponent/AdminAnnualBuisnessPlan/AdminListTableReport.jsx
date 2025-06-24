@@ -29,13 +29,13 @@ const AdminListTableReport = ({
               <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap ">
                 No. of Companies
               </th>
-              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata ">
+              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata">
                 Product Sale / Work Execution / Expected Sales
               </th>
-              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata ">
+              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata">
                 Total Material Qty. / Total Area (in Sqm)
               </th>
-              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata ">
+              <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata">
                 Approx Business Potential
               </th>
               {/* <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap ">

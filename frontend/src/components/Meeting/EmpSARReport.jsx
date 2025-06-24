@@ -4,7 +4,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
   console.log("selectedPOA", selectedPOA);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto">
+      <div className="bg-white w-full max-w-[1400px] rounded-lg overflow-auto">
         {/* Header */}
         <div className="text-center border-b border-gray-300 p-4">
           <h3 className="text-lg font-semibold mt-1 text-black">

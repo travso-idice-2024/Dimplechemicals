@@ -18,7 +18,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
 };
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto ">
+      <div className="bg-white w-full max-w-[1400px] rounded-lg overflow-auto ">
          <h2 className="text-white text-[20px] font-poopins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Summery of Sales Activity Report Format
           </h2>

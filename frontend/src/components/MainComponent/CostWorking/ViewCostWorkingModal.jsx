@@ -9,24 +9,27 @@ const ViewCostWorkingModal = ({
 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[1300px]  rounded-[6px]">
+      <div className="bg-white w-full md:w-[1400px]  rounded-[6px]">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Cost Working Report
         </h2>
         <div className="p-4 mt-5 overflow-y-auto max-h-[calc(100vh-200px)]">
           {/* General Information */}
-          <h3 className="-mb-0 text-black font-poppins border bg-gray-400 py-2 rounded-t-[4px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
+          <h3 className="-mb-0 text-black font-poppins border bg-gray-400 py-1 rounded-t-[4px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
             Cost Working Format
           </h3>
           <div className="border border-gray-400 mx-[2px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-36 gap-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-2">
               {[
                 [
                   {
                     label: "Name of Company",
                     value: selectedCostWorking?.company?.company_name,
                   },
-                  { label: "Location", value: selectedCostWorking?.location },
+                  {
+                    label: "Location/Site",
+                    value: selectedCostWorking?.location,
+                  },
                   {
                     label: "Nature of Work",
                     value: selectedCostWorking?.nature_of_work,
@@ -67,8 +70,11 @@ const ViewCostWorkingModal = ({
                   <table className="table-auto w-full text-left border-collapse border border-gray-300">
                     <tbody>
                       {fields.map((field, index) => (
-                        <tr key={index} className="hover:bg-gray-50 whitespace-nowrap ">
-                          <td className="px-4 py-2 text-bgDataNew font-poopins text-[16px] border border-gray-300 font-medium">
+                        <tr
+                          key={index}
+                          className="hover:bg-gray-50 whitespace-nowrap cursor-pointer"
+                        >
+                          <td className="px-4 py-2 text-gray-900 font-poopins text-[16px] border border-gray-300 font-medium">
                             {field.label}:
                           </td>
                           <td className="px-4 py-2 text-[15px] text-gray-600 border border-gray-300">
@@ -83,12 +89,13 @@ const ViewCostWorkingModal = ({
             </div>
 
             {/* Materials Table */}
-            <div className="overflow-x-auto mt-12">
-              <table className="min-w-full border border-gray-300">
+            <div className="overflow-x-auto mt-8">
+              {/* Old Code */}
+              {/* <table className="min-w-full border border-gray-300">
                 <thead className="bg-gray-400">
                   <tr>
                     {[
-                      "#",
+                      "S.N.",
                       "Item",
                       "HSN Code",
                       "Qty/M²",
@@ -96,11 +103,11 @@ const ViewCostWorkingModal = ({
                       "Qty For",
                       "Std Pak",
                       "Basic Rate",
-                      "Amount",
+                      "Basic Amount",
                     ].map((header, index) => (
                       <th
                         key={index}
-                        className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2 text-left"
+                        className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2 text-center"
                       >
                         {header}
                       </th>
@@ -109,39 +116,39 @@ const ViewCostWorkingModal = ({
                 </thead>
                 <tbody>
                   {selectedCostWorking?.products?.map((material, index) => (
-                    <tr key={index} className="hover:bg-gray-200 cursor-pointer">
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                    <tr key={index} className="hover:bg-gray-200 cursor-pointer text-center">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {index + 1}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material?.Product?.product_name}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material?.Product?.HSN_code}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material.qty_for}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material.unit}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material.qty_for}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material.std_pak}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material.std_basic_rate}
                       </td>
-                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2">
+                      <td className="border border-gray-300 text-gray-700 text-[14px] px-4 py-2 text-center">
                         {material.basic_amount}
                       </td>
                     </tr>
                   ))}
 
-                  {/* Total Row */}
-                  <tr className="bg-gray-100 font-semibold text-gray-800">
+                  
+                  <tr className="bg-gray-100 font-semibold text-gray-800 text-center">
                     <td
                       className="border border-gray-300 text-bgDataNew text-[14px] px-4 py-2 text-right"
                       colSpan={8}
@@ -153,21 +160,570 @@ const ViewCostWorkingModal = ({
                     </td>
                   </tr>
                 </tbody>
+              </table> */}
+
+              {/* New Code */}
+              <table className="min-w-full border border-gray-300">
+                <thead className="bg-gray-400">
+                  <tr>
+                    {[
+                      "S.N.",
+                      "Item",
+                      "HSN Code",
+                      "Qty per M²",
+                      "Unit",
+                      "Qty for 1",
+                      "Std Pak",
+                      "Basic Rate",
+                      "Basic Amount",
+                    ].map((header, index) => (
+                      <th
+                        key={index}
+                        className={`border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2 ${
+                          header === "S.N." ? "text-left" : "text-center"
+                        }`}
+                      >
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Section Header: Material Cost */}
+                  <tr className="bg-gray-300 text-center">
+                    <td colSpan="9" className="py-2">
+                      <div className="border border-gray-400 w-fit mx-auto px-4 py-0 rounded-[3px] font-poppins font-medium text-[18px]  text-gray-700">
+                        A - Material Cost
+                      </div>
+                    </td>
+                  </tr>
+
+                  {/* Subsection Header: Bond Coat */}
+                  <tr className="bg-gray-100 font-medium text-left" colSpan="9">
+                    <td
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      1
+                    </td>
+                    <td
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      Bond Coat
+                    </td>
+                    <td
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                      colSpan="7"
+                    >
+                      
+                    </td>
+                  </tr>
+
+                  {/* Bond Coat Items */}
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      
+                    </td>
+                    <td
+                      className="border border-gray-300 px-4 py-2 text-textdata text-left"
+                      colSpan="1"
+                    >
+                      Kelox R 101
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      390720
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      0.400
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      Kg
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      0.40
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      20
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      746.00
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      298.40
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      
+                    </td>
+                    <td
+                      className="border border-gray-300 px-4 py-2 text-textdata text-left"
+                      colSpan="1"
+                    >
+                      Kelox H 404
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      390720
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      0.200
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      Kg
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      0.20
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      10
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      746.00
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      149.20
+                    </td>
+                  </tr>
+
+                  {/* Subsection Header: PICC 50 mm Depth coat */}
+                  <tr className="bg-gray-100 font-medium text-left" colSpan="9">
+                    <td
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      2
+                    </td>
+                    <td
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      PICC 50 mm Depth coat
+                    </td>
+                    <td
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                      colSpan="7"
+                    >
+                      
+                    </td>
+                  </tr>
+
+                  {/* PICC Items */}
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Nicocil C 80
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      382450
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      38
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      Kg
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      38
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      30
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      34.00
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      1,297.44
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Cement 53 Grade Birla Super
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      252329
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      22
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      Kg
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      22
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      50
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      10.00
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      222.60
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Aggregate 10 to 20 mm
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata"></td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      42
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      Kg
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      42
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata"></td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      2.00
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      84.80
+                    </td>
+                  </tr>
+
+                  {/* Total Row */}
+
+                  <tr className="bg-gray-100 font-semibold text-black">
+                    <td
+                      className="px-4 py-2 text-bgDataNew border border-gray-300 text-right"
+                      colSpan="8"
+                    >
+                      Total Material basic Cost :
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      2,052.44
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table className="min-w-full border border-gray-300 mt-14">
+                <thead className="bg-gray-400">
+                 
+                  <tr>
+                    {["Description", "Area", "Unit", "Amount"].map(
+                      (header, index) => (
+                        <th
+                          key={index}
+                          className={`border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2 ${
+                            header === "Description"
+                              ? "text-left"
+                              : "text-center"
+                          }`}
+                        >
+                          {header}
+                        </th>
+                      )
+                    )}
+                  </tr>
+                   <tr className="bg-gray-300 text-center">
+                    <th colspan="4" className="py-2">
+                      <div className="border border-gray-400 w-fit mx-auto px-4 py-0 rounded-[3px] font-poppins font-medium text-[18px]  text-gray-700">
+                        B - Cost as per project / Site condition
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <br/>
+                  {/* Subsection Header: Bond Coat */}
+                  <tr className="bg-gray-300 font-medium text-left">
+                    <td
+                      colSpan="4"
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      B1
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Labour cost
+                    </td>
+                    <td className="border border-gray-300 p-2 bg-yellow-100">
+                      1
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      400.00
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Consumable cost
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      1
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      30.00
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Transport cost
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      1
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      20.00
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Supervision cost
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      1
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      30.00
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-100 font-semibold text-black">
+                    <td
+                      colspan=""
+                      className="px-4 py-2 text-bgDataNew border border-gray-300 text-right"
+                    >
+                      Total :
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      b1
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      M2
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      480.00
+                    </td>
+                  </tr>
+
+                  <br />
+                  {/* Subsection Header: Bond Coat */}
+                  <tr className="bg-gray-300 font-medium text-left">
+                    <td
+                      colSpan="4"
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      B2
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left w-[400px]">
+                      Finance cost consider payment received after 6 month
+                      Interest will be 1% per month
+                    </td>
+                    <td className="border border-gray-300 p-2 bg-yellow-100">
+                      1
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      6.0%
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      28.80
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50 font-semibold text-black">
+                    <td
+                      colspan=""
+                      className="px-4 py-2 text-bgDataNew border border-gray-300 text-right"
+                    >
+                      Total Cost :
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      b2
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      M2
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      508.80
+                    </td>
+                  </tr>
+
+                  <br />
+                  {/* Subsection Header: Bond Coat */}
+                  <tr className="bg-gray-300 font-medium text-left">
+                    <td
+                      colSpan="4"
+                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                    >
+                      B3
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
+                      Over Head Charges for 1 sqm
+                    </td>
+                    <td className="border border-gray-300 p-2 bg-yellow-100">
+                      1
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      20%
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
+                      101.76
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-100 font-semibold text-black">
+                    <td
+                      colspan=""
+                      className="px-4 py-2 text-bgDataNew border border-gray-300 text-right"
+                    >
+                      Total application ( Labour) Cost :
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      B=(b1+b2+b3)
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      M2
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-white text-center bg-red-400">
+                      610.56
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table className="min-w-full border border-gray-300 mt-14">
+                <thead className="bg-gray-400">
+                  
+                  <tr>
+                    {["Total", "Unit", "Qty", "Total Project Cost RS"].map(
+                      (header, index) => (
+                        <th
+                          key={index}
+                          className={`border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2 ${
+                            header === "Total" ? "text-left" : "text-center"
+                          }`}
+                        >
+                          {header}
+                        </th>
+                      )
+                    )}
+                  </tr>
+                  <tr className="bg-gray-300 text-center">
+                    <th colspan="4" className="py-2">
+                      <div className="border border-gray-400 w-fit mx-auto px-4 py-0 rounded-[3px] font-poppins font-medium text-[18px]  text-gray-700">
+                        C - Project Calculation
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left font-bold text-gray-700">
+                      Total Material basic Cost
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      A
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      2,052.44
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left font-bold text-gray-700">
+                      Total application (Labour) cost
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      B
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      610.56
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left font-bold text-gray-700">
+                      Total Material + Application basic Cost
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata"></td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      M2
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      2,663.00
+                    </td>
+                  </tr>
+                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left font-bold text-gray-700">
+                      Contractor profit
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      C
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      10%
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-textdata">
+                      266.30
+                    </td>
+                  </tr>
+                  <br />
+                  <tr className="bg-gray-100 font-semibold text-black text-center">
+                    <td className="px-4 py-2 font-bold text-gray-700 border border-gray-300 text-left">
+                      Total Material basic Cost :
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 font-bold text-gray-600 text-center">
+                      A+B+C
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 font-bold text-gray-600 text-center"></td>
+                    <td className="px-4 py-2 border border-gray-300 font-bold text-gray-600 text-center">
+                      2,929.30
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-100 font-semibold text-black text-center">
+                    <td className="px-4 py-2 text-bgDataNew border border-gray-300 text-left">
+                      Total project Area
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      M2
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      1
+                    </td>
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
+                      2,929.30
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
 
             {/* Cost Summary Section */}
-            <div className="mt-12 overflow-x-auto">
-              {/* <h3 className="text-xl font-semibold text-gray-800 mb-3 border-b pb-1">
-                Cost Summary
-              </h3> */}
+            {/* <div className="mt-8 overflow-x-auto">
               <table className="table-auto w-full text-left border-collapse border border-gray-300 rounded">
                 <thead>
                   <tr className="bg-gray-400 text-left">
                     <th className="px-4 py-2 border font-poopins text-black font-medium text-[16px] border-gray-300">
                       Cost Category
                     </th>
-                    <th className="px-4 py-2 border font-poopins text-black font-medium text-[16px] border-gray-300">Amount</th>
+                    <th className="px-4 py-2 border font-poopins text-black font-medium text-[16px] border-gray-300 text-center">
+                      Amount
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -209,22 +765,24 @@ const ViewCostWorkingModal = ({
                       value: selectedCostWorking?.total_project_cost,
                     },
                   ].map((field, index) => (
-                    <tr key={index} className="text-sm hover:bg-gray-200 cursor-pointer">
+                    <tr
+                      key={index}
+                      className="text-sm hover:bg-gray-200 cursor-pointer"
+                    >
                       <td className="px-4 py-2 border text-gray-700 text-[15px] border-gray-300 font-medium">
                         {field.label}
                       </td>
-                      <td className="px-4 py-2 text-gray-700 text-[13.5px] font-poppins border border-gray-300">
+                      <td className="px-4 py-2 text-gray-700 text-[13.5px] font-poppins border border-gray-300 text-center">
                         {field.value ?? "N/A"}
                       </td>
                     </tr>
                   ))}
 
-                  {/* Grand Total */}
                   <tr className="bg-gray-100 font-semibold text-black">
                     <td className="px-4 py-2 text-bgDataNew border border-gray-300 text-right">
-                      Grand Total : 
+                      Grand Total :
                     </td>
-                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew ">
+                    <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
                       {[
                         selectedCostWorking?.labour_cost || 0,
                         selectedCostWorking?.supervision_cost || 0,
@@ -239,7 +797,7 @@ const ViewCostWorkingModal = ({
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* Action Buttons */}

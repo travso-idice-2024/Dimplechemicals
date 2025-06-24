@@ -32,7 +32,7 @@ const EmpSARReport = ({
   //console.log("selectedPOA", selectedPOA);
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-[1300px] rounded-lg overflow-auto">
+      <div className="bg-white w-full max-w-[1400px] rounded-lg overflow-auto">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Deal Products
         </h2>
