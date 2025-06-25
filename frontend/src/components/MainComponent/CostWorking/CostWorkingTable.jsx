@@ -103,7 +103,20 @@ const CostWorkingTable = ({
                     <FontAwesomeIcon icon={faEye} />
                   </button>
 
-                  <button
+                 
+                  {user?.edit === true && (
+                    <button
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                      onClick={() => {
+                        setSelectedCostWorking(user);
+                        setEditCostWorkingModalOpen(true);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faPenToSquare} />
+                    </button>
+                  )}
+
+                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                     onClick={() => {
                       if (
@@ -117,17 +130,6 @@ const CostWorkingTable = ({
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
-                  {user?.edit === true && (
-                    <button
-                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                      onClick={() => {
-                        setSelectedCostWorking(user);
-                        setEditCostWorkingModalOpen(true);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                    </button>
-                  )}
                 </td>
               </tr>
             ))}

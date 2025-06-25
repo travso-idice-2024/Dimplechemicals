@@ -23,7 +23,7 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
   //console.log("selectedCustomer", selectedCustomer); 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full md:w-[1300px] pt-0 pb-4 rounded-[6px] flex flex-col">
+      <div className="bg-white w-full md:w-[1400px] pt-0 pb-4 rounded-[6px] flex flex-col">
         <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
           Customer Details
         </h2>

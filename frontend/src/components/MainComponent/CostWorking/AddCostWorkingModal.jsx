@@ -179,7 +179,7 @@ const AddCostWorkingModal = ({
 
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1300px]  rounded-[6px]">
+        <div className="bg-white w-full md:w-[1400px]  rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Add Cost Working
           </h2>
@@ -228,7 +228,7 @@ const AddCostWorkingModal = ({
                     })
                   }
                   placeholder="Select the Customer"
-                  className="mb-2"
+                  className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[2px] hover:border-none"
                   isSearchable
                   filterOption={customFilterOption}
                 />
@@ -307,6 +307,107 @@ const AddCostWorkingModal = ({
                   )}
                 </div>
               ))}
+
+              {/* <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Select Category :
+                </label>
+                <select
+                  name="company_name"
+                  placeholder="Select Category"
+                  className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9.50px]"
+                >
+                  <option value="">Select the Category</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter Item :
+                </label>
+                <input
+                  type="text"
+                  placeholder="Item"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter HSN Code :
+                </label>
+                <input
+                  type="number"
+                  placeholder="HSN Code"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter QTY per m2 :
+                </label>
+                <input
+                  type="number"
+                  placeholder="QTY"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter Unit :
+                </label>
+                <input
+                  type="number"
+                  placeholder="Unit"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  QTY for 1 :
+                </label>
+                <input
+                  type="number"
+                  placeholder="Qty for 1"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  STD Pack :
+                </label>
+                <input
+                  type="number"
+                  placeholder="std pack"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Basic Rate :
+                </label>
+                <input
+                  type="number"
+                  placeholder="basic rate"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Basic Amount :
+                </label>
+                <input
+                  type="number"
+                  placeholder="basic amount"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div> */}
             </div>
             {/* Product List */}
             <h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
@@ -344,6 +445,22 @@ const AddCostWorkingModal = ({
                         </option>
                       ))}
                     </select>
+
+                    {/* <div>
+                      <input
+                        type="number"
+                        placeholder="HSN Code"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div> */}
+
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Qty for 1"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div>
 
                     {fields.map(({ name, placeholder }) => (
                       <input

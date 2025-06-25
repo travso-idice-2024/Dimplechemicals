@@ -31,7 +31,7 @@ const EditCostWorkingModal = ({
   handleEditCostWorkingCustomerChange,
   customerAddress,
 }) => {
-  console.log("customerAddress",customerAddress);
+  console.log("customerAddress", customerAddress);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -201,7 +201,7 @@ const EditCostWorkingModal = ({
 
       {/* Modal Container */}
       <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white w-full md:w-[1300px] rounded-[6px]">
+        <div className="bg-white w-full md:w-[1400px] rounded-[6px]">
           <h2 className="text-white text-[20px] font-poppins mb-2 px-0 py-2 text-center bg-bgDataNew rounded-t-[5px]">
             Update Cost Working
           </h2>
@@ -217,7 +217,7 @@ const EditCostWorkingModal = ({
           </div>
 
           <div className="p-4 mt-5 overflow-y-auto max-h-[calc(100vh-200px)]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[600px] gap-y-2">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {/* Select Customer */}
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
@@ -250,7 +250,7 @@ const EditCostWorkingModal = ({
                     })
                   }
                   placeholder="Select the Customer"
-                  className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-0 hover:border-none"
+                  className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-0"
                   isSearchable
                   filterOption={customFilterOption}
                 />
@@ -330,6 +330,108 @@ const EditCostWorkingModal = ({
                   )}
                 </div>
               ))}
+
+               {/* <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Select Category :
+                </label>
+                <select
+                  name="company_name"
+                  placeholder="Select Category"
+                  className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9.50px]"
+                >
+                  <option value="">Select the Category</option>
+                 
+                </select>
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter Item :
+                </label>
+                <input
+                  type="text"
+                  placeholder="Item"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+               <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter HSN Code :
+                </label>
+                <input
+                  type="number"
+                  placeholder="HSN Code"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+               <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter QTY per m2 :
+                </label>
+                <input
+                  type="number"
+                  placeholder="QTY"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Enter Unit :
+                </label>
+                <input
+                  type="number"
+                  placeholder="Unit"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+                <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  QTY for 1 :
+                </label>
+                <input
+                  type="number"
+                  placeholder="Qty for 1"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+               <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  STD Pack :
+                </label>
+                <input
+                  type="number"
+                  placeholder="std pack"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+               <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Basic Rate :
+                </label>
+                <input
+                  type="number"
+                  placeholder="basic rate"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
+                  Basic Amount :
+                </label>
+                <input
+                  type="number"
+                  placeholder="basic amount"
+                  className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
+                />
+              </div> */}
             </div>
 
             {/* Product List */}
@@ -367,6 +469,23 @@ const EditCostWorkingModal = ({
                         </option>
                       ))}
                     </select>
+
+{/*                     
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="HSN Code"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div> */}
+
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Qty for 1"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div>
 
                     {[
                       "unit",
