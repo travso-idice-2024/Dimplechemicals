@@ -331,7 +331,7 @@ const EditCostWorkingModal = ({
                 </div>
               ))}
 
-               <div>
+               {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select Category :
                 </label>
@@ -431,7 +431,7 @@ const EditCostWorkingModal = ({
                   placeholder="basic amount"
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
-              </div>
+              </div> */}
             </div>
 
             {/* Product List */}
@@ -469,6 +469,23 @@ const EditCostWorkingModal = ({
                         </option>
                       ))}
                     </select>
+
+{/*                     
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="HSN Code"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div> */}
+
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Qty for 1"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div>
 
                     {[
                       "unit",

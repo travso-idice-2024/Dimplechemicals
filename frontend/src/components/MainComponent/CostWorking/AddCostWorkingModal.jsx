@@ -308,7 +308,7 @@ const AddCostWorkingModal = ({
                 </div>
               ))}
 
-              <div>
+              {/* <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Select Category :
                 </label>
@@ -318,7 +318,6 @@ const AddCostWorkingModal = ({
                   className="block w-full text-textdata whitespace-nowrap mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-[9.50px]"
                 >
                   <option value="">Select the Category</option>
-                 
                 </select>
               </div>
 
@@ -333,7 +332,7 @@ const AddCostWorkingModal = ({
                 />
               </div>
 
-               <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter HSN Code :
                 </label>
@@ -344,7 +343,7 @@ const AddCostWorkingModal = ({
                 />
               </div>
 
-               <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Enter QTY per m2 :
                 </label>
@@ -366,7 +365,7 @@ const AddCostWorkingModal = ({
                 />
               </div>
 
-                <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   QTY for 1 :
                 </label>
@@ -377,7 +376,7 @@ const AddCostWorkingModal = ({
                 />
               </div>
 
-               <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   STD Pack :
                 </label>
@@ -388,7 +387,7 @@ const AddCostWorkingModal = ({
                 />
               </div>
 
-               <div>
+              <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Basic Rate :
                 </label>
@@ -408,8 +407,7 @@ const AddCostWorkingModal = ({
                   placeholder="basic amount"
                   className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
-              </div>
-
+              </div> */}
             </div>
             {/* Product List */}
             <h3 className="mt-12 mb-2 text-bgDataNew font-poppins border w-[300px] font-medium text-[20px] text-bgData mb-0 text-center mx-auto">
@@ -447,6 +445,22 @@ const AddCostWorkingModal = ({
                         </option>
                       ))}
                     </select>
+
+                    {/* <div>
+                      <input
+                        type="number"
+                        placeholder="HSN Code"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div> */}
+
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Qty for 1"
+                        className="block w-full rounded-[5px] border px-3 py-2"
+                      />
+                    </div>
 
                     {fields.map(({ name, placeholder }) => (
                       <input
