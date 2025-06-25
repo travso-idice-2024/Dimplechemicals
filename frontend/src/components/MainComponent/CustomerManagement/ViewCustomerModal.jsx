@@ -117,6 +117,7 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                    <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Location</th>
                    <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">City</th>
                    <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Address Type</th>
+                   <th className="px-4 py-2 border-b border-[#d1d5db] text-gray-900 text-newtextdata">Detail Address</th>
                  </tr>
                </thead>
                <tbody>
@@ -127,6 +128,8 @@ const ViewCustomerModal = ({ setViewModalOpen, selectedCustomer }) => {
                      <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.location}</td>
                      <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.city}</td>
                      <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address.address_type}</td>
+                     <td className="px-4 py-2 border-b border-[#e5e7eb] text-newtextdata cursor-pointer">{address?.full_address}</td>
+
                    </tr>
                  ))}
                </tbody>

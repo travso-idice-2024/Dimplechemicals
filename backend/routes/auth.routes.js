@@ -94,6 +94,7 @@ const {
   getCheckinCheckoutReport,
   exportCheckinCheckoutReport,
   getDailyWorkingHours,
+  getCurrentAttendanceStatus
 } = require("../controllers/chekinCheckout.controller");
 
 const {
@@ -350,6 +351,7 @@ router.post("/add-business-associate", authMiddleware, createBusinessAssociate);
 router.put('/business-associates/:id',authMiddleware, EditBusinessAssociate);
 router.delete("/business-associates/:id",authMiddleware, deleteBusinessAssociate);
 router.get("/getPOAReportForSalesByCustId/:cust_id", authMiddleware, getPOAReportForSalesByCustId);
+router.get("/attendance-status", authMiddleware,getCurrentAttendanceStatus);
 
 
 module.exports = router;

@@ -45,7 +45,7 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA, getPoaByEmpIdData }) => {
                 <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Total Product Qty. in Kg</th>
                 <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Total Potential Amount</th>
                 <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Types of Documents Sent</th>
-                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Last Visit Date</th>
+                <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap">Next Visit Date</th>
               </tr>
             </thead>
 

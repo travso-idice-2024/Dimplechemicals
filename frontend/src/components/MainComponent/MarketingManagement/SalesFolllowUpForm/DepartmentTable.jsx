@@ -392,7 +392,7 @@ const DepartmentTable = ({
               Contact Person Name
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
-              Salse Person Name
+              Sales Person Name
             </th>
             <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap ">
               Meeting Date
