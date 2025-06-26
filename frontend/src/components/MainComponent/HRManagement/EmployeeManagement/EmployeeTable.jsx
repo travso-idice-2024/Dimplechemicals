@@ -43,7 +43,7 @@ const EmployeeTable = ({
     /* For Firefox */
     .custom-scrollbar {
       scrollbar-width: thin;
-      scrollbar-color: gray transparent;
+      // scrollbar-color: gray transparent;
       cursor: pointer;
     }
   `}
