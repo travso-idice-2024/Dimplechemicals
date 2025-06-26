@@ -1,8 +1,14 @@
-const { CostWorking, CostWorkingProduct, Product,Customer } = require("../models");
+const {
+  CostWorking,
+  CostWorkingProduct,
+  Product,
+  Customer,
+  Category
+} = require("../models");
 const { Op } = require("sequelize");
 const ExcelJS = require("exceljs");
 const path = require("path");
-const fs =require("fs");
+const fs = require("fs");
 
 const createCostWorking = async (req, res) => {
   const {
@@ -28,13 +34,15 @@ const createCostWorking = async (req, res) => {
   } = req.body;
 
   try {
-
-    const parsedRevisionDate = revision_date && !isNaN(new Date(revision_date)) ? new Date(revision_date):null;
+    const parsedRevisionDate =
+      revision_date && !isNaN(new Date(revision_date))
+        ? new Date(revision_date)
+        : null;
 
     const toNullableNumber = (value) => {
-      return value === '' || value === undefined ? null : Number(value);
+      return value === "" || value === undefined ? null : Number(value);
     };
-    
+
     // Step 1: Insert record with revision_no = 1
     const costWorking = await CostWorking.create({
       company_name,
@@ -53,12 +61,12 @@ const createCostWorking = async (req, res) => {
       supervision_cost: toNullableNumber(supervision_cost),
       contractor_profit: toNullableNumber(contractor_profit),
       over_head_charges: toNullableNumber(over_head_charges),
-      total_application_labour_cost: toNullableNumber(total_application_labour_cost),
+      total_application_labour_cost: toNullableNumber(
+        total_application_labour_cost
+      ),
       total_project_cost: toNullableNumber(total_project_cost),
       total_material_cost: toNullableNumber(total_material_cost),
     });
-    
-    
 
     const cost_working_id = costWorking.id;
 
@@ -69,13 +77,14 @@ const createCostWorking = async (req, res) => {
     if (products && Array.isArray(products)) {
       const productRecords = products.map((product) => ({
         cost_working_id,
-        category_id:product.category_id,
+        category_id: product.category_id,
         product_id: product.product_id,
         unit: product.unit,
         qty_for: product.qty_for,
         std_pak: product.std_pak,
         std_basic_rate: product.std_basic_rate,
         basic_amount: product.basic_amount,
+        qty_for_1: product.qty_for_1,
       }));
 
       await CostWorkingProduct.bulkCreate(productRecords);
@@ -88,7 +97,7 @@ const createCostWorking = async (req, res) => {
     });
   } catch (error) {
     console.error("Error inserting data:", error);
-    res.status(500).json({ success: false, message: "Server error", error});
+    res.status(500).json({ success: false, message: "Server error", error });
   }
 };
 
@@ -111,8 +120,13 @@ const getCostWorking = async (req, res) => {
           include: [
             {
               model: Product, // Include product details here
-              attributes: ["id", "product_name","HSN_code"], // Adjust attributes as needed
+              attributes: ["id", "product_name", "HSN_code"], // Adjust attributes as needed
             },
+            {
+                  model: Category,
+                  as: "category",
+                  attributes: ["id", "category_name"], // Only select what you need
+                },
           ],
         },
         {
@@ -141,7 +155,9 @@ const getCostWorking = async (req, res) => {
 
     for (const cr_id in grouped) {
       const versions = grouped[cr_id];
-      const sortedVersions = versions.sort((a, b) => b.revision_no - a.revision_no);
+      const sortedVersions = versions.sort(
+        (a, b) => b.revision_no - a.revision_no
+      );
       sortedVersions.forEach((version, index) => {
         const data = version.toJSON();
         data.edit = index === 0; // only latest version editable
@@ -158,7 +174,7 @@ const getCostWorking = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching data:", error);
-    res.status(500).json({ success: false, message: "Server error", error});
+    res.status(500).json({ success: false, message: "Server error", error });
   }
 };
 
@@ -189,13 +205,15 @@ const updateCostWorking = async (req, res) => {
   try {
     const previousVersion = await CostWorking.findByPk(id);
     if (!previousVersion) {
-      return res.status(404).json({ success: false, message: "Cost working not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Cost working not found" });
     }
 
     const cr_id = previousVersion.cr_id;
     const latestRevision = await CostWorking.findOne({
       where: { cr_id },
-      order: [['revision_no', 'DESC']],
+      order: [["revision_no", "DESC"]],
     });
 
     const newRevisionNo = (latestRevision?.revision_no || 1) + 1;
@@ -229,13 +247,14 @@ const updateCostWorking = async (req, res) => {
     if (products && Array.isArray(products)) {
       const productRecords = products.map((product) => ({
         cost_working_id,
-        category_id:product.category_id,
+        category_id: product.category_id,
         product_id: product.product_id,
         unit: product.unit,
         qty_for: product.qty_for,
         std_pak: product.std_pak,
         std_basic_rate: product.std_basic_rate,
         basic_amount: product.basic_amount,
+        qty_for_1: product.qty_for_1,
       }));
 
       await CostWorkingProduct.bulkCreate(productRecords);
@@ -249,12 +268,11 @@ const updateCostWorking = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating record:", error);
-    res.status(500).json({ success: false, message: "Server error", error});
+    res.status(500).json({ success: false, message: "Server error", error });
   }
- };
+};
 
-
- const exportCostWorkingListToExcel = async (req, res) => {
+const exportCostWorkingListToExcel = async (req, res) => {
   try {
     const { search = "", all = false } = req.query;
 
@@ -298,14 +316,15 @@ const updateCostWorking = async (req, res) => {
 
     const latestVersions = [];
     for (const cr_id in grouped) {
-      const sorted = grouped[cr_id].sort((a, b) => b.revision_no - a.revision_no);
+      const sorted = grouped[cr_id].sort(
+        (a, b) => b.revision_no - a.revision_no
+      );
       latestVersions.push(sorted[0]);
     }
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Cost Working Report");
 
- 
     worksheet.columns = [
       { header: "Company Name", key: "company_name", width: 25 },
       { header: "Estimate No", key: "estimate_no", width: 20 },
@@ -323,21 +342,34 @@ const updateCostWorking = async (req, res) => {
       worksheet.addRow({
         company_name: item.company?.company_name || "N/A",
         estimate_no: item.estimate_no || "N/A",
-        estimate_date: item.estimate_date ? new Date(item.estimate_date).toLocaleDateString() : "N/A",
+        estimate_date: item.estimate_date
+          ? new Date(item.estimate_date).toLocaleDateString()
+          : "N/A",
         nature_of_work: item.nature_of_work || "N/A",
         technology_used: item.technology_used || "N/A",
-        revision_date: item.revision_date ? new Date(item.revision_date).toLocaleDateString() : "N/A",
+        revision_date: item.revision_date
+          ? new Date(item.revision_date).toLocaleDateString()
+          : "N/A",
         estimate_no: item.estimate_no,
         location: item.location,
         company_name: item.company?.company_name || "N/A",
         revision_no: item.revision_no,
-        products: item.products.map(p => `${p?.Product?.product_name} (${p?.Product?.HSN_code})`).join("\n"),
+        products: item.products
+          .map((p) => `${p?.Product?.product_name} (${p?.Product?.HSN_code})`)
+          .join("\n"),
         created_at: item.createdAt.toLocaleDateString(),
       });
     });
 
-    const timestamp = new Date().toISOString().replace(/T/, "_").replace(/:/g, "-").split(".")[0];
-    const filePath = path.join(__dirname, `../exports/CostWorking_Report_${timestamp}.xlsx`);
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/T/, "_")
+      .replace(/:/g, "-")
+      .split(".")[0];
+    const filePath = path.join(
+      __dirname,
+      `../exports/CostWorking_Report_${timestamp}.xlsx`
+    );
 
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     await workbook.xlsx.writeFile(filePath);
@@ -345,11 +377,19 @@ const updateCostWorking = async (req, res) => {
     res.download(filePath, `CostWorking_Report_${timestamp}.xlsx`);
   } catch (error) {
     console.error("Export Error:", error);
-    res.status(500).json({ success: false, message: "Failed to export", error: error.message});
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to export",
+        error: error.message,
+      });
   }
 };
 
-
 module.exports = {
-  createCostWorking, getCostWorking ,updateCostWorking , exportCostWorkingListToExcel
+  createCostWorking,
+  getCostWorking,
+  updateCostWorking,
+  exportCostWorkingListToExcel,
 };

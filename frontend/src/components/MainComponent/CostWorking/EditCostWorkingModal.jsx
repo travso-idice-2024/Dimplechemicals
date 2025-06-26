@@ -31,7 +31,7 @@ const EditCostWorkingModal = ({
   handleEditCostWorkingCustomerChange,
   customerAddress,
 }) => {
-  console.log("customerAddress", customerAddress);
+  //console.log("editCostWorkingData", editCostWorkingData);
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
@@ -61,6 +61,7 @@ const EditCostWorkingModal = ({
           std_pak: "",
           std_basic_rate: "",
           basic_amount: "",
+          qty_for_1:""
         },
       ],
     }));
@@ -185,12 +186,6 @@ const EditCostWorkingModal = ({
       value: customer.id,
       label: customer.company_name,
     })) || [];
-
-  console.log("customerOptions", customerOptions);
-  console.log(
-    "editCostWorkingData.company_name",
-    editCostWorkingData.company_name
-  );
 
   const customFilterOption = (option, inputValue) =>
     option.label.toLowerCase().startsWith(inputValue.toLowerCase());
@@ -479,16 +474,9 @@ const EditCostWorkingModal = ({
                       />
                     </div> */}
 
-                    <div>
-                      <input
-                        type="number"
-                        placeholder="Qty for 1"
-                        className="block w-full rounded-[5px] border px-3 py-2"
-                      />
-                    </div>
-
                     {[
                       "unit",
+                      "qty_for_1",
                       "qty_for",
                       "std_pak",
                       "std_basic_rate",
@@ -513,7 +501,7 @@ const EditCostWorkingModal = ({
 
                     <button
                       type="button"
-                      onClick={() => handleEditRemoveProduct(index)}
+                      onClick={() => handleRemoveProduct(index)}
                       className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                     >
                       Remove Product Field

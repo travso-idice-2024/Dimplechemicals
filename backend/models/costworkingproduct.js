@@ -55,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    qty_for_1: {
+      type: DataTypes.INTEGER,
+      allowNull:true,
+    },
   }, {
     sequelize,
     modelName: 'CostWorkingProduct',
@@ -65,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
   CostWorkingProduct.associate = function(models) {
     CostWorkingProduct.belongsTo(models.CostWorking, { foreignKey: 'cost_working_id' });
     CostWorkingProduct.belongsTo(models.Product, { foreignKey: 'product_id' });
+    CostWorkingProduct.belongsTo(models.Category, { foreignKey: 'category_id', as: "category"});
   };
 
   return CostWorkingProduct;

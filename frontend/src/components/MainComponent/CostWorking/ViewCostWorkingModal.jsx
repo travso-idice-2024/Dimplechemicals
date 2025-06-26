@@ -5,7 +5,40 @@ const ViewCostWorkingModal = ({
   setViewCostWorkingModalOpen,
   selectedCostWorking,
 }) => {
+  console.log("selectedCostWorking", selectedCostWorking);
   const navigate = useNavigate();
+
+  let serialNumber = 1;
+  let lastCategoryId = null;
+
+  //B2 start
+  const totalCost =
+  selectedCostWorking?.labour_cost +
+  selectedCostWorking?.cunsumable_cost +
+  selectedCostWorking?.transport_cost +
+  selectedCostWorking?.supervision_cost;
+
+  const sixPercentAmount = ((totalCost * 6) / 100).toFixed(2);
+  const totalWithSixPercent = (totalCost + parseFloat(sixPercentAmount)).toFixed(2);
+
+  //B2 end
+
+  //B3 start
+  const twentyPercentAmount = (parseFloat(totalWithSixPercent) * 20) / 100;
+  const grandTotal = (parseFloat(totalWithSixPercent) + twentyPercentAmount).toFixed(2);
+
+  //B3 end
+
+  //c
+  const totalMaterialAndGrandTotal =
+  parseFloat(selectedCostWorking?.total_material_cost ?? "0") +
+  parseFloat(grandTotal);
+
+const contractorProfit = Math.round((totalMaterialAndGrandTotal * 10) / 100 * 100) / 100;
+
+const finalAmount = (totalMaterialAndGrandTotal + contractorProfit).toFixed(2);
+
+  //end c
 
   return (
     <div className="fixed inset-0 p-2 bg-black/50 flex items-center justify-center z-50">
@@ -170,7 +203,7 @@ const ViewCostWorkingModal = ({
                       "S.N.",
                       "Item",
                       "HSN Code",
-                      "Qty per M²",
+                      "Qty/M²",
                       "Unit",
                       "Qty for 1",
                       "Std Pak",
@@ -199,59 +232,68 @@ const ViewCostWorkingModal = ({
                   </tr>
 
                   {/* Subsection Header: Bond Coat */}
-                  <tr className="bg-gray-100 font-medium text-left" colSpan="9">
-                    <td
-                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
-                    >
-                      1
-                    </td>
-                    <td
-                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
-                    >
-                      Bond Coat
-                    </td>
-                    <td
-                      className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
-                      colSpan="7"
-                    >
-                      
-                    </td>
-                  </tr>
 
-                  {/* Bond Coat Items */}
-                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
-                    <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
-                      
-                    </td>
-                    <td
-                      className="border border-gray-300 px-4 py-2 text-textdata text-left"
-                      colSpan="1"
-                    >
-                      Kelox R 101
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      390720
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      0.400
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      Kg
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      0.40
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      20
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      746.00
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      298.40
-                    </td>
-                  </tr>
-                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                  {selectedCostWorking?.products?.map((material, index) => {
+                    const showCategory =
+                      material.category_id !== lastCategoryId;
+                    if (showCategory) {
+                      lastCategoryId = material.category_id;
+                    }
+
+                    return (
+                      <React.Fragment key={index}>
+                        {showCategory && (
+                          <tr className="bg-gray-100 font-medium text-left">
+                            <td className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2">
+                              {serialNumber++}
+                            </td>
+                            <td className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2">
+                              {material?.category?.category_name}
+                            </td>
+                            <td
+                              className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
+                              colSpan="7"
+                            >
+                              {/* blank cell */}
+                            </td>
+                          </tr>
+                        )}
+
+                        <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                          <td className="border border-gray-300 px-4 py-2 text-textdata text-left"></td>
+                          <td
+                            className="border border-gray-300 px-4 py-2 text-textdata text-left"
+                            colSpan="1"
+                          >
+                            {material?.Product?.product_name}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material?.Product?.HSN_code}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material.qty_for}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material.unit}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material.qty_for_1}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material.std_pak}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material.std_basic_rate}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2 text-textdata">
+                            {material.basic_amount}
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  {/* <tr className="text-center hover:bg-gray-200 cursor-pointer">
                     <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
                       
                     </td>
@@ -282,10 +324,10 @@ const ViewCostWorkingModal = ({
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
                       149.20
                     </td>
-                  </tr>
+                  </tr> */}
 
                   {/* Subsection Header: PICC 50 mm Depth coat */}
-                  <tr className="bg-gray-100 font-medium text-left" colSpan="9">
+                  {/* <tr className="bg-gray-100 font-medium text-left" colSpan="9">
                     <td
                       className="border text-black border-gray-300 font-poopins font-medium text-[16px] px-4 py-2"
                     >
@@ -302,10 +344,10 @@ const ViewCostWorkingModal = ({
                     >
                       
                     </td>
-                  </tr>
+                  </tr> */}
 
                   {/* PICC Items */}
-                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                  {/* <tr className="text-center hover:bg-gray-200 cursor-pointer">
                     <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
                       
                     </td>
@@ -333,8 +375,8 @@ const ViewCostWorkingModal = ({
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
                       1,297.44
                     </td>
-                  </tr>
-                  <tr className="text-center hover:bg-gray-200 cursor-pointer">
+                  </tr> */}
+                  {/* <tr className="text-center hover:bg-gray-200 cursor-pointer">
                     <td className="border border-gray-300 px-4 py-2 text-textdata text-left">
                       
                     </td>
@@ -387,7 +429,7 @@ const ViewCostWorkingModal = ({
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
                       84.80
                     </td>
-                  </tr>
+                  </tr> */}
 
                   {/* Total Row */}
 
@@ -399,14 +441,13 @@ const ViewCostWorkingModal = ({
                       Total Material basic Cost :
                     </td>
                     <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
-                      2,052.44
+                      {selectedCostWorking?.total_material_cost ?? "0"}
                     </td>
                   </tr>
                 </tbody>
               </table>
               <table className="min-w-full border border-gray-300 mt-14">
                 <thead className="bg-gray-400">
-                 
                   <tr>
                     {["Description", "Area", "Unit", "Amount"].map(
                       (header, index) => (
@@ -423,7 +464,7 @@ const ViewCostWorkingModal = ({
                       )
                     )}
                   </tr>
-                   <tr className="bg-gray-300 text-center">
+                  <tr className="bg-gray-300 text-center">
                     <th colspan="4" className="py-2">
                       <div className="border border-gray-400 w-fit mx-auto px-4 py-0 rounded-[3px] font-poppins font-medium text-[18px]  text-gray-700">
                         B - Cost as per project / Site condition
@@ -432,7 +473,7 @@ const ViewCostWorkingModal = ({
                   </tr>
                 </thead>
                 <tbody>
-                  <br/>
+                  <br />
                   {/* Subsection Header: Bond Coat */}
                   <tr className="bg-gray-300 font-medium text-left">
                     <td
@@ -453,7 +494,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
-                      400.00
+                      {selectedCostWorking?.labour_cost}
                     </td>
                   </tr>
                   <tr className="text-center hover:bg-gray-200 cursor-pointer">
@@ -467,7 +508,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
-                      30.00
+                      {selectedCostWorking?.cunsumable_cost}
                     </td>
                   </tr>
                   <tr className="text-center hover:bg-gray-200 cursor-pointer">
@@ -481,7 +522,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
-                      20.00
+                      {selectedCostWorking?.transport_cost}
                     </td>
                   </tr>
                   <tr className="text-center hover:bg-gray-200 cursor-pointer">
@@ -495,7 +536,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
-                      30.00
+                      {selectedCostWorking?.supervision_cost}
                     </td>
                   </tr>
                   <tr className="bg-gray-100 font-semibold text-black">
@@ -512,7 +553,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
-                      480.00
+                      {selectedCostWorking?.labour_cost+selectedCostWorking?.cunsumable_cost+selectedCostWorking?.transport_cost+selectedCostWorking?.supervision_cost}
                     </td>
                   </tr>
 
@@ -538,7 +579,7 @@ const ViewCostWorkingModal = ({
                       6.0%
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
-                      28.80
+                      {sixPercentAmount}
                     </td>
                   </tr>
                   <tr className="bg-gray-50 font-semibold text-black">
@@ -555,7 +596,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
-                      508.80
+                      {totalWithSixPercent}
                     </td>
                   </tr>
 
@@ -580,7 +621,7 @@ const ViewCostWorkingModal = ({
                       20%
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata bg-yellow-100">
-                      101.76
+                      {twentyPercentAmount}
                     </td>
                   </tr>
                   <tr className="bg-gray-100 font-semibold text-black">
@@ -597,14 +638,13 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="px-4 py-2 border border-gray-300 text-white text-center bg-red-400">
-                      610.56
+                      {grandTotal}
                     </td>
                   </tr>
                 </tbody>
               </table>
               <table className="min-w-full border border-gray-300 mt-14">
                 <thead className="bg-gray-400">
-                  
                   <tr>
                     {["Total", "Unit", "Qty", "Total Project Cost RS"].map(
                       (header, index) => (
@@ -632,14 +672,12 @@ const ViewCostWorkingModal = ({
                     <td className="border border-gray-300 px-4 py-2 text-textdata text-left font-bold text-gray-700">
                       Total Material basic Cost
                     </td>
-                    <td className="border border-gray-300 p-2">
-                      A
-                    </td>
+                    <td className="border border-gray-300 p-2">A</td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      2,052.44
+                    {selectedCostWorking?.total_material_cost ?? "0"}
                     </td>
                   </tr>
                   <tr className="text-center hover:bg-gray-200 cursor-pointer">
@@ -653,7 +691,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      610.56
+                       {grandTotal}
                     </td>
                   </tr>
                   <tr className="text-center hover:bg-gray-200 cursor-pointer">
@@ -665,7 +703,7 @@ const ViewCostWorkingModal = ({
                       M2
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      2,663.00
+                     {totalMaterialAndGrandTotal}
                     </td>
                   </tr>
                   <tr className="text-center hover:bg-gray-200 cursor-pointer">
@@ -679,7 +717,7 @@ const ViewCostWorkingModal = ({
                       10%
                     </td>
                     <td className="border border-gray-300 px-4 py-2 text-textdata">
-                      266.30
+                      {contractorProfit}
                     </td>
                   </tr>
                   <br />
@@ -692,7 +730,7 @@ const ViewCostWorkingModal = ({
                     </td>
                     <td className="px-4 py-2 border border-gray-300 font-bold text-gray-600 text-center"></td>
                     <td className="px-4 py-2 border border-gray-300 font-bold text-gray-600 text-center">
-                      2,929.30
+                      {finalAmount}
                     </td>
                   </tr>
                   <tr className="bg-gray-100 font-semibold text-black text-center">
@@ -706,7 +744,7 @@ const ViewCostWorkingModal = ({
                       1
                     </td>
                     <td className="px-4 py-2 border border-gray-300 text-bgDataNew text-center">
-                      2,929.30
+                       {finalAmount}
                     </td>
                   </tr>
                 </tbody>

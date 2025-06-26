@@ -45,7 +45,7 @@ const AddCustomerModal = ({
   editFlashMsgType,
   setEditFlashMsgType,
 }) => {
-  console.log("bussinesasociatedata", bussinesasociatedata);
+  //console.log("bussinesasociatedata", bussinesasociatedata);
 
   const dispatch = useDispatch();
   const { allPincodes, allAreas, allCity } = useSelector(

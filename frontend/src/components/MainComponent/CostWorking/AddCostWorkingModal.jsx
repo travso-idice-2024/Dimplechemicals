@@ -54,6 +54,7 @@ const AddCostWorkingModal = ({
           std_pak: "",
           std_basic_rate: "",
           basic_amount: "",
+          qty_for_1:""
         },
       ],
     }));
@@ -156,6 +157,7 @@ const AddCostWorkingModal = ({
 
   const fields = [
     { name: "unit", placeholder: "Unit No." },
+    { name: "qty_for_1", placeholder: "Quantity For 1" },
     { name: "qty_for", placeholder: "Quantity" },
     { name: "std_pak", placeholder: "Std Pack (Unit No.)" },
     { name: "std_basic_rate", placeholder: "Std Basic Rate" },
@@ -453,14 +455,6 @@ const AddCostWorkingModal = ({
                         className="block w-full rounded-[5px] border px-3 py-2"
                       />
                     </div> */}
-
-                    <div>
-                      <input
-                        type="number"
-                        placeholder="Qty for 1"
-                        className="block w-full rounded-[5px] border px-3 py-2"
-                      />
-                    </div>
 
                     {fields.map(({ name, placeholder }) => (
                       <input
