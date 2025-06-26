@@ -28,7 +28,7 @@ const EditAnnualReport = ({
   handleEditABPSubmit,
   allCustomers,
   customerAddress,
-  handleEditABPCustomerChange
+  handleEditABPCustomerChange,
 }) => {
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
@@ -88,24 +88,24 @@ const EditAnnualReport = ({
   };
 
   useEffect(() => {
-      const loadProductOptionsForEdit = async () => {
-        const optionsArray = [...productOptions]; // clone
-  
-        for (let i = 0; i < editAbpData?.products?.length; i++) {
-          const prod = editAbpData?.products[i];
-          if (prod.technology_used) {
-            const products = await fetchProductsByCategory(prod.technology_used);
-            optionsArray[i] = products;
-          }
+    const loadProductOptionsForEdit = async () => {
+      const optionsArray = [...productOptions]; // clone
+
+      for (let i = 0; i < editAbpData?.products?.length; i++) {
+        const prod = editAbpData?.products[i];
+        if (prod.technology_used) {
+          const products = await fetchProductsByCategory(prod.technology_used);
+          optionsArray[i] = products;
         }
-  
-        setProductOptions(optionsArray);
-      };
-  
-      if (editAbpData?.products?.length > 0) {
-        loadProductOptionsForEdit();
       }
-    }, [editAbpData?.products]);
+
+      setProductOptions(optionsArray);
+    };
+
+    if (editAbpData?.products?.length > 0) {
+      loadProductOptionsForEdit();
+    }
+  }, [editAbpData?.products]);
 
   const handleRemoveProduct = (index) => {
     const updatedProducts = [...editAbpData.products];
@@ -219,6 +219,15 @@ const EditAnnualReport = ({
   const customFilterOption = (option, inputValue) =>
     option.label.toLowerCase().startsWith(inputValue.toLowerCase());
 
+  const productOptionsLists =
+    allProducts?.data?.map((product) => ({
+      value: product.id,
+      label: product.product_name,
+    })) || [];
+
+  const customProductFilterOption = (option, inputValue) =>
+    option.label.toLowerCase().startsWith(inputValue.toLowerCase());
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const profileRef = useRef(null);
@@ -295,34 +304,33 @@ const EditAnnualReport = ({
                   </tbody>
                 </table>
               </div>
-             
-                  <div className="flex items-center gap-2">
-                    <div className="flex flex-col items-start">
-                    <select
-                      name="for_month"
-                      value={editAbpData.for_month || ""}
-                      disabled
-                      //onChange={handleEditABPChange}
-                      className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-                    >
-                      <option value="">Select Duration</option>
 
-                      <option value={3}>3 month</option>
-                      <option value={6}>6 month</option>
-                      <option value={9}>9 month</option>
-                      <option value={12}>12 month</option>
-                    </select>
-                    </div>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        className="text-white text-[12px] mb-[2px]"
-                      />
-                    </div>
-                  </div>
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col items-start">
+                  <select
+                    name="for_month"
+                    value={editAbpData.for_month || ""}
+                    disabled
+                    //onChange={handleEditABPChange}
+                    className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                  >
+                    <option value="">Select Duration</option>
 
-                  {/* <span className="notification-btn-dot"></span> */}
-               
+                    <option value={3}>3 month</option>
+                    <option value={6}>6 month</option>
+                    <option value={9}>9 month</option>
+                    <option value={12}>12 month</option>
+                  </select>
+                </div>
+                <div>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="text-white text-[12px] mb-[2px]"
+                  />
+                </div>
+              </div>
+
+              {/* <span className="notification-btn-dot"></span> */}
             </div>
 
             <div className="mt-8 overflow-auto">
@@ -354,7 +362,9 @@ const EditAnnualReport = ({
                     filterOption={customFilterOption}
                   />
                   {editFormErrors?.customer_id && (
-                    <p className="text-red-500">{editFormErrors?.customer_id}</p>
+                    <p className="text-red-500">
+                      {editFormErrors?.customer_id}
+                    </p>
                   )}
                   {/* <Select
                     options={customerOptions}
@@ -377,10 +387,7 @@ const EditAnnualReport = ({
                   >
                     <option value="">Select the Address</option>
                     {customerAddress?.data?.addresses?.map((address, index) => (
-                        <option
-                        key={index}
-                        value={address.location}
-                      >
+                      <option key={index} value={address.location}>
                         {address.location}
                       </option>
                     ))}
@@ -399,11 +406,13 @@ const EditAnnualReport = ({
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
                   >
                     <option value="">Select the BA</option>
-                    {customerAddress?.data?.business_associates?.map((associate, index) => (
-                      <option key={index} value={associate.id}>
-                        {associate.code}
-                      </option>
-                    ))}
+                    {customerAddress?.data?.business_associates?.map(
+                      (associate, index) => (
+                        <option key={index} value={associate.id}>
+                          {associate.code}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
 
@@ -501,8 +510,10 @@ const EditAnnualReport = ({
                     placeholder="Project Name / Application Area"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                   {editFormErrors?.project_name && (
-                    <p className="text-red-500">{editFormErrors?.project_name}</p>
+                  {editFormErrors?.project_name && (
+                    <p className="text-red-500">
+                      {editFormErrors?.project_name}
+                    </p>
                   )}
                 </div>
 
@@ -565,7 +576,7 @@ const EditAnnualReport = ({
                     placeholder="Area in SqM"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                   {editFormErrors?.area_mtr2 && (
+                  {editFormErrors?.area_mtr2 && (
                     <p className="text-red-500">{editFormErrors?.area_mtr2}</p>
                   )}
                 </div>
@@ -582,8 +593,10 @@ const EditAnnualReport = ({
                     placeholder="Business Potential"
                     className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                   />
-                    {editFormErrors?.buisness_potential && (
-                    <p className="text-red-500">{editFormErrors?.buisness_potential}</p>
+                  {editFormErrors?.buisness_potential && (
+                    <p className="text-red-500">
+                      {editFormErrors?.buisness_potential}
+                    </p>
                   )}
                 </div>
               </div>
@@ -612,35 +625,61 @@ const EditAnnualReport = ({
                         product={product}
                       /> */}
 
-                       <input
-                            type="text"
-                            name="technology_used"
-                            value={product?.technology_used || ""}
-                            onChange={(e) => handleProductChange(e, index)}
-                            placeholder="Technology Used"
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-                          />
+                      <input
+                        type="text"
+                        name="technology_used"
+                        value={product?.technology_used || ""}
+                        onChange={(e) => handleProductChange(e, index)}
+                        placeholder="Technology Used"
+                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                      />
 
                       {/* Product ID as Dropdown */}
-                      <select
+                      {/* <select
                         name="product_id"
                         value={product.product_id || ""}
                         onChange={(e) => handleProductChange(e, index)}
                         className="block w-full rounded-[5px] border px-3 py-2"
                       >
                         <option value="">Select Product</option>
-                        {allProducts?.data?.map((prod,index) => (
+                        {allProducts?.data?.map((prod, index) => (
                           <option key={prod?.id} value={prod?.id}>
                             {prod?.product_name}
                           </option>
-                        ))}
+                        ))} */}
                         {/* {productOptions[index]?.map((prod) => (
                           <option key={prod.id} value={prod.id}>
                             {prod.product_name}
                           </option>
                         ))} */}
-                      </select>
-                       {fields.map(({ name, placeholder, type, disabled }) =>
+                      {/* </select> */}
+
+                      <Select
+                        options={productOptionsLists}
+                        value={productOptionsLists.find(
+                          (option) => option.value === product.product_id
+                        )}
+                        onChange={(selectedOption) =>
+                          handleProductChange(
+                            {
+                              target: {
+                                name: "product_id",
+                                value: selectedOption
+                                  ? selectedOption.value
+                                  : "",
+                              },
+                            },
+                            index
+                          )
+                        }
+                        placeholder="Select Product"
+                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] py-[0.8px]"
+                        isSearchable
+                        isClearable
+                        filterOption={customProductFilterOption}
+                      />
+
+                      {fields.map(({ name, placeholder, type, disabled }) =>
                         type === "select" ? (
                           <select
                             key={name}
@@ -680,14 +719,14 @@ const EditAnnualReport = ({
                       />
                     ))} */}
 
-                     {/* Remove Button */}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveProduct(index)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    >
-                      Remove Product Field
-                    </button>
+                      {/* Remove Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveProduct(index)}
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      >
+                        Remove Product Field
+                      </button>
                       {/* <div>
                         <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                           Product Name :
@@ -786,18 +825,18 @@ const EditAnnualReport = ({
                     </div>
                   </>
                 ))}
-                 {/* Add Product Button */}
-              <button
-                type="button"
-                onClick={handleAddProduct}
-                className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-orange-600 mt-2"
-              >
-                Add Product
-              </button>
+                {/* Add Product Button */}
+                <button
+                  type="button"
+                  onClick={handleAddProduct}
+                  className="bg-bgDataNew text-white px-3 py-2 rounded hover:bg-orange-600 mt-2"
+                >
+                  Add Product
+                </button>
               </div>
             </div>
 
-             {/* comment section */}
+            {/* comment section */}
             <div className="mt-8 overflow-auto">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">

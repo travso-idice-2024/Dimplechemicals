@@ -30,12 +30,11 @@ const AddAnnualReport = ({
   customerAddress,
   handleABPCustomerChange,
 }) => {
- 
   const dispatch = useDispatch();
   const { allProducts, totalPages, productLoading, productError } = useSelector(
     (state) => state.product
   );
- console.log("allProducts", allProducts?.data);
+  console.log("allProducts", allProducts?.data);
   const { allCategories, categoryLoading, categoryError } = useSelector(
     (state) => state.category
   );
@@ -227,6 +226,15 @@ const AddAnnualReport = ({
   const customFilterOption = (option, inputValue) =>
     option.label.toLowerCase().startsWith(inputValue.toLowerCase());
 
+  const productOptionsLists =
+    allProducts?.data?.map((product) => ({
+      value: product.id,
+      label: product.product_name,
+    })) || [];
+
+  const customProductFilterOption = (option, inputValue) =>
+    option.label.toLowerCase().startsWith(inputValue.toLowerCase());
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const profileRef = useRef(null);
@@ -245,15 +253,12 @@ const AddAnnualReport = ({
     };
   }, []);
 
-
   const departmentOptions = [
     { value: "IT", label: "IT" },
     { value: "HR", label: "HR" },
     { value: "Sales", label: "Sales" },
     { value: "Marketing", label: "Marketing" },
   ];
-
-  
 
   return (
     <>
@@ -365,7 +370,6 @@ const AddAnnualReport = ({
                   {abpFormErrors?.customer_id && (
                     <p className="text-red-500">{abpFormErrors?.customer_id}</p>
                   )}
-                 
                 </div>
 
                 {/* Select Address */}
@@ -573,16 +577,16 @@ const AddAnnualReport = ({
                       /> */}
 
                       <input
-                            type="text"
-                            name="technology_used"
-                            value={product?.technology_used || ""}
-                            onChange={(e) => handleProductChange(e, index)}
-                            placeholder="Technology Used"
-                            className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
-                          />
+                        type="text"
+                        name="technology_used"
+                        value={product?.technology_used || ""}
+                        onChange={(e) => handleProductChange(e, index)}
+                        placeholder="Technology Used"
+                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] px-3 py-2"
+                      />
 
                       {/* Product ID as Dropdown */}
-                      <select
+                      {/* <select
                         name="product_id"
                         value={product.product_id || ""}
                         onChange={(e) => handleProductChange(e, index)}
@@ -594,12 +598,35 @@ const AddAnnualReport = ({
                             {prod.product_name}
                           </option>
                         ))} */}
-                        {allProducts?.data?.map((prod,index) => (
+                      {/* {allProducts?.data?.map((prod,index) => (
                           <option key={prod?.id} value={prod?.id}>
                             {prod?.product_name}
                           </option>
                         ))}
-                      </select>
+                      </select> */}
+                      <Select
+                        options={productOptionsLists}
+                        value={productOptionsLists.find(
+                          (option) => option.value === product.product_id
+                        )}
+                        onChange={(selectedOption) =>
+                          handleProductChange(
+                            {
+                              target: {
+                                name: "product_id",
+                                value: selectedOption ? selectedOption.value : "",
+                              },
+                            },
+                            index
+                          )
+                        }
+                        placeholder="Select Product"
+                        className="block w-full mb-2 rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] py-[0.8px]"
+                        isSearchable
+                        isClearable
+                        filterOption={customProductFilterOption}
+                      />
+
                       {fields.map(({ name, placeholder, type, disabled }) =>
                         type === "select" ? (
                           <select
@@ -663,8 +690,7 @@ const AddAnnualReport = ({
             </div>
 
             {/* comment section */}
-            <div className="mt-8 overflow-auto"
-            >
+            <div className="mt-8 overflow-auto">
               <div>
                 <label className="font-poppins font-medium text-textdata whitespace-nowrap text-bgData">
                   Product Comment :

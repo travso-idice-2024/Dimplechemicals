@@ -18,7 +18,7 @@ const AttendanceSheetData = () => {
 
   const { empCinCotData, allusers } = useSelector((state) => state.user);
 
-  //console.log("empCinCotData", empCinCotData);
+  console.log("empCinCotData", empCinCotData);
   //console.log("allusers", allusers);
 
   // Pagination & Search States
@@ -274,7 +274,8 @@ const AttendanceSheetData = () => {
                           })}
                         </td>
                         <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
-                          {user?.fullname}
+                          {/* {user?.fullname} */}
+                          {user?.User?.fullname}
                         </td>
                         <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
                           {
@@ -284,10 +285,11 @@ const AttendanceSheetData = () => {
                                   {
                                     hour: "2-digit",
                                     minute: "2-digit",
+                                    second: "2-digit",
                                     hour12: true,
                                   }
                                 )
-                              : "00:00" // Or any other placeholder you want to display
+                              : "00:00:00" // Or any other placeholder you want to display
                           }
                         </td>
                         <td className="px-4 py-2 text-newtextdata whitespace-nowrap">
@@ -298,9 +300,10 @@ const AttendanceSheetData = () => {
                                 ).toLocaleTimeString("en-US", {
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  second: "2-digit",
                                   hour12: true,
                                 })
-                              : "00:00" // Or any other placeholder you want to display
+                              : "00:00:00" // Or any other placeholder you want to display
                           }
                         </td>
                         <td className="px-4 py-2 text-newtextdata md:w-[400px] text-left">

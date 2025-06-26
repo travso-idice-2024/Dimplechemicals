@@ -1,4 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
+import {
+  GoogleMap,
+  Marker,
+  InfoWindow,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import "./App.css";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import Content from "./layout/Content/Content";
@@ -71,8 +77,18 @@ import CustomerLeadList from "./components/MainComponent/MarketingManagement/Sal
 import AnnualBuisnessReport from "./components/MainComponent/AnnualBuisnessPlan/AnnualBuisnessReport";
 import AdminAnnualBuisnessPlan from "./components/MainComponent/AdminAnnualBuisnessPlan/AdminAnnualBuisnessPlan";
 import BusinessAssociateReport from "./components/MainComponent/BussinesAssociateReport/BusinessAssociateList";
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 function App() {
+
+  const { isLoaded } = useJsApiLoader({
+      id: "55383078377-kpkl3r1n0qo8937ltrskk3ane2cvmoge.apps.googleusercontent.com",
+      googleMapsApiKey: `${API_KEY}`, // replace with your actual API key
+       libraries: ["places"],
+    });
+
+
+
   const location = useLocation(); // ✅ Get current route
   const hideSidebarRoutes = ["/"]; // ✅ Sidebar will be hidden on Login Page
   const shouldShowSidebar = !hideSidebarRoutes.includes(location.pathname);
@@ -213,7 +229,7 @@ function App() {
             <Route path="/user-management" element={<UserManage />} />
             <Route path="/document-management" element={<DocumentManage />} />
             <Route path="/customer-requirement" element={<CustomerRequire />} />
-            <Route path="/lead-sales" element={<SalesProgressMange />} />
+            <Route path="/lead-sales" element={<SalesProgressMange isLoaded={isLoaded} />} />
             <Route
               path="/lead-sales/lead/:leadId"
               element={<SalesViewLeadData />}
