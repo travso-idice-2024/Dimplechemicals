@@ -90,7 +90,7 @@ const addLead = async (req, res) => {
       contact_person_name,
       total_material_qty:total_material_qty ? parseInt(total_material_qty) : null,
       approx_business: approx_business ? parseInt(approx_business) : null,
-      project_name: project_name ? parseInt(project_name) : null
+      project_name: project_name
     });
 
     if (Array.isArray(product_ids) && product_ids.length > 0) {
@@ -2207,11 +2207,8 @@ const getPOAReportById = async (req, res) => {
 
 const getPOAReportForSalesByCustId = async (req, res) => {
   try {
-    // Logged-in user ID and role
     const emp_id = req.user.id;
     const userRole = req.user?.userrole;
-
-    // Get customer ID from request params or query
     const cust_id = req.params.cust_id || req.query.cust_id;
 
     if (!cust_id) {
@@ -2221,7 +2218,6 @@ const getPOAReportForSalesByCustId = async (req, res) => {
       });
     }
 
-    // Fetch leads based on role
     const leads = await Lead.findAll({
       where: {
         ...(userRole !== 1 && { assigned_person_id: emp_id }),
@@ -2232,12 +2228,17 @@ const getPOAReportForSalesByCustId = async (req, res) => {
         {
           model: Customer,
           as: "customer",
-          attributes: ["id", "company_name"],
+          attributes: ["id", "company_name", "email_id", "primary_contact", "pan_no"],
         },
         {
           model: User,
           as: "assignedPerson",
           attributes: ["fullname"],
+        },
+        {
+          model: CustomerContactPerson,
+          as: "contactPerson",
+          attributes: ["name"],
         },
         {
           model: LeadCommunication,
@@ -2253,24 +2254,89 @@ const getPOAReportForSalesByCustId = async (req, res) => {
       });
     }
 
-    // Format the output
     const result = leads.map((lead) => ({
       ...lead.toJSON(),
       employee_fullname: lead.assignedPerson?.fullname || "Unknown",
     }));
 
+    // Group by customer_id
+    const grouped = {};
+
+    result.forEach((item) => {
+      const cid = item.customer_id;
+      if (!grouped[cid]) {
+        // Initialize with all lead fields from first occurrence
+        grouped[cid] = {
+          ...item,
+          project_name: 0,
+          total_material_qty: 0,
+          approx_business: 0,
+          communications: [],
+        };
+      }
+
+      // Sum numeric fields
+      grouped[cid].project_name += Number(item.project_name) || 0;
+      grouped[cid].total_material_qty += Number(item.total_material_qty) || 0;
+      grouped[cid].approx_business += Number(item.approx_business) || 0;
+
+      // Collect communications
+      if (item.communications && item.communications.length > 0) {
+        grouped[cid].communications.push(...item.communications);
+      }
+    });
+
+    // Time helpers
+    const timeToSeconds = (timeStr) => {
+      const [h, m, s] = timeStr.split(":").map(Number);
+      return h * 3600 + m * 60 + s;
+    };
+    const secondsToTime = (seconds) => {
+      const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${h}:${m}:${s}`;
+    };
+
+    // Summing communications lead_status and total_hrs_spent
+    Object.values(grouped).forEach((item) => {
+      let totalSeconds = 0;
+      let statuses = [];
+      let followup_summary  = "";
+
+      item.communications.forEach((comm) => {
+        if (comm.total_hrs_spent) {
+          totalSeconds += timeToSeconds(comm.total_hrs_spent);
+        }
+        if (comm.lead_status) {
+          statuses.push(comm.lead_status);
+        }
+        followup_summary = comm.followup_summary;
+      });
+
+      item.communications = [
+        {
+          lead_status: statuses.join(" -> "),
+          total_hrs_spent: secondsToTime(totalSeconds),
+          followup_summary:followup_summary
+        },
+      ];
+    });
+
     return res.json({
       success: true,
-      data: result,
+      data: Object.values(grouped),
     });
   } catch (error) {
     console.error("Error in getPOAReportForSalesByCustId:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-  });
- }
+    });
+  }
 };
+
+
 
 module.exports = {
   addLead,

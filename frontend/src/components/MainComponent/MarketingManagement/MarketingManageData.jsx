@@ -1048,6 +1048,8 @@ const MarketingManageData = () => {
           <EmpSARReport
             setpoaReportOpen={setpoaReportOpen}
             selectedPOA={selectedLead}
+            setViewCustomerModalOpen={setViewCustomerModalOpen}
+            setSelectedLead={setSelectedLead}
           />
         )}
 

@@ -42,12 +42,12 @@ const BusinessAssociateListTableReport = ({
               <th className="px-4 py-2  text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Contact
               </th>
-              <th className="px-4 py-2  text-bgDataNew text-newtextdata">
+              {/* <th className="px-4 py-2  text-bgDataNew text-newtextdata">
                 Company name
               </th>
               <th className="px-4 py-2  text-bgDataNew text-newtextdata">
                 Location
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-center text-bgDataNew text-newtextdata whitespace-nowrap ">
                 Action
               </th>
@@ -69,7 +69,7 @@ const BusinessAssociateListTableReport = ({
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
                   {user?.phone_no}
                 </td>
-                <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
+                {/* <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
                   {user?.customers?.company_name}
                 </td>
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap cursor-pointer">
@@ -81,7 +81,7 @@ const BusinessAssociateListTableReport = ({
                         </span>
                       ))
                     : "-"}
-                </td>
+                </td> */}
                 <td className="px-4 py-2 text-newtextdata whitespace-nowrap  space-x-2 text-center">
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"

@@ -212,7 +212,7 @@ const AddRoleModal = ({
               <div>
                 <label>Application Area</label>
                 <input
-                  type="number"
+                  type="text"
                   name="project_name"
                   value={poaData.project_name}
                   onChange={handlePoaChange}
@@ -282,7 +282,7 @@ const AddRoleModal = ({
 
               {/* Meeting Summary */}
               <div>
-                <label>Meeting Summary</label>
+                <label>Meeting Agenda</label>
                 <textarea
                   name="lead_summary"
                   value={poaData.lead_summary}

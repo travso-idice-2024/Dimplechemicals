@@ -210,7 +210,7 @@ const DepartmentTable = ({
   const [formData, setFormData] = useState({
     end_location: "",
     end_meeting_time: "",
-    lead_text: "",
+    followup_summary: "",
     lead_status: "",
     lead_type: "",
     lead_date: null,
@@ -260,7 +260,7 @@ const DepartmentTable = ({
   // Validate Inputs
   const validateInputs = () => {
     let errors = {};
-    if (!formData.lead_text.trim()) errors.lead_text = "*Lead text is required";
+    if (!formData.followup_summary.trim()) errors.followup_summary = "*followup_summary is required";
     if (!formData.lead_status.trim())
       errors.lead_status = "*Lead stage is required";
     //if (!formData.lead_date.trim()) errors.lead_date = "*Lead date is required";
@@ -599,18 +599,18 @@ const DepartmentTable = ({
 
               <div>
                 <label className="font-poppins font-medium text-black text-[16px]">
-                  Description :
+                  Meeting Summary :
                 </label>
                 <textarea
                   type="text"
-                  name="lead_text"
-                  value={formData.lead_text}
+                  name="followup_summary"
+                  value={formData.followup_summary}
                   onChange={handleChange}
                   placeholder="Detail Note for Lead"
                   className="block w-full mb-2 text-black rounded-[5px] border border-solid border-[#473b33] focus:border-[#473b33] dark:focus:border-[#473b33] px-3 py-2"
                 />
-                {formErrors.lead_text && (
-                  <p className="text-red-500 text-sm">{formErrors.lead_text}</p>
+                {formErrors.followup_summary && (
+                  <p className="text-red-500 text-sm">{formErrors.followup_summary}</p>
                 )}
               </div>
             </div>

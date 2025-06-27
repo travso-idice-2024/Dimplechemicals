@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    followup_summary: {
+      type: DataTypes.TEXT,
+      allowNull:true,
+    },
     lead_status: {
       type: DataTypes.STRING,
       allowNull: true,

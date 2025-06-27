@@ -9,7 +9,12 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthToken = () => localStorage.getItem("token");
 
-const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
+const EmpSARReport = ({
+  setpoaReportOpen,
+  selectedPOA,
+  setViewCustomerModalOpen,
+  setSelectedLead,
+}) => {
   console.log("selectedPOA", selectedPOA);
   const dispatch = useDispatch();
   const [poaData, setPoaData] = useState([]);
@@ -100,7 +105,13 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {item.assignedPerson?.fullname || "-"}
                       </td>
-                      <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
+                      <td
+                        className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 cursor-pointer"
+                        onClick={() => {
+                          setSelectedLead(item);
+                          setViewCustomerModalOpen(true);
+                        }}
+                      >
                         {item.customer?.company_name || "-"}
                       </td>
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
@@ -109,15 +120,18 @@ const EmpSARReport = ({ setpoaReportOpen, selectedPOA }) => {
                           : "-"}
                       </td>
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
-                        {item.communications?.[0]?.lead_status
+                        {item.communications?.[0]?.followup_summary
                           ? `${
-                              item.communications[0].lead_status.split("->")
-                                .length
+                              (
+                                item.communications[0].followup_summary.match(
+                                  /^\d+\./gm
+                                ) || []
+                              ).length
                             }`
                           : "-"}
                       </td>
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
-                        {item.communications[0].total_hrs_spent ?? "-"}
+                        {item.communications[0]?.total_hrs_spent ?? "-"}
                       </td>
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300">
                         {item.project_name ?? "-"}

@@ -174,7 +174,7 @@ const createLeadCommunication = async (req, res) => {
 const endMeeting = async (req, res) => {
   try {
     const {
-      lead_text,
+      followup_summary,
       lead_status,
       lead_type,
       lead_date, // schedule for next meeting
@@ -246,10 +246,10 @@ const endMeeting = async (req, res) => {
     const total_hrs_spent = `${totalHours}:${totalMinutes}:${totalSec}`;
 
     // Combine old and new lead text
-    const oldText = latestLead.lead_text ? latestLead.lead_text.trim() : "";
+    const oldText = latestLead.followup_summary ? latestLead.followup_summary.trim() : "";
     const lines = oldText ? oldText.split("\n") : [];
     const nextNumber = lines.length + 1;
-    const newText = `${nextNumber}. ${lead_text}`;
+    const newText = `${nextNumber}. ${followup_summary}`;
     const updatedLeadText = oldText ? `${oldText}\n${newText}` : newText;
 
     const leadDateValue = lead_date ? new Date(lead_date) : new Date();
@@ -257,7 +257,9 @@ const endMeeting = async (req, res) => {
 
     // Update the lead communication
     await latestLead.update({
-      lead_text: updatedLeadText,
+      // lead_text: updatedLeadText,
+      followup_summary: updatedLeadText,
+      // followup_summary,
       lead_status: updatedLeadStatus,
       lead_type,
       lead_date: leadDateValue,
@@ -283,8 +285,123 @@ const endMeeting = async (req, res) => {
   } catch (error) {
     console.error("Error ending meeting:", error);
     res.status(500).json({ message: "Internal Server Error"});
-  }
+   }
 };
+
+// const endMeeting = async (req, res) => {
+//   try {
+//     const {
+//       lead_text,
+//       lead_status,
+//       lead_type,
+//       lead_date, // schedule for next meeting
+//       next_meeting_date,
+//       end_meeting_time,
+//       end_location,
+//       lead_id,
+//       final_meeting = false,
+//       meeting_done = true,
+//     } = req.body;
+
+//     if (!req.user || !req.user.id) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+
+//     const sales_persion_id = req.user.id;
+
+//     if (!end_meeting_time || !end_location) {
+//       return res
+//         .status(400)
+//         .json({ message: "end_meeting_time and end_location are required" });
+//     }
+
+//     // Fetch the latest lead communication
+//     const latestLead = await LeadCommunication.findOne({
+//       where: { lead_id },
+//       order: [["createdAt", "DESC"]],
+//     });
+
+//     if (!latestLead) {
+//       return res
+//         .status(404)
+//         .json({ message: "No lead communication record found to update" });
+//     }
+
+//     const { start_meeting_time } = latestLead;
+
+//     if (!start_meeting_time) {
+//       return res.status(400).json({
+//         message: "start_meeting_time is missing in communication record",
+//       });
+//     }
+
+//     // Calculate time difference between start and end
+//     const start = new Date(`1970-01-01T${start_meeting_time}`);
+//     const end = new Date(`1970-01-01T${end_meeting_time}`);
+//     let diffMs = end - start;
+//     if (diffMs < 0) diffMs += 24 * 60 * 60 * 1000;
+
+//     const newSeconds = Math.floor(diffMs / 1000);
+
+//     // Convert old total_hrs_spent (if any) to seconds
+//     let previousSeconds = 0;
+//     if (latestLead.total_hrs_spent) {
+//       const [h, m, s] = latestLead.total_hrs_spent.split(":").map(Number);
+//       previousSeconds = (h || 0) * 3600 + (m || 0) * 60 + (s || 0);
+//     }
+
+//     // Add previous + new
+//     const totalSeconds = previousSeconds + newSeconds;
+
+//     // Convert back to HH:mm:ss
+//     const totalHours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+//     const totalMinutes = String(
+//       Math.floor((totalSeconds % 3600) / 60)
+//     ).padStart(2, "0");
+//     const totalSec = String(totalSeconds % 60).padStart(2, "0");
+
+//     const total_hrs_spent = `${totalHours}:${totalMinutes}:${totalSec}`;
+
+//     // Combine old and new lead text
+//     const oldText = latestLead.lead_text ? latestLead.lead_text.trim() : "";
+//     const lines = oldText ? oldText.split("\n") : [];
+//     const nextNumber = lines.length + 1;
+//     const newText = `${nextNumber}. ${lead_text}`;
+//     const updatedLeadText = oldText ? `${oldText}\n${newText}` : newText;
+
+//     const leadDateValue = lead_date ? new Date(lead_date) : new Date();
+//     const updatedLeadStatus = `${latestLead.lead_status || ""} -> ${lead_status}`;
+
+//     // Update the lead communication
+//     await latestLead.update({
+//       lead_text: updatedLeadText,
+//       lead_status: updatedLeadStatus,
+//       lead_type,
+//       lead_date: leadDateValue,
+//       next_meeting_date,
+//       end_meeting_time,
+//       end_location,
+//       final_meeting: final_meeting === true || final_meeting === "true",
+//       meeting_done: meeting_done === true || meeting_done === "true",
+//       total_hrs_spent,
+//     });
+
+//     // Update next_followup in leads table
+//     await Lead.update(
+//       { next_followup: lead_date },
+//       { where: { id: latestLead.lead_id } }
+//     );
+
+//     res.json({
+//       success: true,
+//       message: "Meeting ended and lead communication updated successfully",
+//       data: latestLead,
+//     });
+//   } catch (error) {
+//     console.error("Error ending meeting:", error);
+//     res.status(500).json({ message: "Internal Server Error"});
+//   }
+// };
 
 // const getLeadCommunicationsByLeadId = async (req, res) => {
 //   try {
@@ -556,6 +673,7 @@ const getLeadCommunicationsByLeadId = async (req, res) => {
         "lead_id",
         "client_name",
         "lead_text",
+        "followup_summary",
         "lead_status",
         "lead_date",
         "createdAt",

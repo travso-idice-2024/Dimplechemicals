@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { leadCommunicationById } from "../../../../redux/leadSlice";
 
 const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
- // console.log("selectedCustomer",selectedCustomer);
+  //console.log("selectedCustomer",selectedCustomer);
   const dispatch = useDispatch();
   const { communicationleadsList, totalPages, leadLoading, leadError } =
     useSelector((state) => state.lead);
 
- // console.log("communicationleadsList", communicationleadsList);
+  console.log("communicationleadsList", communicationleadsList);
 
   useEffect(() => {
     if (selectedCustomer?.customer_id) {
@@ -106,7 +106,10 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                   </th>
 
                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
-                    Communication
+                    Meeting Agenda
+                  </th>
+                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
+                    Meeting Summary
                   </th>
                   <th className="px-4 py-2 text-left text-bgDataNew text-newtextdata whitespace-nowrap  border border-gray-300">
                     Status
@@ -162,6 +165,12 @@ const ViewCustomerModal = ({ setViewCustomerModalOpen, selectedCustomer }) => {
                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 w-[300px]">
                         {/* {user?.lead_text} */}
                         {user?.lead_text?.split("\n").map((line, index) => (
+                          <div key={index}>{line}</div>
+                        ))}
+                      </td>
+                       <td className="px-4 py-2 text-newtextdata whitespace-nowrap border border-gray-300 w-[300px]">
+                        {/* {user?.lead_text} */}
+                        {user?.followup_summary?.split("\n").map((line, index) => (
                           <div key={index}>{line}</div>
                         ))}
                       </td>

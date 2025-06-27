@@ -61,86 +61,86 @@ const SalesProgressMange = ({ isLoaded }) => {
     setLocationPickerOpen(true);
   };
 
-  const submitCheckIn = async (locationData) => {
-    const checkInData = {
-      emp_id: userDeatail?.id,
-      latitude: locationData.latitude,
-      longitude: locationData.longitude,
-      checkin_location: locationData.address,
-      data: new Date().toISOString().split("T")[0],
-    };
+  // const submitCheckIn = async (locationData) => {
+  //   const checkInData = {
+  //     emp_id: userDeatail?.id,
+  //     latitude: locationData.latitude,
+  //     longitude: locationData.longitude,
+  //     checkin_location: locationData.address,
+  //     data: new Date().toISOString().split("T")[0],
+  //   };
 
-    //console.log("checkInData", checkInData);
+  //   //console.log("checkInData", checkInData);
 
-    try {
-      const token = getAuthToken();
-      const response = await axios.post(
-        `${API_URL}/auth/checkin`,
-        checkInData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+  //   try {
+  //     const token = getAuthToken();
+  //     const response = await axios.post(
+  //       `${API_URL}/auth/checkin`,
+  //       checkInData,
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
 
-      const checkInTime = new Date(
-        response?.data?.checkInRecord?.check_in_time
-      );
-      const now = new Date();
-      localStorage.setItem("checkInTime", now.toISOString());
-      setCheckInTime(now);
-      setCheckOutTime(null);
-      localStorage.removeItem("checkOutTime");
-      setIsCheckedIn(true);
+  //     const checkInTime = new Date(
+  //       response?.data?.checkInRecord?.check_in_time
+  //     );
+  //     const now = new Date();
+  //     localStorage.setItem("checkInTime", now.toISOString());
+  //     setCheckInTime(now);
+  //     setCheckOutTime(null);
+  //     localStorage.removeItem("checkOutTime");
+  //     setIsCheckedIn(true);
 
-      handleFlashMessage(response?.data?.message, "success");
-    } catch (error) {
-      handleFlashMessage(error || "Failed to check in", "error");
-    }
-  };
+  //     handleFlashMessage(response?.data?.message, "success");
+  //   } catch (error) {
+  //     handleFlashMessage(error || "Failed to check in", "error");
+  //   }
+  // };
 
-  const handleCheckOut = async (locationData) => {
-    const { latitude, longitude, address } = locationData;
+  // const handleCheckOut = async (locationData) => {
+  //   const { latitude, longitude, address } = locationData;
 
-    const checkOutData = {
-      emp_id: userDeatail?.id,
-      latitude,
-      longitude,
-      checkout_location: address,
-      data: new Date().toISOString().split("T")[0],
-    };
+  //   const checkOutData = {
+  //     emp_id: userDeatail?.id,
+  //     latitude,
+  //     longitude,
+  //     checkout_location: address,
+  //     data: new Date().toISOString().split("T")[0],
+  //   };
 
-    try {
-      const token = getAuthToken();
-      const response = await axios.post(
-        `${API_URL}/auth/checkout`,
-        checkOutData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+  //   try {
+  //     const token = getAuthToken();
+  //     const response = await axios.post(
+  //       `${API_URL}/auth/checkout`,
+  //       checkOutData,
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
 
-      const checkOutTime = new Date(
-        response?.data?.checkOutRecord?.check_out_time
-      );
-      const formattedTime = checkOutTime.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+  //     const checkOutTime = new Date(
+  //       response?.data?.checkOutRecord?.check_out_time
+  //     );
+  //     const formattedTime = checkOutTime.toLocaleTimeString([], {
+  //       hour: "2-digit",
+  //       minute: "2-digit",
+  //     });
 
-      setIsCheckedIn(false);
-      //localStorage.removeItem(`${prefix}isCheckedIn`);
-      setCheckOutTime(formattedTime);
-      setCheckInTime(null);
-      localStorage.setItem("checkOutTime", formattedTime);
-      localStorage.removeItem("checkInTime");
+  //     setIsCheckedIn(false);
+  //     //localStorage.removeItem(`${prefix}isCheckedIn`);
+  //     setCheckOutTime(formattedTime);
+  //     setCheckInTime(null);
+  //     localStorage.setItem("checkOutTime", formattedTime);
+  //     localStorage.removeItem("checkInTime");
 
-      setElapsedTime("");
+  //     setElapsedTime("");
 
-      handleFlashMessage(response?.data?.message, "success");
-    } catch (error) {
-      handleFlashMessage(error || "Failed to check out", "error");
-    }
-  };
+  //     handleFlashMessage(response?.data?.message, "success");
+  //   } catch (error) {
+  //     handleFlashMessage(error || "Failed to check out", "error");
+  //   }
+  // };
 
   const prefix = "saleperson_";
 
@@ -242,21 +242,16 @@ const SalesProgressMange = ({ isLoaded }) => {
   // });
   const [isCheckedIn, setIsCheckedIn] = useState(false);
 
-  console.log("isCheckedIn", isCheckedIn);
-
   //checkin checkout status button toggle
   const [buttonText, setButtonText] = useState("Check In");
 
   const fetchAttendanceStatus = async () => {
     try {
-      console.log(userDeatail?.id);
       const token = getAuthToken();
       const response = await axios.get(`${API_URL}/auth/attendance-status`, {
         params: { emp_id: userDeatail?.id },
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      console.log("status", response.data.status);
 
       if (response.data.status === "checkin") {
         setIsCheckedIn(true);
@@ -291,42 +286,17 @@ const SalesProgressMange = ({ isLoaded }) => {
 
   const handleToggle = async () => {
     if (isCheckedIn) {
+       await handleCheckIn();
       //await handleCheckOut();
       //setIsCheckedIn(false);
-      setLocationPickerOpen(true);
+      //setLocationPickerOpen(true);
     } else {
+      await handleCheckOut();
       //await handleCheckIn();
       //setIsCheckedIn(true);
-      setCheckOutPickerOpen(true);
+      //setCheckOutPickerOpen(true);
     }
   };
-
-  //show timer
-
-  // useEffect(() => {
-  //   const storedCheckIn = localStorage.getItem("checkInTime");
-  //   if (storedCheckIn) {
-  //     setCheckInTime(new Date(storedCheckIn));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (checkInTime) {
-  //     const interval = setInterval(() => {
-  //       const now = new Date();
-  //       const diff = now - checkInTime;
-
-  //       const hours = Math.floor(diff / (1000 * 60 * 60));
-  //       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  //       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-  //       setElapsedTime(`${hours}h ${minutes}m ${seconds}s`);
-  //     }, 1000);
-
-  //     return () => clearInterval(interval);
-  //   }
-  // }, [checkInTime]);
-  //show timer
 
   const getLocationName = async (latitude, longitude) => {
     const apiKey = `${API_KEY}`;
@@ -346,120 +316,102 @@ const SalesProgressMange = ({ isLoaded }) => {
     }
   };
 
-  // const handleCheckIn = async () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(async (position) => {
-  //       //console.log("Accuracy: ", position.coords.accuracy);
-  //       const { latitude, longitude } = position.coords;
-  //       const locationName = await getLocationName(latitude, longitude);
+  const handleCheckIn = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+       
+        const { latitude, longitude } = position.coords;
+        const locationName = await getLocationName(latitude, longitude);
 
-  //       //console.log("locationName",locationName);
+        const checkInData = {
+          emp_id: userDeatail?.id,
+          latitude,
+          longitude,
+          checkin_location: locationName,
+          data: new Date().toISOString().split("T")[0],
+        };
 
-  //       const checkInData = {
-  //         emp_id: userDeatail?.id,
-  //         //checkInTime: new Date().toISOString().replace("T", " ").split(".")[0],
-  //         latitude,
-  //         longitude,
-  //         checkin_location: locationName,
-  //         data: new Date().toISOString().split("T")[0],
-  //       };
+        //console.log("checkInData", checkInData);
 
-  //       //console.log("checkInData", checkInData);
+        try {
+          const token = getAuthToken();
+          //console.log("token",token);
+          const response = await axios.post(
+            `${API_URL}/auth/checkin`,
+            checkInData,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const checkInTime = new Date(
+            response?.data?.checkInRecord?.check_in_time
+          );
+        
+          const now = new Date();
+          localStorage.setItem("checkInTime", now.toISOString());
+          setCheckInTime(now);
+          setCheckOutTime(null); 
+          localStorage.removeItem("checkOutTime"); 
+          setIsCheckedIn(true);
 
-  //       try {
-  //         const token = getAuthToken();
-  //         //console.log("token",token);
-  //         const response = await axios.post(
-  //           `${API_URL}/auth/checkin`,
-  //           checkInData,
-  //           {
-  //             headers: { Authorization: `Bearer ${token}` },
-  //           }
-  //         );
-  //         const checkInTime = new Date(
-  //           response?.data?.checkInRecord?.check_in_time
-  //         );
-  //         const formattedTime = checkInTime.toLocaleTimeString([], {
-  //           hour: "2-digit",
-  //           minute: "2-digit",
-  //         });
+          fetchAttendanceStatus();
+          handleFlashMessage(response?.data?.message, "success");
+        } catch (error) {
+          handleFlashMessage(error || "Failed to check in", "error");
+        }
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
 
-  //         //setCheckInTime(formattedTime);
-  //         const now = new Date();
-  //         localStorage.setItem("checkInTime", now.toISOString());
-  //         setCheckInTime(now);
+  const handleCheckOut = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        const locationName = await getLocationName(latitude, longitude);
+        const checkOutData = {
+          emp_id: userDeatail?.id,
+          latitude,
+          longitude,
+          checkout_location: locationName,
+          data: new Date().toISOString().split("T")[0],
+        };
 
-  //         setCheckOutTime(null); // Reset checkout on new check-in
-  //         //localStorage.setItem("checkInTime", formattedTime);
-  //         localStorage.removeItem("checkOutTime"); // Ensure fresh data
+        try {
+          const token = getAuthToken();
+          const response = await axios.post(
+            `${API_URL}/auth/checkout`,
+            checkOutData,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const checkOutTime = new Date(
+            response?.data?.checkOutRecord?.check_out_time
+          );
+          const formattedTime = checkOutTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
 
-  //         setIsCheckedIn(true);
-  //         // localStorage.setItem("isCheckedIn", JSON.stringify(true));
-
-  //         handleFlashMessage(response?.data?.message, "success");
-  //       } catch (error) {
-  //         handleFlashMessage(error || "Failed to check in", "error");
-  //         //console.log(error);
-  //         //return console.log(error.response?.data || "Failed to check in");
-  //       }
-  //     });
-  //   } else {
-  //     console.error("Geolocation is not supported by this browser.");
-  //   }
-  // };
-
-  // const handleCheckOut = async () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(async (position) => {
-  //       const { latitude, longitude } = position.coords;
-  //       const locationName = await getLocationName(latitude, longitude);
-  //       //console.log("locationName checkout",locationName);
-  //       const checkOutData = {
-  //         emp_id: userDeatail?.id,
-  //         //checkInTime: new Date().toISOString().replace("T", " ").split(".")[0],
-  //         latitude,
-  //         longitude,
-  //         checkout_location: locationName,
-  //         data: new Date().toISOString().split("T")[0],
-  //       };
-
-  //       try {
-  //         const token = getAuthToken();
-  //         //console.log(token);
-  //         const response = await axios.post(
-  //           `${API_URL}/auth/checkout`,
-  //           checkOutData,
-  //           {
-  //             headers: { Authorization: `Bearer ${token}` },
-  //           }
-  //         );
-  //         //localStorage.removeItem("checkInTime");
-  //         const checkOutTime = new Date(
-  //           response?.data?.checkOutRecord?.check_out_time
-  //         );
-  //         const formattedTime = checkOutTime.toLocaleTimeString([], {
-  //           hour: "2-digit",
-  //           minute: "2-digit",
-  //         });
-
-  //         setIsCheckedIn(false);
-  //         localStorage.removeItem(`${prefix}isCheckedIn`);
-
-  //         setCheckOutTime(formattedTime);
-  //         setCheckInTime(null);
-  //         localStorage.setItem("checkOutTime", formattedTime);
-  //         localStorage.removeItem("checkInTime");
-
-  //         handleFlashMessage(response?.data?.message, "success");
-  //       } catch (error) {
-  //         handleFlashMessage(error || "Failed to check out", "error");
-  //         //return console.log(error.response?.data || "Failed to check out");
-  //       }
-  //     });
-  //   } else {
-  //     console.error("Geolocation is not supported by this browser.");
-  //   }
-  // };
+          setIsCheckedIn(false);
+          setCheckOutTime(formattedTime);
+          setCheckInTime(null);
+          localStorage.setItem("checkOutTime", formattedTime);
+          localStorage.removeItem("checkInTime");
+          setElapsedTime("");
+          fetchAttendanceStatus();
+          handleFlashMessage(response?.data?.message, "success");
+        } catch (error) {
+          handleFlashMessage(error || "Failed to check out", "error");
+          //return console.log(error.response?.data || "Failed to check out");
+        }
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
 
   //google map
 
@@ -546,7 +498,7 @@ const SalesProgressMange = ({ isLoaded }) => {
                 >
                   {isCheckedIn ? "Check In" : "Check Out"}
                 </button>
-                <LocationPickerModal
+                {/* <LocationPickerModal
                   isOpen={locationPickerOpen}
                   onClose={() => setLocationPickerOpen(false)}
                   onConfirm={async (locationData) => {
@@ -566,97 +518,8 @@ const SalesProgressMange = ({ isLoaded }) => {
                     fetchAttendanceStatus();
                   }}
                   isLoaded={isLoaded}
-                />
-                {/* <button
-                  onClick={handleToggle}
-                  className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${
-                    isCheckedIn
-                      ? "bg-red-600 hover:bg-red-800"
-                      : "bg-green-600 hover:bg-green-800"
-                  }`}
-                >
-                  {isCheckedIn ? "Check Out" : "Check In"}
-                </button>
-                <LocationPickerModal
-                  isOpen={locationPickerOpen}
-                  onClose={() => setLocationPickerOpen(false)}
-                  onConfirm={(locationData) => {
-                    setLocationPickerOpen(false);
-                    setPickedLocation(locationData);
-                    submitCheckIn(locationData);
-                    setIsCheckedIn(true); // toggle check-in state
-                  }}
-                  isLoaded={isLoaded}
-                />
-                <LocationPickerModal
-                  isOpen={checkOutPickerOpen}
-                  onClose={() => setCheckOutPickerOpen(false)}
-                  onConfirm={(locationData) => {
-                    setCheckOutPickerOpen(false);
-                    handleCheckOut(locationData);
-                    setIsCheckedIn(false); // toggle check-in state
-                  }}
-                  isLoaded={isLoaded}
-                /> */}
-                {/* <button
-                  onClick={handleToggle}
-                  className={`float-end mt-2 text-right text-[12px] text-white px-2 py-1 rounded transition-all duration-300 ${
-                    isCheckedIn
-                      ? "bg-red-600 hover:bg-red-800"
-                      : "bg-green-600 hover:bg-green-800"
-                  }`}
-                >
-                  {isCheckedIn ? "Check Out" : "Check In"}
-                </button> */}
-                {/* <button
-                  onClick={openLocationPicker}
-                  className="bg-blue-600 text-white p-2 rounded"
-                >
-                  Check-In
-                </button>
-                <LocationPickerModal
-                  isOpen={locationPickerOpen}
-                  onClose={() => setLocationPickerOpen(false)}
-                  onConfirm={(locationData) => {
-                    setLocationPickerOpen(false);
-                    setPickedLocation(locationData);
-                    submitCheckIn(locationData);
-                  }}
-                  isLoaded={isLoaded}
-                />
-                <button
-                  onClick={() => setCheckOutPickerOpen(true)}
-                  className="bg-red-600 text-white p-2 rounded"
-                >
-                  Check-Out
-                </button>
-                <LocationPickerModal
-                  isOpen={checkOutPickerOpen}
-                  onClose={() => setCheckOutPickerOpen(false)}
-                  onConfirm={(locationData) => {
-                    setCheckOutPickerOpen(false);
-                    handleCheckOut(locationData);
-                  }}
-                  isLoaded={isLoaded}
                 /> */}
               </h2>
-              {/* <p className="text-[12px]">
-                {" "}
-                {!checkInTime && !checkOutTime && (
-                  <span className="text-bgDataNew">No check-in yet.</span>
-                )}
-                {checkInTime && !checkOutTime && (
-                  <span className="text-bgDataNew text-[13px]">
-                    <b className="text-green-500">Hours:</b> {elapsedTime}
-                  </span>
-                )}
-               
-                {!checkInTime && checkOutTime && (
-                  <span className="text-bgDataNew text-[13px]">
-                    <b className="text-green-500">Hours: </b> 0h 0m 0s
-                  </span>
-                )}
-              </p> */}
               <p className="text-[12px]">
                 {!checkInTime && !checkOutTime && (
                   <span className="text-bgDataNew">No check-in yet.</span>
